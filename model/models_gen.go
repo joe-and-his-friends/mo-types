@@ -10,6 +10,14 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type AdoptionAdsQueryResult interface {
+	IsAdoptionAdsQueryResult()
+}
+
+type AdoptionAgenciesQueryResult interface {
+	IsAdoptionAgenciesQueryResult()
+}
+
 type EventsQueryResult interface {
 	IsEventsQueryResult()
 }
@@ -36,6 +44,77 @@ type RetailersQueryResult interface {
 
 type ActiveContest struct {
 	Contest *Contest `json:"contest"`
+}
+
+type AdoptionActivity struct {
+	Details   string   `json:"details"`
+	PhotoUrls []string `json:"photoUrls"`
+}
+
+type AdoptionActivityInput struct {
+	Details   string   `json:"details"`
+	PhotoUrls []string `json:"photoUrls"`
+}
+
+type AdoptionAd struct {
+	Id        string             `json:"id" bson:"_id"`
+	AgencyId  primitive.ObjectID `json:"agencyId"`
+	PetName   string             `json:"petName"`
+	Sex       Sex                `json:"sex"`
+	PetAge    int                `json:"petAge"`
+	Breed     *SelectionOption   `json:"breed"`
+	PhotoUrls []string           `json:"photoUrls"`
+	Remarks   string             `json:"remarks"`
+	CreatedAt primitive.DateTime `json:"createdAt"`
+	UpdatedAt primitive.DateTime `json:"updatedAt"`
+	Hidden    bool               `json:"hidden"`
+	Adopted   bool               `json:"adopted"`
+}
+
+type AdoptionAds struct {
+	TotalCount int           `json:"totalCount"`
+	Items      []*AdoptionAd `json:"items"`
+}
+
+func (AdoptionAds) IsAdoptionAdsQueryResult() {}
+
+type AdoptionAdsInput struct {
+	Breed *SelectionOptionInput `json:"breed"`
+}
+
+type AdoptionAgencies struct {
+	TotalCount int               `json:"totalCount"`
+	Items      []*AdoptionAgency `json:"items"`
+}
+
+func (AdoptionAgencies) IsAdoptionAgenciesQueryResult() {}
+
+type AdoptionAgenciesInput struct {
+	PageNumber           int                   `json:"pageNumber"`
+	PageSize             int                   `json:"pageSize"`
+	DatetimeFilter       *DatetimeFilter       `json:"datetimeFilter"`
+	TerritoriesFilter    *TerritoriesFilter    `json:"territoriesFilter"`
+	RecommendationFilter *RecommendationFilter `json:"recommendationFilter"`
+	ApprovalFilter       ApprovalFilter        `json:"approvalFilter"`
+}
+
+type AdoptionAgency struct {
+	Id             string             `json:"id" bson:"_id"`
+	UserId         primitive.ObjectID `json:"userId"`
+	Name           string             `json:"name"`
+	AvatarURL      string             `json:"avatarUrl"`
+	Phone          string             `json:"phone"`
+	Address        string             `json:"address"`
+	GeoLocation    *GeoLocation       `json:"geoLocation"`
+	WebsiteURL     string             `json:"websiteUrl"`
+	PhotoUrls      []string           `json:"photoUrls"`
+	Introduction   string             `json:"introduction"`
+	Activity       *AdoptionActivity  `json:"activity"`
+	DonationMethod *DonationMethod    `json:"donationMethod"`
+	CreatedAt      primitive.DateTime `json:"createdAt"`
+	UpdatedAt      primitive.DateTime `json:"updatedAt"`
+	Ads            []*AdoptionAd      `json:"ads"`
+	Approved       bool               `json:"approved"`
 }
 
 type AppVersionInfo struct {
@@ -328,6 +407,16 @@ type DeletePetPawMeasurementsInput struct {
 type DeletePetVaxInput struct {
 	Id    primitive.ObjectID `json:"id"`
 	PetId primitive.ObjectID `json:"petId"`
+}
+
+type DonationMethod struct {
+	Details   string   `json:"details"`
+	PhotoUrls []string `json:"photoUrls"`
+}
+
+type DonationMethodInput struct {
+	Details   string   `json:"details"`
+	PhotoUrls []string `json:"photoUrls"`
 }
 
 type EditorialPost struct {
@@ -841,6 +930,10 @@ type ServiceError struct {
 	Msg  string `json:"msg"`
 }
 
+func (ServiceError) IsAdoptionAdsQueryResult() {}
+
+func (ServiceError) IsAdoptionAgenciesQueryResult() {}
+
 func (ServiceError) IsEventsQueryResult() {}
 
 func (ServiceError) IsJobsResult() {}
@@ -943,6 +1036,45 @@ type TerritoryFilter struct {
 
 type TimeFilter struct {
 	Option int `json:"option"`
+}
+
+type UpdateAdoption struct {
+	AgencyId  primitive.ObjectID    `json:"agencyId"`
+	PetName   string                `json:"petName"`
+	Sex       Sex                   `json:"sex"`
+	PetAge    int                   `json:"petAge"`
+	Breed     *SelectionOptionInput `json:"breed"`
+	PhotoUrls []string              `json:"photoUrls"`
+	Remarks   string                `json:"remarks"`
+	CreatedAt primitive.DateTime    `json:"createdAt"`
+	UpdatedAt primitive.DateTime    `json:"updatedAt"`
+	Hidden    bool                  `json:"hidden"`
+	Adopted   bool                  `json:"adopted"`
+}
+
+type UpdateAdoptionAdInput struct {
+	Id string          `json:"id" bson:"_id"`
+	Ad *UpdateAdoption `json:"ad"`
+}
+
+type UpdateAdoptionAgency struct {
+	Name           string                 `json:"name"`
+	AvatarURL      string                 `json:"avatarUrl"`
+	Phone          string                 `json:"phone"`
+	Address        string                 `json:"address"`
+	GeoLocation    *GeoLocationInput      `json:"geoLocation"`
+	WebsiteURL     string                 `json:"websiteUrl"`
+	PhotoUrls      []string               `json:"photoUrls"`
+	Introduction   string                 `json:"introduction"`
+	Activity       *AdoptionActivityInput `json:"activity"`
+	DonationMethod *DonationMethodInput   `json:"donationMethod"`
+	CreatedAt      primitive.DateTime     `json:"createdAt"`
+	UpdatedAt      primitive.DateTime     `json:"updatedAt"`
+}
+
+type UpdateAdoptionAgencyInput struct {
+	Id     string                `json:"id" bson:"_id"`
+	Agency *UpdateAdoptionAgency `json:"agency"`
 }
 
 type UpdateCommentStatusInput struct {
@@ -1364,5 +1496,46 @@ func (e *JobType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e JobType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type Sex string
+
+const (
+	SexF Sex = "F"
+	SexM Sex = "M"
+)
+
+var AllSex = []Sex{
+	SexF,
+	SexM,
+}
+
+func (e Sex) IsValid() bool {
+	switch e {
+	case SexF, SexM:
+		return true
+	}
+	return false
+}
+
+func (e Sex) String() string {
+	return string(e)
+}
+
+func (e *Sex) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = Sex(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid Sex", str)
+	}
+	return nil
+}
+
+func (e Sex) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
