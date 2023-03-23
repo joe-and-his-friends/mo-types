@@ -1,0 +1,44 @@
+// protoc --go_out=pb --go_opt=paths=source_relative --go-grpc_out=pb --go-grpc_opt=paths=source_relative wpapi.proto
+
+syntax="proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+service Wpapi {
+	rpc GetHomepagePosts (GetHomepagePostsRequest) returns (GetHomepagePostsResponse) {}
+	rpc GetEditorialPostsByCategories (GetEditorialPostsByCategoriesRequest) returns (GetEditorialPostsByCategoriesResponse) {}
+}
+
+message EditorialPost {
+  string title=1;
+  string thumbnail_url=2;
+  repeated int32 categories=3;
+  string link=4;
+	string id=5;
+	string guid=6;
+}
+
+message GetHomepagePostsRequest {
+}	
+
+message GetHomepagePostsResponse {
+	repeated EditorialPost channel_posts=1;
+	repeated EditorialPost informational_posts=2;
+	repeated EditorialPost retailer_ad_posts=3;
+	repeated EditorialPost sliding_ad_posts=4;
+	repeated EditorialPost activity_posts=5;
+}
+
+
+message GetEditorialPostsByCategoriesRequest {
+	repeated int64 categories=1;
+	int32 page_size = 2;
+	int32 page_number = 3;
+}	
+
+message GetEditorialPostsByCategoriesResponse {
+	repeated EditorialPost posts=1;
+}
+
