@@ -1,0 +1,781 @@
+// protoc --go_out=pb --go_opt=paths=source_relative --go-grpc_out=pb --go-grpc_opt=paths=source_relative user.proto
+
+syntax="proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+service User {
+  rpc PostUser (PostUserRequest) returns (PostUserResponse) {}
+  rpc GetUserCount (GetUserCountRequest) returns (GetUserCountResponse) {}
+  rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse) {}
+  rpc PostUserFromApple (PostUserFromAppleRequest) returns (PostUserFromAppleResponse) {}
+
+  rpc GetUserProfile (GetUserProfileRequest) returns (GetUserProfileResponse) {}
+  rpc GetUserProfiles (GetUserProfilesRequest) returns (GetUserProfilesResponse) {}
+  rpc PutUserAvatar (PutUserAvatarRequest) returns (PutUserAvatarResponse) {}
+  rpc PutUserPassword (PutUserPasswordRequest) returns (PutUserPasswordResponse) {}
+  rpc PutUserPasswordAlt (PutUserPasswordAltRequest) returns (PutUserPasswordAltResponse) {}
+  rpc PutUserBasics (PutUserBasicsRequest) returns (PutUserBasicsResponse) {}
+  rpc PutUserRole (PutUserRoleRequest) returns (PutUserRoleResponse) {}
+  rpc PutUserLevel (PutUserLevelRequest) returns (PutUserLevelResponse) {}
+
+  rpc PutUserGoogleAuth (PutUserGoogleAuthRequest) returns (PutUserGoogleAuthResponse) {}
+  rpc DeleteUserGoogleAuth (DeleteUserGoogleAuthRequest) returns (DeleteUserGoogleAuthResponse) {}
+ 
+  rpc PutUserAppleAuth (PutUserAppleAuthRequest) returns (PutUserAppleAuthResponse) {}
+  rpc DeleteUserAppleAuth (DeleteUserAppleAuthRequest) returns (DeleteUserAppleAuthResponse) {}
+
+  rpc PutPhoneOrEmailBinding (PutPhoneOrEmailBindingRequest) returns (PutPhoneOrEmailBindingResponse) {}
+
+  rpc PostPetProfile (PostPetProfileRequest) returns (PostPetProfileResponse) {}
+  rpc GetPetProfiles (GetPetProfilesRequest) returns (GetPetProfilesResponse) {}
+  rpc GetPetProfile (GetPetProfileRequest) returns (GetPetProfileResponse) {}
+  rpc PutPetProfile (PutPetProfileRequest) returns (PutPetProfileResponse) {}
+  rpc DeletePetProfile (DeletePetProfileRequest) returns (DeletePetProfileResponse) {}
+  rpc GeneratePetIdCardCode (GeneratePetIdCardCodeRequest) returns (GeneratePetIdCardCodeResponse) {}
+  rpc GetPetsWithComments (GetPetsWithCommentsRequest) returns (GetPetsWithCommentsResponse) {}
+
+  rpc PostPetBodyMeasurements (PostPetBodyMeasurementsRequest) returns (PostPetBodyMeasurementsResponse) {}
+  rpc PostPetPawMeasurements (PostPetPawMeasurementsRequest) returns (PostPetPawMeasurementsResponse) {}
+  rpc PostPetInsurance (PostPetInsuranceRequest) returns (PostPetInsuranceResponse) {}
+  rpc PostPetVax (PostPetVaxRequest) returns (PostPetVaxResponse) {}
+  rpc DeletePetBodyMeasurements (DeletePetBodyMeasurementsRequest) returns (DeletePetBodyMeasurementsResponse) {}
+  rpc DeletePetPawMeasurements (DeletePetPawMeasurementsRequest) returns (DeletePetPawMeasurementsResponse) {}
+  rpc DeletePetInsurance (DeletePetInsuranceRequest) returns (DeletePetInsuranceResponse) {}
+  rpc DeletePetVax (DeletePetVaxRequest) returns (DeletePetVaxResponse) {}
+  
+  rpc PutPetCertificates (PutPetCertificatesRequest) returns (PutPetCertificatesResponse) {}
+
+  rpc GetRetailers (GetRetailersRequest) returns (GetRetailersResponse) {}
+  rpc PutRetailerProfile (PutRetailerProfileRequest) returns (PutRetailerProfileResponse) {}
+  rpc PutRetailerRecommendation (PutRetailerRecommendationRequest) returns (PutRetailerRecommendationResponse) {}
+  rpc PutRetailerRating (PutRetailerRatingRequest) returns (PutRetailerRatingResponse) {}
+  rpc PatchRetailerFavoritingUsers (PatchRetailerFavoritingUsersRequest) returns (PatchRetailerFavoritingUsersResponse) {}
+  rpc GetRetailer(GetRetailerRequest) returns (GetRetailerResponse) {}
+
+  rpc GetDiscoveredRetailers (GetDiscoveredRetailersRequest) returns (GetDiscoveredRetailersResponse) {}
+
+  
+  rpc PostDiscoveredRetailer(PostDiscoveredRetailerRequest) returns (PostDiscoveredRetailerResponse) {}
+
+  rpc GetRetailerNameEntries (GetRetailerNameEntriesRequest) returns (GetRetailerNameEntriesResponse) {}
+
+  rpc PostCommentatorCertificate (PostCommentatorCertificateRequest) returns (PostCommentatorCertificateResponse) {}
+  rpc PatchCommentatorCertificate (PatchCommentatorCertificateRequest) returns (PatchCommentatorCertificateResponse) {}
+  rpc DeleteCommentatorCertificate (DeleteCommentatorCertificateRequest) returns (DeleteCommentatorCertificateResponse) {}
+
+  rpc PostComment (PostCommentRequest) returns (PostCommentResponse){}
+  rpc PatchComment (PatchCommentRequest) returns (PatchCommentResponse){}
+  rpc PutCommentStatus (PutCommentStatusRequest) returns (PutCommentStatusResponse){}
+  rpc GetComment (GetCommentRequest) returns (GetCommentResponse) {}
+  rpc DeleteComment (DeleteCommentRequest) returns (DeleteCommentResponse) {}
+  rpc GetComments (GetCommentsRequest) returns (GetCommentsResponse) {}
+
+  rpc PutFcmRegistrationToken(PutFcmRegistrationTokenRequest) returns (PutFcmRegistrationTokenResponse) {}
+  rpc DeleteFcmRegistrationToken(DeleteFcmRegistrationTokenRequest) returns (DeleteFcmRegistrationTokenResponse) {}
+}
+
+message FcmRegistrationToken {
+  string token=1;
+  string uuid=2;
+  int64 updated_at=3;
+}
+
+
+message UserProfile {
+  string id = 1;
+  string phone = 2;
+  string email = 3;
+  string name = 4;
+  int32 role = 5;
+  RetailerProfile retailer_profile=6;
+  string avatar_url = 7;
+  string family_name = 8;
+  string given_name = 9;
+  string apple_user_id = 10;
+  string google_user_id = 11;
+  string facebook_user_id = 12;
+  string password = 13;
+  string referral_user_id = 14;
+  int32 level = 15;
+  string datetime_created = 16;
+  repeated FcmRegistrationToken fcm_registration_tokens = 17;
+  string profile_background_image=18;
+}
+
+message GeoLocation {
+	double lat=1;
+	double long=2;
+}
+
+message SelectionOption {
+  string id = 1;
+  string name = 2;
+  repeated SelectionOption options = 3;
+}
+
+message Photo {
+  string url = 1;
+  string description = 2;
+}
+
+message RetailerProfile {
+  string avatar_url=1;
+  string name=2;
+  string phone=3;
+  GeoLocation geo_location=4;
+  repeated string shop_photo_urls=5;
+  string shop_intro=6;
+  string address=7;
+  repeated SelectionOption payment_methods = 8;
+  SelectionOption category = 9;
+  SelectionOption city = 10;
+  SelectionOption region = 11;
+  SelectionOption district = 12;
+  repeated Photo shop_photos = 13;
+  string account = 14;
+  string user_id = 15;
+  int32 role = 16;
+  int32 level = 17;
+  string datetime_modified = 18;
+  SelectionOption landmark = 19;
+  double calculated_distance = 20;
+  repeated SelectionOption category_options = 21;
+  bool favorited=22;
+  repeated string favoriting_user_ids=23;
+  string promotions=24;
+  string opening_hours=25;
+  string routes=26;
+  string id=27;
+  string website_url=28;
+  string facebook_account=29;
+  string instagram_account=30;
+  bool recommended=31;
+  float rating=32;
+}
+
+message CommentatorCertificate {
+  string pet_id=1;
+  string user_id=2;
+  string phone=3;
+  string name=4;
+  string sns_platform_name=5;
+  SelectionOption sns_platform_selection=6;
+  string avatar_url=7;
+  int32 level=8;
+  int32 status=9;
+  int64 datetime_created=10;
+}
+
+message Comment {
+  string id=1;
+  string pet_id=2;
+  string user_id=3;
+  string retailer_user_id=4;
+  string title=5;
+  string details=6;
+  repeated string picture_urls=7;
+  string datetime_created=8;
+  int32 status=9;
+  int32 score=10;
+  bool recommended=11;
+  CommentatorCertificate commentator_certificate=12;
+  RetailerProfile retailer_profile=13;
+}
+
+message CommentStatusFilter {
+  int32 option=1;
+}
+
+message CommentScoreFilter {
+  int32 option=1;
+}
+
+message CommentRecommendationFilter {
+  int32 option=1;
+}
+
+message DatesFilter {
+  int64 before=1;
+  int64 after=2;
+}
+
+message BreedsFilter {
+  repeated string names=1;
+}
+
+message SexesFilter {
+  repeated string names=1;
+}
+
+message PostUserRequest {
+  string phone_or_email = 1;
+  string password = 2;
+  string name = 3;
+  string referral_user_id = 4;
+  string verification_code = 5;
+}
+message PostUserResponse {
+  string id = 1;
+}
+
+message GetUserCountRequest {
+  RoleFilter role_filter = 1;
+  LevelFilter level_filter = 2;
+  string matching_text = 3;
+  string matching_phone_or_email = 4;
+}
+message GetUserCountResponse {
+  int64 count=1;
+}
+
+message DeleteUserRequest {
+  string id = 1;
+}
+message DeleteUserResponse {}
+
+message PostUserFromAppleRequest {
+  string apple_user_id = 1;
+}
+
+message PostUserFromAppleResponse {
+}
+
+message GetUserProfileRequest {
+  string id = 1;
+}
+
+message GetUserProfileResponse {
+  UserProfile profile = 1;
+}
+
+message GetUserProfilesRequest {
+  RoleFilter role_filter = 1;
+  string last_id = 2;
+  int64 page_size = 3;
+  int64 page_number = 4;
+  string matching_phone_or_email = 5;
+  FcmRegistrationTokenFilter fcm_registration_token_filter=6;
+}
+
+message GetUserProfilesResponse {
+  repeated UserProfile profiles = 1;
+  int64 total_count=2;
+}
+
+message PutUserAvatarRequest {
+  UserProfile profile = 1;
+}
+
+message PutUserAvatarResponse {
+}
+
+message PutUserPasswordRequest {
+  UserProfile profile = 1;
+}
+
+message PutUserPasswordResponse {
+}
+
+message PutUserPasswordAltRequest {
+  UserProfile profile = 1;
+}
+
+message PutUserPasswordAltResponse {
+}
+
+message PutUserBasicsRequest {
+  UserProfile profile = 1;
+}
+
+message PutUserBasicsResponse {
+}
+
+message PutUserRoleRequest {
+  string user_id = 1;
+  int32 role = 2;
+}
+message PutUserRoleResponse {
+}
+
+
+message PutUserGoogleAuthRequest {
+  UserProfile profile = 1;
+}
+
+message PutUserGoogleAuthResponse {
+}
+
+message DeleteUserGoogleAuthRequest {
+  UserProfile profile = 1;
+}
+
+message DeleteUserGoogleAuthResponse {
+}
+
+message PutUserAppleAuthRequest {
+  UserProfile profile = 1;
+}
+message PutUserAppleAuthResponse {
+}
+
+message PutPhoneOrEmailBindingRequest {
+  string phone_or_email = 1;
+  string user_id = 2;
+}
+message PutPhoneOrEmailBindingResponse {
+}
+
+message DeleteUserAppleAuthRequest {
+  UserProfile profile = 1;
+}
+
+message DeleteUserAppleAuthResponse {
+}
+
+message PetBodyMeasurements {
+  string id=1;
+  string pet_id=2;
+  int64 datetime_created=3;
+  float back=4;
+  float neck=5;
+  float chest=6;
+  float weight=7;
+}
+
+message PetPawMeasurements {
+  string id=1;
+  string pet_id=2;
+  int64 datetime_created=3;
+  float width=4;
+  float length=5;
+}
+
+message PetInsurance {
+  string id=1;
+  string pet_id=2;
+  string company_name=3;
+  string advisor_phone_number=4;
+  int64 effective_from=5;
+  int64 valid_to=6;
+  int32 notified_days_ahead=7;
+  bool notification_on=8;
+}
+
+message PetVax {
+  string id=1;
+  string pet_id=2;
+  string vax_name=3;
+  string clinic=4;
+  int64 vaxxed_date=5;
+  int64 immunity_lasting_util=6;
+  int32 notified_days_ahead=7;
+  bool notification_on=8;
+}
+
+message PetProfile {
+  string avatar_url = 1;
+  string id_photo_url = 2;
+  string id_card_url = 3;
+	string name = 4;
+  string name_zh = 5;
+  string name_en = 6;
+	string birthday = 7;
+	string breed_name = 8;
+	string pet_owner_sns_account = 9;
+	string user_id = 10;
+  string sex = 11;
+  string id = 12;
+  string home_arrival_date = 13;
+  CommentatorCertificate commentator_certificate = 14;
+  int64 departure_date = 15; 
+  repeated string certificate_urls=16;
+  repeated PetBodyMeasurements body_measurements_list=17;
+  repeated PetPawMeasurements paw_measurements_list=18;
+  repeated PetInsurance insurances=19;
+  repeated PetVax vaxes=20;
+  int32 id_card_number= 21;
+  int64 birthday2 = 22;
+  repeated Comment comments=23;
+  UserProfile user=24;
+}
+
+message PostPetProfileRequest {
+  PetProfile profile = 1;
+}
+
+message PostPetProfileResponse {
+  string id=1;
+}
+
+message CommentatorCertificateStatusFilter {
+  int32 option=1;
+}
+
+message GetPetProfilesRequest {
+  string user_id = 1;
+  int32 page_number = 2;
+  int32 page_size = 3;
+  CommentatorCertificateStatusFilter commentator_certificate_status_filter = 4;
+  string matching_text=5;
+  int32 id_card_number=6;
+  DatesFilter birthday_filter=7;
+  BreedsFilter breeds_filter=8;
+  SexesFilter sexes_filter=9;
+}
+
+message GetPetProfilesResponse {
+  repeated PetProfile profiles = 1;
+  int64 total_count = 2;
+}
+
+message GetPetProfileRequest {
+  string id = 1;
+}
+message GetPetProfileResponse {
+   PetProfile profile = 1;
+}
+
+message PutPetProfileRequest {
+  PetProfile profile = 1;
+}
+
+message PutPetProfileResponse {
+}
+
+message DeletePetProfileRequest {
+  string id = 1;
+}
+
+message DeletePetProfileResponse {
+}
+
+message GeneratePetIdCardCodeRequest{}
+message GeneratePetIdCardCodeResponse{
+  string code = 1;
+}
+
+message GetPetsWithCommentsRequest{
+  int32 page_number = 1;
+  int32 page_size = 2;
+  DatesFilter comment_dates_filter =3;
+}
+message GetPetsWithCommentsResponse{
+  repeated PetProfile profiles = 1;
+  int64 total_count = 2;
+}
+
+message PostPetBodyMeasurementsRequest{
+  PetBodyMeasurements body_measurements=1;
+}
+message PostPetBodyMeasurementsResponse{}
+
+message PostPetPawMeasurementsRequest{
+  PetPawMeasurements paw_measurements=1;
+}
+message PostPetPawMeasurementsResponse{}
+
+message DeletePetBodyMeasurementsRequest{
+  string id=1;
+  string pet_id=2;
+}
+message DeletePetBodyMeasurementsResponse{}
+
+message DeletePetPawMeasurementsRequest{
+  string id=1;
+  string pet_id=2;
+}
+message DeletePetPawMeasurementsResponse{}
+
+message PostPetInsuranceRequest{
+  PetInsurance insurance=1;
+}
+message PostPetInsuranceResponse{}
+
+message DeletePetInsuranceRequest{
+  string id=1;
+  string pet_id=2;
+}
+message DeletePetInsuranceResponse{}
+
+message PostPetVaxRequest{
+  PetVax vax=1;
+}
+message PostPetVaxResponse{}
+
+message DeletePetVaxRequest{
+  string id=1;
+  string pet_id=2;
+}
+message DeletePetVaxResponse{}
+
+message PutPetCertificatesRequest{
+  string pet_id=1;
+  repeated string urls=2;
+}
+message PutPetCertificatesResponse {}
+
+message GetRetailerProfileRequest {
+  string user_id=1;
+}
+message GetRetailerProfileResponse {
+  RetailerProfile profile=1;
+}
+
+message CategoryFilter {
+  SelectionOption option = 1;
+  repeated string additional_options = 2;
+  repeated SelectionOption sub_options = 3;
+}
+
+message CategoriesFilter {
+  repeated CategoryFilter categories = 1;
+}
+
+message GeoFilter {
+	int32 distance=1;
+	GeoLocation geo_location=2;
+}
+
+message TerritoryFilter {
+	SelectionOption city=1;
+	SelectionOption region=2;
+	SelectionOption district=3; 
+}
+
+message TerritoriesFilter {
+  repeated TerritoryFilter territories = 1;
+}
+
+message LandmarkFilter {
+  SelectionOption option=1;
+}
+
+message LandmarksFilter {
+  repeated LandmarkFilter landmarks=1;
+}
+
+message TimeFilter {
+  int32 option=1;
+}
+
+message OtherFilter {
+  int32 option=1;
+}
+
+message RoleFilter {
+  int32 option = 1;
+}
+
+message FcmRegistrationTokenFilter {
+  bool present = 1;
+}
+
+message LevelFilter {
+  repeated int32 options = 1;
+}
+
+message FavoriteFilter {
+  int32 option = 1;
+}
+
+message RankingFilter {
+  int32 option = 1;
+}
+
+message RecommendationFilter {
+  int32 option = 1;
+}
+
+message GetRetailersRequest {
+  int32 page_number=1;
+  int32 page_size=2;
+  string matching_address=3;
+  string matching_name=4;
+  TerritoriesFilter territories_filter=5;
+	CategoriesFilter categories_filter=6;
+  TimeFilter time_filter=7;
+  OtherFilter other_filter=8;
+  RoleFilter role_filter=9;
+  LevelFilter level_filter=10;
+  string start_user_id=11;
+  GeoFilter geo_filter=12;
+  FavoriteFilter favorite_filter=13;
+  RankingFilter ranking_filter=14;
+  LandmarksFilter landmarks_filter=15;
+  string matching_phone_or_email=16;
+  string user_id=17;
+  RecommendationFilter recommendation_filter=18;
+}
+message GetRetailersResponse {
+  repeated RetailerProfile profiles=1;
+  int64 total_count=2;
+}
+
+message GetDiscoveredRetailersRequest{
+  int32 page_number=1;
+  int32 page_size=2;
+  string matching_address=3;
+  string matching_name=4;
+  TerritoriesFilter territories_filter=5;
+	CategoriesFilter categories_filter=6;
+  GeoFilter geo_filter=12;
+  LandmarksFilter landmarks_filter=15;
+  string matching_phone_or_email=16;
+}
+message GetDiscoveredRetailersResponse {
+  repeated RetailerProfile profiles=1;
+  int64 total_count=2;
+}
+
+message PutRetailerProfileRequest {
+  RetailerProfile profile=1;
+  string user_id=2;
+}
+message PutRetailerProfileResponse {
+}
+
+message PutRetailerRecommendationRequest {
+  bool recommended=1;
+  string user_id=2;
+}
+message PutRetailerRecommendationResponse {
+}
+
+message PutRetailerRatingRequest {
+  float rating=1;
+  string user_id=2;
+}
+message PutRetailerRatingResponse {
+}
+
+message PatchRetailerFavoritingUsersRequest {
+  string user_id=1;
+  string retailer_user_id=2;
+  int32 action=3;
+}
+message PatchRetailerFavoritingUsersResponse{}
+
+message GetRetailerRequest{
+  string user_id=1;
+  string retailer_user_id=2;
+}
+message GetRetailerResponse{
+  RetailerProfile profile=1;
+}
+
+message PostDiscoveredRetailerRequest {
+  RetailerProfile profile=1;
+}
+message PostDiscoveredRetailerResponse{}
+
+message PutUserLevelRequest {
+  int32 level=1;
+  string user_id=2;
+}
+message PutUserLevelResponse {
+}
+
+message RetailerNameEntry {
+  string user_id = 1;
+  string name = 2;
+}
+
+message GetRetailerNameEntriesRequest {
+  TerritoriesFilter territories_filter = 1;
+  LandmarksFilter landmarks_filter = 2;
+  string marching_address = 3;
+  string matching_name=4;
+  int32 page_number=5;
+  int32 page_size=6;
+}
+message GetRetailerNameEntriesResponse {
+  repeated RetailerNameEntry entries = 1;
+}
+
+message PostCommentatorCertificateRequest {
+  CommentatorCertificate certificate=1;
+}
+message PostCommentatorCertificateResponse {
+}
+
+message PatchCommentatorCertificateRequest {
+  CommentatorCertificate certificate=1;
+}
+message PatchCommentatorCertificateResponse {
+}
+
+
+message DeleteCommentatorCertificateRequest {
+  string pet_id=1;
+}
+message DeleteCommentatorCertificateResponse {
+}
+
+
+message PostCommentRequest {
+  Comment comment=1;
+}
+message PostCommentResponse {
+}
+
+message PatchCommentRequest {
+  Comment comment=1;
+}
+message PatchCommentResponse {
+}
+
+message PutCommentStatusRequest {
+  string id=1;
+  int32 status=2;
+}
+message PutCommentStatusResponse {
+}
+
+
+message GetCommentRequest {
+  string id=1;
+}
+message GetCommentResponse {
+  Comment comment=1;
+}
+
+message DeleteCommentRequest {
+  string id=1;
+}
+message DeleteCommentResponse {
+}
+
+message GetCommentsRequest {
+  string pet_id=1;
+  string user_id=2;
+  string retailer_user_id=3;
+  int32 page_number=4;
+  int32 page_size=5;
+  CommentStatusFilter status_filter=6;
+  CommentScoreFilter score_filter=7;
+  CommentRecommendationFilter recommendation_filter=8;
+  string matchingRetailerName=9;
+  string matchingCommentatorName=10;
+}
+
+message GetCommentsResponse {
+  repeated Comment comments=1;
+  int64 total_count = 2;
+}
+
+message PutFcmRegistrationTokenRequest{
+  string user_id=1;
+  string token=2;
+  string uuid=3;
+}
+message PutFcmRegistrationTokenResponse {}
+
+message DeleteFcmRegistrationTokenRequest{
+ string user_id=1;
+ string uuid=2;
+ string token=3;
+}
+message DeleteFcmRegistrationTokenResponse{}
