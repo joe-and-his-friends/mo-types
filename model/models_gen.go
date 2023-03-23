@@ -79,7 +79,8 @@ type AdoptionAds struct {
 func (AdoptionAds) IsAdoptionAdsQueryResult() {}
 
 type AdoptionAdsInput struct {
-	Breed *SelectionOptionInput `json:"breed"`
+	AgencyId primitive.ObjectID    `json:"agencyId"`
+	Breed    *SelectionOptionInput `json:"breed"`
 }
 
 type AdoptionAgencies struct {
@@ -99,22 +100,22 @@ type AdoptionAgenciesInput struct {
 }
 
 type AdoptionAgency struct {
-	Id             string             `json:"id" bson:"_id"`
-	UserId         primitive.ObjectID `json:"userId"`
-	Name           string             `json:"name"`
-	AvatarURL      string             `json:"avatarUrl"`
-	Phone          string             `json:"phone"`
-	Address        string             `json:"address"`
-	GeoLocation    *GeoLocation       `json:"geoLocation"`
-	WebsiteURL     string             `json:"websiteUrl"`
-	PhotoUrls      []string           `json:"photoUrls"`
-	Introduction   string             `json:"introduction"`
-	Activity       *AdoptionActivity  `json:"activity"`
-	DonationMethod *DonationMethod    `json:"donationMethod"`
-	CreatedAt      primitive.DateTime `json:"createdAt"`
-	UpdatedAt      primitive.DateTime `json:"updatedAt"`
-	Ads            []*AdoptionAd      `json:"ads"`
-	Approved       bool               `json:"approved"`
+	Id             string                 `json:"id" bson:"_id"`
+	UserId         primitive.ObjectID     `json:"userId"`
+	Name           string                 `json:"name"`
+	AvatarURL      string                 `json:"avatarUrl"`
+	Phone          string                 `json:"phone"`
+	Address        string                 `json:"address"`
+	GeoLocation    *GeoLocation           `json:"geoLocation"`
+	WebsiteURL     string                 `json:"websiteUrl"`
+	PhotoUrls      []string               `json:"photoUrls"`
+	Introduction   string                 `json:"introduction"`
+	Activity       *AdoptionActivity      `json:"activity"`
+	DonationMethod *DonationMethod        `json:"donationMethod"`
+	CreatedAt      primitive.DateTime     `json:"createdAt"`
+	UpdatedAt      primitive.DateTime     `json:"updatedAt"`
+	Ads            AdoptionAdsQueryResult `json:"ads"`
+	Approved       bool                   `json:"approved"`
 }
 
 type AppVersionInfo struct {
