@@ -57,8 +57,8 @@ type AdoptionActivityInput struct {
 }
 
 type AdoptionAd struct {
-	Id        string             `json:"id" bson:"_id"`
-	AgencyId  primitive.ObjectID `json:"agencyId"`
+	ID        primitive.ObjectID `json:"id" bson:"_id"`
+	AgencyID  primitive.ObjectID `json:"agencyId"`
 	PetName   string             `json:"petName"`
 	Sex       Sex                `json:"sex"`
 	PetAge    int                `json:"petAge"`
@@ -79,7 +79,7 @@ type AdoptionAds struct {
 func (AdoptionAds) IsAdoptionAdsQueryResult() {}
 
 type AdoptionAdsInput struct {
-	AgencyId primitive.ObjectID    `json:"agencyId"`
+	AgencyID primitive.ObjectID    `json:"agencyId"`
 	Breed    *SelectionOptionInput `json:"breed"`
 }
 
@@ -100,8 +100,8 @@ type AdoptionAgenciesInput struct {
 }
 
 type AdoptionAgency struct {
-	Id             string                 `json:"id" bson:"_id"`
-	UserId         primitive.ObjectID     `json:"userId"`
+	ID             primitive.ObjectID     `json:"id" bson:"_id"`
+	UserID         primitive.ObjectID     `json:"userId"`
 	Name           string                 `json:"name"`
 	AvatarURL      string                 `json:"avatarUrl"`
 	Phone          string                 `json:"phone"`
@@ -1040,41 +1040,37 @@ type TimeFilter struct {
 }
 
 type UpdateAdoption struct {
-	AgencyId  primitive.ObjectID    `json:"agencyId"`
-	PetName   string                `json:"petName"`
-	Sex       Sex                   `json:"sex"`
-	PetAge    int                   `json:"petAge"`
-	Breed     *SelectionOptionInput `json:"breed"`
-	PhotoUrls []string              `json:"photoUrls"`
-	Remarks   string                `json:"remarks"`
-	CreatedAt primitive.DateTime    `json:"createdAt"`
-	UpdatedAt primitive.DateTime    `json:"updatedAt"`
-	Hidden    bool                  `json:"hidden"`
-	Adopted   bool                  `json:"adopted"`
+	AgencyID  *primitive.ObjectID   `json:"agencyId" bson:",omitempty"`
+	PetName   *string               `json:"petName" bson:",omitempty"`
+	Sex       *Sex                  `json:"sex" bson:",omitempty"`
+	PetAge    *int                  `json:"petAge" bson:",omitempty"`
+	Breed     *SelectionOptionInput `json:"breed" bson:",omitempty"`
+	PhotoUrls []string              `json:"photoUrls" bson:",omitempty"`
+	Remarks   *string               `json:"remarks" bson:",omitempty"`
+	Hidden    *bool                 `json:"hidden" bson:",omitempty"`
+	Adopted   *bool                 `json:"adopted" bson:",omitempty"`
 }
 
 type UpdateAdoptionAdInput struct {
-	Id string          `json:"id" bson:"_id"`
-	Ad *UpdateAdoption `json:"ad"`
+	ID primitive.ObjectID `json:"id" bson:"_id"`
+	Ad *UpdateAdoption    `json:"ad"`
 }
 
 type UpdateAdoptionAgency struct {
-	Name           string                 `json:"name"`
-	AvatarURL      string                 `json:"avatarUrl"`
-	Phone          string                 `json:"phone"`
-	Address        string                 `json:"address"`
-	GeoLocation    *GeoLocationInput      `json:"geoLocation"`
-	WebsiteURL     string                 `json:"websiteUrl"`
-	PhotoUrls      []string               `json:"photoUrls"`
-	Introduction   string                 `json:"introduction"`
-	Activity       *AdoptionActivityInput `json:"activity"`
-	DonationMethod *DonationMethodInput   `json:"donationMethod"`
-	CreatedAt      primitive.DateTime     `json:"createdAt"`
-	UpdatedAt      primitive.DateTime     `json:"updatedAt"`
+	Name           *string                `json:"name" bson:",omitempty"`
+	AvatarURL      *string                `json:"avatarUrl" bson:",omitempty"`
+	Phone          *string                `json:"phone" bson:",omitempty"`
+	Address        *string                `json:"address" bson:",omitempty"`
+	GeoLocation    *GeoLocationInput      `json:"geoLocation" bson:",omitempty"`
+	WebsiteURL     *string                `json:"websiteUrl" bson:",omitempty"`
+	PhotoUrls      []string               `json:"photoUrls" bson:",omitempty"`
+	Introduction   *string                `json:"introduction" bson:",omitempty"`
+	Activity       *AdoptionActivityInput `json:"activity" bson:",omitempty"`
+	DonationMethod *DonationMethodInput   `json:"donationMethod" bson:",omitempty"`
 }
 
 type UpdateAdoptionAgencyInput struct {
-	Id     string                `json:"id" bson:"_id"`
+	ID     primitive.ObjectID    `json:"id" bson:"_id"`
 	Agency *UpdateAdoptionAgency `json:"agency"`
 }
 
