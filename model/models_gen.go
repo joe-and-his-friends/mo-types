@@ -1057,6 +1057,7 @@ type UpdateAdoptionAdInput struct {
 }
 
 type UpdateAdoptionAgency struct {
+	UserID         *primitive.ObjectID    `json:"userId" bson:",omitempty"`
 	Name           *string                `json:"name" bson:",omitempty"`
 	AvatarURL      *string                `json:"avatarUrl" bson:",omitempty"`
 	Phone          *string                `json:"phone" bson:",omitempty"`
