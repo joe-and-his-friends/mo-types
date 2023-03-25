@@ -583,18 +583,18 @@ type LevelFilter struct {
 }
 
 type Message struct {
-	Title      string  `json:"title"`
-	Body       string  `json:"body"`
-	AppPage    AppPage `json:"appPage"`
-	PageParams string  `json:"pageParams"`
+	Title      string   `json:"title"`
+	Body       string   `json:"body"`
+	AppPage    *AppPage `json:"appPage"`
+	PageParams string   `json:"pageParams"`
 }
 
 type MessageInput struct {
-	Title      string  `json:"title"`
-	Body       string  `json:"body"`
-	ImageURL   string  `json:"imageUrl"`
-	AppPage    AppPage `json:"appPage" bson:",omitempty"`
-	PageParams string  `json:"pageParams"`
+	Title      string   `json:"title"`
+	Body       string   `json:"body"`
+	ImageURL   string   `json:"imageUrl"`
+	AppPage    *AppPage `json:"appPage"`
+	PageParams string   `json:"pageParams"`
 }
 
 type Moment struct {
@@ -1188,7 +1188,7 @@ type UpdateJobInput struct {
 
 type UpdateJobPayload struct {
 	Name         string             `json:"name" bson:",omitempty"`
-	Type         JobType            `json:"type" bson:",omitempty"`
+	Type         *JobType           `json:"type" bson:",omitempty"`
 	Schedule     *ScheduleInput     `json:"schedule" bson:",omitempty"`
 	Message      *MessageInput      `json:"message" bson:",omitempty"`
 	UsersFilters *UsersFiltersInput `json:"usersFilters"`
@@ -1375,19 +1375,17 @@ const (
 	AppPageEditorialPost   AppPage = "EDITORIAL_POST"
 	AppPageRetailerDetails AppPage = "RETAILER_DETAILS"
 	AppPageEventDetails    AppPage = "EVENT_DETAILS"
-	AppPageEmpty           AppPage = "EMPTY"
 )
 
 var AllAppPage = []AppPage{
 	AppPageEditorialPost,
 	AppPageRetailerDetails,
 	AppPageEventDetails,
-	AppPageEmpty,
 }
 
 func (e AppPage) IsValid() bool {
 	switch e {
-	case AppPageEditorialPost, AppPageRetailerDetails, AppPageEventDetails, AppPageEmpty:
+	case AppPageEditorialPost, AppPageRetailerDetails, AppPageEventDetails:
 		return true
 	}
 	return false
@@ -1462,18 +1460,16 @@ type JobType string
 const (
 	JobTypePetBirthdayWishesNotification JobType = "PET_BIRTHDAY_WISHES_NOTIFICATION"
 	JobTypeCampaignNotification          JobType = "CAMPAIGN_NOTIFICATION"
-	JobTypeEmpty                         JobType = "EMPTY"
 )
 
 var AllJobType = []JobType{
 	JobTypePetBirthdayWishesNotification,
 	JobTypeCampaignNotification,
-	JobTypeEmpty,
 }
 
 func (e JobType) IsValid() bool {
 	switch e {
-	case JobTypePetBirthdayWishesNotification, JobTypeCampaignNotification, JobTypeEmpty:
+	case JobTypePetBirthdayWishesNotification, JobTypeCampaignNotification:
 		return true
 	}
 	return false
