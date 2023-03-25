@@ -924,6 +924,7 @@ type SendMessageInput struct {
 	Message      *MessageInput      `json:"message"`
 	PetsFilters  *PetsFiltersInput  `json:"petsFilters"`
 	UsersFilters *UsersFiltersInput `json:"usersFilters"`
+	WetRun       bool               `json:"wetRun"`
 }
 
 type ServiceError struct {
