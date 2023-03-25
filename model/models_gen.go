@@ -1193,7 +1193,6 @@ type UpdateJobPayload struct {
 	Message      *MessageInput      `json:"message" bson:",omitempty"`
 	UsersFilters *UsersFiltersInput `json:"usersFilters"`
 	PetsFilters  *PetsFiltersInput  `json:"petsFilters"`
-	Logs         string             `json:"logs" bson:",omitempty"`
 }
 
 type UpdateMoment struct {
