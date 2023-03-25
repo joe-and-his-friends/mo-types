@@ -545,6 +545,7 @@ type Job struct {
 	ExecutedAt   primitive.DateTime `json:"executedAt"`
 	UsersFilters *UsersFilters      `json:"usersFilters"`
 	PetsFilters  *PetsFilters       `json:"petsFilters"`
+	Logs         string             `json:"logs"`
 }
 
 type JobActivationFilter struct {
@@ -925,6 +926,7 @@ type SendMessageInput struct {
 	PetsFilters  *PetsFiltersInput  `json:"petsFilters"`
 	UsersFilters *UsersFiltersInput `json:"usersFilters"`
 	WetRun       bool               `json:"wetRun"`
+	JobID        primitive.ObjectID `json:"jobId"`
 }
 
 type ServiceError struct {
@@ -1191,6 +1193,7 @@ type UpdateJobPayload struct {
 	Message      *MessageInput      `json:"message" bson:",omitempty"`
 	UsersFilters *UsersFiltersInput `json:"usersFilters"`
 	PetsFilters  *PetsFiltersInput  `json:"petsFilters"`
+	Logs         string             `json:"logs" bson:",omitempty"`
 }
 
 type UpdateMoment struct {
