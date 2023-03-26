@@ -491,7 +491,7 @@ type FavoriteRetailerInput struct {
 
 type FcmRegistrationToken struct {
 	Token     string             `json:"token"`
-	UUID      string             `json:"uuid"`
+	Uuid      string             `json:"uuid"`
 	UpdatedAt primitive.DateTime `json:"updatedAt"`
 }
 
