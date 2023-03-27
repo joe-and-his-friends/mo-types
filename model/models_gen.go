@@ -18,6 +18,10 @@ type AdoptionAgenciesQueryResult interface {
 	IsAdoptionAgenciesQueryResult()
 }
 
+type AdoptionAgencyQueryResult interface {
+	IsAdoptionAgencyQueryResult()
+}
+
 type EventsQueryResult interface {
 	IsEventsQueryResult()
 }
@@ -118,6 +122,8 @@ type AdoptionAgency struct {
 	Ads            AdoptionAdsQueryResult `json:"ads"`
 	Approved       bool                   `json:"approved"`
 }
+
+func (AdoptionAgency) IsAdoptionAgencyQueryResult() {}
 
 type AppVersionInfo struct {
 	LatestReleasedVersion  string `json:"latestReleasedVersion"`
@@ -951,6 +957,8 @@ func (ServiceError) IsRetailersQueryResult() {}
 
 func (ServiceError) IsLoginUserResult() {}
 
+func (ServiceError) IsAdoptionAgencyQueryResult() {}
+
 type SexesFilter struct {
 	Names []string `json:"names"`
 }
@@ -1305,25 +1313,26 @@ type UserCredentials struct {
 }
 
 type UserProfile struct {
-	Id                     primitive.ObjectID      `json:"id" bson:"_id"`
-	Name                   string                  `json:"name"`
-	Phone                  string                  `json:"phone"`
-	Email                  string                  `json:"email"`
-	Role                   int                     `json:"role"`
-	Level                  int                     `json:"level"`
-	RetailerProfile        *RetailerProfile        `json:"retailerProfile"`
-	AvatarUrl              string                  `json:"avatarUrl"`
-	FamilyName             string                  `json:"familyName"`
-	GivenName              string                  `json:"givenName"`
-	ReferralUserId         string                  `json:"referralUserId"`
-	DatetimeCreated        string                  `json:"datetimeCreated"`
-	FcmRegistrationToken   string                  `json:"fcmRegistrationToken"`
-	FcmRegistrationTokens  []*FcmRegistrationToken `json:"fcmRegistrationTokens"`
-	AppleUserId            string                  `json:"appleUserId"`
-	GoogleUserId           string                  `json:"googleUserId"`
-	FacebookId             string                  `json:"facebookUserId"`
-	Deactivated            bool                    `json:"deactivated"`
-	ProfileBackgroundImage string                  `json:"profileBackgroundImage"`
+	Id                     primitive.ObjectID        `json:"id" bson:"_id"`
+	Name                   string                    `json:"name"`
+	Phone                  string                    `json:"phone"`
+	Email                  string                    `json:"email"`
+	Role                   int                       `json:"role"`
+	Level                  int                       `json:"level"`
+	RetailerProfile        *RetailerProfile          `json:"retailerProfile"`
+	AvatarUrl              string                    `json:"avatarUrl"`
+	FamilyName             string                    `json:"familyName"`
+	GivenName              string                    `json:"givenName"`
+	ReferralUserId         string                    `json:"referralUserId"`
+	DatetimeCreated        string                    `json:"datetimeCreated"`
+	FcmRegistrationToken   string                    `json:"fcmRegistrationToken"`
+	FcmRegistrationTokens  []*FcmRegistrationToken   `json:"fcmRegistrationTokens"`
+	AppleUserId            string                    `json:"appleUserId"`
+	GoogleUserId           string                    `json:"googleUserId"`
+	FacebookId             string                    `json:"facebookUserId"`
+	Deactivated            bool                      `json:"deactivated"`
+	ProfileBackgroundImage string                    `json:"profileBackgroundImage"`
+	AdoptionAgency         AdoptionAgencyQueryResult `json:"adoptionAgency"`
 }
 
 type UserProfileWithPassword struct {
