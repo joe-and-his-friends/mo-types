@@ -97,6 +97,7 @@ type AdoptionAgenciesInput struct {
 	TerritoriesFilter    *TerritoriesFilter    `json:"territoriesFilter"`
 	RecommendationFilter *RecommendationFilter `json:"recommendationFilter"`
 	ApprovalFilter       ApprovalFilter        `json:"approvalFilter"`
+	UserID               *primitive.ObjectID   `json:"userId"`
 }
 
 type AdoptionAgency struct {
