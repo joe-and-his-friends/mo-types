@@ -101,7 +101,7 @@ type AdoptionAgenciesInput struct {
 	TerritoriesFilter    *TerritoriesFilter    `json:"territoriesFilter"`
 	RecommendationFilter *RecommendationFilter `json:"recommendationFilter"`
 	ApprovalFilter       ApprovalFilter        `json:"approvalFilter"`
-	UserID               *primitive.ObjectID   `json:"userId"`
+	UserID               primitive.ObjectID    `json:"userId"`
 }
 
 type AdoptionAgency struct {
@@ -1051,7 +1051,7 @@ type TimeFilter struct {
 	Option int `json:"option"`
 }
 
-type UpdateAdoption struct {
+type UpdateAdoptionAd struct {
 	AgencyID  *primitive.ObjectID   `json:"agencyId" bson:",omitempty"`
 	PetName   *string               `json:"petName" bson:",omitempty"`
 	Sex       *Sex                  `json:"sex" bson:",omitempty"`
@@ -1065,7 +1065,7 @@ type UpdateAdoption struct {
 
 type UpdateAdoptionAdInput struct {
 	ID primitive.ObjectID `json:"id" bson:"_id"`
-	Ad *UpdateAdoption    `json:"ad"`
+	Ad *UpdateAdoptionAd  `json:"ad"`
 }
 
 type UpdateAdoptionAgency struct {
