@@ -10,6 +10,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type AdoptionAdQueryResult interface {
+	IsAdoptionAdQueryResult()
+}
+
 type AdoptionAdsQueryResult interface {
 	IsAdoptionAdsQueryResult()
 }
@@ -65,7 +69,7 @@ type AdoptionAd struct {
 	AgencyID  primitive.ObjectID `json:"agencyId"`
 	PetName   string             `json:"petName"`
 	Sex       Sex                `json:"sex"`
-	PetAge    int                `json:"petAge"`
+	PetAge    string             `json:"petAge"`
 	Breed     *SelectionOption   `json:"breed"`
 	PhotoUrls []string           `json:"photoUrls"`
 	Remarks   string             `json:"remarks"`
@@ -74,6 +78,8 @@ type AdoptionAd struct {
 	Hidden    bool               `json:"hidden"`
 	Adopted   bool               `json:"adopted"`
 }
+
+func (AdoptionAd) IsAdoptionAdQueryResult() {}
 
 type AdoptionAds struct {
 	TotalCount int           `json:"totalCount"`
@@ -941,6 +947,8 @@ type ServiceError struct {
 	Msg  string `json:"msg"`
 }
 
+func (ServiceError) IsAdoptionAdQueryResult() {}
+
 func (ServiceError) IsAdoptionAdsQueryResult() {}
 
 func (ServiceError) IsAdoptionAgenciesQueryResult() {}
@@ -1055,7 +1063,7 @@ type UpdateAdoptionAd struct {
 	AgencyID  *primitive.ObjectID   `json:"agencyId" bson:",omitempty"`
 	PetName   *string               `json:"petName" bson:",omitempty"`
 	Sex       *Sex                  `json:"sex" bson:",omitempty"`
-	PetAge    *int                  `json:"petAge" bson:",omitempty"`
+	PetAge    *string               `json:"petAge" bson:",omitempty"`
 	Breed     *SelectionOptionInput `json:"breed" bson:",omitempty"`
 	PhotoUrls []string              `json:"photoUrls" bson:",omitempty"`
 	Remarks   *string               `json:"remarks" bson:",omitempty"`
