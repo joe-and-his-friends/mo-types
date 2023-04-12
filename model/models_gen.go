@@ -1088,6 +1088,7 @@ type UpdateAdoptionAgency struct {
 	Introduction   *string                `json:"introduction" bson:",omitempty"`
 	Activity       *AdoptionActivityInput `json:"activity" bson:",omitempty"`
 	DonationMethod *DonationMethodInput   `json:"donationMethod" bson:",omitempty"`
+	Approved       *bool                  `json:"approved" bson:",omitempty"`
 }
 
 type UpdateAdoptionAgencyInput struct {
