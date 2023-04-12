@@ -1434,20 +1434,20 @@ func (e AppPage) MarshalGQL(w io.Writer) {
 type ApprovalFilter string
 
 const (
-	ApprovalFilterApproved    ApprovalFilter = "APPROVED"
-	ApprovalFilterUnappproved ApprovalFilter = "UNAPPPROVED"
-	ApprovalFilterAny         ApprovalFilter = "ANY"
+	ApprovalFilterApproved   ApprovalFilter = "APPROVED"
+	ApprovalFilterUnapproved ApprovalFilter = "UNAPPROVED"
+	ApprovalFilterAny        ApprovalFilter = "ANY"
 )
 
 var AllApprovalFilter = []ApprovalFilter{
 	ApprovalFilterApproved,
-	ApprovalFilterUnappproved,
+	ApprovalFilterUnapproved,
 	ApprovalFilterAny,
 }
 
 func (e ApprovalFilter) IsValid() bool {
 	switch e {
-	case ApprovalFilterApproved, ApprovalFilterUnappproved, ApprovalFilterAny:
+	case ApprovalFilterApproved, ApprovalFilterUnapproved, ApprovalFilterAny:
 		return true
 	}
 	return false
