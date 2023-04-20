@@ -610,6 +610,11 @@ type MessageInput struct {
 	PageParams string   `json:"pageParams"`
 }
 
+type MigrateCommentsInput struct {
+	SrcPetID primitive.ObjectID `json:"srcPetId"`
+	DstPetID primitive.ObjectID `json:"dstPetId"`
+}
+
 type Moment struct {
 	Id                string           `json:"id" bson:"_id"`
 	UserId            string           `json:"userId"`
