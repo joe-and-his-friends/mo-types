@@ -841,7 +841,7 @@ type RetailerNameEntry struct {
 }
 
 type RetailerProfile struct {
-	Id                 string             `json:"id"`
+	Id                 string             `json:"id" bson:"_id"`
 	UserId             string             `json:"userId"`
 	Account            string             `json:"account"`
 	Role               int                `json:"role"`
