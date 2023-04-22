@@ -101,10 +101,6 @@ type Task struct {
 	DatetimeCreated string
 }
 
-type CreateTaskInput struct {
-	Task *Task `bson:"inline"`
-}
-
 type TaskParticipation struct {
 	Id                           string `bson:"_id"`
 	UserId                       string

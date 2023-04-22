@@ -993,7 +993,7 @@ type ShareContentInput struct {
 }
 
 type Task struct {
-	Id            string             `json:"id"`
+	Id            string             `json:"id" bson:"_id"`
 	Name          string             `json:"name"`
 	PictureUrl    string             `json:"pictureUrl"`
 	DetailsUrl    string             `json:"detailsUrl"`
@@ -1011,7 +1011,7 @@ type TaskFilter struct {
 }
 
 type TaskParticipation struct {
-	Id                           string `json:"id"`
+	Id                           string `json:"id" bson:"_id"`
 	UserId                       string `json:"userId"`
 	TaskId                       string `json:"taskId"`
 	Status                       int    `json:"status"`
@@ -1275,9 +1275,7 @@ type UpdateTask struct {
 }
 
 type UpdateTaskParticipation struct {
-	TaskId         string `json:"taskId"`
-	RedemptionCode string `json:"redemptionCode"`
-	Status         int    `json:"status"`
+	TaskId string `json:"taskId"`
 }
 
 type UpdateTaskParticipationStatusInput struct {
