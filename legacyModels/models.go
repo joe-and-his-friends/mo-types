@@ -101,33 +101,8 @@ type Task struct {
 	DatetimeCreated string
 }
 
-type TaskFilter struct {
-	Status int32
-}
-
-type GetTasksInput struct {
-	PageSize                int32
-	PageNumber              int32
-	StartTaskId             string
-	TaskFilter              *TaskFilter
-	TaskParticipationFilter *TaskParticipationFilter
-	UserId                  string
-}
-
-type GetTasksOutput struct {
-	Tasks []*Task
-}
-
 type CreateTaskInput struct {
 	Task *Task `bson:"inline"`
-}
-
-type UpdateTaskInput struct {
-	Task *Task
-}
-
-type TaskParticipationFilter struct {
-	Status int32
 }
 
 type TaskParticipation struct {
@@ -140,29 +115,6 @@ type TaskParticipation struct {
 	DatetimeAchieved             string
 	DatetimeRedeemed             string
 	RedemptionConfirmationUserId string
-}
-
-type GetTaskParticipationListInput struct {
-	PageSize                 int32
-	PageNumber               int32
-	StartTaskParticipationId string
-	Filter                   *TaskParticipationFilter
-}
-
-type GetTaskParticipationListOutput struct {
-	List []*TaskParticipation
-}
-
-type GetTaskParticipationOutput struct {
-	Participation *TaskParticipation
-}
-
-type UpdateTaskParticipationInput struct {
-	Participation *TaskParticipation
-}
-
-type UpdateTaskParticipationStatusesInput struct {
-	List []*TaskParticipation
 }
 
 type ContestEnrollment struct {

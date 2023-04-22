@@ -1280,6 +1280,12 @@ type UpdateTaskParticipation struct {
 	Status         int    `json:"status"`
 }
 
+type UpdateTaskParticipationStatusInput struct {
+	TaskID         primitive.ObjectID `json:"taskId"`
+	RedemptionCode string             `json:"redemptionCode"`
+	Status         int                `json:"status"`
+}
+
 type UpdateTaskStatusInput struct {
 	TaskId primitive.ObjectID `json:"taskId"`
 	Status int                `json:"status"`
