@@ -876,6 +876,8 @@ type RetailerProfile struct {
 	InstagramAccount   string             `json:"instagramAccount"`
 	Recommended        bool               `json:"recommended"`
 	Rating             float64            `json:"rating"`
+	CreatedBy          *UserProfile       `json:"createdBy"`
+	CreatedAt          primitive.DateTime `json:"createdAt"`
 }
 
 type RetailerProfiles struct {
