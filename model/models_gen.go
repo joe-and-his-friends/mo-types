@@ -1303,6 +1303,11 @@ type UpdateUserLevel struct {
 	Level  int    `json:"level"`
 }
 
+type UpdateUserPointsInput struct {
+	UserID primitive.ObjectID `json:"userId"`
+	Points int                `json:"points"`
+}
+
 type UpdateUserRoleInput struct {
 	UserId string `json:"userId"`
 	Role   int    `json:"role"`
@@ -1339,6 +1344,7 @@ type UserProfile struct {
 	Email                  string                    `json:"email"`
 	Role                   int                       `json:"role"`
 	Level                  int                       `json:"level"`
+	Points                 int                       `json:"points"`
 	RetailerProfile        *RetailerProfile          `json:"retailerProfile"`
 	AvatarUrl              string                    `json:"avatarUrl"`
 	FamilyName             string                    `json:"familyName"`
