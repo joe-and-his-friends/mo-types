@@ -50,6 +50,10 @@ type RetailersQueryResult interface {
 	IsRetailersQueryResult()
 }
 
+type UserProfilesQueryResult interface {
+	IsUserProfilesQueryResult()
+}
+
 type ActiveContest struct {
 	Contest *Contest `json:"contest"`
 }
@@ -974,6 +978,8 @@ func (ServiceError) IsLoginUserResult() {}
 
 func (ServiceError) IsAdoptionAgencyQueryResult() {}
 
+func (ServiceError) IsUserProfilesQueryResult() {}
+
 type SexesFilter struct {
 	Names []string `json:"names"`
 }
@@ -1373,6 +1379,8 @@ type UserProfiles struct {
 	TotalCount int            `json:"totalCount"`
 	Profiles   []*UserProfile `json:"profiles"`
 }
+
+func (UserProfiles) IsUserProfilesQueryResult() {}
 
 type UserProfilesInput struct {
 	LastId                     string                      `json:"lastId"`
