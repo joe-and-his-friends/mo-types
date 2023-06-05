@@ -384,6 +384,7 @@ type CreateRetailerProfileInput struct {
 	WebsiteUrl       string                  `json:"websiteUrl" bson:",omitempty"`
 	FacebookAccount  string                  `json:"facebookAccount" bson:",omitempty"`
 	InstagramAccount string                  `json:"instagramAccount" bson:",omitempty"`
+	BusinessLicense  *string                 `json:"businessLicense" bson:",omitempty"`
 }
 
 type DatesFilter struct {
@@ -882,6 +883,7 @@ type RetailerProfile struct {
 	Rating             float64            `json:"rating"`
 	CreatedBy          *UserProfile       `json:"createdBy"`
 	CreatedAt          primitive.DateTime `json:"createdAt"`
+	BusinessLicense    string             `json:"businessLicense"`
 }
 
 type RetailerProfiles struct {
