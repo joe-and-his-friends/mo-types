@@ -316,6 +316,7 @@ type CreatePetBodyMeasurementsInput struct {
 	Back   float64            `json:"back"`
 	Chest  float64            `json:"chest"`
 	Neck   float64            `json:"neck"`
+	Waist  *float64           `json:"waist" bson:",omitempty"`
 }
 
 type CreatePetInsuranceInput struct {
@@ -329,9 +330,11 @@ type CreatePetInsuranceInput struct {
 }
 
 type CreatePetPawMeasurementsInput struct {
-	PetId  primitive.ObjectID `json:"petId"`
-	Width  float64            `json:"width"`
-	Length float64            `json:"length"`
+	PetId          primitive.ObjectID `json:"petId"`
+	Width          float64            `json:"width"`
+	Length         float64            `json:"length"`
+	ShoulderHeight *float64           `json:"shoulderHeight" bson:",omitempty"`
+	BackLegHeight  *float64           `json:"backLegHeight" bson:",omitempty"`
 }
 
 type CreatePetProfileInput struct {
@@ -706,6 +709,7 @@ type PetBodyMeasurements struct {
 	Back            float64            `json:"back"`
 	Chest           float64            `json:"chest"`
 	Neck            float64            `json:"neck"`
+	Waist           float64            `json:"waist"`
 }
 
 type PetInsurance struct {
@@ -723,6 +727,8 @@ type PetPawMeasurements struct {
 	DatetimeCreated primitive.DateTime `json:"datetimeCreated"`
 	Width           float64            `json:"width"`
 	Length          float64            `json:"length"`
+	ShoulderHeight  float64            `json:"shoulderHeight"`
+	BackLegHeight   float64            `json:"backLegHeight"`
 }
 
 type PetProfile struct {
