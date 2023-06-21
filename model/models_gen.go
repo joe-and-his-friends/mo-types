@@ -619,8 +619,9 @@ type MessageInput struct {
 }
 
 type MigrateCommentsInput struct {
-	SrcPetID primitive.ObjectID `json:"srcPetId"`
-	DstPetID primitive.ObjectID `json:"dstPetId"`
+	SrcPetID   primitive.ObjectID   `json:"srcPetId"`
+	DstPetID   primitive.ObjectID   `json:"dstPetId"`
+	CommentIds []primitive.ObjectID `json:"commentIds"`
 }
 
 type Moment struct {
@@ -1252,7 +1253,7 @@ type UpdatePetProfileInput struct {
 	AvatarUrl          string             `json:"avatarUrl" bson:",omitempty"`
 	IdPhotoUrl         string             `json:"idPhotoUrl" bson:",omitempty"`
 	IdCardUrl          string             `json:"idCardUrl" bson:",omitempty"`
-	Name               string             `json:"name" bson:",omitempty"`
+	Name               string             `json:"name"`
 	NameZh             string             `json:"nameZh" bson:",omitempty"`
 	NameEn             string             `json:"nameEn" bson:",omitempty"`
 	Birthday           string             `json:"birthday" bson:",omitempty"`
