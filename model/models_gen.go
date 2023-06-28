@@ -26,6 +26,10 @@ type AdoptionAgencyQueryResult interface {
 	IsAdoptionAgencyQueryResult()
 }
 
+type BannersQueryResult interface {
+	IsBannersQueryResult()
+}
+
 type EventsQueryResult interface {
 	IsEventsQueryResult()
 }
@@ -139,6 +143,24 @@ type AppVersionInfo struct {
 	LatestReleasedVersion  string `json:"latestReleasedVersion"`
 	LowestSupportedVersion string `json:"lowestSupportedVersion"`
 	DetailsUrl             string `json:"detailsUrl"`
+}
+
+type Banner struct {
+	ImageURL   string  `json:"imageUrl"`
+	AppPage    AppPage `json:"appPage"`
+	PageParams string  `json:"pageParams"`
+	Visible    bool    `json:"visible"`
+}
+
+type Banners struct {
+	TotalCount int       `json:"totalCount"`
+	Items      []*Banner `json:"items"`
+}
+
+func (Banners) IsBannersQueryResult() {}
+
+type BannersInput struct {
+	Visible *bool `json:"visible"`
 }
 
 type BindPhoneOrEmailInput struct {
@@ -977,6 +999,8 @@ func (ServiceError) IsEventsQueryResult() {}
 
 func (ServiceError) IsJobsResult() {}
 
+func (ServiceError) IsBannersQueryResult() {}
+
 func (ServiceError) IsPetProfilesQueryResult() {}
 
 func (ServiceError) IsRefreshAccessTokenResult() {}
@@ -1116,6 +1140,18 @@ type UpdateAdoptionAgency struct {
 type UpdateAdoptionAgencyInput struct {
 	ID     primitive.ObjectID    `json:"id" bson:"_id"`
 	Agency *UpdateAdoptionAgency `json:"agency"`
+}
+
+type UpdateBanner struct {
+	ImageURL   *string  `json:"imageUrl"`
+	AppPage    *AppPage `json:"appPage"`
+	PageParams *string  `json:"pageParams"`
+	Visible    *bool    `json:"visible"`
+}
+
+type UpdateBannerInput struct {
+	ID     primitive.ObjectID `json:"id"`
+	Banner *UpdateBanner      `json:"banner"`
 }
 
 type UpdateCommentStatusInput struct {
@@ -1427,18 +1463,20 @@ type AppPage string
 const (
 	AppPageEditorialPost   AppPage = "EDITORIAL_POST"
 	AppPageRetailerDetails AppPage = "RETAILER_DETAILS"
+	AppPageRetailerList    AppPage = "RETAILER_LIST"
 	AppPageEventDetails    AppPage = "EVENT_DETAILS"
 )
 
 var AllAppPage = []AppPage{
 	AppPageEditorialPost,
 	AppPageRetailerDetails,
+	AppPageRetailerList,
 	AppPageEventDetails,
 }
 
 func (e AppPage) IsValid() bool {
 	switch e {
-	case AppPageEditorialPost, AppPageRetailerDetails, AppPageEventDetails:
+	case AppPageEditorialPost, AppPageRetailerDetails, AppPageRetailerList, AppPageEventDetails:
 		return true
 	}
 	return false
