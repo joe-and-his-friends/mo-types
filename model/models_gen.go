@@ -146,10 +146,12 @@ type AppVersionInfo struct {
 }
 
 type Banner struct {
-	ImageURL   string  `json:"imageUrl"`
-	AppPage    AppPage `json:"appPage"`
-	PageParams string  `json:"pageParams"`
-	Visible    bool    `json:"visible"`
+	ID         primitive.ObjectID `json:"id"`
+	Name       string             `json:"name"`
+	ImageURL   string             `json:"imageUrl"`
+	AppPage    AppPage            `json:"appPage"`
+	PageParams string             `json:"pageParams"`
+	Visible    bool               `json:"visible"`
 }
 
 type Banners struct {
@@ -1143,10 +1145,11 @@ type UpdateAdoptionAgencyInput struct {
 }
 
 type UpdateBanner struct {
-	ImageURL   *string  `json:"imageUrl"`
-	AppPage    *AppPage `json:"appPage"`
-	PageParams *string  `json:"pageParams"`
-	Visible    *bool    `json:"visible"`
+	Name       *string  `json:"name" bson:",omitempty"`
+	ImageURL   *string  `json:"imageUrl" bson:",omitempty"`
+	AppPage    *AppPage `json:"appPage" bson:",omitempty"`
+	PageParams *string  `json:"pageParams" bson:",omitempty"`
+	Visible    *bool    `json:"visible" bson:",omitempty"`
 }
 
 type UpdateBannerInput struct {
