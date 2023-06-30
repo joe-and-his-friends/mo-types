@@ -146,7 +146,7 @@ type AppVersionInfo struct {
 }
 
 type Banner struct {
-	ID         primitive.ObjectID `json:"id"`
+	ID         primitive.ObjectID `json:"id" bson:"_id"`
 	Name       string             `json:"name"`
 	ImageURL   string             `json:"imageUrl"`
 	AppPage    AppPage            `json:"appPage"`
