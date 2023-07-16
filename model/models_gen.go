@@ -30,6 +30,10 @@ type BannersQueryResult interface {
 	IsBannersQueryResult()
 }
 
+type CheckinCountersQueryResults interface {
+	IsCheckinCountersQueryResults()
+}
+
 type EventsQueryResult interface {
 	IsEventsQueryResult()
 }
@@ -56,6 +60,10 @@ type RetailersQueryResult interface {
 
 type UserProfilesQueryResult interface {
 	IsUserProfilesQueryResult()
+}
+
+type VouchersQueryResult interface {
+	IsVouchersQueryResult()
 }
 
 type ActiveContest struct {
@@ -196,6 +204,34 @@ type CategoryFilter struct {
 	Option            *SelectionOptionInput   `json:"option"`
 	AdditionalOptions []string                `json:"additionalOptions"`
 	SubOptions        []*SelectionOptionInput `json:"subOptions"`
+}
+
+type CheckInCounter struct {
+	ID                    primitive.ObjectID     `json:"id"`
+	QRCodeURL             string                 `json:"qrCodeUrl"`
+	Points                int                    `json:"points"`
+	CreatedAt             primitive.DateTime     `json:"createdAt"`
+	ValidTo               primitive.DateTime     `json:"validTo"`
+	ValidFrom             primitive.DateTime     `json:"validFrom"`
+	GeoLocationConstraint *GeoLocationConstraint `json:"geoLocationConstraint"`
+}
+
+type CheckInCounters struct {
+	TotalCount int               `json:"totalCount"`
+	Items      []*CheckInCounter `json:"items"`
+}
+
+func (CheckInCounters) IsCheckinCountersQueryResults() {}
+
+type CheckInCountersInput struct {
+	PageNumber int `json:"pageNumber"`
+	PageSize   int `json:"pageSize"`
+}
+
+type CheckInInput struct {
+	CheckInCounterID primitive.ObjectID `json:"checkInCounterId"`
+	UserID           primitive.ObjectID `json:"userId"`
+	GeoLocation      *GeoLocationInput  `json:"geoLocation"`
 }
 
 type Comment struct {
@@ -562,6 +598,11 @@ type GeoFilter struct {
 type GeoLocation struct {
 	Long float64 `json:"long"`
 	Lat  float64 `json:"lat"`
+}
+
+type GeoLocationConstraint struct {
+	GeoLocation      *GeoLocation `json:"geoLocation"`
+	FarthestDistance int          `json:"farthestDistance"`
 }
 
 type GeoLocationInput struct {
@@ -997,6 +1038,8 @@ func (ServiceError) IsAdoptionAdsQueryResult() {}
 
 func (ServiceError) IsAdoptionAgenciesQueryResult() {}
 
+func (ServiceError) IsCheckinCountersQueryResults() {}
+
 func (ServiceError) IsEventsQueryResult() {}
 
 func (ServiceError) IsJobsResult() {}
@@ -1014,6 +1057,8 @@ func (ServiceError) IsLoginUserResult() {}
 func (ServiceError) IsAdoptionAgencyQueryResult() {}
 
 func (ServiceError) IsUserProfilesQueryResult() {}
+
+func (ServiceError) IsVouchersQueryResult() {}
 
 type SexesFilter struct {
 	Names []string `json:"names"`
@@ -1367,6 +1412,34 @@ type UpdateUserRoleInput struct {
 	Role   int    `json:"role"`
 }
 
+type UpdateVoucher struct {
+	RedemptionPoint *int                `json:"redemptionPoint" bson:",omitempty"`
+	Name            *string             `json:"name" bson:",omitempty"`
+	Description     *string             `json:"description" bson:",omitempty"`
+	Terms           *string             `json:"terms" bson:",omitempty"`
+	ValidFrom       *primitive.DateTime `json:"validFrom" bson:",omitempty"`
+	ValidTo         *primitive.DateTime `json:"validTo" bson:",omitempty"`
+}
+
+type UpdateVoucherInput struct {
+	ID      primitive.ObjectID `json:"id"`
+	Voucher *UpdateVoucher     `json:"voucher"`
+}
+
+type UpdateVoucherOwnership struct {
+	UserID                       *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	VoucherID                    *primitive.ObjectID `json:"voucherId" bson:",omitempty"`
+	Status                       *VoucherStatus      `json:"status" bson:",omitempty"`
+	RedemptionCode               *string             `json:"redemptionCode" bson:",omitempty"`
+	RedeemedAt                   *primitive.DateTime `json:"redeemedAt" bson:",omitempty"`
+	RedemptionConfirmationUserID *primitive.ObjectID `json:"redemptionConfirmationUserId" bson:",omitempty"`
+}
+
+type UpdateVoucherOwnershipInput struct {
+	ID        primitive.ObjectID      `json:"id"`
+	Ownership *UpdateVoucherOwnership `json:"ownership"`
+}
+
 type UserAuthentication struct {
 	UserId       primitive.ObjectID `json:"userId"`
 	AccessToken  string             `json:"accessToken"`
@@ -1452,6 +1525,17 @@ type VerificationCodeGenerationResult struct {
 	Msg     string `json:"msg"`
 }
 
+type VoncherOwnership struct {
+	ID                           string             `json:"id" bson:"_id"`
+	UserID                       primitive.ObjectID `json:"userId"`
+	VoucherID                    primitive.ObjectID `json:"voucherId"`
+	Status                       VoucherStatus      `json:"status"`
+	RedemptionCode               string             `json:"redemptionCode"`
+	CreatedAt                    primitive.DateTime `json:"createdAt"`
+	RedeemedAt                   primitive.DateTime `json:"redeemedAt"`
+	RedemptionConfirmationUserID primitive.ObjectID `json:"redemptionConfirmationUserId"`
+}
+
 type VoteForCandidate struct {
 	CandidateId string `json:"candidateId"`
 }
@@ -1459,6 +1543,31 @@ type VoteForCandidate struct {
 type VotingResult struct {
 	NumberOfVotes int  `json:"numberOfVotes"`
 	Voted         bool `json:"voted"`
+}
+
+type Voucher struct {
+	ID              primitive.ObjectID `json:"id" bson:"_id"`
+	RedemptionPoint int                `json:"redemptionPoint"`
+	CreateAt        primitive.DateTime `json:"createAt"`
+	Name            string             `json:"name"`
+	Description     string             `json:"description"`
+	ValidFrom       primitive.DateTime `json:"validFrom"`
+	ValidTo         primitive.DateTime `json:"validTo"`
+	Terms           string             `json:"terms"`
+	Ownership       *VoncherOwnership  `json:"ownership"`
+}
+
+type Vouchers struct {
+	TotalCount int        `json:"totalCount"`
+	Items      []*Voucher `json:"items"`
+}
+
+func (Vouchers) IsVouchersQueryResult() {}
+
+type VouchersInput struct {
+	PageNumber    int            `json:"pageNumber"`
+	PageSize      int            `json:"pageSize"`
+	VoucherStatus *VoucherStatus `json:"voucherStatus"`
 }
 
 type AppPage string
@@ -1628,5 +1737,50 @@ func (e *Sex) UnmarshalGQL(v interface{}) error {
 }
 
 func (e Sex) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type VoucherStatus string
+
+const (
+	VoucherStatusRedeemable VoucherStatus = "REDEEMABLE"
+	VoucherStatusRedeemed   VoucherStatus = "REDEEMED"
+	VoucherStatusExpired    VoucherStatus = "EXPIRED"
+	VoucherStatusInvalid    VoucherStatus = "INVALID"
+)
+
+var AllVoucherStatus = []VoucherStatus{
+	VoucherStatusRedeemable,
+	VoucherStatusRedeemed,
+	VoucherStatusExpired,
+	VoucherStatusInvalid,
+}
+
+func (e VoucherStatus) IsValid() bool {
+	switch e {
+	case VoucherStatusRedeemable, VoucherStatusRedeemed, VoucherStatusExpired, VoucherStatusInvalid:
+		return true
+	}
+	return false
+}
+
+func (e VoucherStatus) String() string {
+	return string(e)
+}
+
+func (e *VoucherStatus) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = VoucherStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid VoucherStatus", str)
+	}
+	return nil
+}
+
+func (e VoucherStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
