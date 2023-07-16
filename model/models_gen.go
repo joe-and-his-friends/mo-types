@@ -884,6 +884,11 @@ type PhotoInput struct {
 	Description string `json:"description"`
 }
 
+type PurchaseVoucherInput struct {
+	UserID    primitive.ObjectID `json:"userId"`
+	VoucherID primitive.ObjectID `json:"voucherId"`
+}
+
 type RankingFilter struct {
 	Option int `json:"option"`
 }
