@@ -30,8 +30,8 @@ type BannersQueryResult interface {
 	IsBannersQueryResult()
 }
 
-type CheckinCountersQueryResults interface {
-	IsCheckinCountersQueryResults()
+type CheckInCountersQueryResult interface {
+	IsCheckInCountersQueryResult()
 }
 
 type EventsQueryResult interface {
@@ -207,7 +207,7 @@ type CategoryFilter struct {
 }
 
 type CheckInCounter struct {
-	ID                    primitive.ObjectID     `json:"id"`
+	ID                    primitive.ObjectID     `json:"id" bson:"_id"`
 	QRCodeURL             string                 `json:"qrCodeUrl"`
 	Points                int                    `json:"points"`
 	CreatedAt             primitive.DateTime     `json:"createdAt"`
@@ -221,7 +221,7 @@ type CheckInCounters struct {
 	Items      []*CheckInCounter `json:"items"`
 }
 
-func (CheckInCounters) IsCheckinCountersQueryResults() {}
+func (CheckInCounters) IsCheckInCountersQueryResult() {}
 
 type CheckInCountersInput struct {
 	PageNumber int `json:"pageNumber"`
@@ -230,8 +230,15 @@ type CheckInCountersInput struct {
 
 type CheckInInput struct {
 	CheckInCounterID primitive.ObjectID `json:"checkInCounterId"`
-	UserID           primitive.ObjectID `json:"userId"`
 	GeoLocation      *GeoLocationInput  `json:"geoLocation"`
+}
+
+type CheckInRecord struct {
+	ID               primitive.ObjectID `json:"id" bson:"_id"`
+	UserID           primitive.ObjectID `json:"userId"`
+	CheckInCounterID primitive.ObjectID `json:"checkInCounterId"`
+	GeoLocation      *GeoLocation       `json:"geoLocation"`
+	CreateAt         primitive.DateTime `json:"createAt"`
 }
 
 type Comment struct {
@@ -603,6 +610,11 @@ type GeoLocation struct {
 type GeoLocationConstraint struct {
 	GeoLocation      *GeoLocation `json:"geoLocation"`
 	FarthestDistance int          `json:"farthestDistance"`
+}
+
+type GeoLocationConstraintInput struct {
+	GeoLocation      *GeoLocationInput `json:"geoLocation"`
+	FarthestDistance int               `json:"farthestDistance"`
 }
 
 type GeoLocationInput struct {
@@ -1043,7 +1055,7 @@ func (ServiceError) IsAdoptionAdsQueryResult() {}
 
 func (ServiceError) IsAdoptionAgenciesQueryResult() {}
 
-func (ServiceError) IsCheckinCountersQueryResults() {}
+func (ServiceError) IsCheckInCountersQueryResult() {}
 
 func (ServiceError) IsEventsQueryResult() {}
 
@@ -1205,6 +1217,19 @@ type UpdateBanner struct {
 type UpdateBannerInput struct {
 	ID     primitive.ObjectID `json:"id"`
 	Banner *UpdateBanner      `json:"banner"`
+}
+
+type UpdateCheckInCounter struct {
+	QRCodeURL             *string                     `json:"qrCodeUrl" bson:",omitempty"`
+	Points                *int                        `json:"points" bson:",omitempty"`
+	ValidTo               *primitive.DateTime         `json:"validTo" bson:",omitempty"`
+	ValidFrom             *primitive.DateTime         `json:"validFrom" bson:",omitempty"`
+	GeoLocationConstraint *GeoLocationConstraintInput `json:"geoLocationConstraint" bson:",omitempty"`
+}
+
+type UpdateCheckInCounterInput struct {
+	ID      primitive.ObjectID    `json:"id"`
+	Counter *UpdateCheckInCounter `json:"counter"`
 }
 
 type UpdateCommentStatusInput struct {
