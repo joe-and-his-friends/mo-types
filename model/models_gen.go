@@ -62,6 +62,10 @@ type UserProfilesQueryResult interface {
 	IsUserProfilesQueryResult()
 }
 
+type VoucherQueryResult interface {
+	IsVoucherQueryResult()
+}
+
 type VouchersQueryResult interface {
 	IsVouchersQueryResult()
 }
@@ -1074,6 +1078,8 @@ func (ServiceError) IsAdoptionAgencyQueryResult() {}
 
 func (ServiceError) IsUserProfilesQueryResult() {}
 
+func (ServiceError) IsVoucherQueryResult() {}
+
 func (ServiceError) IsVouchersQueryResult() {}
 
 type SexesFilter struct {
@@ -1547,17 +1553,6 @@ type VerificationCodeGenerationResult struct {
 	Msg     string `json:"msg"`
 }
 
-type VoncherOwnership struct {
-	ID                           string             `json:"id" bson:"_id"`
-	UserID                       primitive.ObjectID `json:"userId"`
-	VoucherID                    primitive.ObjectID `json:"voucherId"`
-	Status                       VoucherStatus      `json:"status"`
-	RedemptionCode               string             `json:"redemptionCode"`
-	CreatedAt                    primitive.DateTime `json:"createdAt"`
-	RedeemedAt                   primitive.DateTime `json:"redeemedAt"`
-	RedemptionConfirmationUserID primitive.ObjectID `json:"redemptionConfirmationUserId"`
-}
-
 type VoteForCandidate struct {
 	CandidateId string `json:"candidateId"`
 }
@@ -1578,7 +1573,20 @@ type Voucher struct {
 	ValidTo           primitive.DateTime `json:"validTo"`
 	ImageURL          string             `json:"imageUrl"`
 	RetailerAvatarURL string             `json:"retailerAvatarUrl"`
-	Ownership         *VoncherOwnership  `json:"ownership"`
+	Ownership         *VoucherOwnership  `json:"ownership"`
+}
+
+func (Voucher) IsVoucherQueryResult() {}
+
+type VoucherOwnership struct {
+	ID                           string              `json:"id" bson:"_id"`
+	UserID                       primitive.ObjectID  `json:"userId"`
+	VoucherID                    primitive.ObjectID  `json:"voucherId"`
+	Status                       VoucherStatus       `json:"status"`
+	RedemptionCode               string              `json:"redemptionCode"`
+	CreatedAt                    primitive.DateTime  `json:"createdAt"`
+	RedeemedAt                   *primitive.DateTime `json:"redeemedAt"`
+	RedemptionConfirmationUserID *primitive.ObjectID `json:"redemptionConfirmationUserId"`
 }
 
 type Vouchers struct {
