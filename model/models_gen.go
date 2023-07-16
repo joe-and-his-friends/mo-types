@@ -457,6 +457,10 @@ type CreateRetailerProfileInput struct {
 	BusinessLicense  *string                 `json:"businessLicense" bson:",omitempty"`
 }
 
+type CreateVoucherOwnershipInput struct {
+	VoucherID primitive.ObjectID `json:"voucherId"`
+}
+
 type DatesFilter struct {
 	Before primitive.DateTime `json:"before"`
 	After  primitive.DateTime `json:"after"`
@@ -894,11 +898,6 @@ type Photo struct {
 type PhotoInput struct {
 	Url         string `json:"url"`
 	Description string `json:"description"`
-}
-
-type PurchaseVoucherInput struct {
-	UserID    primitive.ObjectID `json:"userId"`
-	VoucherID primitive.ObjectID `json:"voucherId"`
 }
 
 type RankingFilter struct {
