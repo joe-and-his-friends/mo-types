@@ -1457,18 +1457,9 @@ type UpdateVoucherInput struct {
 	Voucher *UpdateVoucher     `json:"voucher"`
 }
 
-type UpdateVoucherOwnership struct {
-	UserID                       *primitive.ObjectID `json:"userId" bson:",omitempty"`
-	VoucherID                    *primitive.ObjectID `json:"voucherId" bson:",omitempty"`
-	Status                       *VoucherStatus      `json:"status" bson:",omitempty"`
-	RedemptionCode               *string             `json:"redemptionCode" bson:",omitempty"`
-	RedeemedAt                   *primitive.DateTime `json:"redeemedAt" bson:",omitempty"`
-	RedemptionConfirmationUserID *primitive.ObjectID `json:"redemptionConfirmationUserId" bson:",omitempty"`
-}
-
-type UpdateVoucherOwnershipInput struct {
-	ID        primitive.ObjectID      `json:"id"`
-	Ownership *UpdateVoucherOwnership `json:"ownership"`
+type UpdateVoucherOwnershipStatusInput struct {
+	RedemptionCode string        `json:"redemptionCode"`
+	Status         VoucherStatus `json:"status"`
 }
 
 type UserAuthentication struct {
@@ -1598,6 +1589,11 @@ type Vouchers struct {
 func (Vouchers) IsVouchersQueryResult() {}
 
 type VouchersInput struct {
+	PageNumber int `json:"pageNumber"`
+	PageSize   int `json:"pageSize"`
+}
+
+type VouchersWithOwnershipInput struct {
 	PageNumber    int            `json:"pageNumber"`
 	PageSize      int            `json:"pageSize"`
 	VoucherStatus *VoucherStatus `json:"voucherStatus"`
