@@ -216,6 +216,7 @@ type CategoryFilter struct {
 
 type CheckInCounter struct {
 	ID                    primitive.ObjectID     `json:"id" bson:"_id"`
+	ProductID             primitive.ObjectID     `json:"productId"`
 	QRCodeURL             string                 `json:"qrCodeUrl"`
 	Points                int                    `json:"points"`
 	CreatedAt             primitive.DateTime     `json:"createdAt"`
@@ -245,8 +246,8 @@ type CheckInRecord struct {
 	ID               primitive.ObjectID `json:"id" bson:"_id"`
 	UserID           primitive.ObjectID `json:"userId"`
 	CheckInCounterID primitive.ObjectID `json:"checkInCounterId"`
-	GeoLocation      *GeoLocation       `json:"geoLocation"`
-	CreateAt         primitive.DateTime `json:"createAt"`
+	ProductID        primitive.ObjectID `json:"productId"`
+	CreatedAt        primitive.DateTime `json:"createdAt"`
 }
 
 type Comment struct {
@@ -1231,6 +1232,7 @@ type UpdateBannerInput struct {
 }
 
 type UpdateCheckInCounter struct {
+	ProductID             *primitive.ObjectID         `json:"productId" bson:",omitempty"`
 	QRCodeURL             *string                     `json:"qrCodeUrl" bson:",omitempty"`
 	Points                *int                        `json:"points" bson:",omitempty"`
 	ValidTo               *primitive.DateTime         `json:"validTo" bson:",omitempty"`
