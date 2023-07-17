@@ -226,6 +226,7 @@ type CheckInCounter struct {
 	ID                    primitive.ObjectID     `json:"id" bson:"_id"`
 	ProductID             primitive.ObjectID     `json:"productId"`
 	Name                  string                 `json:"name"`
+	Greetings             string                 `json:"greetings"`
 	QRCodeURL             string                 `json:"qrCodeUrl"`
 	Points                int                    `json:"points"`
 	CreatedAt             *primitive.DateTime    `json:"createdAt"`
@@ -1252,6 +1253,7 @@ type UpdateBannerInput struct {
 
 type UpdateCheckInCounter struct {
 	Name                  *string                     `json:"name" bson:",omitempty"`
+	Greetings             *string                     `json:"greetings" bson:",omitempty"`
 	ProductID             *primitive.ObjectID         `json:"productId" bson:",omitempty"`
 	QRCodeURL             *string                     `json:"qrCodeUrl" bson:",omitempty"`
 	Points                *int                        `json:"points" bson:",omitempty"`
