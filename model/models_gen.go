@@ -30,6 +30,10 @@ type BannersQueryResult interface {
 	IsBannersQueryResult()
 }
 
+type CheckInCounterQueryResult interface {
+	IsCheckInCounterQueryResult()
+}
+
 type CheckInCountersQueryResult interface {
 	IsCheckInCountersQueryResult()
 }
@@ -217,13 +221,16 @@ type CategoryFilter struct {
 type CheckInCounter struct {
 	ID                    primitive.ObjectID     `json:"id" bson:"_id"`
 	ProductID             primitive.ObjectID     `json:"productId"`
+	Name                  string                 `json:"name"`
 	QRCodeURL             string                 `json:"qrCodeUrl"`
 	Points                int                    `json:"points"`
-	CreatedAt             primitive.DateTime     `json:"createdAt"`
-	ValidTo               primitive.DateTime     `json:"validTo"`
-	ValidFrom             primitive.DateTime     `json:"validFrom"`
+	CreatedAt             *primitive.DateTime    `json:"createdAt"`
+	ValidTo               *primitive.DateTime    `json:"validTo"`
+	ValidFrom             *primitive.DateTime    `json:"validFrom"`
 	GeoLocationConstraint *GeoLocationConstraint `json:"geoLocationConstraint"`
 }
+
+func (CheckInCounter) IsCheckInCounterQueryResult() {}
 
 type CheckInCounters struct {
 	TotalCount int               `json:"totalCount"`
@@ -243,11 +250,12 @@ type CheckInInput struct {
 }
 
 type CheckInRecord struct {
-	ID               primitive.ObjectID `json:"id" bson:"_id"`
-	UserID           primitive.ObjectID `json:"userId"`
-	CheckInCounterID primitive.ObjectID `json:"checkInCounterId"`
-	ProductID        primitive.ObjectID `json:"productId"`
-	CreatedAt        primitive.DateTime `json:"createdAt"`
+	ID               primitive.ObjectID  `json:"id" bson:"_id"`
+	UserID           primitive.ObjectID  `json:"userId"`
+	ProductID        primitive.ObjectID  `json:"productId"`
+	CheckInCounterID primitive.ObjectID  `json:"checkInCounterId"`
+	GeoLocation      *GeoLocation        `json:"geoLocation"`
+	CreatedAt        *primitive.DateTime `json:"createdAt"`
 }
 
 type Comment struct {
@@ -1063,6 +1071,8 @@ func (ServiceError) IsAdoptionAdsQueryResult() {}
 
 func (ServiceError) IsAdoptionAgenciesQueryResult() {}
 
+func (ServiceError) IsCheckInCounterQueryResult() {}
+
 func (ServiceError) IsCheckInCountersQueryResult() {}
 
 func (ServiceError) IsEventsQueryResult() {}
@@ -1232,6 +1242,7 @@ type UpdateBannerInput struct {
 }
 
 type UpdateCheckInCounter struct {
+	Name                  *string                     `json:"name" bson:",omitempty"`
 	ProductID             *primitive.ObjectID         `json:"productId" bson:",omitempty"`
 	QRCodeURL             *string                     `json:"qrCodeUrl" bson:",omitempty"`
 	Points                *int                        `json:"points" bson:",omitempty"`
@@ -1571,17 +1582,17 @@ type VotingResult struct {
 }
 
 type Voucher struct {
-	ID                primitive.ObjectID `json:"id" bson:"_id"`
-	RedemptionPoint   int                `json:"redemptionPoint"`
-	CreateAt          primitive.DateTime `json:"createAt"`
-	Name              string             `json:"name"`
-	Terms             string             `json:"terms"`
-	Description       string             `json:"description"`
-	ValidFrom         primitive.DateTime `json:"validFrom"`
-	ValidTo           primitive.DateTime `json:"validTo"`
-	ImageURL          string             `json:"imageUrl"`
-	RetailerAvatarURL string             `json:"retailerAvatarUrl"`
-	Ownership         *VoucherOwnership  `json:"ownership"`
+	ID                primitive.ObjectID  `json:"id" bson:"_id"`
+	RedemptionPoint   int                 `json:"redemptionPoint"`
+	CreatedAt         *primitive.DateTime `json:"createdAt"`
+	Name              string              `json:"name"`
+	Terms             string              `json:"terms"`
+	Description       string              `json:"description"`
+	ValidFrom         *primitive.DateTime `json:"validFrom"`
+	ValidTo           *primitive.DateTime `json:"validTo"`
+	ImageURL          string              `json:"imageUrl"`
+	RetailerAvatarURL string              `json:"retailerAvatarUrl"`
+	Ownership         *VoucherOwnership   `json:"ownership"`
 }
 
 func (Voucher) IsVoucherQueryResult() {}
@@ -1592,7 +1603,7 @@ type VoucherOwnership struct {
 	VoucherID                    primitive.ObjectID  `json:"voucherId"`
 	Status                       VoucherStatus       `json:"status"`
 	RedemptionCode               string              `json:"redemptionCode"`
-	CreatedAt                    primitive.DateTime  `json:"createdAt"`
+	CreatedAt                    *primitive.DateTime `json:"createdAt"`
 	RedeemedAt                   *primitive.DateTime `json:"redeemedAt"`
 	RedemptionConfirmationUserID *primitive.ObjectID `json:"redemptionConfirmationUserId"`
 }
