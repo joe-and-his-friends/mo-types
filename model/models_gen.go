@@ -62,6 +62,10 @@ type UserProfilesQueryResult interface {
 	IsUserProfilesQueryResult()
 }
 
+type VoucherOwnershipQueryResult interface {
+	IsVoucherOwnershipQueryResult()
+}
+
 type VoucherQueryResult interface {
 	IsVoucherQueryResult()
 }
@@ -1082,6 +1086,8 @@ func (ServiceError) IsVoucherQueryResult() {}
 
 func (ServiceError) IsVouchersQueryResult() {}
 
+func (ServiceError) IsVoucherOwnershipQueryResult() {}
+
 type SexesFilter struct {
 	Names []string `json:"names"`
 }
@@ -1588,6 +1594,8 @@ type VoucherOwnership struct {
 	RedeemedAt                   *primitive.DateTime `json:"redeemedAt"`
 	RedemptionConfirmationUserID *primitive.ObjectID `json:"redemptionConfirmationUserId"`
 }
+
+func (VoucherOwnership) IsVoucherOwnershipQueryResult() {}
 
 type Vouchers struct {
 	TotalCount int        `json:"totalCount"`
