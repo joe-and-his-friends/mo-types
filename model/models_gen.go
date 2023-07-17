@@ -38,6 +38,10 @@ type CheckInCountersQueryResult interface {
 	IsCheckInCountersQueryResult()
 }
 
+type CheckInRecordQueryResult interface {
+	IsCheckInRecordQueryResult()
+}
+
 type EventsQueryResult interface {
 	IsEventsQueryResult()
 }
@@ -219,15 +223,16 @@ type CategoryFilter struct {
 }
 
 type CheckInCounter struct {
-	ID                    primitive.ObjectID     `json:"id" bson:"_id"`
-	ProductID             primitive.ObjectID     `json:"productId"`
-	Name                  string                 `json:"name"`
-	QRCodeURL             string                 `json:"qrCodeUrl"`
-	Points                int                    `json:"points"`
-	CreatedAt             *primitive.DateTime    `json:"createdAt"`
-	ValidTo               *primitive.DateTime    `json:"validTo"`
-	ValidFrom             *primitive.DateTime    `json:"validFrom"`
-	GeoLocationConstraint *GeoLocationConstraint `json:"geoLocationConstraint"`
+	ID                    primitive.ObjectID       `json:"id" bson:"_id"`
+	ProductID             primitive.ObjectID       `json:"productId"`
+	Name                  string                   `json:"name"`
+	QRCodeURL             string                   `json:"qrCodeUrl"`
+	Points                int                      `json:"points"`
+	CreatedAt             *primitive.DateTime      `json:"createdAt"`
+	ValidTo               *primitive.DateTime      `json:"validTo"`
+	ValidFrom             *primitive.DateTime      `json:"validFrom"`
+	GeoLocationConstraint *GeoLocationConstraint   `json:"geoLocationConstraint"`
+	Record                CheckInRecordQueryResult `json:"record"`
 }
 
 func (CheckInCounter) IsCheckInCounterQueryResult() {}
@@ -245,18 +250,20 @@ type CheckInCountersInput struct {
 }
 
 type CheckInInput struct {
-	CheckInCounterID primitive.ObjectID `json:"checkInCounterId"`
-	GeoLocation      *GeoLocationInput  `json:"geoLocation"`
+	CounterID   primitive.ObjectID `json:"counterId"`
+	GeoLocation *GeoLocationInput  `json:"geoLocation"`
 }
 
 type CheckInRecord struct {
-	ID               primitive.ObjectID  `json:"id" bson:"_id"`
-	UserID           primitive.ObjectID  `json:"userId"`
-	ProductID        primitive.ObjectID  `json:"productId"`
-	CheckInCounterID primitive.ObjectID  `json:"checkInCounterId"`
-	GeoLocation      *GeoLocation        `json:"geoLocation"`
-	CreatedAt        *primitive.DateTime `json:"createdAt"`
+	ID          primitive.ObjectID  `json:"id" bson:"_id"`
+	UserID      primitive.ObjectID  `json:"userId"`
+	ProductID   primitive.ObjectID  `json:"productId"`
+	CounterID   primitive.ObjectID  `json:"counterId"`
+	GeoLocation *GeoLocation        `json:"geoLocation"`
+	CreatedAt   *primitive.DateTime `json:"createdAt"`
 }
+
+func (CheckInRecord) IsCheckInRecordQueryResult() {}
 
 type Comment struct {
 	Id                     string                  `json:"id" bson:"_id"`
@@ -1074,6 +1081,8 @@ func (ServiceError) IsAdoptionAgenciesQueryResult() {}
 func (ServiceError) IsCheckInCounterQueryResult() {}
 
 func (ServiceError) IsCheckInCountersQueryResult() {}
+
+func (ServiceError) IsCheckInRecordQueryResult() {}
 
 func (ServiceError) IsEventsQueryResult() {}
 
