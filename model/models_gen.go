@@ -223,16 +223,16 @@ type CategoryFilter struct {
 }
 
 type CheckInCounter struct {
-	ID                    primitive.ObjectID       `json:"id" bson:"_id"`
-	ProductID             primitive.ObjectID       `json:"productId"`
-	Name                  string                   `json:"name"`
-	QRCodeURL             string                   `json:"qrCodeUrl"`
-	Points                int                      `json:"points"`
-	CreatedAt             *primitive.DateTime      `json:"createdAt"`
-	ValidTo               *primitive.DateTime      `json:"validTo"`
-	ValidFrom             *primitive.DateTime      `json:"validFrom"`
-	GeoLocationConstraint *GeoLocationConstraint   `json:"geoLocationConstraint"`
-	Record                CheckInRecordQueryResult `json:"record"`
+	ID                    primitive.ObjectID     `json:"id" bson:"_id"`
+	ProductID             primitive.ObjectID     `json:"productId"`
+	Name                  string                 `json:"name"`
+	QRCodeURL             string                 `json:"qrCodeUrl"`
+	Points                int                    `json:"points"`
+	CreatedAt             *primitive.DateTime    `json:"createdAt"`
+	ValidTo               *primitive.DateTime    `json:"validTo"`
+	ValidFrom             *primitive.DateTime    `json:"validFrom"`
+	GeoLocationConstraint *GeoLocationConstraint `json:"geoLocationConstraint"`
+	Record                *CheckInRecord         `json:"record"`
 }
 
 func (CheckInCounter) IsCheckInCounterQueryResult() {}
