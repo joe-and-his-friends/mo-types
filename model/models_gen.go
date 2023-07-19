@@ -225,6 +225,7 @@ type CategoryFilter struct {
 type CheckInCounter struct {
 	ID                    primitive.ObjectID     `json:"id" bson:"_id"`
 	ProductID             primitive.ObjectID     `json:"productId"`
+	ProductName           string                 `json:"productName"`
 	Name                  string                 `json:"name"`
 	Greetings             string                 `json:"greetings"`
 	QRCodeURL             string                 `json:"qrCodeUrl"`
@@ -1255,6 +1256,7 @@ type UpdateCheckInCounter struct {
 	Name                  *string                     `json:"name" bson:",omitempty"`
 	Greetings             *string                     `json:"greetings" bson:",omitempty"`
 	ProductID             *primitive.ObjectID         `json:"productId" bson:",omitempty"`
+	ProductName           *string                     `json:"productName" bson:",omitempty"`
 	QRCodeURL             *string                     `json:"qrCodeUrl" bson:",omitempty"`
 	Points                *int                        `json:"points" bson:",omitempty"`
 	ValidTo               *primitive.DateTime         `json:"validTo" bson:",omitempty"`
