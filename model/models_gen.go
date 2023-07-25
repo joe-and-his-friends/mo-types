@@ -404,7 +404,7 @@ type CreateCommentatorCertificateInput struct {
 }
 
 type CreatePetBodyMeasurementsInput struct {
-	PetId  primitive.ObjectID `json:"petId"`
+	PetID  primitive.ObjectID `json:"petId"`
 	Weight float64            `json:"weight"`
 	Back   float64            `json:"back"`
 	Chest  float64            `json:"chest"`
@@ -413,7 +413,7 @@ type CreatePetBodyMeasurementsInput struct {
 }
 
 type CreatePetInsuranceInput struct {
-	PetId              primitive.ObjectID `json:"petId"`
+	PetID              primitive.ObjectID `json:"petId"`
 	CompanyName        string             `json:"companyName"`
 	AdvisorPhoneNumber string             `json:"advisorPhoneNumber"`
 	EffectiveFrom      primitive.DateTime `json:"effectiveFrom"`
@@ -423,7 +423,7 @@ type CreatePetInsuranceInput struct {
 }
 
 type CreatePetPawMeasurementsInput struct {
-	PetId          primitive.ObjectID `json:"petId"`
+	PetID          primitive.ObjectID `json:"petId"`
 	Width          float64            `json:"width"`
 	Length         float64            `json:"length"`
 	ShoulderHeight *float64           `json:"shoulderHeight" bson:",omitempty"`
@@ -431,10 +431,11 @@ type CreatePetPawMeasurementsInput struct {
 }
 
 type CreatePetProfileInput struct {
-	UserId             string             `json:"userId"`
-	AvatarUrl          string             `json:"avatarUrl"`
-	IdPhotoUrl         string             `json:"idPhotoUrl"`
-	IdCardUrl          string             `json:"idCardUrl"`
+	UserID             string             `json:"userId"`
+	AvatarURL          string             `json:"avatarUrl"`
+	IDPhotoURL         string             `json:"idPhotoUrl"`
+	IDCardURL          string             `json:"idCardUrl"`
+	IDCardBgRmdURL     *string            `json:"idCardBgRmdUrl"`
 	Name               string             `json:"name"`
 	NameZh             string             `json:"nameZh"`
 	NameEn             string             `json:"nameEn"`
@@ -448,7 +449,7 @@ type CreatePetProfileInput struct {
 }
 
 type CreatePetVaxInput struct {
-	PetId               primitive.ObjectID `json:"petId"`
+	PetID               primitive.ObjectID `json:"petId"`
 	VaxName             string             `json:"vaxName"`
 	Clinic              string             `json:"clinic"`
 	VaxxedDate          primitive.DateTime `json:"vaxxedDate"`
@@ -509,23 +510,23 @@ type DeleteFcmRegistrationTokenInput struct {
 }
 
 type DeletePetBodyMeasurementsInput struct {
-	Id    primitive.ObjectID `json:"id"`
-	PetId primitive.ObjectID `json:"petId"`
+	ID    primitive.ObjectID `json:"id"`
+	PetID primitive.ObjectID `json:"petId"`
 }
 
 type DeletePetInsuranceInput struct {
-	Id    primitive.ObjectID `json:"id"`
-	PetId primitive.ObjectID `json:"petId"`
+	ID    primitive.ObjectID `json:"id"`
+	PetID primitive.ObjectID `json:"petId"`
 }
 
 type DeletePetPawMeasurementsInput struct {
-	Id    primitive.ObjectID `json:"id"`
-	PetId primitive.ObjectID `json:"petId"`
+	ID    primitive.ObjectID `json:"id"`
+	PetID primitive.ObjectID `json:"petId"`
 }
 
 type DeletePetVaxInput struct {
-	Id    primitive.ObjectID `json:"id"`
-	PetId primitive.ObjectID `json:"petId"`
+	ID    primitive.ObjectID `json:"id"`
+	PetID primitive.ObjectID `json:"petId"`
 }
 
 type DonationMethod struct {
@@ -811,7 +812,7 @@ type OtherFilter struct {
 }
 
 type PetBodyMeasurements struct {
-	Id              primitive.ObjectID `json:"id"`
+	ID              primitive.ObjectID `json:"id"`
 	DatetimeCreated primitive.DateTime `json:"datetimeCreated"`
 	Weight          float64            `json:"weight"`
 	Back            float64            `json:"back"`
@@ -821,7 +822,7 @@ type PetBodyMeasurements struct {
 }
 
 type PetInsurance struct {
-	Id                 primitive.ObjectID `json:"id"`
+	ID                 primitive.ObjectID `json:"id"`
 	CompanyName        string             `json:"companyName"`
 	AdvisorPhoneNumber string             `json:"advisorPhoneNumber"`
 	EffectiveFrom      primitive.DateTime `json:"effectiveFrom"`
@@ -831,7 +832,7 @@ type PetInsurance struct {
 }
 
 type PetPawMeasurements struct {
-	Id              primitive.ObjectID `json:"id"`
+	ID              primitive.ObjectID `json:"id"`
 	DatetimeCreated primitive.DateTime `json:"datetimeCreated"`
 	Width           float64            `json:"width"`
 	Length          float64            `json:"length"`
@@ -840,11 +841,12 @@ type PetPawMeasurements struct {
 }
 
 type PetProfile struct {
-	Id                     string                  `json:"id" bson:"_id"`
-	AvatarUrl              string                  `json:"avatarUrl"`
-	IdPhotoUrl             string                  `json:"idPhotoUrl"`
-	IdCardUrl              string                  `json:"idCardUrl"`
-	IdCardNumber           int                     `json:"idCardNumber"`
+	ID                     string                  `json:"id" bson:"_id"`
+	AvatarURL              string                  `json:"avatarUrl"`
+	IDPhotoURL             string                  `json:"idPhotoUrl"`
+	IDCardURL              string                  `json:"idCardUrl"`
+	IDCardBgRmdURL         string                  `json:"idCardBgRmdUrl"`
+	IDCardNumber           int                     `json:"idCardNumber"`
 	Name                   string                  `json:"name"`
 	NameZh                 string                  `json:"nameZh"`
 	NameEn                 string                  `json:"nameEn"`
@@ -853,7 +855,7 @@ type PetProfile struct {
 	DepartureDate          primitive.DateTime      `json:"departureDate"`
 	BreedName              string                  `json:"breedName"`
 	PetOwnerSnsAccount     string                  `json:"petOwnerSnsAccount"`
-	UserId                 string                  `json:"userId"`
+	UserID                 string                  `json:"userId"`
 	User                   *UserProfile            `json:"user"`
 	Sex                    string                  `json:"sex"`
 	HomeArrivalDate        string                  `json:"homeArrivalDate"`
@@ -874,7 +876,7 @@ type PetProfiles struct {
 func (PetProfiles) IsPetProfilesQueryResult() {}
 
 type PetVax struct {
-	Id                  primitive.ObjectID `json:"id"`
+	ID                  primitive.ObjectID `json:"id"`
 	VaxName             string             `json:"vaxName"`
 	Clinic              string             `json:"clinic"`
 	VaxxedDate          primitive.DateTime `json:"vaxxedDate"`
@@ -898,12 +900,12 @@ type PetsFiltersInput struct {
 }
 
 type PetsInput struct {
-	UserId                             string                              `json:"userId"`
+	UserID                             string                              `json:"userId"`
 	PageNumber                         int                                 `json:"pageNumber"`
 	PageSize                           int                                 `json:"pageSize"`
 	MatchingText                       string                              `json:"matchingText"`
 	CommentatorCertificateStatusFilter *CommentatorCertificateStatusFilter `json:"commentatorCertificateStatusFilter"`
-	IdCardNumber                       int                                 `json:"idCardNumber"`
+	IDCardNumber                       int                                 `json:"idCardNumber"`
 	BirthdayFilter                     *DatesFilterInput                   `json:"birthdayFilter"`
 	BreedsFilter                       *BreedsFilterInput                  `json:"breedsFilter"`
 	SexesFilter                        *SexesFilterInput                   `json:"sexesFilter"`
@@ -1395,15 +1397,16 @@ type UpdateMoment struct {
 }
 
 type UpdatePetCertificatesInput struct {
-	PetId primitive.ObjectID `json:"petId"`
+	PetID primitive.ObjectID `json:"petId"`
 	Urls  []string           `json:"urls"`
 }
 
 type UpdatePetProfileInput struct {
-	Id                 string             `json:"id"`
-	AvatarUrl          string             `json:"avatarUrl" bson:",omitempty"`
-	IdPhotoUrl         string             `json:"idPhotoUrl" bson:",omitempty"`
-	IdCardUrl          string             `json:"idCardUrl" bson:",omitempty"`
+	ID                 string             `json:"id"`
+	AvatarURL          string             `json:"avatarUrl" bson:",omitempty"`
+	IDPhotoURL         string             `json:"idPhotoUrl" bson:",omitempty"`
+	IDCardURL          string             `json:"idCardUrl" bson:",omitempty"`
+	IDCardBgRmdURL     *string            `json:"idCardBgRmdUrl" bson:",omitempty"`
 	Name               string             `json:"name"`
 	NameZh             string             `json:"nameZh" bson:",omitempty"`
 	NameEn             string             `json:"nameEn" bson:",omitempty"`
