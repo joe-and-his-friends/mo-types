@@ -1653,6 +1653,7 @@ const (
 	AppPageRetailerDetails AppPage = "RETAILER_DETAILS"
 	AppPageRetailerList    AppPage = "RETAILER_LIST"
 	AppPageEventDetails    AppPage = "EVENT_DETAILS"
+	AppPageContestDetails  AppPage = "CONTEST_DETAILS"
 )
 
 var AllAppPage = []AppPage{
@@ -1660,11 +1661,12 @@ var AllAppPage = []AppPage{
 	AppPageRetailerDetails,
 	AppPageRetailerList,
 	AppPageEventDetails,
+	AppPageContestDetails,
 }
 
 func (e AppPage) IsValid() bool {
 	switch e {
-	case AppPageEditorialPost, AppPageRetailerDetails, AppPageRetailerList, AppPageEventDetails:
+	case AppPageEditorialPost, AppPageRetailerDetails, AppPageRetailerList, AppPageEventDetails, AppPageContestDetails:
 		return true
 	}
 	return false
