@@ -929,6 +929,18 @@ type PhotoInput struct {
 	Description string `json:"description"`
 }
 
+type PointTransaction struct {
+	ID            primitive.ObjectID `json:"id" bson:"_id"`
+	SourceEntity  SourceEntity       `json:"sourceEntity"`
+	Points        int                `json:"points"`
+	CustomerPhone string             `json:"customerPhone"`
+	CustomerEmail string             `json:"customerEmail"`
+	CustomerName  string             `json:"customerName"`
+	OrderID       string             `json:"orderId"`
+	Accumulated   bool               `json:"accumulated"`
+	UpdatedAt     primitive.DateTime `json:"updatedAt"`
+}
+
 type RankingFilter struct {
 	Option int `json:"option"`
 }
@@ -1421,6 +1433,20 @@ type UpdatePetProfileInput struct {
 	HomeArrivalDate    string             `json:"homeArrivalDate" bson:",omitempty"`
 }
 
+type UpdatePointTransaction struct {
+	SourceEntity  SourceEntity `json:"sourceEntity" bson:",omitempty"`
+	Points        int          `json:"points" bson:",omitempty"`
+	CustomerPhone *string      `json:"customerPhone" bson:",omitempty"`
+	CustomerEmail *string      `json:"customerEmail" bson:",omitempty"`
+	CustomerName  *string      `json:"customerName" bson:",omitempty"`
+	Accumulated   *bool        `json:"accumulated" bson:",omitempty"`
+}
+
+type UpdatePointTransactionInput struct {
+	OrderID     string                  `json:"orderId"`
+	Transaction *UpdatePointTransaction `json:"transaction"`
+}
+
 type UpdateRetailerProfileInput struct {
 	UserId  string                      `json:"userId"`
 	Profile *CreateRetailerProfileInput `json:"profile"`
@@ -1815,6 +1841,45 @@ func (e *Sex) UnmarshalGQL(v interface{}) error {
 }
 
 func (e Sex) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SourceEntity string
+
+const (
+	SourceEntityShopline SourceEntity = "SHOPLINE"
+)
+
+var AllSourceEntity = []SourceEntity{
+	SourceEntityShopline,
+}
+
+func (e SourceEntity) IsValid() bool {
+	switch e {
+	case SourceEntityShopline:
+		return true
+	}
+	return false
+}
+
+func (e SourceEntity) String() string {
+	return string(e)
+}
+
+func (e *SourceEntity) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SourceEntity(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SourceEntity", str)
+	}
+	return nil
+}
+
+func (e SourceEntity) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
