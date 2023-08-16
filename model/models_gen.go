@@ -937,6 +937,7 @@ type PointTransaction struct {
 	CustomerEmail string             `json:"customerEmail"`
 	CustomerName  string             `json:"customerName"`
 	OrderID       string             `json:"orderId"`
+	MerchantID    string             `json:"merchantId"`
 	Accumulated   bool               `json:"accumulated"`
 	UpdatedAt     primitive.DateTime `json:"updatedAt"`
 }
@@ -1143,6 +1144,22 @@ type ShareContentInput struct {
 	Text       string `json:"text"`
 	ImageUrl   string `json:"imageUrl"`
 	WebpageUrl string `json:"webpageUrl"`
+}
+
+type ShoplineMerchantInfo struct {
+	ID            primitive.ObjectID `json:"id" bson:"_id"`
+	MerchantID    string             `json:"merchantId"`
+	ApplicationID string             `json:"applicationId"`
+	Name          string             `json:"name"`
+	Email         string             `json:"email"`
+	Handle        string             `json:"handle"`
+	UpdatedAt     primitive.DateTime `json:"updatedAt"`
+	AccessToken   string             `json:"accessToken"`
+	Connected     bool               `json:"connected"`
+}
+
+type ShoplineMerchatInfoInput struct {
+	MerchantID string `json:"merchantId"`
 }
 
 type Task struct {
@@ -1440,6 +1457,7 @@ type UpdatePointTransaction struct {
 	CustomerEmail *string      `json:"customerEmail" bson:",omitempty"`
 	CustomerName  *string      `json:"customerName" bson:",omitempty"`
 	Accumulated   *bool        `json:"accumulated" bson:",omitempty"`
+	MerchantID    *string      `json:"merchantId" bson:",omitempty"`
 }
 
 type UpdatePointTransactionInput struct {
@@ -1460,6 +1478,20 @@ type UpdateRetailerRatingInput struct {
 type UpdateRetailerRecommendationInput struct {
 	UserId      primitive.ObjectID `json:"userId"`
 	Recommended bool               `json:"recommended"`
+}
+
+type UpdateShoplineMerchantInfo struct {
+	Name          *string `json:"name" bson:",omitempty"`
+	Email         *string `json:"email" bson:",omitempty"`
+	Handle        *string `json:"handle" bson:",omitempty"`
+	AccessToken   *string `json:"accessToken" bson:",omitempty"`
+	Connected     *bool   `json:"connected" bson:",omitempty"`
+	ApplicationID *string `json:"applicationId" bson:",omitempty"`
+}
+
+type UpdateShoplineMerchantInfoInput struct {
+	MerchantID string                      `json:"merchantId"`
+	Info       *UpdateShoplineMerchantInfo `json:"info"`
 }
 
 type UpdateTask struct {
