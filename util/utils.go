@@ -1,6 +1,7 @@
 package util
 
 import (
+	"bytes"
 	"fmt"
 	"math/rand"
 	"strconv"
@@ -9,6 +10,7 @@ import (
 	"unicode"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/bsonrw"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -201,6 +203,30 @@ func PrefixToBsonDoc(source bson.M, prefix string) bson.M {
 	}
 
 	return prefixed
+}
+
+func BsonDocToJson(docs []bson.D) string {
+	buf := bytes.NewBuffer(nil)
+	vw, err := bsonrw.NewExtJSONValueWriter(buf, true, false)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	enc, err := bson.NewEncoder(vw)
+
+	for _, doc := range docs {
+		if err != nil {
+			break
+		}
+
+		err = enc.Encode(doc)
+		if err != nil {
+			break
+		}
+	}
+
+	return buf.String()
 }
 
 func ConvertStringToDatetime(dateStr string) (primitive.DateTime, error) {
