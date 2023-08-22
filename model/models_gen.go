@@ -1308,15 +1308,14 @@ type UpdateCommentStatusInput struct {
 	Status int    `json:"status"`
 }
 
-type UpdateCommentatorAvatarInput struct {
-	PetId primitive.ObjectID `json:"petId"`
-	URL   string             `json:"url"`
-}
-
 type UpdateCommentatorCertificate struct {
-	Status    *int    `json:"status" bson:",omitempty"`
-	Level     *int    `json:"level" bson:",omitempty"`
-	AvatarURL *string `json:"avatarUrl" bson:",omitempty"`
+	Status               *int                  `json:"status" bson:",omitempty"`
+	Level                *int                  `json:"level" bson:",omitempty"`
+	AvatarURL            *string               `json:"avatarUrl" bson:",omitempty"`
+	Name                 *string               `json:"name" bson:",omitempty"`
+	Phone                *string               `json:"phone" bson:",omitempty"`
+	SnsPlatformName      *string               `json:"snsPlatformName" bson:",omitempty"`
+	SnsPlatformSelection *SelectionOptionInput `json:"snsPlatformSelection" bson:",omitempty"`
 }
 
 type UpdateCommentatorCertificateInput struct {
