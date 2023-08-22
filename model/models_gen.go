@@ -557,6 +557,7 @@ type EditorialPosts struct {
 type Event struct {
 	ID                primitive.ObjectID `json:"id" bson:"_id"`
 	UserID            primitive.ObjectID `json:"userId"`
+	User              *UserProfile       `json:"user"`
 	Name              string             `json:"name"`
 	StartedAt         primitive.DateTime `json:"startedAt"`
 	EndedAt           primitive.DateTime `json:"endedAt"`
