@@ -1308,10 +1308,15 @@ type UpdateCommentStatusInput struct {
 	Status int    `json:"status"`
 }
 
+type UpdateCommentatorCertificate struct {
+	Status    *int    `json:"status" bson:",omitempty"`
+	Level     *int    `json:"level" bson:",omitempty"`
+	AvatarURL *string `json:"avatarUrl" bson:",omitempty"`
+}
+
 type UpdateCommentatorCertificateInput struct {
-	PetId  string `json:"petId"`
-	Status int    `json:"status"`
-	Level  int    `json:"level"`
+	PetId       primitive.ObjectID            `json:"petId"`
+	Certificate *UpdateCommentatorCertificate `json:"certificate"`
 }
 
 type UpdateContest struct {
