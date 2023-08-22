@@ -338,6 +338,7 @@ type CommentsInput struct {
 	RecommendationFilter    *CommentRecommendationFilter `json:"recommendationFilter"`
 	MatchingRetailerName    string                       `json:"matchingRetailerName"`
 	MatchingCommentatorName string                       `json:"matchingCommentatorName"`
+	DatesFilter             *DatesFilterInput            `json:"datesFilter"`
 }
 
 type Contest struct {
@@ -495,8 +496,8 @@ type DatesFilter struct {
 }
 
 type DatesFilterInput struct {
-	Before primitive.DateTime `json:"before"`
-	After  primitive.DateTime `json:"after"`
+	Before *primitive.DateTime `json:"before"`
+	After  *primitive.DateTime `json:"after"`
 }
 
 type DatetimeFilter struct {
