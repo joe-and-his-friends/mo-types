@@ -66,6 +66,10 @@ type RetailersQueryResult interface {
 	IsRetailersQueryResult()
 }
 
+type UserProfileQueryResult interface {
+	IsUserProfileQueryResult()
+}
+
 type UserProfilesQueryResult interface {
 	IsUserProfilesQueryResult()
 }
@@ -863,7 +867,7 @@ type PetProfile struct {
 	DepartureDate          primitive.DateTime      `json:"departureDate"`
 	BreedName              string                  `json:"breedName"`
 	PetOwnerSnsAccount     string                  `json:"petOwnerSnsAccount"`
-	UserID                 string                  `json:"userId"`
+	UserID                 primitive.ObjectID      `json:"userId"`
 	User                   *UserProfile            `json:"user"`
 	Sex                    string                  `json:"sex"`
 	HomeArrivalDate        string                  `json:"homeArrivalDate"`
@@ -984,7 +988,7 @@ type RetailerNameEntry struct {
 
 type RetailerProfile struct {
 	Id                 string             `json:"id" bson:"_id"`
-	UserId             string             `json:"userId"`
+	UserID             primitive.ObjectID `json:"userId"`
 	Account            string             `json:"account"`
 	Role               int                `json:"role"`
 	Level              int                `json:"level"`
@@ -1126,6 +1130,8 @@ func (ServiceError) IsLoginUserResult() {}
 func (ServiceError) IsAdoptionAgencyQueryResult() {}
 
 func (ServiceError) IsUserProfilesQueryResult() {}
+
+func (ServiceError) IsUserProfileQueryResult() {}
 
 func (ServiceError) IsVoucherQueryResult() {}
 
@@ -1638,6 +1644,8 @@ type UserProfile struct {
 	ProfileBackgroundImage string                    `json:"profileBackgroundImage"`
 	AdoptionAgency         AdoptionAgencyQueryResult `json:"adoptionAgency"`
 }
+
+func (UserProfile) IsUserProfileQueryResult() {}
 
 type UserProfileWithPassword struct {
 	Id          primitive.ObjectID `json:"id" bson:"_id"`
