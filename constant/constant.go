@@ -3,6 +3,7 @@ package constant
 import (
 	"net/http"
 
+	"github.com/more-than-code/messaging/pb"
 	"google.golang.org/grpc/codes"
 )
 
@@ -132,7 +133,7 @@ func TranslateToHttpStatusCode(code int) int {
 	switch code {
 	case int(codes.Unavailable):
 		return http.StatusServiceUnavailable
-	case CodeDatabaseDocumentNotFound:
+	case int(CodeDatabaseDocumentNotFound):
 		return http.StatusNotFound
 	}
 
@@ -150,5 +151,17 @@ func TranslateToServiceCode(code int) int {
 	default:
 		return code
 	}
+}
 
+func TranslateVerificationCodeValidationStatusToServiceCode(status pb.VerificationCodeValidationStatus) int {
+	switch status {
+	case pb.VerificationCodeValidationStatus_VERIFICATION_CODE_VALIDATION_STATUS_EXPIRED:
+		return CodeExpiredVerificationCode
+	case pb.VerificationCodeValidationStatus_VERIFICATION_CODE_VALIDATION_STATUS_INVALID:
+		return CodeWrongVerificationCode
+	case pb.VerificationCodeValidationStatus_VERIFICATION_CODE_VALIDATION_STATUS_MAXIMUM_ATTEMPTS:
+		return CodeMaximumAttemptsOnVerificationCode
+	default:
+		return int(status)
+	}
 }

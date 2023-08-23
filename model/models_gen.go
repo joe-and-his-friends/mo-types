@@ -631,6 +631,11 @@ type FileOperationInput struct {
 	PublicRead bool   `json:"publicRead"`
 }
 
+type GenerateVerificationCodeInput struct {
+	PhoneOrEmail string                          `json:"phoneOrEmail"`
+	Purpose      GenerateVerificationCodePurpuse `json:"purpose"`
+}
+
 type GeoFilter struct {
 	Distance    int               `json:"distance"`
 	GeoLocation *GeoLocationInput `json:"geoLocation"`
@@ -1531,11 +1536,17 @@ type UpdateTaskStatusInput struct {
 	Status int                `json:"status"`
 }
 
-type UpdateUserBasics struct {
-	Name                   string `json:"name"`
-	FamilyName             string `json:"familyName"`
-	GivenName              string `json:"givenName"`
-	ProfileBackgroundImage string `json:"profileBackgroundImage"`
+type UpdateUserBasicsInput struct {
+	Name                   *string                 `json:"name" bson:",omitempty"`
+	FamilyName             *string                 `json:"familyName" bson:",omitempty"`
+	GivenName              *string                 `json:"givenName" bson:",omitempty"`
+	Nickname               *string                 `json:"nickname" bson:",omitempty"`
+	City                   *SelectionOptionInput   `json:"city" bson:",omitempty"`
+	Region                 *SelectionOptionInput   `json:"region" bson:",omitempty"`
+	District               *SelectionOptionInput   `json:"district" bson:",omitempty"`
+	QuestionnaireOptions   []*SelectionOptionInput `json:"questionnaireOptions" bson:",omitempty"`
+	SfLockerCode           *string                 `json:"sfLockerCode" bson:",omitempty"`
+	ProfileBackgroundImage *string                 `json:"profileBackgroundImage" bson:",omitempty"`
 }
 
 type UpdateUserLevel struct {
@@ -1601,8 +1612,14 @@ type UserCredentials struct {
 type UserProfile struct {
 	Id                     primitive.ObjectID        `json:"id" bson:"_id"`
 	Name                   string                    `json:"name"`
+	Nickname               string                    `json:"nickname"`
 	Phone                  string                    `json:"phone"`
 	Email                  string                    `json:"email"`
+	City                   *SelectionOption          `json:"city"`
+	Region                 *SelectionOption          `json:"region"`
+	District               *SelectionOption          `json:"district"`
+	SfLockerCode           string                    `json:"sfLockerCode"`
+	QuestionnaireOptions   []*SelectionOption        `json:"questionnaireOptions"`
 	Role                   int                       `json:"role"`
 	Level                  int                       `json:"level"`
 	Points                 int                       `json:"points"`
@@ -1802,6 +1819,51 @@ func (e *ApprovalFilter) UnmarshalGQL(v interface{}) error {
 }
 
 func (e ApprovalFilter) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type GenerateVerificationCodePurpuse string
+
+const (
+	GenerateVerificationCodePurpuseRegistration        GenerateVerificationCodePurpuse = "REGISTRATION"
+	GenerateVerificationCodePurpuseLogin               GenerateVerificationCodePurpuse = "LOGIN"
+	GenerateVerificationCodePurpuseResettingPassword   GenerateVerificationCodePurpuse = "RESETTING_PASSWORD"
+	GenerateVerificationCodePurpuseBindingPhoneOrEmail GenerateVerificationCodePurpuse = "BINDING_PHONE_OR_EMAIL"
+)
+
+var AllGenerateVerificationCodePurpuse = []GenerateVerificationCodePurpuse{
+	GenerateVerificationCodePurpuseRegistration,
+	GenerateVerificationCodePurpuseLogin,
+	GenerateVerificationCodePurpuseResettingPassword,
+	GenerateVerificationCodePurpuseBindingPhoneOrEmail,
+}
+
+func (e GenerateVerificationCodePurpuse) IsValid() bool {
+	switch e {
+	case GenerateVerificationCodePurpuseRegistration, GenerateVerificationCodePurpuseLogin, GenerateVerificationCodePurpuseResettingPassword, GenerateVerificationCodePurpuseBindingPhoneOrEmail:
+		return true
+	}
+	return false
+}
+
+func (e GenerateVerificationCodePurpuse) String() string {
+	return string(e)
+}
+
+func (e *GenerateVerificationCodePurpuse) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = GenerateVerificationCodePurpuse(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid GenerateVerificationCodePurpuse", str)
+	}
+	return nil
+}
+
+func (e GenerateVerificationCodePurpuse) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
