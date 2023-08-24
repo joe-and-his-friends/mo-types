@@ -1174,12 +1174,6 @@ type SysemTransactionDetails struct {
 
 func (SysemTransactionDetails) IsTransactionDetails() {}
 
-type SystemTransactionDetailsInput struct {
-	TaskID              *primitive.ObjectID `json:"taskId" bson:",omitempty"`
-	TaskParticipationID *primitive.ObjectID `json:"taskParticipationId" bson:",omitempty"`
-	UserID              *primitive.ObjectID `json:"userId" bson:",omitempty"`
-}
-
 type Task struct {
 	ID            primitive.ObjectID  `json:"id" bson:"_id"`
 	Name          string              `json:"name"`
@@ -1189,13 +1183,15 @@ type Task struct {
 	EndedAt       *primitive.DateTime `json:"endedAt"`
 	Type          TaskType            `json:"type"`
 	Status        TaskStatus          `json:"status"`
+	Points        int                 `json:"points"`
 	ShareContent  *ShareContent       `json:"shareContent"`
 	RedemptionURL string              `json:"redemptionUrl"`
 	Participation *TaskParticipation  `json:"participation"`
 }
 
 type TaskFilter struct {
-	Status int `json:"status"`
+	Status *TaskStatus `json:"status"`
+	Type   *TaskType   `json:"type"`
 }
 
 type TaskParticipation struct {
@@ -1232,7 +1228,6 @@ type Tasks struct {
 type TasksInput struct {
 	PageSize            int                      `json:"pageSize"`
 	PageNumber          int                      `json:"pageNumber"`
-	StartTaskID         primitive.ObjectID       `json:"startTaskId"`
 	TaskFilter          *TaskFilter              `json:"taskFilter"`
 	ParticipationFilter *TaskParticipationFilter `json:"participationFilter"`
 }
@@ -1256,14 +1251,6 @@ type ThirdPartyTransactionDetails struct {
 }
 
 func (ThirdPartyTransactionDetails) IsTransactionDetails() {}
-
-type ThirdPartyTransactionDetailsInput struct {
-	CustomerPhone *string `json:"customerPhone" bson:",omitempty"`
-	CustomerEmail *string `json:"customerEmail" bson:",omitempty"`
-	CustomerName  *string `json:"customerName" bson:",omitempty"`
-	OrderID       *string `json:"orderId" bson:",omitempty"`
-	MerchantID    *string `json:"merchantId" bson:",omitempty"`
-}
 
 type TimeFilter struct {
 	Option int `json:"option"`
@@ -1494,24 +1481,6 @@ type UpdatePetProfileInput struct {
 	HomeArrivalDate    string             `json:"homeArrivalDate" bson:",omitempty"`
 }
 
-type UpdatePointTransaction struct {
-	SourceEntity  SourceEntity `json:"sourceEntity" bson:",omitempty"`
-	Points        int          `json:"points" bson:",omitempty"`
-	CustomerPhone *string      `json:"customerPhone" bson:",omitempty"`
-	CustomerEmail *string      `json:"customerEmail" bson:",omitempty"`
-	CustomerName  *string      `json:"customerName" bson:",omitempty"`
-	Accumulated   *bool        `json:"accumulated" bson:",omitempty"`
-	MerchantID    *string      `json:"merchantId" bson:",omitempty"`
-	Remarks       *string      `json:"remarks" bson:",omitempty"`
-}
-
-type UpdatePointTransactionInput struct {
-	OrderID                      string                             `json:"orderId"`
-	Transaction                  *UpdatePointTransaction            `json:"transaction"`
-	ThirdPartyTransactionDetails *ThirdPartyTransactionDetailsInput `json:"thirdPartyTransactionDetails"`
-	SystemTransactionDetails     *SystemTransactionDetailsInput     `json:"systemTransactionDetails"`
-}
-
 type UpdateRetailerProfileInput struct {
 	UserId  string                      `json:"userId"`
 	Profile *CreateRetailerProfileInput `json:"profile"`
@@ -1541,6 +1510,25 @@ type UpdateShoplineMerchantInfoInput struct {
 	Info       *UpdateShoplineMerchantInfo `json:"info"`
 }
 
+type UpdateSystemTransaction struct {
+	SourceEntity SourceEntity                             `json:"sourceEntity" bson:",omitempty"`
+	Points       int                                      `json:"points" bson:",omitempty"`
+	Accumulated  *bool                                    `json:"accumulated" bson:",omitempty"`
+	Remarks      *string                                  `json:"remarks" bson:",omitempty"`
+	Details      *UpdateThirdPartyPointTransactionDetails `json:"details" bson:",omitempty"`
+}
+
+type UpdateSystemTransactionDetails struct {
+	TaskID              *primitive.ObjectID `json:"taskId" bson:",omitempty"`
+	TaskParticipationID *primitive.ObjectID `json:"taskParticipationId" bson:",omitempty"`
+	UserID              *primitive.ObjectID `json:"userId" bson:",omitempty"`
+}
+
+type UpdateSystemTransactionInput struct {
+	ID          primitive.ObjectID       `json:"id"`
+	Transaction *UpdateSystemTransaction `json:"transaction"`
+}
+
 type UpdateTask struct {
 	Name         *string             `json:"name" bson:",omitempty"`
 	ImageURL     *string             `json:"imageUrl" bson:",omitempty"`
@@ -1549,6 +1537,7 @@ type UpdateTask struct {
 	EndedAt      *primitive.DateTime `json:"endedAt" bson:",omitempty"`
 	Type         *TaskType           `json:"type" bson:",omitempty"`
 	Status       *TaskStatus         `json:"status" bson:",omitempty"`
+	Points       *int                `json:"points" bson:",omitempty"`
 	ShareContent *ShareContentInput  `json:"shareContent" bson:",omitempty"`
 }
 
@@ -1558,12 +1547,33 @@ type UpdateTaskInput struct {
 }
 
 type UpdateTaskParticipation struct {
+	TaskID *primitive.ObjectID      `json:"taskId" bson:",omitempty"`
 	Status *TaskParticipationStatus `json:"status" bson:",omitempty"`
 }
 
 type UpdateTaskParticipationInput struct {
 	ID            primitive.ObjectID       `json:"id"`
 	Participation *UpdateTaskParticipation `json:"participation"`
+}
+
+type UpdateThirdPartyPointTransactionDetails struct {
+	CustomerPhone *string `json:"customerPhone" bson:",omitempty"`
+	CustomerEmail *string `json:"customerEmail" bson:",omitempty"`
+	CustomerName  *string `json:"customerName" bson:",omitempty"`
+	MerchantID    *string `json:"merchantId" bson:",omitempty"`
+}
+
+type UpdateThirdPartyTransaction struct {
+	SourceEntity SourceEntity                             `json:"sourceEntity" bson:",omitempty"`
+	Points       int                                      `json:"points" bson:",omitempty"`
+	Accumulated  *bool                                    `json:"accumulated" bson:",omitempty"`
+	Remarks      *string                                  `json:"remarks" bson:",omitempty"`
+	Details      *UpdateThirdPartyPointTransactionDetails `json:"details" bson:",omitempty"`
+}
+
+type UpdateThirdPartyTransactionInput struct {
+	OrderID     string                       `json:"orderId"`
+	Transaction *UpdateThirdPartyTransaction `json:"transaction"`
 }
 
 type UpdateUserBasicsInput struct {
@@ -1657,7 +1667,7 @@ type UserProfile struct {
 	AvatarURL              string                    `json:"avatarUrl"`
 	FamilyName             string                    `json:"familyName"`
 	GivenName              string                    `json:"givenName"`
-	ReferralUserID         primitive.ObjectID        `json:"referralUserId"`
+	ReferralUserID         *primitive.ObjectID       `json:"referralUserId"`
 	DatetimeCreated        string                    `json:"datetimeCreated"`
 	FcmRegistrationToken   string                    `json:"fcmRegistrationToken"`
 	FcmRegistrationTokens  []*FcmRegistrationToken   `json:"fcmRegistrationTokens"`
