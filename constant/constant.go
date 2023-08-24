@@ -77,9 +77,9 @@ const (
 	// TODO: remove deprecated ones
 	ErrCodeSystemError = -1
 
-	ErrCodeExistingUser    = 1000
-	ErrCodeNonexistingUser = 1001
-	ErrCodeWrongPassword   = 1002
+	ErrCodeExistingPhoneOrEmail    = 1000
+	ErrCodeNonexistingPhoneOrEmail = 1001
+	ErrCodeWrongPassword           = 1002
 
 	ErrCodeExpiredVerificationCode              = 2000
 	ErrCodeWrongVerificationCode                = 2001
@@ -89,11 +89,11 @@ const (
 )
 
 const (
-	MsgExistingUser          = "user already exists"
-	MsgNonexistingUser       = "user not exists"
-	MsgAuthenticationFailure = "authenticating user failure"
-	MsgUnauthorized          = "unauthorized "
-	MsgNotAllowed            = "not allowed"
+	MsgExistingPhoneOrEmail    = "phone or email already exists"
+	MsgNonexistingPhoneOrEmail = "phone or email not exists"
+	MsgAuthenticationFailure   = "authenticating user failure"
+	MsgUnauthorized            = "unauthorized "
+	MsgNotAllowed              = "not allowed"
 
 	MsgExpiredVerificationCode              = "expired verification code"
 	MsgWrongVerificationCode                = "wrong verification code"

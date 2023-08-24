@@ -66,6 +66,10 @@ type RetailersQueryResult interface {
 	IsRetailersQueryResult()
 }
 
+type TransactionDetails interface {
+	IsTransactionDetails()
+}
+
 type UserProfileQueryResult interface {
 	IsUserProfileQueryResult()
 }
@@ -510,8 +514,8 @@ type DatetimeFilter struct {
 }
 
 type DeleteFcmRegistrationTokenInput struct {
-	UserId primitive.ObjectID `json:"userId"`
-	Uuid   string             `json:"uuid"`
+	UserID primitive.ObjectID `json:"userId"`
+	UUID   string             `json:"uuid"`
 	Token  string             `json:"token"`
 }
 
@@ -617,7 +621,7 @@ type FavoriteRetailerInput struct {
 
 type FcmRegistrationToken struct {
 	Token     string             `json:"token"`
-	Uuid      string             `json:"uuid"`
+	UUID      string             `json:"uuid"`
 	UpdatedAt primitive.DateTime `json:"updatedAt"`
 }
 
@@ -792,23 +796,13 @@ type NewMoment struct {
 	IsVideo    bool   `json:"isVideo"`
 }
 
-type NewTask struct {
-	Name         string             `json:"name"`
-	PictureUrl   string             `json:"pictureUrl"`
-	DetailsUrl   string             `json:"detailsUrl"`
-	StartDate    string             `json:"startDate"`
-	EndDate      string             `json:"endDate"`
-	Type         int                `json:"type"`
-	ShareContent *ShareContentInput `json:"shareContent"`
-}
-
 type NewUser struct {
-	PhoneOrEmail     string `json:"phoneOrEmail"`
-	Password         string `json:"password"`
-	VerificationCode string `json:"verificationCode"`
-	Name             string `json:"name"`
-	ReferralCode     string `json:"referralCode"`
-	ReferralUserId   string `json:"referralUserId"`
+	PhoneOrEmail     string             `json:"phoneOrEmail"`
+	Password         string             `json:"password"`
+	VerificationCode string             `json:"verificationCode"`
+	Name             string             `json:"name"`
+	ReferralCode     string             `json:"referralCode"`
+	ReferralUserID   primitive.ObjectID `json:"referralUserId"`
 }
 
 type NewUserWithAppleBinding struct {
@@ -941,16 +935,13 @@ type PhotoInput struct {
 }
 
 type PointTransaction struct {
-	ID            primitive.ObjectID `json:"id" bson:"_id"`
-	SourceEntity  SourceEntity       `json:"sourceEntity"`
-	Points        int                `json:"points"`
-	CustomerPhone string             `json:"customerPhone"`
-	CustomerEmail string             `json:"customerEmail"`
-	CustomerName  string             `json:"customerName"`
-	OrderID       string             `json:"orderId"`
-	MerchantID    string             `json:"merchantId"`
-	Accumulated   bool               `json:"accumulated"`
-	UpdatedAt     primitive.DateTime `json:"updatedAt"`
+	ID           primitive.ObjectID `json:"id" bson:"_id"`
+	SourceEntity SourceEntity       `json:"sourceEntity"`
+	Points       int                `json:"points"`
+	Accumulated  bool               `json:"accumulated"`
+	UpdatedAt    primitive.DateTime `json:"updatedAt"`
+	Remarks      string             `json:"remarks"`
+	Details      TransactionDetails `json:"details"`
 }
 
 type RankingFilter struct {
@@ -1149,14 +1140,14 @@ type SexesFilterInput struct {
 
 type ShareContent struct {
 	Text       string `json:"text"`
-	ImageUrl   string `json:"imageUrl"`
-	WebpageUrl string `json:"webpageUrl"`
+	ImageURL   string `json:"imageUrl"`
+	WebpageURL string `json:"webpageUrl"`
 }
 
 type ShareContentInput struct {
-	Text       string `json:"text"`
-	ImageUrl   string `json:"imageUrl"`
-	WebpageUrl string `json:"webpageUrl"`
+	Text       *string `json:"text" bson:",omitempty"`
+	ImageURL   *string `json:"imageUrl" bson:",omitempty"`
+	WebpageURL *string `json:"webpageUrl" bson:",omitempty"`
 }
 
 type ShoplineMerchantInfo struct {
@@ -1175,18 +1166,32 @@ type ShoplineMerchatInfoInput struct {
 	MerchantID string `json:"merchantId"`
 }
 
+type SysemTransactionDetails struct {
+	TaskID              primitive.ObjectID `json:"taskId"`
+	TaskParticipationID primitive.ObjectID `json:"taskParticipationId"`
+	UserID              primitive.ObjectID `json:"userId"`
+}
+
+func (SysemTransactionDetails) IsTransactionDetails() {}
+
+type SystemTransactionDetailsInput struct {
+	TaskID              *primitive.ObjectID `json:"taskId" bson:",omitempty"`
+	TaskParticipationID *primitive.ObjectID `json:"taskParticipationId" bson:",omitempty"`
+	UserID              *primitive.ObjectID `json:"userId" bson:",omitempty"`
+}
+
 type Task struct {
-	Id            string             `json:"id" bson:"_id"`
-	Name          string             `json:"name"`
-	PictureUrl    string             `json:"pictureUrl"`
-	DetailsUrl    string             `json:"detailsUrl"`
-	RedemptionUrl string             `json:"redemptionUrl"`
-	StartDate     string             `json:"startDate"`
-	EndDate       string             `json:"endDate"`
-	Type          int                `json:"type"`
-	Status        int                `json:"status"`
-	ShareContent  *ShareContent      `json:"shareContent"`
-	Participation *TaskParticipation `json:"participation"`
+	ID            primitive.ObjectID  `json:"id" bson:"_id"`
+	Name          string              `json:"name"`
+	ImageURL      string              `json:"imageUrl"`
+	DetailsURL    string              `json:"detailsUrl"`
+	StartedAt     *primitive.DateTime `json:"startedAt"`
+	EndedAt       *primitive.DateTime `json:"endedAt"`
+	Type          TaskType            `json:"type"`
+	Status        TaskStatus          `json:"status"`
+	ShareContent  *ShareContent       `json:"shareContent"`
+	RedemptionURL string              `json:"redemptionUrl"`
+	Participation *TaskParticipation  `json:"participation"`
 }
 
 type TaskFilter struct {
@@ -1194,15 +1199,14 @@ type TaskFilter struct {
 }
 
 type TaskParticipation struct {
-	Id                           string `json:"id" bson:"_id"`
-	UserId                       string `json:"userId"`
-	TaskId                       string `json:"taskId"`
-	Status                       int    `json:"status"`
-	RedemptionCode               string `json:"redemptionCode"`
-	DatetimeCreated              string `json:"datetimeCreated"`
-	DatetimeAchieved             string `json:"datetimeAchieved"`
-	DatetimeRedeemed             string `json:"datetimeRedeemed"`
-	RedemptionConfirmationUserId string `json:"redemptionConfirmationUserId"`
+	ID                 primitive.ObjectID      `json:"id" bson:"_id"`
+	UserID             primitive.ObjectID      `json:"userId"`
+	TaskID             primitive.ObjectID      `json:"taskId"`
+	Status             TaskParticipationStatus `json:"status"`
+	CreatedAt          primitive.DateTime      `json:"createdAt"`
+	UpdatedAt          primitive.DateTime      `json:"updatedAt"`
+	CompletedAt        primitive.DateTime      `json:"completedAt"`
+	ConfirmationUserID primitive.ObjectID      `json:"confirmationUserId"`
 }
 
 type TaskParticipationFilter struct {
@@ -1216,8 +1220,8 @@ type TaskParticipationList struct {
 type TaskParticipationListInput struct {
 	PageSize                 int                      `json:"pageSize"`
 	PageNumber               int                      `json:"pageNumber"`
-	UserId                   string                   `json:"userId"`
-	StartTaskParticipationId string                   `json:"startTaskParticipationId"`
+	UserID                   string                   `json:"userId"`
+	StartTaskParticipationID string                   `json:"startTaskParticipationId"`
 	Filter                   *TaskParticipationFilter `json:"filter"`
 }
 
@@ -1228,7 +1232,7 @@ type Tasks struct {
 type TasksInput struct {
 	PageSize            int                      `json:"pageSize"`
 	PageNumber          int                      `json:"pageNumber"`
-	StartTaskId         string                   `json:"startTaskId"`
+	StartTaskID         primitive.ObjectID       `json:"startTaskId"`
 	TaskFilter          *TaskFilter              `json:"taskFilter"`
 	ParticipationFilter *TaskParticipationFilter `json:"participationFilter"`
 }
@@ -1241,6 +1245,24 @@ type TerritoryFilter struct {
 	City     *SelectionOptionInput `json:"city"`
 	Region   *SelectionOptionInput `json:"region"`
 	District *SelectionOptionInput `json:"district"`
+}
+
+type ThirdPartyTransactionDetails struct {
+	CustomerPhone string `json:"customerPhone"`
+	CustomerEmail string `json:"customerEmail"`
+	CustomerName  string `json:"customerName"`
+	OrderID       string `json:"orderId"`
+	MerchantID    string `json:"merchantId"`
+}
+
+func (ThirdPartyTransactionDetails) IsTransactionDetails() {}
+
+type ThirdPartyTransactionDetailsInput struct {
+	CustomerPhone *string `json:"customerPhone" bson:",omitempty"`
+	CustomerEmail *string `json:"customerEmail" bson:",omitempty"`
+	CustomerName  *string `json:"customerName" bson:",omitempty"`
+	OrderID       *string `json:"orderId" bson:",omitempty"`
+	MerchantID    *string `json:"merchantId" bson:",omitempty"`
 }
 
 type TimeFilter struct {
@@ -1480,11 +1502,14 @@ type UpdatePointTransaction struct {
 	CustomerName  *string      `json:"customerName" bson:",omitempty"`
 	Accumulated   *bool        `json:"accumulated" bson:",omitempty"`
 	MerchantID    *string      `json:"merchantId" bson:",omitempty"`
+	Remarks       *string      `json:"remarks" bson:",omitempty"`
 }
 
 type UpdatePointTransactionInput struct {
-	OrderID     string                  `json:"orderId"`
-	Transaction *UpdatePointTransaction `json:"transaction"`
+	OrderID                      string                             `json:"orderId"`
+	Transaction                  *UpdatePointTransaction            `json:"transaction"`
+	ThirdPartyTransactionDetails *ThirdPartyTransactionDetailsInput `json:"thirdPartyTransactionDetails"`
+	SystemTransactionDetails     *SystemTransactionDetailsInput     `json:"systemTransactionDetails"`
 }
 
 type UpdateRetailerProfileInput struct {
@@ -1517,29 +1542,28 @@ type UpdateShoplineMerchantInfoInput struct {
 }
 
 type UpdateTask struct {
-	Id           string             `json:"id"`
-	Name         string             `json:"name"`
-	PictureUrl   string             `json:"pictureUrl"`
-	DetailsUrl   string             `json:"detailsUrl"`
-	StartDate    string             `json:"startDate"`
-	EndDate      string             `json:"endDate"`
-	Type         int                `json:"type"`
-	ShareContent *ShareContentInput `json:"shareContent"`
+	Name         *string             `json:"name" bson:",omitempty"`
+	ImageURL     *string             `json:"imageUrl" bson:",omitempty"`
+	DetailsURL   *string             `json:"detailsUrl" bson:",omitempty"`
+	StartedAt    *primitive.DateTime `json:"startedAt" bson:",omitempty"`
+	EndedAt      *primitive.DateTime `json:"endedAt" bson:",omitempty"`
+	Type         *TaskType           `json:"type" bson:",omitempty"`
+	Status       *TaskStatus         `json:"status" bson:",omitempty"`
+	ShareContent *ShareContentInput  `json:"shareContent" bson:",omitempty"`
+}
+
+type UpdateTaskInput struct {
+	ID   primitive.ObjectID `json:"id"`
+	Task *UpdateTask        `json:"task"`
 }
 
 type UpdateTaskParticipation struct {
-	TaskId string `json:"taskId"`
+	Status *TaskParticipationStatus `json:"status" bson:",omitempty"`
 }
 
-type UpdateTaskParticipationStatusInput struct {
-	TaskID         primitive.ObjectID `json:"taskId"`
-	RedemptionCode string             `json:"redemptionCode"`
-	Status         int                `json:"status"`
-}
-
-type UpdateTaskStatusInput struct {
-	TaskId primitive.ObjectID `json:"taskId"`
-	Status int                `json:"status"`
+type UpdateTaskParticipationInput struct {
+	ID            primitive.ObjectID       `json:"id"`
+	Participation *UpdateTaskParticipation `json:"participation"`
 }
 
 type UpdateUserBasicsInput struct {
@@ -1556,7 +1580,7 @@ type UpdateUserBasicsInput struct {
 }
 
 type UpdateUserLevel struct {
-	UserId string `json:"userId"`
+	UserID string `json:"userId"`
 	Level  int    `json:"level"`
 }
 
@@ -1566,7 +1590,7 @@ type UpdateUserPointsInput struct {
 }
 
 type UpdateUserRoleInput struct {
-	UserId string `json:"userId"`
+	UserID string `json:"userId"`
 	Role   int    `json:"role"`
 }
 
@@ -1592,7 +1616,7 @@ type UpdateVoucherOwnershipStatusInput struct {
 }
 
 type UserAuthentication struct {
-	UserId       primitive.ObjectID `json:"userId"`
+	UserID       primitive.ObjectID `json:"userId"`
 	AccessToken  string             `json:"accessToken"`
 	RefreshToken string             `json:"refreshToken"`
 	ErrCode      int                `json:"errCode"`
@@ -1616,7 +1640,7 @@ type UserCredentials struct {
 }
 
 type UserProfile struct {
-	Id                     primitive.ObjectID        `json:"id" bson:"_id"`
+	ID                     primitive.ObjectID        `json:"id" bson:"_id"`
 	Name                   string                    `json:"name"`
 	Nickname               string                    `json:"nickname"`
 	Phone                  string                    `json:"phone"`
@@ -1630,16 +1654,16 @@ type UserProfile struct {
 	Level                  int                       `json:"level"`
 	Points                 int                       `json:"points"`
 	RetailerProfile        *RetailerProfile          `json:"retailerProfile"`
-	AvatarUrl              string                    `json:"avatarUrl"`
+	AvatarURL              string                    `json:"avatarUrl"`
 	FamilyName             string                    `json:"familyName"`
 	GivenName              string                    `json:"givenName"`
-	ReferralUserId         string                    `json:"referralUserId"`
+	ReferralUserID         primitive.ObjectID        `json:"referralUserId"`
 	DatetimeCreated        string                    `json:"datetimeCreated"`
 	FcmRegistrationToken   string                    `json:"fcmRegistrationToken"`
 	FcmRegistrationTokens  []*FcmRegistrationToken   `json:"fcmRegistrationTokens"`
-	AppleUserId            string                    `json:"appleUserId"`
-	GoogleUserId           string                    `json:"googleUserId"`
-	FacebookId             string                    `json:"facebookUserId"`
+	AppleUserID            string                    `json:"appleUserId"`
+	GoogleUserID           string                    `json:"googleUserId"`
+	FacebookUserID         string                    `json:"facebookUserId"`
 	Deactivated            bool                      `json:"deactivated"`
 	ProfileBackgroundImage string                    `json:"profileBackgroundImage"`
 	AdoptionAgency         AdoptionAgencyQueryResult `json:"adoptionAgency"`
@@ -1648,7 +1672,7 @@ type UserProfile struct {
 func (UserProfile) IsUserProfileQueryResult() {}
 
 type UserProfileWithPassword struct {
-	Id          primitive.ObjectID `json:"id" bson:"_id"`
+	ID          primitive.ObjectID `json:"id" bson:"_id"`
 	Password    string             `json:"password"`
 	Role        int                `json:"role"`
 	Level       int                `json:"level"`
@@ -1663,7 +1687,7 @@ type UserProfiles struct {
 func (UserProfiles) IsUserProfilesQueryResult() {}
 
 type UserProfilesInput struct {
-	LastId                     string                      `json:"lastId"`
+	LastID                     primitive.ObjectID          `json:"lastId"`
 	PageSize                   int                         `json:"pageSize"`
 	PageNumber                 int                         `json:"pageNumber"`
 	RoleFilter                 *RoleFilter                 `json:"roleFilter"`
@@ -1961,15 +1985,17 @@ type SourceEntity string
 
 const (
 	SourceEntityShopline SourceEntity = "SHOPLINE"
+	SourceEntitySystem   SourceEntity = "SYSTEM"
 )
 
 var AllSourceEntity = []SourceEntity{
 	SourceEntityShopline,
+	SourceEntitySystem,
 }
 
 func (e SourceEntity) IsValid() bool {
 	switch e {
-	case SourceEntityShopline:
+	case SourceEntityShopline, SourceEntitySystem:
 		return true
 	}
 	return false
@@ -1993,6 +2019,131 @@ func (e *SourceEntity) UnmarshalGQL(v interface{}) error {
 }
 
 func (e SourceEntity) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type TaskParticipationStatus string
+
+const (
+	TaskParticipationStatusCompleted   TaskParticipationStatus = "COMPLETED"
+	TaskParticipationStatusUncompleted TaskParticipationStatus = "UNCOMPLETED"
+)
+
+var AllTaskParticipationStatus = []TaskParticipationStatus{
+	TaskParticipationStatusCompleted,
+	TaskParticipationStatusUncompleted,
+}
+
+func (e TaskParticipationStatus) IsValid() bool {
+	switch e {
+	case TaskParticipationStatusCompleted, TaskParticipationStatusUncompleted:
+		return true
+	}
+	return false
+}
+
+func (e TaskParticipationStatus) String() string {
+	return string(e)
+}
+
+func (e *TaskParticipationStatus) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = TaskParticipationStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid TaskParticipationStatus", str)
+	}
+	return nil
+}
+
+func (e TaskParticipationStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type TaskStatus string
+
+const (
+	TaskStatusNotStarted TaskStatus = "NOT_STARTED"
+	TaskStatusOnGoing    TaskStatus = "ON_GOING"
+	TaskStatusEnded      TaskStatus = "ENDED"
+)
+
+var AllTaskStatus = []TaskStatus{
+	TaskStatusNotStarted,
+	TaskStatusOnGoing,
+	TaskStatusEnded,
+}
+
+func (e TaskStatus) IsValid() bool {
+	switch e {
+	case TaskStatusNotStarted, TaskStatusOnGoing, TaskStatusEnded:
+		return true
+	}
+	return false
+}
+
+func (e TaskStatus) String() string {
+	return string(e)
+}
+
+func (e *TaskStatus) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = TaskStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid TaskStatus", str)
+	}
+	return nil
+}
+
+func (e TaskStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type TaskType string
+
+const (
+	TaskTypeUserProfileCompletion TaskType = "USER_PROFILE_COMPLETION"
+	TaskTypeCustom                TaskType = "CUSTOM"
+)
+
+var AllTaskType = []TaskType{
+	TaskTypeUserProfileCompletion,
+	TaskTypeCustom,
+}
+
+func (e TaskType) IsValid() bool {
+	switch e {
+	case TaskTypeUserProfileCompletion, TaskTypeCustom:
+		return true
+	}
+	return false
+}
+
+func (e TaskType) String() string {
+	return string(e)
+}
+
+func (e *TaskType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = TaskType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid TaskType", str)
+	}
+	return nil
+}
+
+func (e TaskType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
