@@ -35,8 +35,8 @@ const (
 )
 
 const (
-	CodeExistingUser    = 1000
-	CodeNonexistingUser = 1001
+	CodeExistingPhoneOrEmail    = 1000
+	CodeNonexistingPhoneOrEmail = 1001
 
 	CodeAuthenticationFailure = 1002
 	CodeUnauthorized          = 1003
@@ -73,19 +73,6 @@ const (
 	CodeServiceBadGateway          = 5002
 	CodeServiceServiceUnavailable  = 5003
 	CodeServiceGatewayTimeout      = 5004
-
-	// TODO: remove deprecated ones
-	ErrCodeSystemError = -1
-
-	ErrCodeExistingPhoneOrEmail    = 1000
-	ErrCodeNonexistingPhoneOrEmail = 1001
-	ErrCodeWrongPassword           = 1002
-
-	ErrCodeExpiredVerificationCode              = 2000
-	ErrCodeWrongVerificationCode                = 2001
-	ErrCodeTooFrequentlySendingVerificationCode = 2002
-	ErrCodeNeedingResendingVerificationCode     = 2003
-	ErrCodeMaximumAttemptsOnVerificationCode    = 2004
 )
 
 const (
