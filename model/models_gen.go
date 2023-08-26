@@ -1571,23 +1571,14 @@ type UpdateShoplineMerchantInfoInput struct {
 	Info       *UpdateShoplineMerchantInfo `json:"info"`
 }
 
-type UpdateSystemTransaction struct {
-	UserID                   *primitive.ObjectID             `json:"userId" bson:",omitempty"`
-	SourceEntity             *TransactionSourceEntity        `json:"sourceEntity" bson:",omitempty"`
-	Amount                   *int                            `json:"amount" bson:",omitempty"`
-	Accumulated              *bool                           `json:"accumulated" bson:",omitempty"`
-	Remarks                  *string                         `json:"remarks" bson:",omitempty"`
-	SystemTransactionDetails *UpdateSystemTransactionDetails `json:"systemTransactionDetails" bson:",omitempty"`
-}
-
 type UpdateSystemTransactionDetails struct {
 	TaskID              *primitive.ObjectID `json:"taskId" bson:",omitempty"`
 	TaskParticipationID *primitive.ObjectID `json:"taskParticipationId" bson:",omitempty"`
 }
 
 type UpdateSystemTransactionInput struct {
-	ID          primitive.ObjectID       `json:"id"`
-	Transaction *UpdateSystemTransaction `json:"transaction"`
+	ID          primitive.ObjectID `json:"id"`
+	Transaction *UpdateTransaction `json:"transaction"`
 }
 
 type UpdateTask struct {
@@ -1625,18 +1616,20 @@ type UpdateThirdPartyPointTransactionDetails struct {
 	OrderPayment  *UpdateOrderPayment `json:"orderPayment" bson:",omitempty"`
 }
 
-type UpdateThirdPartyTransaction struct {
+type UpdateThirdPartyTransactionInput struct {
+	OrderID     string             `json:"orderId"`
+	Transaction *UpdateTransaction `json:"transaction"`
+}
+
+type UpdateTransaction struct {
 	UserID                       *primitive.ObjectID                      `json:"userId" bson:",omitempty"`
 	SourceEntity                 *TransactionSourceEntity                 `json:"sourceEntity" bson:",omitempty"`
 	Amount                       *int                                     `json:"amount" bson:",omitempty"`
 	Accumulated                  *bool                                    `json:"accumulated" bson:",omitempty"`
+	Type                         *TransactionType                         `json:"type" bson:",omitempty"`
 	Remarks                      *string                                  `json:"remarks" bson:",omitempty"`
+	SystemTransactionDetails     *UpdateSystemTransactionDetails          `json:"systemTransactionDetails" bson:",omitempty"`
 	ThirdPartyTransactionDetails *UpdateThirdPartyPointTransactionDetails `json:"thirdPartyTransactionDetails" bson:",omitempty"`
-}
-
-type UpdateThirdPartyTransactionInput struct {
-	OrderID     string                       `json:"orderId"`
-	Transaction *UpdateThirdPartyTransaction `json:"transaction"`
 }
 
 type UpdateUserBasicsInput struct {

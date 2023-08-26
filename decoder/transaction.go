@@ -72,7 +72,13 @@ func (r *PointTransactionDecoder) DecodeValue(dc bsoncodec.DecodeContext, vr bso
 			}
 
 			val.FieldByName("SourceEntity").SetString(fVal)
+		case "type":
+			fVal, err := elemReader.ReadString()
+			if err != nil {
+				return err
+			}
 
+			val.FieldByName("Type").SetString(fVal)
 		case "amount":
 			fVal, err := elemReader.ReadInt32()
 			if err != nil {
