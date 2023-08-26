@@ -58,6 +58,10 @@ type PetProfilesQueryResult interface {
 	IsPetProfilesQueryResult()
 }
 
+type PointTransactionQueryResult interface {
+	IsPointTransactionQueryResult()
+}
+
 type PointTransactionsQueryResult interface {
 	IsPointTransactionsQueryResult()
 }
@@ -963,6 +967,8 @@ type PointTransaction struct {
 	Details      TransactionDetails      `json:"details"`
 }
 
+func (PointTransaction) IsPointTransactionQueryResult() {}
+
 type PointTransactions struct {
 	TotalCount int                 `json:"totalCount"`
 	Items      []*PointTransaction `json:"items"`
@@ -1154,6 +1160,8 @@ func (ServiceError) IsPetProfilesQueryResult() {}
 func (ServiceError) IsRefreshAccessTokenResult() {}
 
 func (ServiceError) IsRetailersQueryResult() {}
+
+func (ServiceError) IsPointTransactionQueryResult() {}
 
 func (ServiceError) IsPointTransactionsQueryResult() {}
 
