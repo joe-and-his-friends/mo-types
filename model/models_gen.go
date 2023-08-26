@@ -58,6 +58,10 @@ type PetProfilesQueryResult interface {
 	IsPetProfilesQueryResult()
 }
 
+type PointTransactionsQueryResult interface {
+	IsPointTransactionsQueryResult()
+}
+
 type RefreshAccessTokenResult interface {
 	IsRefreshAccessTokenResult()
 }
@@ -770,6 +774,11 @@ type MomentsReported struct {
 	MomentIds []string `json:"momentIds"`
 }
 
+type NameTranslations struct {
+	En     string `json:"en"`
+	ZhHant string `json:"zhHant"`
+}
+
 type NewContest struct {
 	Name      string `json:"name"`
 	StartDate string `json:"startDate"`
@@ -811,6 +820,13 @@ type NewUserWithAppleBinding struct {
 	VerificationCode string `json:"verificationCode"`
 	Name             string `json:"name"`
 	AuthCode         string `json:"authCode"`
+}
+
+type OrderPayment struct {
+	PaymentMethodID  string            `json:"paymentMethodId"`
+	PaymentType      string            `json:"paymentType"`
+	NameTranslations *NameTranslations `json:"nameTranslations"`
+	PaymentStatus    string            `json:"paymentStatus"`
 }
 
 type OtherFilter struct {
@@ -935,13 +951,36 @@ type PhotoInput struct {
 }
 
 type PointTransaction struct {
-	ID           primitive.ObjectID `json:"id" bson:"_id"`
-	SourceEntity SourceEntity       `json:"sourceEntity"`
-	Points       int                `json:"points"`
-	Accumulated  bool               `json:"accumulated"`
-	UpdatedAt    primitive.DateTime `json:"updatedAt"`
-	Remarks      string             `json:"remarks"`
-	Details      TransactionDetails `json:"details"`
+	ID           primitive.ObjectID      `json:"id" bson:"_id"`
+	UserID       *primitive.ObjectID     `json:"userId" bson:",omitempty"`
+	SourceEntity TransactionSourceEntity `json:"sourceEntity"`
+	Type         TransactionType         `json:"type"`
+	Amount       int                     `json:"amount"`
+	Accumulated  bool                    `json:"accumulated"`
+	UpdatedAt    primitive.DateTime      `json:"updatedAt"`
+	CreatedAt    primitive.DateTime      `json:"createdAt"`
+	Remarks      string                  `json:"remarks"`
+	Details      TransactionDetails      `json:"details"`
+}
+
+type PointTransactions struct {
+	TotalCount int                 `json:"totalCount"`
+	Items      []*PointTransaction `json:"items"`
+}
+
+func (PointTransactions) IsPointTransactionsQueryResult() {}
+
+type PointTransactionsCommonFilter struct {
+	UserID       *primitive.ObjectID      `json:"userId" bson:",omitempty"`
+	SourceEntity *TransactionSourceEntity `json:"sourceEntity" bson:",omitempty"`
+	Type         *TransactionType         `json:"type" bson:",omitempty"`
+}
+
+type PointTransctionsInput struct {
+	PageSize     int                            `json:"pageSize"`
+	PageNumber   int                            `json:"pageNumber"`
+	CommonFilter *PointTransactionsCommonFilter `json:"commonFilter"`
+	DatesFilter  *DatesFilterInput              `json:"datesFilter"`
 }
 
 type RankingFilter struct {
@@ -1116,6 +1155,8 @@ func (ServiceError) IsRefreshAccessTokenResult() {}
 
 func (ServiceError) IsRetailersQueryResult() {}
 
+func (ServiceError) IsPointTransactionsQueryResult() {}
+
 func (ServiceError) IsLoginUserResult() {}
 
 func (ServiceError) IsAdoptionAgencyQueryResult() {}
@@ -1169,7 +1210,6 @@ type ShoplineMerchatInfoInput struct {
 type SysemTransactionDetails struct {
 	TaskID              primitive.ObjectID `json:"taskId"`
 	TaskParticipationID primitive.ObjectID `json:"taskParticipationId"`
-	UserID              primitive.ObjectID `json:"userId"`
 }
 
 func (SysemTransactionDetails) IsTransactionDetails() {}
@@ -1243,11 +1283,12 @@ type TerritoryFilter struct {
 }
 
 type ThirdPartyTransactionDetails struct {
-	CustomerPhone string `json:"customerPhone"`
-	CustomerEmail string `json:"customerEmail"`
-	CustomerName  string `json:"customerName"`
-	OrderID       string `json:"orderId"`
-	MerchantID    string `json:"merchantId"`
+	CustomerPhone string        `json:"customerPhone"`
+	CustomerEmail string        `json:"customerEmail"`
+	CustomerName  string        `json:"customerName"`
+	OrderID       string        `json:"orderId"`
+	MerchantID    string        `json:"merchantId"`
+	OrderPayment  *OrderPayment `json:"orderPayment"`
 }
 
 func (ThirdPartyTransactionDetails) IsTransactionDetails() {}
@@ -1458,6 +1499,18 @@ type UpdateMoment struct {
 	IsTemplate bool   `json:"isTemplate"`
 }
 
+type UpdateNameTranslations struct {
+	En     string `json:"en"`
+	ZhHant string `json:"zhHant"`
+}
+
+type UpdateOrderPayment struct {
+	PaymentMethodID  *string                 `json:"paymentMethodId" bson:",omitempty"`
+	PaymentType      *string                 `json:"paymentType" bson:",omitempty"`
+	NameTranslations *UpdateNameTranslations `json:"nameTranslations" bson:",omitempty"`
+	PaymentStatus    *string                 `json:"paymentStatus" bson:",omitempty"`
+}
+
 type UpdatePetCertificatesInput struct {
 	PetID primitive.ObjectID `json:"petId"`
 	Urls  []string           `json:"urls"`
@@ -1511,17 +1564,17 @@ type UpdateShoplineMerchantInfoInput struct {
 }
 
 type UpdateSystemTransaction struct {
-	SourceEntity SourceEntity                             `json:"sourceEntity" bson:",omitempty"`
-	Points       int                                      `json:"points" bson:",omitempty"`
-	Accumulated  *bool                                    `json:"accumulated" bson:",omitempty"`
-	Remarks      *string                                  `json:"remarks" bson:",omitempty"`
-	Details      *UpdateThirdPartyPointTransactionDetails `json:"details" bson:",omitempty"`
+	UserID                   *primitive.ObjectID             `json:"userId" bson:",omitempty"`
+	SourceEntity             *TransactionSourceEntity        `json:"sourceEntity" bson:",omitempty"`
+	Amount                   *int                            `json:"amount" bson:",omitempty"`
+	Accumulated              *bool                           `json:"accumulated" bson:",omitempty"`
+	Remarks                  *string                         `json:"remarks" bson:",omitempty"`
+	SystemTransactionDetails *UpdateSystemTransactionDetails `json:"systemTransactionDetails" bson:",omitempty"`
 }
 
 type UpdateSystemTransactionDetails struct {
 	TaskID              *primitive.ObjectID `json:"taskId" bson:",omitempty"`
 	TaskParticipationID *primitive.ObjectID `json:"taskParticipationId" bson:",omitempty"`
-	UserID              *primitive.ObjectID `json:"userId" bson:",omitempty"`
 }
 
 type UpdateSystemTransactionInput struct {
@@ -1557,18 +1610,20 @@ type UpdateTaskParticipationInput struct {
 }
 
 type UpdateThirdPartyPointTransactionDetails struct {
-	CustomerPhone *string `json:"customerPhone" bson:",omitempty"`
-	CustomerEmail *string `json:"customerEmail" bson:",omitempty"`
-	CustomerName  *string `json:"customerName" bson:",omitempty"`
-	MerchantID    *string `json:"merchantId" bson:",omitempty"`
+	CustomerPhone *string             `json:"customerPhone" bson:",omitempty"`
+	CustomerEmail *string             `json:"customerEmail" bson:",omitempty"`
+	CustomerName  *string             `json:"customerName" bson:",omitempty"`
+	MerchantID    *string             `json:"merchantId" bson:",omitempty"`
+	OrderPayment  *UpdateOrderPayment `json:"orderPayment" bson:",omitempty"`
 }
 
 type UpdateThirdPartyTransaction struct {
-	SourceEntity SourceEntity                             `json:"sourceEntity" bson:",omitempty"`
-	Points       int                                      `json:"points" bson:",omitempty"`
-	Accumulated  *bool                                    `json:"accumulated" bson:",omitempty"`
-	Remarks      *string                                  `json:"remarks" bson:",omitempty"`
-	Details      *UpdateThirdPartyPointTransactionDetails `json:"details" bson:",omitempty"`
+	UserID                       *primitive.ObjectID                      `json:"userId" bson:",omitempty"`
+	SourceEntity                 *TransactionSourceEntity                 `json:"sourceEntity" bson:",omitempty"`
+	Amount                       *int                                     `json:"amount" bson:",omitempty"`
+	Accumulated                  *bool                                    `json:"accumulated" bson:",omitempty"`
+	Remarks                      *string                                  `json:"remarks" bson:",omitempty"`
+	ThirdPartyTransactionDetails *UpdateThirdPartyPointTransactionDetails `json:"thirdPartyTransactionDetails" bson:",omitempty"`
 }
 
 type UpdateThirdPartyTransactionInput struct {
@@ -1991,47 +2046,6 @@ func (e Sex) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-type SourceEntity string
-
-const (
-	SourceEntityShopline SourceEntity = "SHOPLINE"
-	SourceEntitySystem   SourceEntity = "SYSTEM"
-)
-
-var AllSourceEntity = []SourceEntity{
-	SourceEntityShopline,
-	SourceEntitySystem,
-}
-
-func (e SourceEntity) IsValid() bool {
-	switch e {
-	case SourceEntityShopline, SourceEntitySystem:
-		return true
-	}
-	return false
-}
-
-func (e SourceEntity) String() string {
-	return string(e)
-}
-
-func (e *SourceEntity) UnmarshalGQL(v interface{}) error {
-	str, ok := v.(string)
-	if !ok {
-		return fmt.Errorf("enums must be strings")
-	}
-
-	*e = SourceEntity(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SourceEntity", str)
-	}
-	return nil
-}
-
-func (e SourceEntity) MarshalGQL(w io.Writer) {
-	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
 type TaskParticipationStatus string
 
 const (
@@ -2154,6 +2168,90 @@ func (e *TaskType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e TaskType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type TransactionSourceEntity string
+
+const (
+	TransactionSourceEntityShopline TransactionSourceEntity = "SHOPLINE"
+	TransactionSourceEntitySystem   TransactionSourceEntity = "SYSTEM"
+)
+
+var AllTransactionSourceEntity = []TransactionSourceEntity{
+	TransactionSourceEntityShopline,
+	TransactionSourceEntitySystem,
+}
+
+func (e TransactionSourceEntity) IsValid() bool {
+	switch e {
+	case TransactionSourceEntityShopline, TransactionSourceEntitySystem:
+		return true
+	}
+	return false
+}
+
+func (e TransactionSourceEntity) String() string {
+	return string(e)
+}
+
+func (e *TransactionSourceEntity) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = TransactionSourceEntity(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid TransactionSourceEntity", str)
+	}
+	return nil
+}
+
+func (e TransactionSourceEntity) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type TransactionType string
+
+const (
+	TransactionTypeIncome   TransactionType = "INCOME"
+	TransactionTypeExpense  TransactionType = "EXPENSE"
+	TransactionTypeTransfer TransactionType = "TRANSFER"
+)
+
+var AllTransactionType = []TransactionType{
+	TransactionTypeIncome,
+	TransactionTypeExpense,
+	TransactionTypeTransfer,
+}
+
+func (e TransactionType) IsValid() bool {
+	switch e {
+	case TransactionTypeIncome, TransactionTypeExpense, TransactionTypeTransfer:
+		return true
+	}
+	return false
+}
+
+func (e TransactionType) String() string {
+	return string(e)
+}
+
+func (e *TransactionType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = TransactionType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid TransactionType", str)
+	}
+	return nil
+}
+
+func (e TransactionType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
