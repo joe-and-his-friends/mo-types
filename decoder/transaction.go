@@ -1,6 +1,7 @@
 package decoder
 
 import (
+	"fmt"
 	"mo-service/mo-types/model"
 	"reflect"
 
@@ -25,6 +26,8 @@ func (r *PointTransactionDecoder) DecodeValue(dc bsoncodec.DecodeContext, vr bso
 			// }
 			return nil
 		}
+
+		fmt.Println(elem)
 
 		switch elem {
 		case "systemtransactiondetails":
@@ -135,6 +138,27 @@ func (r *PointTransactionDecoder) DecodeValue(dc bsoncodec.DecodeContext, vr bso
 			}
 
 			val.FieldByName("MerchantID").SetString(fVal)
+		case "merchantname":
+			fVal, err := elemReader.ReadString()
+			if err != nil {
+				return err
+			}
+
+			val.FieldByName("MerchantName").SetString(fVal)
+		case "orderid":
+			fVal, err := elemReader.ReadString()
+			if err != nil {
+				return err
+			}
+
+			val.FieldByName("OrderID").SetString(fVal)
+		case "ordernumber":
+			fVal, err := elemReader.ReadString()
+			if err != nil {
+				return err
+			}
+
+			val.FieldByName("OrderNumber").SetString(fVal)
 		case "orderpayment":
 			payment := model.OrderPayment{}
 			r.DecodeValue(dc, elemReader, reflect.ValueOf(&payment).Elem())
@@ -160,6 +184,20 @@ func (r *PointTransactionDecoder) DecodeValue(dc bsoncodec.DecodeContext, vr bso
 			}
 
 			val.FieldByName("PaymentType").Set(reflect.ValueOf(fVal))
+		case "total":
+			fVal, err := elemReader.ReadDouble()
+			if err != nil {
+				return err
+			}
+
+			val.FieldByName("Total").Set(reflect.ValueOf(fVal))
+		case "totallabel":
+			fVal, err := elemReader.ReadString()
+			if err != nil {
+				return err
+			}
+
+			val.FieldByName("TotalLabel").Set(reflect.ValueOf(fVal))
 		case "nametranslations":
 			translations := model.NameTranslations{}
 			r.DecodeValue(dc, elemReader, reflect.ValueOf(&translations).Elem())

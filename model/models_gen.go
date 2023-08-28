@@ -831,6 +831,8 @@ type OrderPayment struct {
 	PaymentType      string            `json:"paymentType"`
 	NameTranslations *NameTranslations `json:"nameTranslations"`
 	PaymentStatus    string            `json:"paymentStatus"`
+	Total            float64           `json:"total"`
+	TotalLabel       string            `json:"totalLabel"`
 }
 
 type OtherFilter struct {
@@ -1295,7 +1297,9 @@ type ThirdPartyTransactionDetails struct {
 	CustomerEmail string        `json:"customerEmail"`
 	CustomerName  string        `json:"customerName"`
 	OrderID       string        `json:"orderId"`
+	OrderNumber   string        `json:"orderNumber"`
 	MerchantID    string        `json:"merchantId"`
+	MerchantName  string        `json:"merchantName"`
 	OrderPayment  *OrderPayment `json:"orderPayment"`
 }
 
@@ -1517,6 +1521,8 @@ type UpdateOrderPayment struct {
 	PaymentType      *string                 `json:"paymentType" bson:",omitempty"`
 	NameTranslations *UpdateNameTranslations `json:"nameTranslations" bson:",omitempty"`
 	PaymentStatus    *string                 `json:"paymentStatus" bson:",omitempty"`
+	Total            *float64                `json:"total" bson:",omitempty"`
+	TotalLabel       *string                 `json:"totalLabel" bson:",omitempty"`
 }
 
 type UpdatePetCertificatesInput struct {
@@ -1612,7 +1618,9 @@ type UpdateThirdPartyPointTransactionDetails struct {
 	CustomerPhone *string             `json:"customerPhone" bson:",omitempty"`
 	CustomerEmail *string             `json:"customerEmail" bson:",omitempty"`
 	CustomerName  *string             `json:"customerName" bson:",omitempty"`
+	OrderNumber   *string             `json:"orderNumber" bson:",omitempty"`
 	MerchantID    *string             `json:"merchantId" bson:",omitempty"`
+	MerchantName  *string             `json:"merchantName" bson:",omitempty"`
 	OrderPayment  *UpdateOrderPayment `json:"orderPayment" bson:",omitempty"`
 }
 
