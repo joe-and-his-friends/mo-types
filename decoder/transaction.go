@@ -31,7 +31,7 @@ func (r *PointTransactionDecoder) DecodeValue(dc bsoncodec.DecodeContext, vr bso
 
 		switch elem {
 		case "systemtransactiondetails":
-			details := model.SysemTransactionDetails{}
+			details := model.SystemTransactionDetails{}
 			r.DecodeValue(dc, elemReader, reflect.ValueOf(&details).Elem())
 			val.FieldByName("Details").Set(reflect.ValueOf(details))
 
@@ -117,20 +117,13 @@ func (r *PointTransactionDecoder) DecodeValue(dc bsoncodec.DecodeContext, vr bso
 				return err
 			}
 			val.FieldByName("CustomerName").SetString(fVal)
-		case "taskid":
+		case "referenceid":
 			fVal, err := elemReader.ReadObjectID()
 			if err != nil {
 				return err
 			}
 
-			val.FieldByName("TaskID").Set(reflect.ValueOf(fVal))
-		case "taskparticipationid":
-			fVal, err := elemReader.ReadObjectID()
-			if err != nil {
-				return err
-			}
-
-			val.FieldByName("TaskParticipationID").Set(reflect.ValueOf(fVal))
+			val.FieldByName("ReferenceID").Set(reflect.ValueOf(fVal))
 		case "merchantid":
 			fVal, err := elemReader.ReadString()
 			if err != nil {

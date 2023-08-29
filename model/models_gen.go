@@ -1217,12 +1217,12 @@ type ShoplineMerchatInfoInput struct {
 	MerchantID string `json:"merchantId"`
 }
 
-type SysemTransactionDetails struct {
-	TaskID              primitive.ObjectID `json:"taskId"`
-	TaskParticipationID primitive.ObjectID `json:"taskParticipationId"`
+type SystemTransactionDetails struct {
+	ReferenceID primitive.ObjectID    `json:"referenceId"`
+	Type        SystemTransactionType `json:"type"`
 }
 
-func (SysemTransactionDetails) IsTransactionDetails() {}
+func (SystemTransactionDetails) IsTransactionDetails() {}
 
 type Task struct {
 	ID            primitive.ObjectID  `json:"id" bson:"_id"`
@@ -1578,8 +1578,8 @@ type UpdateShoplineMerchantInfoInput struct {
 }
 
 type UpdateSystemTransactionDetails struct {
-	TaskID              *primitive.ObjectID `json:"taskId" bson:",omitempty"`
-	TaskParticipationID *primitive.ObjectID `json:"taskParticipationId" bson:",omitempty"`
+	ReferenceID *primitive.ObjectID    `json:"referenceId" bson:",omitempty"`
+	Type        *SystemTransactionType `json:"type" bson:",omitempty"`
 }
 
 type UpdateSystemTransactionInput struct {
@@ -1651,11 +1651,7 @@ type UpdateUserBasicsInput struct {
 	QuestionnaireOptions   []*SelectionOptionInput `json:"questionnaireOptions" bson:",omitempty"`
 	SfLockerCode           *string                 `json:"sfLockerCode" bson:",omitempty"`
 	ProfileBackgroundImage *string                 `json:"profileBackgroundImage" bson:",omitempty"`
-}
-
-type UpdateUserLevel struct {
-	UserID string `json:"userId"`
-	Level  int    `json:"level"`
+	AvatarURL              *string                 `json:"avatarUrl" bson:",omitempty"`
 }
 
 type UpdateUserPointsInput struct {
@@ -1663,9 +1659,14 @@ type UpdateUserPointsInput struct {
 	Points int                `json:"points"`
 }
 
-type UpdateUserRoleInput struct {
-	UserID string `json:"userId"`
-	Role   int    `json:"role"`
+type UpdateUserStatus struct {
+	Role  *int `json:"role" bson:",omitempty"`
+	Level *int `json:"level" bson:",omitempty"`
+}
+
+type UpdateUserStatusInput struct {
+	UserID primitive.ObjectID `json:"userId"`
+	Status *UpdateUserStatus  `json:"status"`
 }
 
 type UpdateVoucher struct {
@@ -2055,6 +2056,53 @@ func (e Sex) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type SystemTransactionType string
+
+const (
+	SystemTransactionTypeIncomeCheckInRecords      SystemTransactionType = "INCOME_CHECK_IN_RECORDS"
+	SystemTransactionTypeIncomeTaskParticipation   SystemTransactionType = "INCOME_TASK_PARTICIPATION"
+	SystemTransactionTypeIncomeManual              SystemTransactionType = "INCOME_MANUAL"
+	SystemTransactionTypeExpenseVouchersOwnership  SystemTransactionType = "EXPENSE_VOUCHERS_OWNERSHIP"
+	SystemTransactionTypeExpenseEventParticipation SystemTransactionType = "EXPENSE_EVENT_PARTICIPATION"
+)
+
+var AllSystemTransactionType = []SystemTransactionType{
+	SystemTransactionTypeIncomeCheckInRecords,
+	SystemTransactionTypeIncomeTaskParticipation,
+	SystemTransactionTypeIncomeManual,
+	SystemTransactionTypeExpenseVouchersOwnership,
+	SystemTransactionTypeExpenseEventParticipation,
+}
+
+func (e SystemTransactionType) IsValid() bool {
+	switch e {
+	case SystemTransactionTypeIncomeCheckInRecords, SystemTransactionTypeIncomeTaskParticipation, SystemTransactionTypeIncomeManual, SystemTransactionTypeExpenseVouchersOwnership, SystemTransactionTypeExpenseEventParticipation:
+		return true
+	}
+	return false
+}
+
+func (e SystemTransactionType) String() string {
+	return string(e)
+}
+
+func (e *SystemTransactionType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SystemTransactionType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SystemTransactionType", str)
+	}
+	return nil
+}
+
+func (e SystemTransactionType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type TaskParticipationStatus string
 
 const (
@@ -2224,20 +2272,18 @@ func (e TransactionSourceEntity) MarshalGQL(w io.Writer) {
 type TransactionType string
 
 const (
-	TransactionTypeIncome   TransactionType = "INCOME"
-	TransactionTypeExpense  TransactionType = "EXPENSE"
-	TransactionTypeTransfer TransactionType = "TRANSFER"
+	TransactionTypeIncome  TransactionType = "INCOME"
+	TransactionTypeExpense TransactionType = "EXPENSE"
 )
 
 var AllTransactionType = []TransactionType{
 	TransactionTypeIncome,
 	TransactionTypeExpense,
-	TransactionTypeTransfer,
 }
 
 func (e TransactionType) IsValid() bool {
 	switch e {
-	case TransactionTypeIncome, TransactionTypeExpense, TransactionTypeTransfer:
+	case TransactionTypeIncome, TransactionTypeExpense:
 		return true
 	}
 	return false

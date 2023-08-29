@@ -152,3 +152,19 @@ func TranslateVerificationCodeValidationStatusToServiceCode(status pb.Verificati
 		return int(status)
 	}
 }
+
+type RedisChannel string
+
+const (
+	RcCreateComment     = "createComment"
+	RcUpdateUserBasics  = "updateUserBasics"
+	RcUpdateTransaction = "update_transaction"
+)
+
+type RedisKey string
+
+const (
+	RkCreateCommentPetIds  = "createCommentPetIds"
+	RkUpdateUserBasicsIds  = "UpdateUserBasicsIds"
+	RkUpdateTransactionIds = "UpdateTransactionIds"
+)
