@@ -1,7 +1,6 @@
 package decoder
 
 import (
-	"fmt"
 	"mo-service/mo-types/model"
 	"reflect"
 
@@ -27,7 +26,7 @@ func (r *PointTransactionDecoder) DecodeValue(dc bsoncodec.DecodeContext, vr bso
 			return nil
 		}
 
-		fmt.Println(elem)
+		// fmt.Println(elem)
 
 		switch elem {
 		case "systemtransactiondetails":

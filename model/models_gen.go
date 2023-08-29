@@ -1256,7 +1256,7 @@ type TaskParticipation struct {
 }
 
 type TaskParticipationFilter struct {
-	Status int `json:"status"`
+	Status *TaskParticipationStatus `json:"status"`
 }
 
 type TaskParticipationList struct {
