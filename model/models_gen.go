@@ -74,6 +74,10 @@ type RetailersQueryResult interface {
 	IsRetailersQueryResult()
 }
 
+type TasksQueryResult interface {
+	IsTasksQueryResult()
+}
+
 type TransactionDetails interface {
 	IsTransactionDetails()
 }
@@ -500,6 +504,10 @@ type CreateRetailerProfileInput struct {
 	FacebookAccount  string                  `json:"facebookAccount" bson:",omitempty"`
 	InstagramAccount string                  `json:"instagramAccount" bson:",omitempty"`
 	BusinessLicense  *string                 `json:"businessLicense" bson:",omitempty"`
+}
+
+type CreateTaskParticipationInput struct {
+	TaskID primitive.ObjectID `json:"taskId"`
 }
 
 type CreateVoucherOwnershipInput struct {
@@ -1163,6 +1171,8 @@ func (ServiceError) IsRefreshAccessTokenResult() {}
 
 func (ServiceError) IsRetailersQueryResult() {}
 
+func (ServiceError) IsTasksQueryResult() {}
+
 func (ServiceError) IsPointTransactionQueryResult() {}
 
 func (ServiceError) IsPointTransactionsQueryResult() {}
@@ -1227,7 +1237,8 @@ func (SystemTransactionDetails) IsTransactionDetails() {}
 type Task struct {
 	ID            primitive.ObjectID  `json:"id" bson:"_id"`
 	Name          string              `json:"name"`
-	ImageURL      string              `json:"imageUrl"`
+	Introduction  string              `json:"introduction"`
+	IconURL       string              `json:"iconUrl"`
 	DetailsURL    string              `json:"detailsUrl"`
 	StartedAt     *primitive.DateTime `json:"startedAt"`
 	EndedAt       *primitive.DateTime `json:"endedAt"`
@@ -1235,8 +1246,8 @@ type Task struct {
 	Status        TaskStatus          `json:"status"`
 	Points        int                 `json:"points"`
 	ShareContent  *ShareContent       `json:"shareContent"`
-	RedemptionURL string              `json:"redemptionUrl"`
 	Participation *TaskParticipation  `json:"participation"`
+	Conditional   bool                `json:"conditional"`
 }
 
 type TaskFilter struct {
@@ -1272,8 +1283,11 @@ type TaskParticipationListInput struct {
 }
 
 type Tasks struct {
-	Tasks []*Task `json:"tasks"`
+	TotalCount int     `json:"totalCount"`
+	Items      []*Task `json:"items"`
 }
+
+func (Tasks) IsTasksQueryResult() {}
 
 type TasksInput struct {
 	PageSize            int                      `json:"pageSize"`
@@ -1589,7 +1603,8 @@ type UpdateSystemTransactionInput struct {
 
 type UpdateTask struct {
 	Name         *string             `json:"name" bson:",omitempty"`
-	ImageURL     *string             `json:"imageUrl" bson:",omitempty"`
+	Introduction *string             `json:"introduction" bson:",omitempty"`
+	IconURL      *string             `json:"iconUrl" bson:",omitempty"`
 	DetailsURL   *string             `json:"detailsUrl" bson:",omitempty"`
 	StartedAt    *primitive.DateTime `json:"startedAt" bson:",omitempty"`
 	EndedAt      *primitive.DateTime `json:"endedAt" bson:",omitempty"`
@@ -1597,6 +1612,7 @@ type UpdateTask struct {
 	Status       *TaskStatus         `json:"status" bson:",omitempty"`
 	Points       *int                `json:"points" bson:",omitempty"`
 	ShareContent *ShareContentInput  `json:"shareContent" bson:",omitempty"`
+	Conditional  *bool               `json:"conditional" bson:",omitempty"`
 }
 
 type UpdateTaskInput struct {
@@ -2191,17 +2207,19 @@ type TaskType string
 
 const (
 	TaskTypeUserProfileCompletion TaskType = "USER_PROFILE_COMPLETION"
+	TaskTypeUserRegistration      TaskType = "USER_REGISTRATION"
 	TaskTypeCustom                TaskType = "CUSTOM"
 )
 
 var AllTaskType = []TaskType{
 	TaskTypeUserProfileCompletion,
+	TaskTypeUserRegistration,
 	TaskTypeCustom,
 }
 
 func (e TaskType) IsValid() bool {
 	switch e {
-	case TaskTypeUserProfileCompletion, TaskTypeCustom:
+	case TaskTypeUserProfileCompletion, TaskTypeUserRegistration, TaskTypeCustom:
 		return true
 	}
 	return false
