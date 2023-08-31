@@ -590,7 +590,7 @@ type Event struct {
 	UpdatedAt         primitive.DateTime `json:"updatedAt"`
 	Fees              string             `json:"fees"`
 	PhoneNumber       string             `json:"phoneNumber"`
-	WebsiteUrl        string             `json:"websiteUrl"`
+	WebsiteURL        string             `json:"websiteUrl"`
 	FacebookAccount   string             `json:"facebookAccount"`
 	InstagramAccount  string             `json:"instagramAccount"`
 	Category          *SelectionOption   `json:"category"`
@@ -990,6 +990,7 @@ type PointTransactionsCommonFilter struct {
 	UserID       *primitive.ObjectID      `json:"userId" bson:",omitempty"`
 	SourceEntity *TransactionSourceEntity `json:"sourceEntity" bson:",omitempty"`
 	Type         *TransactionType         `json:"type" bson:",omitempty"`
+	Accumulated  *bool                    `json:"accumulated" bson:",omitempty"`
 }
 
 type PointTransctionsInput struct {
@@ -1438,18 +1439,9 @@ type UpdateContestCandidateExtraNumberOfVotes struct {
 	ExtraNumberOfVotes int    `json:"extraNumberOfVotes"`
 }
 
-type UpdateEventApprovalInput struct {
-	EventID primitive.ObjectID               `json:"eventId"`
-	Payload *UpdateEventApprovalInputPayload `json:"payload"`
-}
-
-type UpdateEventApprovalInputPayload struct {
-	Approved bool `json:"approved"`
-}
-
 type UpdateEventInput struct {
-	ID      primitive.ObjectID       `json:"id"`
-	Payload *UpdateEventInputPayload `json:"payload"`
+	ID    primitive.ObjectID       `json:"id"`
+	Event *UpdateEventInputPayload `json:"event"`
 }
 
 type UpdateEventInputPayload struct {
@@ -1460,7 +1452,7 @@ type UpdateEventInputPayload struct {
 	OpeningHours      string                `json:"openingHours"`
 	Fees              string                `json:"fees"`
 	PhoneNumber       string                `json:"phoneNumber"`
-	WebsiteUrl        string                `json:"websiteUrl"`
+	WebsiteURL        string                `json:"websiteUrl"`
 	FacebookAccount   string                `json:"facebookAccount"`
 	InstagramAccount  string                `json:"instagramAccount"`
 	Category          *SelectionOptionInput `json:"category"`
@@ -1474,15 +1466,6 @@ type UpdateEventInputPayload struct {
 	Details           string                `json:"details"`
 	Favorited         bool                  `json:"favorited"`
 	FavoritingUserIds []string              `json:"favoritingUserIds"`
-}
-
-type UpdateEventRecommendationInput struct {
-	EventID primitive.ObjectID                     `json:"eventId"`
-	Payload *UpdateEventRecommendationInputPayload `json:"payload"`
-}
-
-type UpdateEventRecommendationInputPayload struct {
-	Recommended bool `json:"recommended"`
 }
 
 type UpdateJobActivationInput struct {
@@ -2292,16 +2275,18 @@ type TransactionType string
 const (
 	TransactionTypeIncome  TransactionType = "INCOME"
 	TransactionTypeExpense TransactionType = "EXPENSE"
+	TransactionTypeRefund  TransactionType = "REFUND"
 )
 
 var AllTransactionType = []TransactionType{
 	TransactionTypeIncome,
 	TransactionTypeExpense,
+	TransactionTypeRefund,
 }
 
 func (e TransactionType) IsValid() bool {
 	switch e {
-	case TransactionTypeIncome, TransactionTypeExpense:
+	case TransactionTypeIncome, TransactionTypeExpense, TransactionTypeRefund:
 		return true
 	}
 	return false
