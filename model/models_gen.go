@@ -756,6 +756,11 @@ type LevelFilter struct {
 	Options []int `json:"options"`
 }
 
+type LoginUserInput struct {
+	PhoneOrEmail string `json:"phoneOrEmail"`
+	Password     string `json:"password"`
+}
+
 type Message struct {
 	Title      string   `json:"title"`
 	Body       string   `json:"body"`
