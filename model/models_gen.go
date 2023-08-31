@@ -82,6 +82,10 @@ type TransactionDetails interface {
 	IsTransactionDetails()
 }
 
+type UserAuthenticationResult interface {
+	IsUserAuthenticationResult()
+}
+
 type UserProfileQueryResult interface {
 	IsUserProfileQueryResult()
 }
@@ -508,6 +512,15 @@ type CreateRetailerProfileInput struct {
 
 type CreateTaskParticipationInput struct {
 	TaskID primitive.ObjectID `json:"taskId"`
+}
+
+type CreateUserInput struct {
+	PhoneOrEmail     string              `json:"phoneOrEmail"`
+	Password         string              `json:"password"`
+	VerificationCode string              `json:"verificationCode"`
+	Name             *string             `json:"name" bson:",omitempty"`
+	ReferralCode     *string             `json:"referralCode" bson:",omitempty"`
+	ReferralUserID   *primitive.ObjectID `json:"referralUserId" bson:",omitempty"`
 }
 
 type CreateVoucherOwnershipInput struct {
@@ -1186,6 +1199,8 @@ func (ServiceError) IsUserProfilesQueryResult() {}
 
 func (ServiceError) IsUserProfileQueryResult() {}
 
+func (ServiceError) IsUserAuthenticationResult() {}
+
 func (ServiceError) IsVoucherQueryResult() {}
 
 func (ServiceError) IsVouchersQueryResult() {}
@@ -1700,6 +1715,8 @@ type UserAuthentication struct {
 func (UserAuthentication) IsRefreshAccessTokenResult() {}
 
 func (UserAuthentication) IsLoginUserResult() {}
+
+func (UserAuthentication) IsUserAuthenticationResult() {}
 
 type UserCountInput struct {
 	MatchingText         string       `json:"matchingText"`
