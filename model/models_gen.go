@@ -1675,14 +1675,14 @@ type UpdateUserPointsInput struct {
 	Points int                `json:"points"`
 }
 
-type UpdateUserStatus struct {
+type UpdateUserPrivileges struct {
 	Role  *int `json:"role" bson:",omitempty"`
 	Level *int `json:"level" bson:",omitempty"`
 }
 
-type UpdateUserStatusInput struct {
-	UserID primitive.ObjectID `json:"userId"`
-	Status *UpdateUserStatus  `json:"status"`
+type UpdateUserPrivilegesInput struct {
+	UserID     primitive.ObjectID    `json:"userId"`
+	Privileges *UpdateUserPrivileges `json:"privileges"`
 }
 
 type UpdateVoucher struct {
@@ -2164,19 +2164,19 @@ type TaskStatus string
 
 const (
 	TaskStatusNotStarted TaskStatus = "NOT_STARTED"
-	TaskStatusOnGoing    TaskStatus = "ON_GOING"
+	TaskStatusOngoing    TaskStatus = "ONGOING"
 	TaskStatusEnded      TaskStatus = "ENDED"
 )
 
 var AllTaskStatus = []TaskStatus{
 	TaskStatusNotStarted,
-	TaskStatusOnGoing,
+	TaskStatusOngoing,
 	TaskStatusEnded,
 }
 
 func (e TaskStatus) IsValid() bool {
 	switch e {
-	case TaskStatusNotStarted, TaskStatusOnGoing, TaskStatusEnded:
+	case TaskStatusNotStarted, TaskStatusOngoing, TaskStatusEnded:
 		return true
 	}
 	return false
