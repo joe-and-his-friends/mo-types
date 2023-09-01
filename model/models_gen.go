@@ -2295,20 +2295,20 @@ func (e TransactionSourceEntity) MarshalGQL(w io.Writer) {
 type TransactionType string
 
 const (
-	TransactionTypeIncome  TransactionType = "INCOME"
-	TransactionTypeExpense TransactionType = "EXPENSE"
-	TransactionTypeRefund  TransactionType = "REFUND"
+	TransactionTypeIncome     TransactionType = "INCOME"
+	TransactionTypeExpense    TransactionType = "EXPENSE"
+	TransactionTypeRevocation TransactionType = "REVOCATION"
 )
 
 var AllTransactionType = []TransactionType{
 	TransactionTypeIncome,
 	TransactionTypeExpense,
-	TransactionTypeRefund,
+	TransactionTypeRevocation,
 }
 
 func (e TransactionType) IsValid() bool {
 	switch e {
-	case TransactionTypeIncome, TransactionTypeExpense, TransactionTypeRefund:
+	case TransactionTypeIncome, TransactionTypeExpense, TransactionTypeRevocation:
 		return true
 	}
 	return false
