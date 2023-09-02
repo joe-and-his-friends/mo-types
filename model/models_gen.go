@@ -365,6 +365,11 @@ type CommentsInput struct {
 	DatesFilter             *DatesFilterInput            `json:"datesFilter"`
 }
 
+type CommonEventFilter struct {
+	Recommended *bool `json:"recommended" bson:",omitempty"`
+	Approved    *bool `json:"approved" bson:",omitempty"`
+}
+
 type Contest struct {
 	Id        string `json:"id"`
 	Name      string `json:"name"`
@@ -485,7 +490,7 @@ type CreatePetVaxInput struct {
 }
 
 type CreateRetailerProfileInput struct {
-	AvatarUrl        string                  `json:"avatarUrl" bson:",omitempty"`
+	AvatarURL        string                  `json:"avatarUrl" bson:",omitempty"`
 	Name             string                  `json:"name" bson:",omitempty"`
 	Phone            string                  `json:"phone" bson:",omitempty"`
 	GeoLocation      *GeoLocationInput       `json:"geoLocation" bson:",omitempty"`
@@ -504,7 +509,7 @@ type CreateRetailerProfileInput struct {
 	Promotions       string                  `json:"promotions"`
 	OpeningHours     string                  `json:"openingHours"`
 	Routes           string                  `json:"routes" bson:",omitempty"`
-	WebsiteUrl       string                  `json:"websiteUrl" bson:",omitempty"`
+	WebsiteURL       string                  `json:"websiteUrl" bson:",omitempty"`
 	FacebookAccount  string                  `json:"facebookAccount" bson:",omitempty"`
 	InstagramAccount string                  `json:"instagramAccount" bson:",omitempty"`
 	BusinessLicense  *string                 `json:"businessLicense" bson:",omitempty"`
@@ -592,50 +597,79 @@ type EditorialPosts struct {
 }
 
 type Event struct {
-	ID                primitive.ObjectID `json:"id" bson:"_id"`
-	UserID            primitive.ObjectID `json:"userId"`
-	User              *UserProfile       `json:"user"`
-	Name              string             `json:"name"`
-	StartedAt         primitive.DateTime `json:"startedAt"`
-	EndedAt           primitive.DateTime `json:"endedAt"`
-	OpeningHours      string             `json:"openingHours"`
-	CreatedAt         primitive.DateTime `json:"createdAt"`
-	UpdatedAt         primitive.DateTime `json:"updatedAt"`
-	Fees              string             `json:"fees"`
-	PhoneNumber       string             `json:"phoneNumber"`
-	WebsiteURL        string             `json:"websiteUrl"`
-	FacebookAccount   string             `json:"facebookAccount"`
-	InstagramAccount  string             `json:"instagramAccount"`
-	Category          *SelectionOption   `json:"category"`
-	Online            bool               `json:"online"`
-	Address           string             `json:"address"`
-	Region            *SelectionOption   `json:"region"`
-	District          *SelectionOption   `json:"district"`
-	GeoLocation       *GeoLocation       `json:"geoLocation"`
-	Photos            []*Photo           `json:"photos"`
-	Summary           string             `json:"summary"`
-	Details           string             `json:"details"`
-	Favorited         bool               `json:"favorited"`
-	FavoritingUserIds []string           `json:"favoritingUserIds"`
-	Recommended       bool               `json:"recommended"`
-	Approved          bool               `json:"approved"`
+	ID                         primitive.ObjectID `json:"id" bson:"_id"`
+	UserID                     primitive.ObjectID `json:"userId"`
+	Name                       string             `json:"name"`
+	Details                    string             `json:"details"`
+	Notice                     string             `json:"notice"`
+	Terms                      string             `json:"terms"`
+	Photos                     []*Photo           `json:"photos"`
+	TimeSlots                  []*EventTimeSlot   `json:"timeSlots"`
+	StartedAt                  primitive.DateTime `json:"startedAt"`
+	EndedAt                    primitive.DateTime `json:"endedAt"`
+	CreatedAt                  primitive.DateTime `json:"createdAt"`
+	UpdatedAt                  primitive.DateTime `json:"updatedAt"`
+	Package                    *EventPackage      `json:"package"`
+	AdditionalParticipantPrice float64            `json:"additionalParticipantPrice"`
+	AdditionalPetPrice         float64            `json:"additionalPetPrice"`
+	MaxRedeemablePoints        int                `json:"maxRedeemablePoints"`
+	Category                   *SelectionOption   `json:"category"`
+	Address                    string             `json:"address"`
+	Region                     *SelectionOption   `json:"region"`
+	District                   *SelectionOption   `json:"district"`
+	GeoLocation                *GeoLocation       `json:"geoLocation"`
+	Recommended                bool               `json:"recommended"`
+	Approved                   bool               `json:"approved"`
+}
+
+type EventPackage struct {
+	ParticipantCount int     `json:"participantCount"`
+	PetCount         int     `json:"petCount"`
+	Price            float64 `json:"price"`
+	PriceLabel       string  `json:"priceLabel"`
+	Points           int     `json:"points"`
+}
+
+type EventParticipant struct {
+	Name        string `json:"name"`
+	PhoneNumber string `json:"phoneNumber"`
+}
+
+type EventParticipation struct {
+	ID                         primitive.ObjectID  `json:"id" bson:"_id"`
+	UserID                     primitive.ObjectID  `json:"userId"`
+	EventID                    primitive.ObjectID  `json:"eventId"`
+	PackageCount               int                 `json:"packageCount"`
+	AdditionalParticipantCount int                 `json:"additionalParticipantCount"`
+	AdditionalPetCount         int                 `json:"additionalPetCount"`
+	Participants               []*EventParticipant `json:"participants"`
+	PetNames                   []string            `json:"petNames"`
+	StartedAt                  primitive.DateTime  `json:"startedAt"`
+	EndedAt                    primitive.DateTime  `json:"endedAt"`
+	CreatedAt                  primitive.DateTime  `json:"createdAt"`
+	UpdatedAt                  primitive.DateTime  `json:"updatedAt"`
+}
+
+type EventTimeSlot struct {
+	StartedAt       primitive.DateTime `json:"startedAt"`
+	EndedAt         primitive.DateTime `json:"endedAt"`
+	MaxParticipants int                `json:"maxParticipants"`
 }
 
 type Events struct {
 	TotalCount int      `json:"totalCount"`
-	Events     []*Event `json:"events"`
+	Items      []*Event `json:"items"`
 }
 
 func (Events) IsEventsQueryResult() {}
 
 type EventsInput struct {
-	PageNumber           int                   `json:"pageNumber"`
-	PageSize             int                   `json:"pageSize"`
-	CategoriesFilter     *CategoriesFilter     `json:"categoriesFilter"`
-	DatetimeFilter       *DatetimeFilter       `json:"datetimeFilter"`
-	TerritoriesFilter    *TerritoriesFilter    `json:"territoriesFilter"`
-	RecommendationFilter *RecommendationFilter `json:"recommendationFilter"`
-	ApprovalFilter       ApprovalFilter        `json:"approvalFilter"`
+	PageNumber        int                 `json:"pageNumber"`
+	PageSize          int                 `json:"pageSize"`
+	CommonFilter      *CommonEventFilter  `json:"commonFilter"`
+	CategoriesFilter  *CategoriesFilter   `json:"categoriesFilter"`
+	DatetimeFilter    *DatetimeFilter     `json:"datetimeFilter"`
+	GeographicFilters []*GeographicFilter `json:"geographicFilters"`
 }
 
 type FavoriteFilter struct {
@@ -643,8 +677,8 @@ type FavoriteFilter struct {
 }
 
 type FavoriteRetailerInput struct {
-	UserId         string `json:"userId"`
-	RetailerUserId string `json:"retailerUserId"`
+	UserID         string `json:"userId"`
+	RetailerUserID string `json:"retailerUserId"`
 	Action         int    `json:"action"`
 }
 
@@ -696,6 +730,12 @@ type GeoLocationConstraintInput struct {
 type GeoLocationInput struct {
 	Long float64 `json:"long"`
 	Lat  float64 `json:"lat"`
+}
+
+type GeographicFilter struct {
+	City     *SelectionOptionInput `json:"city"`
+	Region   *SelectionOptionInput `json:"region"`
+	District *SelectionOptionInput `json:"district"`
 }
 
 type HomepagePosts struct {
@@ -973,12 +1013,12 @@ type PetsWithCommentsInput struct {
 
 type Photo struct {
 	ID          primitive.ObjectID `json:"id"`
-	Url         string             `json:"url"`
+	URL         string             `json:"url"`
 	Description string             `json:"description"`
 }
 
 type PhotoInput struct {
-	Url         string `json:"url"`
+	URL         string `json:"url"`
 	Description string `json:"description"`
 }
 
@@ -1039,7 +1079,7 @@ type RetailerNameEntries struct {
 type RetailerNameEntriesInput struct {
 	PageSize          int                `json:"pageSize"`
 	PageNumber        int                `json:"pageNumber"`
-	StartUserId       string             `json:"startUserId"`
+	StartUserID       string             `json:"startUserId"`
 	MatchingName      string             `json:"matchingName"`
 	MatchingAddress   string             `json:"matchingAddress"`
 	TerritoriesFilter *TerritoriesFilter `json:"territoriesFilter"`
@@ -1048,16 +1088,16 @@ type RetailerNameEntriesInput struct {
 
 type RetailerNameEntry struct {
 	Name   string `json:"name"`
-	UserId string `json:"userId"`
+	UserID string `json:"userId"`
 }
 
 type RetailerProfile struct {
-	Id                 string             `json:"id" bson:"_id"`
+	ID                 string             `json:"id" bson:"_id"`
 	UserID             primitive.ObjectID `json:"userId"`
 	Account            string             `json:"account"`
 	Role               int                `json:"role"`
 	Level              int                `json:"level"`
-	AvatarUrl          string             `json:"avatarUrl"`
+	AvatarURL          string             `json:"avatarUrl"`
 	Name               string             `json:"name"`
 	Phone              string             `json:"phone"`
 	GeoLocation        *GeoLocation       `json:"geoLocation"`
@@ -1082,7 +1122,7 @@ type RetailerProfile struct {
 	Promotions         string             `json:"promotions"`
 	OpeningHours       string             `json:"openingHours"`
 	Routes             string             `json:"routes"`
-	WebsiteUrl         string             `json:"websiteUrl"`
+	WebsiteURL         string             `json:"websiteUrl"`
 	FacebookAccount    string             `json:"facebookAccount"`
 	InstagramAccount   string             `json:"instagramAccount"`
 	Recommended        bool               `json:"recommended"`
@@ -1104,10 +1144,10 @@ type RetailersBlocked struct {
 }
 
 type RetailersInput struct {
-	UserId               string                `json:"userId"`
+	UserID               string                `json:"userId"`
 	PageSize             int                   `json:"pageSize"`
 	PageNumber           int                   `json:"pageNumber"`
-	StartUserId          string                `json:"startUserId"`
+	StartUserID          string                `json:"startUserId"`
 	MatchingAddress      string                `json:"matchingAddress"`
 	MatchingName         string                `json:"matchingName"`
 	MatchingPhoneOrEmail string                `json:"matchingPhoneOrEmail"`
@@ -1142,13 +1182,13 @@ type ScheduleInput struct {
 }
 
 type SelectionOption struct {
-	Id      string             `json:"id"`
+	ID      string             `json:"id"`
 	Name    string             `json:"name"`
 	Options []*SelectionOption `json:"options"`
 }
 
 type SelectionOptionInput struct {
-	Id      string                  `json:"id"`
+	ID      string                  `json:"id"`
 	Name    string                  `json:"name"`
 	Options []*SelectionOptionInput `json:"options"`
 }
@@ -1459,33 +1499,72 @@ type UpdateContestCandidateExtraNumberOfVotes struct {
 	ExtraNumberOfVotes int    `json:"extraNumberOfVotes"`
 }
 
-type UpdateEventInput struct {
-	ID    primitive.ObjectID       `json:"id"`
-	Event *UpdateEventInputPayload `json:"event"`
+type UpdateEvent struct {
+	UserID                     *primitive.ObjectID    `json:"userId" bson:",omitempty"`
+	Name                       *string                `json:"name" bson:",omitempty"`
+	Details                    *string                `json:"details" bson:",omitempty"`
+	Notice                     *string                `json:"notice" bson:",omitempty"`
+	Terms                      *string                `json:"terms" bson:",omitempty"`
+	Photos                     []*UpdatePhoto         `json:"photos" bson:",omitempty"`
+	TimeSlots                  *UpdateEventTimeSlot   `json:"timeSlots" bson:",omitempty"`
+	StartedAt                  *primitive.DateTime    `json:"startedAt" bson:",omitempty"`
+	EndedAt                    *primitive.DateTime    `json:"endedAt" bson:",omitempty"`
+	Package                    *UpdateEventPackage    `json:"package" bson:",omitempty"`
+	AdditionalParticipantPrice *float64               `json:"additionalParticipantPrice" bson:",omitempty"`
+	AdditionalPetPrice         *float64               `json:"additionalPetPrice" bson:",omitempty"`
+	MaxAllowedPoints           *int                   `json:"maxAllowedPoints" bson:",omitempty"`
+	Category                   *UpdateSelectionOption `json:"category" bson:",omitempty"`
+	Address                    *string                `json:"address" bson:",omitempty"`
+	Region                     *UpdateSelectionOption `json:"region" bson:",omitempty"`
+	District                   *UpdateSelectionOption `json:"district" bson:",omitempty"`
+	GeoLocation                *UpdateGeoLocation     `json:"geoLocation" bson:",omitempty"`
+	Recommended                *bool                  `json:"recommended" bson:",omitempty"`
+	Approved                   *bool                  `json:"approved" bson:",omitempty"`
 }
 
-type UpdateEventInputPayload struct {
-	UserID            primitive.ObjectID    `json:"userId"`
-	Name              string                `json:"name"`
-	StartedAt         primitive.DateTime    `json:"startedAt"`
-	EndedAt           primitive.DateTime    `json:"endedAt"`
-	OpeningHours      string                `json:"openingHours"`
-	Fees              string                `json:"fees"`
-	PhoneNumber       string                `json:"phoneNumber"`
-	WebsiteURL        string                `json:"websiteUrl"`
-	FacebookAccount   string                `json:"facebookAccount"`
-	InstagramAccount  string                `json:"instagramAccount"`
-	Category          *SelectionOptionInput `json:"category"`
-	Online            bool                  `json:"online"`
-	Address           string                `json:"address"`
-	Region            *SelectionOptionInput `json:"region"`
-	District          *SelectionOptionInput `json:"district"`
-	GeoLocation       *GeoLocationInput     `json:"geoLocation"`
-	Photos            []*PhotoInput         `json:"photos"`
-	Summary           string                `json:"summary"`
-	Details           string                `json:"details"`
-	Favorited         bool                  `json:"favorited"`
-	FavoritingUserIds []string              `json:"favoritingUserIds"`
+type UpdateEventInput struct {
+	ID    primitive.ObjectID `json:"id"`
+	Event *UpdateEvent       `json:"event"`
+}
+
+type UpdateEventPackage struct {
+	ParticipantCount *int     `json:"participantCount" bson:",omitempty"`
+	PetCount         *int     `json:"petCount" bson:",omitempty"`
+	Price            *float64 `json:"price" bson:",omitempty"`
+	PriceLabel       *string  `json:"priceLabel" bson:",omitempty"`
+	Points           *int     `json:"points" bson:",omitempty"`
+}
+
+type UpdateEventParticipant struct {
+	Name        *string `json:"name" bson:",omitempty"`
+	PhoneNumber *string `json:"phoneNumber" bson:",omitempty"`
+}
+
+type UpdateEventParticipation struct {
+	EventID                    *primitive.ObjectID       `json:"eventId" bson:",omitempty"`
+	PackageCount               *int                      `json:"packageCount" bson:",omitempty"`
+	AdditionalParticipantCount *int                      `json:"additionalParticipantCount" bson:",omitempty"`
+	AdditionalPetCount         *int                      `json:"additionalPetCount" bson:",omitempty"`
+	Participants               []*UpdateEventParticipant `json:"participants" bson:",omitempty"`
+	PetNames                   []string                  `json:"petNames" bson:",omitempty"`
+	StartedAt                  *primitive.DateTime       `json:"startedAt" bson:",omitempty"`
+	EndedAt                    *primitive.DateTime       `json:"endedAt" bson:",omitempty"`
+}
+
+type UpdateEventParticipationInput struct {
+	ID            primitive.ObjectID        `json:"id"`
+	Participation *UpdateEventParticipation `json:"participation"`
+}
+
+type UpdateEventTimeSlot struct {
+	StartedAt       *primitive.DateTime `json:"startedAt" bson:",omitempty"`
+	EndedAt         *primitive.DateTime `json:"endedAt" bson:",omitempty"`
+	MaxParticipants *int                `json:"maxParticipants" bson:",omitempty"`
+}
+
+type UpdateGeoLocation struct {
+	Long *float64 `json:"long" bson:",omitempty"`
+	Lat  *float64 `json:"lat" bson:",omitempty"`
 }
 
 type UpdateJobActivationInput struct {
@@ -1565,19 +1644,30 @@ type UpdatePetProfileInput struct {
 	HomeArrivalDate    string             `json:"homeArrivalDate" bson:",omitempty"`
 }
 
+type UpdatePhoto struct {
+	URL         *string `json:"url" bson:",omitempty"`
+	Description *string `json:"description" bson:",omitempty"`
+}
+
 type UpdateRetailerProfileInput struct {
-	UserId  string                      `json:"userId"`
+	UserID  string                      `json:"userId"`
 	Profile *CreateRetailerProfileInput `json:"profile"`
 }
 
 type UpdateRetailerRatingInput struct {
-	UserId primitive.ObjectID `json:"userId"`
+	UserID primitive.ObjectID `json:"userId"`
 	Rating float64            `json:"rating"`
 }
 
 type UpdateRetailerRecommendationInput struct {
-	UserId      primitive.ObjectID `json:"userId"`
+	UserID      primitive.ObjectID `json:"userId"`
 	Recommended bool               `json:"recommended"`
+}
+
+type UpdateSelectionOption struct {
+	ID      *string                  `json:"id" bson:",omitempty"`
+	Name    *string                  `json:"name" bson:",omitempty"`
+	Options []*UpdateSelectionOption `json:"options" bson:",omitempty"`
 }
 
 type UpdateShoplineMerchantInfo struct {
