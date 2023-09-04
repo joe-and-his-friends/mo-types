@@ -654,6 +654,7 @@ type EventTimeSlot struct {
 	StartedAt       primitive.DateTime `json:"startedAt"`
 	EndedAt         primitive.DateTime `json:"endedAt"`
 	MaxParticipants int                `json:"maxParticipants"`
+	SubSlots        []*EventTimeSlot   `json:"subSlots"`
 }
 
 type Events struct {
@@ -1557,9 +1558,10 @@ type UpdateEventParticipationInput struct {
 }
 
 type UpdateEventTimeSlot struct {
-	StartedAt       *primitive.DateTime `json:"startedAt" bson:",omitempty"`
-	EndedAt         *primitive.DateTime `json:"endedAt" bson:",omitempty"`
-	MaxParticipants *int                `json:"maxParticipants" bson:",omitempty"`
+	StartedAt       *primitive.DateTime    `json:"startedAt" bson:",omitempty"`
+	EndedAt         *primitive.DateTime    `json:"endedAt" bson:",omitempty"`
+	MaxParticipants *int                   `json:"maxParticipants" bson:",omitempty"`
+	SubSlots        []*UpdateEventTimeSlot `json:"subSlots" bson:",omitempty"`
 }
 
 type UpdateGeoLocation struct {
