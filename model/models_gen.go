@@ -42,6 +42,10 @@ type CheckInRecordQueryResult interface {
 	IsCheckInRecordQueryResult()
 }
 
+type EventQueryResult interface {
+	IsEventQueryResult()
+}
+
 type EventsQueryResult interface {
 	IsEventsQueryResult()
 }
@@ -621,6 +625,8 @@ type Event struct {
 	Recommended                bool               `json:"recommended"`
 	Approved                   bool               `json:"approved"`
 }
+
+func (Event) IsEventQueryResult() {}
 
 type EventPackage struct {
 	ParticipantCount int     `json:"participantCount"`
@@ -1220,6 +1226,8 @@ func (ServiceError) IsCheckInCountersQueryResult() {}
 func (ServiceError) IsCheckInRecordQueryResult() {}
 
 func (ServiceError) IsEventsQueryResult() {}
+
+func (ServiceError) IsEventQueryResult() {}
 
 func (ServiceError) IsJobsResult() {}
 
