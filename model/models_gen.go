@@ -1507,7 +1507,7 @@ type UpdateEvent struct {
 	Notice                     *string                `json:"notice" bson:",omitempty"`
 	Terms                      *string                `json:"terms" bson:",omitempty"`
 	Photos                     []*UpdatePhoto         `json:"photos" bson:",omitempty"`
-	TimeSlots                  *UpdateEventTimeSlot   `json:"timeSlots" bson:",omitempty"`
+	TimeSlots                  []*UpdateEventTimeSlot `json:"timeSlots" bson:",omitempty"`
 	StartedAt                  *primitive.DateTime    `json:"startedAt" bson:",omitempty"`
 	EndedAt                    *primitive.DateTime    `json:"endedAt" bson:",omitempty"`
 	Package                    *UpdateEventPackage    `json:"package" bson:",omitempty"`

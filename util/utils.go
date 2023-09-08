@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"math/rand"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -313,4 +314,9 @@ func ConvertStringToDatetime(dateStr string) (primitive.DateTime, error) {
 
 func TruncateToDay(t time.Time) time.Time {
 	return time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.UTC().Location())
+}
+
+// Escape special characters in a string for use in a regular expression
+func EscapeRegExpCharacters(input string) string {
+	return regexp.QuoteMeta(input)
 }
