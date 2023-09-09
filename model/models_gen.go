@@ -42,6 +42,10 @@ type CheckInRecordQueryResult interface {
 	IsCheckInRecordQueryResult()
 }
 
+type EventParticipationsQueryResult interface {
+	IsEventParticipationsQueryResult()
+}
+
 type EventQueryResult interface {
 	IsEventQueryResult()
 }
@@ -645,6 +649,7 @@ type EventParticipation struct {
 	ID                         primitive.ObjectID  `json:"id" bson:"_id"`
 	UserID                     primitive.ObjectID  `json:"userId"`
 	EventID                    primitive.ObjectID  `json:"eventId"`
+	Event                      *Event              `json:"event"`
 	PackageCount               int                 `json:"packageCount"`
 	AdditionalParticipantCount int                 `json:"additionalParticipantCount"`
 	AdditionalPetCount         int                 `json:"additionalPetCount"`
@@ -654,6 +659,18 @@ type EventParticipation struct {
 	EndedAt                    primitive.DateTime  `json:"endedAt"`
 	CreatedAt                  primitive.DateTime  `json:"createdAt"`
 	UpdatedAt                  primitive.DateTime  `json:"updatedAt"`
+}
+
+type EventParticipations struct {
+	TotalCount int64                 `json:"totalCount"`
+	Items      []*EventParticipation `json:"items"`
+}
+
+func (EventParticipations) IsEventParticipationsQueryResult() {}
+
+type EventParticipationsInput struct {
+	PageNumber int64 `json:"pageNumber"`
+	PageSize   int64 `json:"pageSize"`
 }
 
 type EventTimeSlot struct {
@@ -1228,6 +1245,8 @@ func (ServiceError) IsCheckInRecordQueryResult() {}
 func (ServiceError) IsEventsQueryResult() {}
 
 func (ServiceError) IsEventQueryResult() {}
+
+func (ServiceError) IsEventParticipationsQueryResult() {}
 
 func (ServiceError) IsJobsResult() {}
 
