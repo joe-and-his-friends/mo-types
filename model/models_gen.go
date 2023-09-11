@@ -467,11 +467,16 @@ type CreateEventParticipationInput struct {
 	AdditionalPets              []*UpdateEventPet         `json:"additionalPets" bson:",omitempty"`
 }
 
-type CreateEventTicketInput struct {
+type CreateEventTicket struct {
 	EventID   primitive.ObjectID `json:"eventId"`
 	StartedAt primitive.DateTime `json:"startedAt"`
 	EndedAt   primitive.DateTime `json:"endedAt"`
 	Type      EventTicketType    `json:"type"`
+}
+
+type CreateEventTicketsInput struct {
+	Count  int                `json:"count"`
+	Ticket *CreateEventTicket `json:"ticket"`
 }
 
 type CreatePetBodyMeasurementsInput struct {
