@@ -468,9 +468,10 @@ type CreateEventParticipationInput struct {
 }
 
 type CreateEventTicketInput struct {
-	EventID   *primitive.ObjectID `json:"eventId" bson:",omitempty"`
-	StartedAt *primitive.DateTime `json:"startedAt" bson:",omitempty"`
-	EndedAt   *primitive.DateTime `json:"endedAt" bson:",omitempty"`
+	EventID   primitive.ObjectID `json:"eventId"`
+	StartedAt primitive.DateTime `json:"startedAt"`
+	EndedAt   primitive.DateTime `json:"endedAt"`
+	Type      EventTicketType    `json:"type"`
 }
 
 type CreatePetBodyMeasurementsInput struct {
@@ -672,28 +673,28 @@ type EventPackagePricing struct {
 }
 
 type EventParticipant struct {
-	Name        *string            `json:"name"`
-	PhoneNumber *string            `json:"phoneNumber"`
-	TicketID    primitive.ObjectID `json:"ticketId"`
+	Name        *string `json:"name"`
+	PhoneNumber *string `json:"phoneNumber"`
 }
 
 type EventParticipation struct {
-	ID                          primitive.ObjectID  `json:"id" bson:"_id"`
-	UserID                      primitive.ObjectID  `json:"userId"`
-	EventID                     primitive.ObjectID  `json:"eventId"`
-	Event                       *Event              `json:"event"`
-	RedemptionCode              string              `json:"redemptionCode"`
-	PackagesCount               int                 `json:"packagesCount"`
-	AdditionalParticipantsCount int                 `json:"additionalParticipantsCount"`
-	AdditionalPetsCount         int                 `json:"additionalPetsCount"`
-	PackageParticipants         []*EventParticipant `json:"packageParticipants"`
-	PackagePets                 []*EventPet         `json:"packagePets"`
-	AdditionalParticipants      []*EventParticipant `json:"additionalParticipants"`
-	AdditionalPets              []*EventPet         `json:"additionalPets"`
-	StartedAt                   primitive.DateTime  `json:"startedAt"`
-	EndedAt                     primitive.DateTime  `json:"endedAt"`
-	CreatedAt                   primitive.DateTime  `json:"createdAt"`
-	UpdatedAt                   primitive.DateTime  `json:"updatedAt"`
+	ID                          primitive.ObjectID       `json:"id" bson:"_id"`
+	UserID                      primitive.ObjectID       `json:"userId"`
+	EventID                     primitive.ObjectID       `json:"eventId"`
+	Event                       *Event                   `json:"event"`
+	RedemptionCode              string                   `json:"redemptionCode"`
+	Status                      EventParticipationStatus `json:"status"`
+	PackagesCount               int                      `json:"packagesCount"`
+	AdditionalParticipantsCount int                      `json:"additionalParticipantsCount"`
+	AdditionalPetsCount         int                      `json:"additionalPetsCount"`
+	PackageParticipants         []*EventParticipant      `json:"packageParticipants"`
+	PackagePets                 []*EventPet              `json:"packagePets"`
+	AdditionalParticipants      []*EventParticipant      `json:"additionalParticipants"`
+	AdditionalPets              []*EventPet              `json:"additionalPets"`
+	StartedAt                   primitive.DateTime       `json:"startedAt"`
+	EndedAt                     primitive.DateTime       `json:"endedAt"`
+	CreatedAt                   primitive.DateTime       `json:"createdAt"`
+	UpdatedAt                   primitive.DateTime       `json:"updatedAt"`
 }
 
 type EventParticipations struct {
@@ -709,17 +710,18 @@ type EventParticipationsInput struct {
 }
 
 type EventPet struct {
-	Name     *string            `json:"name"`
-	TicketID primitive.ObjectID `json:"ticketId"`
+	Name *string `json:"name"`
 }
 
 type EventTicket struct {
 	ID                           primitive.ObjectID  `json:"id" bson:"_id"`
 	EventID                      primitive.ObjectID  `json:"eventId"`
 	UserID                       *primitive.ObjectID `json:"userId"`
+	ParticipationID              *primitive.ObjectID `json:"participationId"`
 	StartedAt                    primitive.DateTime  `json:"startedAt"`
 	EndedAt                      primitive.DateTime  `json:"endedAt"`
 	Status                       EventTicketStatus   `json:"status"`
+	Type                         EventTicketType     `json:"type"`
 	RedemptionCode               string              `json:"redemptionCode"`
 	RedeemedAt                   *primitive.DateTime `json:"redeemedAt"`
 	RedemptionConfirmationUserID *primitive.ObjectID `json:"redemptionConfirmationUserId"`
@@ -730,8 +732,10 @@ type EventTicket struct {
 type EventTimeSlot struct {
 	StartedAt                  primitive.DateTime `json:"startedAt"`
 	EndedAt                    primitive.DateTime `json:"endedAt"`
-	MaxParticipants            int                `json:"maxParticipants"`
-	MaxPets                    int                `json:"maxPets"`
+	MaxPackages                int                `json:"maxPackages"`
+	MaxAdditionalParticipants  int                `json:"maxAdditionalParticipants"`
+	MaxAdditionalPets          int                `json:"maxAdditionalPets"`
+	PackagesCount              int64              `json:"packagesCount"`
 	AvailableParticipantsCount int64              `json:"availableParticipantsCount"`
 	AvailablePetsCount         int64              `json:"availablePetsCount"`
 	SubSlots                   []*EventTimeSlot   `json:"subSlots"`
@@ -1654,8 +1658,21 @@ type UpdateEventPet struct {
 }
 
 type UpdateEventTicket struct {
-	UserID *primitive.ObjectID `json:"userId" bson:",omitempty"`
-	Status *EventTicketStatus  `json:"status" bson:",omitempty"`
+	EventID *primitive.ObjectID `json:"eventId" bson:",omitempty"`
+	Status  *EventTicketStatus  `json:"status" bson:",omitempty"`
+}
+
+type UpdateEventTicketByParticipation struct {
+	UserID          primitive.ObjectID `json:"userId"`
+	ParticipationID primitive.ObjectID `json:"participationId"`
+}
+
+type UpdateEventTicketByParticipationInput struct {
+	EventID       primitive.ObjectID                `json:"eventId"`
+	Type          EventTicketType                   `json:"type"`
+	StartedAt     primitive.DateTime                `json:"startedAt"`
+	EndedAt       primitive.DateTime                `json:"endedAt"`
+	Participation *UpdateEventTicketByParticipation `json:"participation"`
 }
 
 type UpdateEventTicketInput struct {
@@ -1664,11 +1681,12 @@ type UpdateEventTicketInput struct {
 }
 
 type UpdateEventTimeSlot struct {
-	StartedAt       *primitive.DateTime    `json:"startedAt" bson:",omitempty"`
-	EndedAt         *primitive.DateTime    `json:"endedAt" bson:",omitempty"`
-	MaxParticipants *int                   `json:"maxParticipants" bson:",omitempty"`
-	MaxPets         *int                   `json:"maxPets" bson:",omitempty"`
-	SubSlots        []*UpdateEventTimeSlot `json:"subSlots" bson:",omitempty"`
+	StartedAt                 *primitive.DateTime    `json:"startedAt" bson:",omitempty"`
+	EndedAt                   *primitive.DateTime    `json:"endedAt" bson:",omitempty"`
+	MaxPackages               *int                   `json:"maxPackages" bson:",omitempty"`
+	MaxAdditionalParticipants *int                   `json:"maxAdditionalParticipants" bson:",omitempty"`
+	MaxAdditionalPets         *int                   `json:"maxAdditionalPets" bson:",omitempty"`
+	SubSlots                  []*UpdateEventTimeSlot `json:"subSlots" bson:",omitempty"`
 }
 
 type UpdateGeoLocation struct {
@@ -2149,6 +2167,51 @@ func (e ApprovalFilter) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type EventParticipationStatus string
+
+const (
+	EventParticipationStatusRedeemable EventParticipationStatus = "REDEEMABLE"
+	EventParticipationStatusRedeemed   EventParticipationStatus = "REDEEMED"
+	EventParticipationStatusExpired    EventParticipationStatus = "EXPIRED"
+	EventParticipationStatusInvalid    EventParticipationStatus = "INVALID"
+)
+
+var AllEventParticipationStatus = []EventParticipationStatus{
+	EventParticipationStatusRedeemable,
+	EventParticipationStatusRedeemed,
+	EventParticipationStatusExpired,
+	EventParticipationStatusInvalid,
+}
+
+func (e EventParticipationStatus) IsValid() bool {
+	switch e {
+	case EventParticipationStatusRedeemable, EventParticipationStatusRedeemed, EventParticipationStatusExpired, EventParticipationStatusInvalid:
+		return true
+	}
+	return false
+}
+
+func (e EventParticipationStatus) String() string {
+	return string(e)
+}
+
+func (e *EventParticipationStatus) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = EventParticipationStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid EventParticipationStatus", str)
+	}
+	return nil
+}
+
+func (e EventParticipationStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type EventTicketStatus string
 
 const (
@@ -2191,6 +2254,49 @@ func (e *EventTicketStatus) UnmarshalGQL(v interface{}) error {
 }
 
 func (e EventTicketStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type EventTicketType string
+
+const (
+	EventTicketTypePackage               EventTicketType = "PACKAGE"
+	EventTicketTypeAdditionalParticipant EventTicketType = "ADDITIONAL_PARTICIPANT"
+	EventTicketTypeAdditionalPet         EventTicketType = "ADDITIONAL_PET"
+)
+
+var AllEventTicketType = []EventTicketType{
+	EventTicketTypePackage,
+	EventTicketTypeAdditionalParticipant,
+	EventTicketTypeAdditionalPet,
+}
+
+func (e EventTicketType) IsValid() bool {
+	switch e {
+	case EventTicketTypePackage, EventTicketTypeAdditionalParticipant, EventTicketTypeAdditionalPet:
+		return true
+	}
+	return false
+}
+
+func (e EventTicketType) String() string {
+	return string(e)
+}
+
+func (e *EventTicketType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = EventTicketType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid EventTicketType", str)
+	}
+	return nil
+}
+
+func (e EventTicketType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
