@@ -729,16 +729,33 @@ type EventTicket struct {
 	UpdatedAt                    primitive.DateTime  `json:"updatedAt"`
 }
 
+type EventTickets struct {
+	TotalCount int64          `json:"totalCount"`
+	Items      []*EventTicket `json:"items"`
+}
+
+type EventTicketsCommonFilter struct {
+	EventID   *primitive.ObjectID `json:"eventId" bson:",omitempty"`
+	Type      *EventTicketType    `json:"type" bson:",omitempty"`
+	StartedAt *primitive.DateTime `json:"startedAt" bson:",omitempty"`
+	EndedAt   *primitive.DateTime `json:"endedAt" bson:",omitempty"`
+}
+
+type EventTicketsCountInput struct {
+	CommonFilter *EventTicketsCommonFilter `json:"commonFilter"`
+	Available    *bool                     `json:"available" bson:",omitempty"`
+}
+
 type EventTimeSlot struct {
-	StartedAt                  primitive.DateTime `json:"startedAt"`
-	EndedAt                    primitive.DateTime `json:"endedAt"`
-	MaxPackages                int                `json:"maxPackages"`
-	MaxAdditionalParticipants  int                `json:"maxAdditionalParticipants"`
-	MaxAdditionalPets          int                `json:"maxAdditionalPets"`
-	PackagesCount              int64              `json:"packagesCount"`
-	AvailableParticipantsCount int64              `json:"availableParticipantsCount"`
-	AvailablePetsCount         int64              `json:"availablePetsCount"`
-	SubSlots                   []*EventTimeSlot   `json:"subSlots"`
+	StartedAt                            primitive.DateTime `json:"startedAt"`
+	EndedAt                              primitive.DateTime `json:"endedAt"`
+	MaxPackages                          int                `json:"maxPackages"`
+	MaxAdditionalParticipants            int                `json:"maxAdditionalParticipants"`
+	MaxAdditionalPets                    int                `json:"maxAdditionalPets"`
+	AvailablePackagesCount               int64              `json:"availablePackagesCount"`
+	AvailableAdditionalParticipantsCount int64              `json:"availableAdditionalParticipantsCount"`
+	AvailableAdditionalPetsCount         int64              `json:"availableAdditionalPetsCount"`
+	SubSlots                             []*EventTimeSlot   `json:"subSlots"`
 }
 
 type Events struct {
