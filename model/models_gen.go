@@ -118,6 +118,18 @@ type ActiveContest struct {
 	Contest *Contest `json:"contest"`
 }
 
+type AdditionalParticipantPricing struct {
+	Price      float64 `json:"price"`
+	PriceLabel string  `json:"priceLabel"`
+	Points     int     `json:"points"`
+}
+
+type AdditionalPetPricing struct {
+	Price      float64 `json:"price"`
+	PriceLabel string  `json:"priceLabel"`
+	Points     int     `json:"points"`
+}
+
 type AdoptionActivity struct {
 	Details   string   `json:"details"`
 	PhotoUrls []string `json:"photoUrls"`
@@ -442,6 +454,25 @@ type CreateCommentatorCertificateInput struct {
 	AvatarUrl            string                `json:"avatarUrl"`
 }
 
+type CreateEventParticipationInput struct {
+	EventID                     primitive.ObjectID        `json:"eventId"`
+	StartedAt                   primitive.DateTime        `json:"startedAt"`
+	EndedAt                     primitive.DateTime        `json:"endedAt"`
+	PackagesCount               int                       `json:"packagesCount"`
+	AdditionalParticipantsCount int                       `json:"additionalParticipantsCount"`
+	AdditionalPetsCount         int                       `json:"additionalPetsCount"`
+	PackageParticipants         []*UpdateEventParticipant `json:"packageParticipants" bson:",omitempty"`
+	PackagePets                 []*UpdateEventPet         `json:"packagePets" bson:",omitempty"`
+	AdditionalParticipants      []*UpdateEventParticipant `json:"additionalParticipants" bson:",omitempty"`
+	AdditionalPets              []*UpdateEventPet         `json:"additionalPets" bson:",omitempty"`
+}
+
+type CreateEventTicketInput struct {
+	EventID   *primitive.ObjectID `json:"eventId" bson:",omitempty"`
+	StartedAt *primitive.DateTime `json:"startedAt" bson:",omitempty"`
+	EndedAt   *primitive.DateTime `json:"endedAt" bson:",omitempty"`
+}
+
 type CreatePetBodyMeasurementsInput struct {
 	PetID  primitive.ObjectID `json:"petId"`
 	Weight float64            `json:"weight"`
@@ -605,60 +636,64 @@ type EditorialPosts struct {
 }
 
 type Event struct {
-	ID                         primitive.ObjectID `json:"id" bson:"_id"`
-	UserID                     primitive.ObjectID `json:"userId"`
-	Name                       string             `json:"name"`
-	Details                    string             `json:"details"`
-	Notice                     string             `json:"notice"`
-	Terms                      string             `json:"terms"`
-	Photos                     []*Photo           `json:"photos"`
-	TimeSlots                  []*EventTimeSlot   `json:"timeSlots"`
-	StartedAt                  primitive.DateTime `json:"startedAt"`
-	EndedAt                    primitive.DateTime `json:"endedAt"`
-	CreatedAt                  primitive.DateTime `json:"createdAt"`
-	UpdatedAt                  primitive.DateTime `json:"updatedAt"`
-	Package                    *EventPackage      `json:"package"`
-	AdditionalParticipantPrice float64            `json:"additionalParticipantPrice"`
-	AdditionalPetPrice         float64            `json:"additionalPetPrice"`
-	MaxRedeemablePoints        int                `json:"maxRedeemablePoints"`
-	Category                   *SelectionOption   `json:"category"`
-	Address                    string             `json:"address"`
-	Region                     *SelectionOption   `json:"region"`
-	District                   *SelectionOption   `json:"district"`
-	GeoLocation                *GeoLocation       `json:"geoLocation"`
-	Recommended                bool               `json:"recommended"`
-	Approved                   bool               `json:"approved"`
+	ID                           primitive.ObjectID            `json:"id" bson:"_id"`
+	UserID                       primitive.ObjectID            `json:"userId"`
+	Name                         string                        `json:"name"`
+	Details                      string                        `json:"details"`
+	Notice                       string                        `json:"notice"`
+	Terms                        string                        `json:"terms"`
+	Photos                       []*Photo                      `json:"photos"`
+	TimeSlots                    []*EventTimeSlot              `json:"timeSlots"`
+	StartedAt                    primitive.DateTime            `json:"startedAt"`
+	EndedAt                      primitive.DateTime            `json:"endedAt"`
+	CreatedAt                    primitive.DateTime            `json:"createdAt"`
+	UpdatedAt                    primitive.DateTime            `json:"updatedAt"`
+	PackagePricing               *EventPackagePricing          `json:"packagePricing"`
+	AdditionalParticipantPricing *AdditionalParticipantPricing `json:"additionalParticipantPricing"`
+	AdditionalPetPricing         *AdditionalPetPricing         `json:"additionalPetPricing"`
+	Category                     *SelectionOption              `json:"category"`
+	Address                      string                        `json:"address"`
+	Region                       *SelectionOption              `json:"region"`
+	District                     *SelectionOption              `json:"district"`
+	GeoLocation                  *GeoLocation                  `json:"geoLocation"`
+	Recommended                  bool                          `json:"recommended"`
+	Approved                     bool                          `json:"approved"`
+	Published                    bool                          `json:"published"`
 }
 
 func (Event) IsEventQueryResult() {}
 
-type EventPackage struct {
-	ParticipantCount int     `json:"participantCount"`
-	PetCount         int     `json:"petCount"`
-	Price            float64 `json:"price"`
-	PriceLabel       string  `json:"priceLabel"`
-	Points           int     `json:"points"`
+type EventPackagePricing struct {
+	MaxParticipants int     `json:"maxParticipants"`
+	MaxPets         int     `json:"maxPets"`
+	Price           float64 `json:"price"`
+	PriceLabel      string  `json:"priceLabel"`
+	Points          int     `json:"points"`
 }
 
 type EventParticipant struct {
-	Name        string `json:"name"`
-	PhoneNumber string `json:"phoneNumber"`
+	Name        *string            `json:"name"`
+	PhoneNumber *string            `json:"phoneNumber"`
+	TicketID    primitive.ObjectID `json:"ticketId"`
 }
 
 type EventParticipation struct {
-	ID                         primitive.ObjectID  `json:"id" bson:"_id"`
-	UserID                     primitive.ObjectID  `json:"userId"`
-	EventID                    primitive.ObjectID  `json:"eventId"`
-	Event                      *Event              `json:"event"`
-	PackageCount               int                 `json:"packageCount"`
-	AdditionalParticipantCount int                 `json:"additionalParticipantCount"`
-	AdditionalPetCount         int                 `json:"additionalPetCount"`
-	Participants               []*EventParticipant `json:"participants"`
-	PetNames                   []string            `json:"petNames"`
-	StartedAt                  primitive.DateTime  `json:"startedAt"`
-	EndedAt                    primitive.DateTime  `json:"endedAt"`
-	CreatedAt                  primitive.DateTime  `json:"createdAt"`
-	UpdatedAt                  primitive.DateTime  `json:"updatedAt"`
+	ID                          primitive.ObjectID  `json:"id" bson:"_id"`
+	UserID                      primitive.ObjectID  `json:"userId"`
+	EventID                     primitive.ObjectID  `json:"eventId"`
+	Event                       *Event              `json:"event"`
+	RedemptionCode              string              `json:"redemptionCode"`
+	PackagesCount               int                 `json:"packagesCount"`
+	AdditionalParticipantsCount int                 `json:"additionalParticipantsCount"`
+	AdditionalPetsCount         int                 `json:"additionalPetsCount"`
+	PackageParticipants         []*EventParticipant `json:"packageParticipants"`
+	PackagePets                 []*EventPet         `json:"packagePets"`
+	AdditionalParticipants      []*EventParticipant `json:"additionalParticipants"`
+	AdditionalPets              []*EventPet         `json:"additionalPets"`
+	StartedAt                   primitive.DateTime  `json:"startedAt"`
+	EndedAt                     primitive.DateTime  `json:"endedAt"`
+	CreatedAt                   primitive.DateTime  `json:"createdAt"`
+	UpdatedAt                   primitive.DateTime  `json:"updatedAt"`
 }
 
 type EventParticipations struct {
@@ -673,15 +708,37 @@ type EventParticipationsInput struct {
 	PageSize   int64 `json:"pageSize"`
 }
 
+type EventPet struct {
+	Name     *string            `json:"name"`
+	TicketID primitive.ObjectID `json:"ticketId"`
+}
+
+type EventTicket struct {
+	ID                           primitive.ObjectID  `json:"id" bson:"_id"`
+	EventID                      primitive.ObjectID  `json:"eventId"`
+	UserID                       *primitive.ObjectID `json:"userId"`
+	StartedAt                    primitive.DateTime  `json:"startedAt"`
+	EndedAt                      primitive.DateTime  `json:"endedAt"`
+	Status                       EventTicketStatus   `json:"status"`
+	RedemptionCode               string              `json:"redemptionCode"`
+	RedeemedAt                   *primitive.DateTime `json:"redeemedAt"`
+	RedemptionConfirmationUserID *primitive.ObjectID `json:"redemptionConfirmationUserId"`
+	CreatedAt                    primitive.DateTime  `json:"createdAt"`
+	UpdatedAt                    primitive.DateTime  `json:"updatedAt"`
+}
+
 type EventTimeSlot struct {
-	StartedAt       primitive.DateTime `json:"startedAt"`
-	EndedAt         primitive.DateTime `json:"endedAt"`
-	MaxParticipants int                `json:"maxParticipants"`
-	SubSlots        []*EventTimeSlot   `json:"subSlots"`
+	StartedAt                  primitive.DateTime `json:"startedAt"`
+	EndedAt                    primitive.DateTime `json:"endedAt"`
+	MaxParticipants            int                `json:"maxParticipants"`
+	MaxPets                    int                `json:"maxPets"`
+	AvailableParticipantsCount int64              `json:"availableParticipantsCount"`
+	AvailablePetsCount         int64              `json:"availablePetsCount"`
+	SubSlots                   []*EventTimeSlot   `json:"subSlots"`
 }
 
 type Events struct {
-	TotalCount int      `json:"totalCount"`
+	TotalCount int64    `json:"totalCount"`
 	Items      []*Event `json:"items"`
 }
 
@@ -1412,6 +1469,18 @@ type TimeFilter struct {
 	Option int `json:"option"`
 }
 
+type UpdateAddionalPetPricing struct {
+	Price      *float64 `json:"price" bson:",omitempty"`
+	PriceLabel *string  `json:"priceLabel" bson:",omitempty"`
+	Points     *int     `json:"points" bson:",omitempty"`
+}
+
+type UpdateAdditionalParticipantPricing struct {
+	Price      *float64 `json:"price" bson:",omitempty"`
+	PriceLabel *string  `json:"priceLabel" bson:",omitempty"`
+	Points     *int     `json:"points" bson:",omitempty"`
+}
+
 type UpdateAdoptionAd struct {
 	AgencyID  *primitive.ObjectID   `json:"agencyId" bson:",omitempty"`
 	PetName   *string               `json:"petName" bson:",omitempty"`
@@ -1528,26 +1597,26 @@ type UpdateContestCandidateExtraNumberOfVotes struct {
 }
 
 type UpdateEvent struct {
-	UserID                     *primitive.ObjectID    `json:"userId" bson:",omitempty"`
-	Name                       *string                `json:"name" bson:",omitempty"`
-	Details                    *string                `json:"details" bson:",omitempty"`
-	Notice                     *string                `json:"notice" bson:",omitempty"`
-	Terms                      *string                `json:"terms" bson:",omitempty"`
-	Photos                     []*UpdatePhoto         `json:"photos" bson:",omitempty"`
-	TimeSlots                  []*UpdateEventTimeSlot `json:"timeSlots" bson:",omitempty"`
-	StartedAt                  *primitive.DateTime    `json:"startedAt" bson:",omitempty"`
-	EndedAt                    *primitive.DateTime    `json:"endedAt" bson:",omitempty"`
-	Package                    *UpdateEventPackage    `json:"package" bson:",omitempty"`
-	AdditionalParticipantPrice *float64               `json:"additionalParticipantPrice" bson:",omitempty"`
-	AdditionalPetPrice         *float64               `json:"additionalPetPrice" bson:",omitempty"`
-	MaxAllowedPoints           *int                   `json:"maxAllowedPoints" bson:",omitempty"`
-	Category                   *UpdateSelectionOption `json:"category" bson:",omitempty"`
-	Address                    *string                `json:"address" bson:",omitempty"`
-	Region                     *UpdateSelectionOption `json:"region" bson:",omitempty"`
-	District                   *UpdateSelectionOption `json:"district" bson:",omitempty"`
-	GeoLocation                *UpdateGeoLocation     `json:"geoLocation" bson:",omitempty"`
-	Recommended                *bool                  `json:"recommended" bson:",omitempty"`
-	Approved                   *bool                  `json:"approved" bson:",omitempty"`
+	UserID                       *primitive.ObjectID                 `json:"userId" bson:",omitempty"`
+	Name                         *string                             `json:"name" bson:",omitempty"`
+	Details                      *string                             `json:"details" bson:",omitempty"`
+	Notice                       *string                             `json:"notice" bson:",omitempty"`
+	Terms                        *string                             `json:"terms" bson:",omitempty"`
+	Photos                       []*UpdatePhoto                      `json:"photos" bson:",omitempty"`
+	TimeSlots                    []*UpdateEventTimeSlot              `json:"timeSlots" bson:",omitempty"`
+	StartedAt                    *primitive.DateTime                 `json:"startedAt" bson:",omitempty"`
+	EndedAt                      *primitive.DateTime                 `json:"endedAt" bson:",omitempty"`
+	PackagePricing               *UpdateEventPackagePricing          `json:"packagePricing" bson:",omitempty"`
+	AdditionalParticipantPricing *UpdateAdditionalParticipantPricing `json:"additionalParticipantPricing" bson:",omitempty"`
+	AdditionalPetPricing         *UpdateAddionalPetPricing           `json:"additionalPetPricing" bson:",omitempty"`
+	Category                     *UpdateSelectionOption              `json:"category" bson:",omitempty"`
+	Address                      *string                             `json:"address" bson:",omitempty"`
+	Region                       *UpdateSelectionOption              `json:"region" bson:",omitempty"`
+	District                     *UpdateSelectionOption              `json:"district" bson:",omitempty"`
+	GeoLocation                  *UpdateGeoLocation                  `json:"geoLocation" bson:",omitempty"`
+	Recommended                  *bool                               `json:"recommended" bson:",omitempty"`
+	Approved                     *bool                               `json:"approved" bson:",omitempty"`
+	Published                    *bool                               `json:"published" bson:",omitempty"`
 }
 
 type UpdateEventInput struct {
@@ -1555,12 +1624,12 @@ type UpdateEventInput struct {
 	Event *UpdateEvent       `json:"event"`
 }
 
-type UpdateEventPackage struct {
-	ParticipantCount *int     `json:"participantCount" bson:",omitempty"`
-	PetCount         *int     `json:"petCount" bson:",omitempty"`
-	Price            *float64 `json:"price" bson:",omitempty"`
-	PriceLabel       *string  `json:"priceLabel" bson:",omitempty"`
-	Points           *int     `json:"points" bson:",omitempty"`
+type UpdateEventPackagePricing struct {
+	MaxParticipants *int     `json:"maxParticipants" bson:",omitempty"`
+	MaxPets         *int     `json:"maxPets" bson:",omitempty"`
+	Price           *float64 `json:"price" bson:",omitempty"`
+	PriceLabel      *string  `json:"priceLabel" bson:",omitempty"`
+	Points          *int     `json:"points" bson:",omitempty"`
 }
 
 type UpdateEventParticipant struct {
@@ -1569,14 +1638,10 @@ type UpdateEventParticipant struct {
 }
 
 type UpdateEventParticipation struct {
-	EventID                    *primitive.ObjectID       `json:"eventId" bson:",omitempty"`
-	PackageCount               *int                      `json:"packageCount" bson:",omitempty"`
-	AdditionalParticipantCount *int                      `json:"additionalParticipantCount" bson:",omitempty"`
-	AdditionalPetCount         *int                      `json:"additionalPetCount" bson:",omitempty"`
-	Participants               []*UpdateEventParticipant `json:"participants" bson:",omitempty"`
-	PetNames                   []string                  `json:"petNames" bson:",omitempty"`
-	StartedAt                  *primitive.DateTime       `json:"startedAt" bson:",omitempty"`
-	EndedAt                    *primitive.DateTime       `json:"endedAt" bson:",omitempty"`
+	PackageParticipants    []*UpdateEventParticipant `json:"packageParticipants" bson:",omitempty"`
+	PackagePets            []*UpdateEventPet         `json:"packagePets" bson:",omitempty"`
+	AdditionalParticipants []*UpdateEventParticipant `json:"additionalParticipants" bson:",omitempty"`
+	AdditionalPets         []*UpdateEventPet         `json:"additionalPets" bson:",omitempty"`
 }
 
 type UpdateEventParticipationInput struct {
@@ -1584,10 +1649,25 @@ type UpdateEventParticipationInput struct {
 	Participation *UpdateEventParticipation `json:"participation"`
 }
 
+type UpdateEventPet struct {
+	Name *string `json:"name" bson:",omitempty"`
+}
+
+type UpdateEventTicket struct {
+	UserID *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	Status *EventTicketStatus  `json:"status" bson:",omitempty"`
+}
+
+type UpdateEventTicketInput struct {
+	ID     primitive.ObjectID `json:"id"`
+	Ticket *UpdateEventTicket `json:"ticket"`
+}
+
 type UpdateEventTimeSlot struct {
 	StartedAt       *primitive.DateTime    `json:"startedAt" bson:",omitempty"`
 	EndedAt         *primitive.DateTime    `json:"endedAt" bson:",omitempty"`
 	MaxParticipants *int                   `json:"maxParticipants" bson:",omitempty"`
+	MaxPets         *int                   `json:"maxPets" bson:",omitempty"`
 	SubSlots        []*UpdateEventTimeSlot `json:"subSlots" bson:",omitempty"`
 }
 
@@ -2066,6 +2146,51 @@ func (e *ApprovalFilter) UnmarshalGQL(v interface{}) error {
 }
 
 func (e ApprovalFilter) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type EventTicketStatus string
+
+const (
+	EventTicketStatusRedeemable EventTicketStatus = "REDEEMABLE"
+	EventTicketStatusRedeemed   EventTicketStatus = "REDEEMED"
+	EventTicketStatusExpired    EventTicketStatus = "EXPIRED"
+	EventTicketStatusInvalid    EventTicketStatus = "INVALID"
+)
+
+var AllEventTicketStatus = []EventTicketStatus{
+	EventTicketStatusRedeemable,
+	EventTicketStatusRedeemed,
+	EventTicketStatusExpired,
+	EventTicketStatusInvalid,
+}
+
+func (e EventTicketStatus) IsValid() bool {
+	switch e {
+	case EventTicketStatusRedeemable, EventTicketStatusRedeemed, EventTicketStatusExpired, EventTicketStatusInvalid:
+		return true
+	}
+	return false
+}
+
+func (e EventTicketStatus) String() string {
+	return string(e)
+}
+
+func (e *EventTicketStatus) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = EventTicketStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid EventTicketStatus", str)
+	}
+	return nil
+}
+
+func (e EventTicketStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
