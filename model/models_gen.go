@@ -274,7 +274,7 @@ type CheckInCounter struct {
 	Name                  string                 `json:"name"`
 	Greetings             string                 `json:"greetings"`
 	QRCodeURL             string                 `json:"qrCodeUrl"`
-	Points                int                    `json:"points"`
+	Points                int64                  `json:"points"`
 	CreatedAt             *primitive.DateTime    `json:"createdAt"`
 	ValidTo               *primitive.DateTime    `json:"validTo"`
 	ValidFrom             *primitive.DateTime    `json:"validFrom"`
@@ -1141,7 +1141,7 @@ type PointTransaction struct {
 	UserID       *primitive.ObjectID     `json:"userId" bson:",omitempty"`
 	SourceEntity TransactionSourceEntity `json:"sourceEntity"`
 	Type         TransactionType         `json:"type"`
-	Amount       int                     `json:"amount"`
+	Amount       int64                   `json:"amount"`
 	Accumulated  bool                    `json:"accumulated"`
 	UpdatedAt    primitive.DateTime      `json:"updatedAt"`
 	CreatedAt    primitive.DateTime      `json:"createdAt"`
@@ -1423,7 +1423,7 @@ type Task struct {
 	EndedAt       *primitive.DateTime `json:"endedAt"`
 	Type          TaskType            `json:"type"`
 	Status        TaskStatus          `json:"status"`
-	Points        int                 `json:"points"`
+	Points        int64               `json:"points"`
 	ShareContent  *ShareContent       `json:"shareContent"`
 	Participation *TaskParticipation  `json:"participation"`
 	Conditional   bool                `json:"conditional"`
@@ -1571,7 +1571,7 @@ type UpdateCheckInCounter struct {
 	ProductID             *primitive.ObjectID         `json:"productId" bson:",omitempty"`
 	ProductName           *string                     `json:"productName" bson:",omitempty"`
 	QRCodeURL             *string                     `json:"qrCodeUrl" bson:",omitempty"`
-	Points                *int                        `json:"points" bson:",omitempty"`
+	Points                *int64                      `json:"points" bson:",omitempty"`
 	ValidTo               *primitive.DateTime         `json:"validTo" bson:",omitempty"`
 	ValidFrom             *primitive.DateTime         `json:"validFrom" bson:",omitempty"`
 	GeoLocationConstraint *GeoLocationConstraintInput `json:"geoLocationConstraint" bson:",omitempty"`
@@ -1856,7 +1856,7 @@ type UpdateTask struct {
 	EndedAt      *primitive.DateTime `json:"endedAt" bson:",omitempty"`
 	Type         *TaskType           `json:"type" bson:",omitempty"`
 	Status       *TaskStatus         `json:"status" bson:",omitempty"`
-	Points       *int                `json:"points" bson:",omitempty"`
+	Points       *int64              `json:"points" bson:",omitempty"`
 	ShareContent *ShareContentInput  `json:"shareContent" bson:",omitempty"`
 	Conditional  *bool               `json:"conditional" bson:",omitempty"`
 }
@@ -1894,7 +1894,7 @@ type UpdateThirdPartyTransactionInput struct {
 type UpdateTransaction struct {
 	UserID                       *primitive.ObjectID                      `json:"userId" bson:",omitempty"`
 	SourceEntity                 *TransactionSourceEntity                 `json:"sourceEntity" bson:",omitempty"`
-	Amount                       *int                                     `json:"amount" bson:",omitempty"`
+	Amount                       *int64                                   `json:"amount" bson:",omitempty"`
 	Accumulated                  *bool                                    `json:"accumulated" bson:",omitempty"`
 	Type                         *TransactionType                         `json:"type" bson:",omitempty"`
 	Remarks                      *string                                  `json:"remarks" bson:",omitempty"`
@@ -1918,7 +1918,7 @@ type UpdateUserBasicsInput struct {
 
 type UpdateUserPointsInput struct {
 	UserID primitive.ObjectID `json:"userId"`
-	Points int                `json:"points"`
+	Points int64              `json:"points"`
 }
 
 type UpdateUserPrivileges struct {
@@ -1932,7 +1932,7 @@ type UpdateUserPrivilegesInput struct {
 }
 
 type UpdateVoucher struct {
-	RedemptionPoint   *int                `json:"redemptionPoint" bson:",omitempty"`
+	RedemptionPoint   *int64              `json:"redemptionPoint" bson:",omitempty"`
 	Name              *string             `json:"name" bson:",omitempty"`
 	Description       *string             `json:"description" bson:",omitempty"`
 	Terms             *string             `json:"terms" bson:",omitempty"`
@@ -1991,7 +1991,7 @@ type UserProfile struct {
 	QuestionnaireOptions   []*SelectionOption        `json:"questionnaireOptions"`
 	Role                   int                       `json:"role"`
 	Level                  int                       `json:"level"`
-	Points                 int                       `json:"points"`
+	Points                 int64                     `json:"points"`
 	RetailerProfile        *RetailerProfile          `json:"retailerProfile"`
 	AvatarURL              string                    `json:"avatarUrl"`
 	FamilyName             string                    `json:"familyName"`
@@ -2058,7 +2058,7 @@ type VotingResult struct {
 
 type Voucher struct {
 	ID                primitive.ObjectID  `json:"id" bson:"_id"`
-	RedemptionPoint   int                 `json:"redemptionPoint"`
+	RedemptionPoint   int64               `json:"redemptionPoint"`
 	CreatedAt         *primitive.DateTime `json:"createdAt"`
 	Name              string              `json:"name"`
 	Terms             string              `json:"terms"`
