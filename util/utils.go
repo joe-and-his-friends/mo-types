@@ -159,7 +159,7 @@ func DividePreprocessedWords(input string) (resultingStr string) {
 
 func GenerateRedemptionCode(codeLength int, sed string) string {
 	var code = ""
-	var possible = "0123456789abcdefghijklmnopqrstuvwxyz" + sed
+	var possible = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" + sed
 	max := len(possible)
 	for i := 0; i < codeLength; i++ {
 		code += string(possible[rand.Intn(max)])

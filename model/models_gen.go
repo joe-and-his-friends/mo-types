@@ -1675,11 +1675,13 @@ type UpdateEventParticipation struct {
 	PackagePets            []*UpdateEventPet         `json:"packagePets" bson:",omitempty"`
 	AdditionalParticipants []*UpdateEventParticipant `json:"additionalParticipants" bson:",omitempty"`
 	AdditionalPets         []*UpdateEventPet         `json:"additionalPets" bson:",omitempty"`
+	Status                 *EventParticipationStatus `json:"status" bson:",omitempty"`
 }
 
 type UpdateEventParticipationInput struct {
-	ID            primitive.ObjectID        `json:"id"`
-	Participation *UpdateEventParticipation `json:"participation"`
+	ID             *primitive.ObjectID       `json:"id"`
+	RedemptionCode *string                   `json:"redemptionCode"`
+	Participation  *UpdateEventParticipation `json:"participation"`
 }
 
 type UpdateEventPet struct {
