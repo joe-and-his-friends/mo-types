@@ -82,12 +82,12 @@ func (r *PointTransactionDecoder) DecodeValue(dc bsoncodec.DecodeContext, vr bso
 
 			val.FieldByName("Type").SetString(fVal)
 		case "amount":
-			fVal, err := elemReader.ReadInt32()
+			fVal, err := elemReader.ReadInt64()
 			if err != nil {
 				return err
 			}
 
-			val.FieldByName("Amount").SetInt(int64(fVal))
+			val.FieldByName("Amount").SetInt(fVal)
 		case "userid":
 			fVal, err := elemReader.ReadObjectID()
 			if err != nil {
