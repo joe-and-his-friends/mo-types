@@ -57,16 +57,15 @@ const (
 	CodeDataUnmarshalingFailure  = 2002
 	CodeDataMarshalingFailure    = 2003
 
-	CodeUnderlyingRequestFailure = 3000
-
 	// checkin
 	CodeCheckInRecordExisted      = 4000
 	CodeCheckInInvalidTime        = 4001
 	CodeCheckInInvalidGeolocation = 4002
 	CodeCheckInInvalidCounter     = 4003
 
-	// voucher ownership
-	CodeVoucherInsufficientPoints = 4100
+	// order, points
+	CodeInsufficientPoints    = 4100
+	CodeInsufficientInventory = 4101
 
 	CodeServiceInternalServerError = 5000
 	CodeServiceNotImplemented      = 5001
@@ -97,8 +96,6 @@ const (
 	MsgDataUnmarshalingFailure  = "data unmarshaling failure"
 	MsgDataMarshalingFailure    = "data marshaling failure"
 
-	MsgUnderlyingRequestFailure = "target request failure"
-
 	// checkin
 	MsgCheckInRecordExisted      = "check-in record existed"
 	MsgCheckInInvalidTime        = "check-in invalid time"
@@ -106,7 +103,8 @@ const (
 	MsgCheckInInvalidCounter     = "check-in invalid counter"
 
 	// voucher ownership
-	MsgVoucherInsufficientPoints = "voucher insufficient points"
+	MsgInsufficientPoints    = "insufficient points"
+	MsgInsufficientInventory = "insufficient inventory"
 
 	// TODO: remove deprecated ones
 	MsgSystemError     = "system error"
