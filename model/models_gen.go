@@ -687,6 +687,7 @@ type EventParticipation struct {
 	UserID                      primitive.ObjectID       `json:"userId"`
 	EventID                     primitive.ObjectID       `json:"eventId"`
 	Event                       *Event                   `json:"event"`
+	Points                      int64                    `json:"points"`
 	RedemptionCode              string                   `json:"redemptionCode"`
 	Status                      EventParticipationStatus `json:"status"`
 	PackagesCount               int64                    `json:"packagesCount"`
@@ -1703,7 +1704,12 @@ type UpdateEventTicketInput struct {
 	Ticket *UpdateEventTicket `json:"ticket"`
 }
 
-type UpdateEventTicketsByParticipationInput struct {
+type UpdateEventTicketsByParticipationIDInput struct {
+	ParticipationID primitive.ObjectID                `json:"participationId"`
+	Participation   *UpdateEventTicketByParticipation `json:"participation"`
+}
+
+type UpdateEventTicketsInput struct {
 	Ids           []primitive.ObjectID              `json:"ids"`
 	Participation *UpdateEventTicketByParticipation `json:"participation"`
 }
@@ -1844,11 +1850,6 @@ type UpdateSystemTransactionDetails struct {
 	Type        *SystemTransactionType `json:"type" bson:",omitempty"`
 }
 
-type UpdateSystemTransactionInput struct {
-	ID          primitive.ObjectID `json:"id"`
-	Transaction *UpdateTransaction `json:"transaction"`
-}
-
 type UpdateTask struct {
 	Name         *string             `json:"name" bson:",omitempty"`
 	Introduction *string             `json:"introduction" bson:",omitempty"`
@@ -1879,6 +1880,7 @@ type UpdateTaskParticipationInput struct {
 }
 
 type UpdateThirdPartyPointTransactionDetails struct {
+	OrderID       *string             `json:"orderId" bson:",omitempty"`
 	CustomerPhone *string             `json:"customerPhone" bson:",omitempty"`
 	CustomerEmail *string             `json:"customerEmail" bson:",omitempty"`
 	CustomerName  *string             `json:"customerName" bson:",omitempty"`
@@ -1886,11 +1888,6 @@ type UpdateThirdPartyPointTransactionDetails struct {
 	MerchantID    *string             `json:"merchantId" bson:",omitempty"`
 	MerchantName  *string             `json:"merchantName" bson:",omitempty"`
 	OrderPayment  *UpdateOrderPayment `json:"orderPayment" bson:",omitempty"`
-}
-
-type UpdateThirdPartyTransactionInput struct {
-	OrderID     string             `json:"orderId"`
-	Transaction *UpdateTransaction `json:"transaction"`
 }
 
 type UpdateTransaction struct {
@@ -1902,6 +1899,11 @@ type UpdateTransaction struct {
 	Remarks                      *string                                  `json:"remarks" bson:",omitempty"`
 	SystemTransactionDetails     *UpdateSystemTransactionDetails          `json:"systemTransactionDetails" bson:",omitempty"`
 	ThirdPartyTransactionDetails *UpdateThirdPartyPointTransactionDetails `json:"thirdPartyTransactionDetails" bson:",omitempty"`
+}
+
+type UpdateTransactionInput struct {
+	ID          primitive.ObjectID `json:"id"`
+	Transaction *UpdateTransaction `json:"transaction"`
 }
 
 type UpdateUserBasicsInput struct {
@@ -2201,6 +2203,7 @@ const (
 	EventParticipationStatusRedeemable EventParticipationStatus = "REDEEMABLE"
 	EventParticipationStatusRedeemed   EventParticipationStatus = "REDEEMED"
 	EventParticipationStatusExpired    EventParticipationStatus = "EXPIRED"
+	EventParticipationStatusCanceled   EventParticipationStatus = "CANCELED"
 	EventParticipationStatusInvalid    EventParticipationStatus = "INVALID"
 )
 
@@ -2208,12 +2211,13 @@ var AllEventParticipationStatus = []EventParticipationStatus{
 	EventParticipationStatusRedeemable,
 	EventParticipationStatusRedeemed,
 	EventParticipationStatusExpired,
+	EventParticipationStatusCanceled,
 	EventParticipationStatusInvalid,
 }
 
 func (e EventParticipationStatus) IsValid() bool {
 	switch e {
-	case EventParticipationStatusRedeemable, EventParticipationStatusRedeemed, EventParticipationStatusExpired, EventParticipationStatusInvalid:
+	case EventParticipationStatusRedeemable, EventParticipationStatusRedeemed, EventParticipationStatusExpired, EventParticipationStatusCanceled, EventParticipationStatusInvalid:
 		return true
 	}
 	return false
@@ -2463,6 +2467,8 @@ const (
 	SystemTransactionTypeIncomeManual              SystemTransactionType = "INCOME_MANUAL"
 	SystemTransactionTypeExpenseVouchersOwnership  SystemTransactionType = "EXPENSE_VOUCHERS_OWNERSHIP"
 	SystemTransactionTypeExpenseEventParticipation SystemTransactionType = "EXPENSE_EVENT_PARTICIPATION"
+	SystemTransactionTypeRefundVouchersOwnership   SystemTransactionType = "REFUND_VOUCHERS_OWNERSHIP"
+	SystemTransactionTypeRefundEventParticipation  SystemTransactionType = "REFUND_EVENT_PARTICIPATION"
 )
 
 var AllSystemTransactionType = []SystemTransactionType{
@@ -2471,11 +2477,13 @@ var AllSystemTransactionType = []SystemTransactionType{
 	SystemTransactionTypeIncomeManual,
 	SystemTransactionTypeExpenseVouchersOwnership,
 	SystemTransactionTypeExpenseEventParticipation,
+	SystemTransactionTypeRefundVouchersOwnership,
+	SystemTransactionTypeRefundEventParticipation,
 }
 
 func (e SystemTransactionType) IsValid() bool {
 	switch e {
-	case SystemTransactionTypeIncomeCheckInRecords, SystemTransactionTypeIncomeTaskParticipation, SystemTransactionTypeIncomeManual, SystemTransactionTypeExpenseVouchersOwnership, SystemTransactionTypeExpenseEventParticipation:
+	case SystemTransactionTypeIncomeCheckInRecords, SystemTransactionTypeIncomeTaskParticipation, SystemTransactionTypeIncomeManual, SystemTransactionTypeExpenseVouchersOwnership, SystemTransactionTypeExpenseEventParticipation, SystemTransactionTypeRefundVouchersOwnership, SystemTransactionTypeRefundEventParticipation:
 		return true
 	}
 	return false
@@ -2673,20 +2681,20 @@ func (e TransactionSourceEntity) MarshalGQL(w io.Writer) {
 type TransactionType string
 
 const (
-	TransactionTypeIncome     TransactionType = "INCOME"
-	TransactionTypeExpense    TransactionType = "EXPENSE"
-	TransactionTypeRevocation TransactionType = "REVOCATION"
+	TransactionTypeIncome  TransactionType = "INCOME"
+	TransactionTypeExpense TransactionType = "EXPENSE"
+	TransactionTypeRefund  TransactionType = "REFUND"
 )
 
 var AllTransactionType = []TransactionType{
 	TransactionTypeIncome,
 	TransactionTypeExpense,
-	TransactionTypeRevocation,
+	TransactionTypeRefund,
 }
 
 func (e TransactionType) IsValid() bool {
 	switch e {
-	case TransactionTypeIncome, TransactionTypeExpense, TransactionTypeRevocation:
+	case TransactionTypeIncome, TransactionTypeExpense, TransactionTypeRefund:
 		return true
 	}
 	return false
