@@ -386,8 +386,11 @@ type CommentsInput struct {
 }
 
 type CommonEventFilter struct {
-	Recommended *bool `json:"recommended" bson:",omitempty"`
-	Approved    *bool `json:"approved" bson:",omitempty"`
+	Recommended *bool        `json:"recommended" bson:",omitempty"`
+	Approved    *bool        `json:"approved" bson:",omitempty"`
+	Published   *bool        `json:"published" bson:",omitempty"`
+	Online      *bool        `json:"online" bson:",omitempty"`
+	Status      *EventStatus `json:"status" bson:",omitempty"`
 }
 
 type Contest struct {
@@ -645,6 +648,9 @@ type Event struct {
 	ID                           primitive.ObjectID            `json:"id" bson:"_id"`
 	UserID                       primitive.ObjectID            `json:"userId"`
 	Name                         string                        `json:"name"`
+	RetailerAvatarURL            string                        `json:"retailerAvatarUrl"`
+	Status                       EventStatus                   `json:"status"`
+	Online                       bool                          `json:"online"`
 	Introduction                 string                        `json:"introduction"`
 	Details                      string                        `json:"details"`
 	Notice                       string                        `json:"notice"`
@@ -1639,6 +1645,9 @@ type UpdateContestCandidateExtraNumberOfVotes struct {
 type UpdateEvent struct {
 	UserID                       *primitive.ObjectID                 `json:"userId" bson:",omitempty"`
 	Name                         *string                             `json:"name" bson:",omitempty"`
+	RetailerAvatarURL            *string                             `json:"retailerAvatarUrl" bson:",omitempty"`
+	Status                       *EventStatus                        `json:"status" bson:",omitempty"`
+	Online                       *bool                               `json:"online" bson:",omitempty"`
 	Introduction                 *string                             `json:"introduction" bson:",omitempty"`
 	Details                      *string                             `json:"details" bson:",omitempty"`
 	Notice                       *string                             `json:"notice" bson:",omitempty"`
@@ -2252,6 +2261,49 @@ func (e *EventParticipationStatus) UnmarshalGQL(v interface{}) error {
 }
 
 func (e EventParticipationStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type EventStatus string
+
+const (
+	EventStatusNotStarted EventStatus = "NOT_STARTED"
+	EventStatusOngoing    EventStatus = "ONGOING"
+	EventStatusEnded      EventStatus = "ENDED"
+)
+
+var AllEventStatus = []EventStatus{
+	EventStatusNotStarted,
+	EventStatusOngoing,
+	EventStatusEnded,
+}
+
+func (e EventStatus) IsValid() bool {
+	switch e {
+	case EventStatusNotStarted, EventStatusOngoing, EventStatusEnded:
+		return true
+	}
+	return false
+}
+
+func (e EventStatus) String() string {
+	return string(e)
+}
+
+func (e *EventStatus) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = EventStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid EventStatus", str)
+	}
+	return nil
+}
+
+func (e EventStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
