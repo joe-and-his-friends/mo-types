@@ -684,6 +684,11 @@ type Event struct {
 
 func (Event) IsEventQueryResult() {}
 
+type EventInput struct {
+	ID             *primitive.ObjectID `json:"id"`
+	RedemptionCode *string             `json:"redemptionCode"`
+}
+
 type EventPackagePricing struct {
 	MaxParticipants int64   `json:"maxParticipants"`
 	MaxPets         int64   `json:"maxPets"`
