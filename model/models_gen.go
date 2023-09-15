@@ -214,13 +214,16 @@ type AppVersionInfo struct {
 }
 
 type Banner struct {
-	ID            primitive.ObjectID `json:"id" bson:"_id"`
-	Name          string             `json:"name"`
-	ImageURL      string             `json:"imageUrl"`
-	PopupImageURL string             `json:"popupImageUrl"`
-	AppPage       AppPage            `json:"appPage"`
-	PageParams    string             `json:"pageParams"`
-	Visible       bool               `json:"visible"`
+	ID            primitive.ObjectID  `json:"id" bson:"_id"`
+	Name          string              `json:"name"`
+	ImageURL      string              `json:"imageUrl"`
+	PopupImageURL string              `json:"popupImageUrl"`
+	AppPage       AppPage             `json:"appPage"`
+	PageParams    string              `json:"pageParams"`
+	DisplayPages  []BannerDisplayPage `json:"displayPages"`
+	Visible       bool                `json:"visible"`
+	CreatedAt     primitive.DateTime  `json:"createdAt"`
+	UpdatedAt     primitive.DateTime  `json:"updatedAt"`
 }
 
 type Banners struct {
@@ -1339,6 +1342,8 @@ func (ServiceError) IsAdoptionAdsQueryResult() {}
 
 func (ServiceError) IsAdoptionAgenciesQueryResult() {}
 
+func (ServiceError) IsBannersQueryResult() {}
+
 func (ServiceError) IsCheckInCounterQueryResult() {}
 
 func (ServiceError) IsCheckInCountersQueryResult() {}
@@ -1352,8 +1357,6 @@ func (ServiceError) IsEventQueryResult() {}
 func (ServiceError) IsEventParticipationsQueryResult() {}
 
 func (ServiceError) IsJobsResult() {}
-
-func (ServiceError) IsBannersQueryResult() {}
 
 func (ServiceError) IsPetProfilesQueryResult() {}
 
@@ -1565,12 +1568,13 @@ type UpdateAdoptionAgencyInput struct {
 }
 
 type UpdateBanner struct {
-	Name          *string  `json:"name" bson:",omitempty"`
-	ImageURL      *string  `json:"imageUrl" bson:",omitempty"`
-	PopupImageURL *string  `json:"popupImageUrl" bson:",omitempty"`
-	AppPage       *AppPage `json:"appPage" bson:",omitempty"`
-	PageParams    *string  `json:"pageParams" bson:",omitempty"`
-	Visible       *bool    `json:"visible" bson:",omitempty"`
+	Name          *string             `json:"name" bson:",omitempty"`
+	ImageURL      *string             `json:"imageUrl" bson:",omitempty"`
+	PopupImageURL *string             `json:"popupImageUrl" bson:",omitempty"`
+	AppPage       *AppPage            `json:"appPage" bson:",omitempty"`
+	PageParams    *string             `json:"pageParams" bson:",omitempty"`
+	DisplayPages  []BannerDisplayPage `json:"displayPages" bson:",omitempty"`
+	Visible       *bool               `json:"visible" bson:",omitempty"`
 }
 
 type UpdateBannerInput struct {
@@ -2135,6 +2139,7 @@ const (
 	AppPageRetailerList    AppPage = "RETAILER_LIST"
 	AppPageEventDetails    AppPage = "EVENT_DETAILS"
 	AppPageContestDetails  AppPage = "CONTEST_DETAILS"
+	AppPageVoucherDetails  AppPage = "VOUCHER_DETAILS"
 )
 
 var AllAppPage = []AppPage{
@@ -2143,11 +2148,12 @@ var AllAppPage = []AppPage{
 	AppPageRetailerList,
 	AppPageEventDetails,
 	AppPageContestDetails,
+	AppPageVoucherDetails,
 }
 
 func (e AppPage) IsValid() bool {
 	switch e {
-	case AppPageEditorialPost, AppPageRetailerDetails, AppPageRetailerList, AppPageEventDetails, AppPageContestDetails:
+	case AppPageEditorialPost, AppPageRetailerDetails, AppPageRetailerList, AppPageEventDetails, AppPageContestDetails, AppPageVoucherDetails:
 		return true
 	}
 	return false
@@ -2214,6 +2220,47 @@ func (e *ApprovalFilter) UnmarshalGQL(v interface{}) error {
 }
 
 func (e ApprovalFilter) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type BannerDisplayPage string
+
+const (
+	BannerDisplayPageHome        BannerDisplayPage = "HOME"
+	BannerDisplayPageVoucherHome BannerDisplayPage = "VOUCHER_HOME"
+)
+
+var AllBannerDisplayPage = []BannerDisplayPage{
+	BannerDisplayPageHome,
+	BannerDisplayPageVoucherHome,
+}
+
+func (e BannerDisplayPage) IsValid() bool {
+	switch e {
+	case BannerDisplayPageHome, BannerDisplayPageVoucherHome:
+		return true
+	}
+	return false
+}
+
+func (e BannerDisplayPage) String() string {
+	return string(e)
+}
+
+func (e *BannerDisplayPage) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = BannerDisplayPage(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid BannerDisplayPage", str)
+	}
+	return nil
+}
+
+func (e BannerDisplayPage) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
