@@ -42,6 +42,10 @@ type CheckInRecordQueryResult interface {
 	IsCheckInRecordQueryResult()
 }
 
+type EventParticipationQueryResult interface {
+	IsEventParticipationQueryResult()
+}
+
 type EventParticipationsQueryResult interface {
 	IsEventParticipationsQueryResult()
 }
@@ -724,6 +728,13 @@ type EventParticipation struct {
 	UpdatedAt                   primitive.DateTime       `json:"updatedAt"`
 }
 
+func (EventParticipation) IsEventParticipationQueryResult() {}
+
+type EventParticipationInput struct {
+	ID             *primitive.ObjectID `json:"id"`
+	RedemptionCode *string             `json:"redemptionCode"`
+}
+
 type EventParticipations struct {
 	TotalCount int64                 `json:"totalCount"`
 	Items      []*EventParticipation `json:"items"`
@@ -1359,6 +1370,8 @@ func (ServiceError) IsCheckInRecordQueryResult() {}
 func (ServiceError) IsEventsQueryResult() {}
 
 func (ServiceError) IsEventQueryResult() {}
+
+func (ServiceError) IsEventParticipationQueryResult() {}
 
 func (ServiceError) IsEventParticipationsQueryResult() {}
 
