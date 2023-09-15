@@ -214,16 +214,16 @@ type AppVersionInfo struct {
 }
 
 type Banner struct {
-	ID            primitive.ObjectID  `json:"id" bson:"_id"`
-	Name          string              `json:"name"`
-	ImageURL      string              `json:"imageUrl"`
-	PopupImageURL string              `json:"popupImageUrl"`
-	AppPage       AppPage             `json:"appPage"`
-	PageParams    string              `json:"pageParams"`
-	DisplayPages  []BannerDisplayPage `json:"displayPages"`
-	Visible       bool                `json:"visible"`
-	CreatedAt     primitive.DateTime  `json:"createdAt"`
-	UpdatedAt     primitive.DateTime  `json:"updatedAt"`
+	ID            primitive.ObjectID `json:"id" bson:"_id"`
+	Name          string             `json:"name"`
+	ImageURL      string             `json:"imageUrl"`
+	PopupImageURL string             `json:"popupImageUrl"`
+	AppPage       AppPage            `json:"appPage"`
+	PageParams    string             `json:"pageParams"`
+	DisplayPage   BannerDisplayPage  `json:"displayPage"`
+	Visible       bool               `json:"visible"`
+	CreatedAt     primitive.DateTime `json:"createdAt"`
+	UpdatedAt     primitive.DateTime `json:"updatedAt"`
 }
 
 type Banners struct {
@@ -234,7 +234,8 @@ type Banners struct {
 func (Banners) IsBannersQueryResult() {}
 
 type BannersInput struct {
-	Visible *bool `json:"visible"`
+	Visible     *bool              `json:"visible" bson:",omitempty"`
+	DisplayPage *BannerDisplayPage `json:"displayPage" bson:",omitempty"`
 }
 
 type BindPhoneOrEmailInput struct {
@@ -1568,13 +1569,13 @@ type UpdateAdoptionAgencyInput struct {
 }
 
 type UpdateBanner struct {
-	Name          *string             `json:"name" bson:",omitempty"`
-	ImageURL      *string             `json:"imageUrl" bson:",omitempty"`
-	PopupImageURL *string             `json:"popupImageUrl" bson:",omitempty"`
-	AppPage       *AppPage            `json:"appPage" bson:",omitempty"`
-	PageParams    *string             `json:"pageParams" bson:",omitempty"`
-	DisplayPages  []BannerDisplayPage `json:"displayPages" bson:",omitempty"`
-	Visible       *bool               `json:"visible" bson:",omitempty"`
+	Name          *string            `json:"name" bson:",omitempty"`
+	ImageURL      *string            `json:"imageUrl" bson:",omitempty"`
+	PopupImageURL *string            `json:"popupImageUrl" bson:",omitempty"`
+	AppPage       *AppPage           `json:"appPage" bson:",omitempty"`
+	PageParams    *string            `json:"pageParams" bson:",omitempty"`
+	DisplayPage   *BannerDisplayPage `json:"displayPage" bson:",omitempty"`
+	Visible       *bool              `json:"visible" bson:",omitempty"`
 }
 
 type UpdateBannerInput struct {
