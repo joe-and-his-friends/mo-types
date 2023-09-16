@@ -1964,8 +1964,10 @@ type UpdateUserBasicsInput struct {
 }
 
 type UpdateUserPointsInput struct {
-	UserID primitive.ObjectID `json:"userId"`
-	Points int64              `json:"points"`
+	UserID          primitive.ObjectID `json:"userId"`
+	Points          int64              `json:"points"`
+	Remarks         string             `json:"remarks"`
+	TransactionType TransactionType    `json:"transactionType"`
 }
 
 type UpdateUserPrivileges struct {
@@ -2598,6 +2600,7 @@ const (
 	SystemTransactionTypeExpenseEventParticipation SystemTransactionType = "EXPENSE_EVENT_PARTICIPATION"
 	SystemTransactionTypeRefundVouchersOwnership   SystemTransactionType = "REFUND_VOUCHERS_OWNERSHIP"
 	SystemTransactionTypeRefundEventParticipation  SystemTransactionType = "REFUND_EVENT_PARTICIPATION"
+	SystemTransactionTypeDeductionManaul           SystemTransactionType = "DEDUCTION_MANAUL"
 )
 
 var AllSystemTransactionType = []SystemTransactionType{
@@ -2608,11 +2611,12 @@ var AllSystemTransactionType = []SystemTransactionType{
 	SystemTransactionTypeExpenseEventParticipation,
 	SystemTransactionTypeRefundVouchersOwnership,
 	SystemTransactionTypeRefundEventParticipation,
+	SystemTransactionTypeDeductionManaul,
 }
 
 func (e SystemTransactionType) IsValid() bool {
 	switch e {
-	case SystemTransactionTypeIncomeCheckInRecords, SystemTransactionTypeIncomeTaskParticipation, SystemTransactionTypeIncomeManual, SystemTransactionTypeExpenseVouchersOwnership, SystemTransactionTypeExpenseEventParticipation, SystemTransactionTypeRefundVouchersOwnership, SystemTransactionTypeRefundEventParticipation:
+	case SystemTransactionTypeIncomeCheckInRecords, SystemTransactionTypeIncomeTaskParticipation, SystemTransactionTypeIncomeManual, SystemTransactionTypeExpenseVouchersOwnership, SystemTransactionTypeExpenseEventParticipation, SystemTransactionTypeRefundVouchersOwnership, SystemTransactionTypeRefundEventParticipation, SystemTransactionTypeDeductionManaul:
 		return true
 	}
 	return false
@@ -2810,20 +2814,22 @@ func (e TransactionSourceEntity) MarshalGQL(w io.Writer) {
 type TransactionType string
 
 const (
-	TransactionTypeIncome  TransactionType = "INCOME"
-	TransactionTypeExpense TransactionType = "EXPENSE"
-	TransactionTypeRefund  TransactionType = "REFUND"
+	TransactionTypeIncome    TransactionType = "INCOME"
+	TransactionTypeExpense   TransactionType = "EXPENSE"
+	TransactionTypeRefund    TransactionType = "REFUND"
+	TransactionTypeDeduction TransactionType = "DEDUCTION"
 )
 
 var AllTransactionType = []TransactionType{
 	TransactionTypeIncome,
 	TransactionTypeExpense,
 	TransactionTypeRefund,
+	TransactionTypeDeduction,
 }
 
 func (e TransactionType) IsValid() bool {
 	switch e {
-	case TransactionTypeIncome, TransactionTypeExpense, TransactionTypeRefund:
+	case TransactionTypeIncome, TransactionTypeExpense, TransactionTypeRefund, TransactionTypeDeduction:
 		return true
 	}
 	return false
