@@ -394,11 +394,12 @@ type CommentsInput struct {
 }
 
 type CommonEventFilter struct {
-	Recommended *bool        `json:"recommended" bson:",omitempty"`
-	Approved    *bool        `json:"approved" bson:",omitempty"`
-	Published   *bool        `json:"published" bson:",omitempty"`
-	Online      *bool        `json:"online" bson:",omitempty"`
-	Status      *EventStatus `json:"status" bson:",omitempty"`
+	UserID      *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	Recommended *bool               `json:"recommended" bson:",omitempty"`
+	Approved    *bool               `json:"approved" bson:",omitempty"`
+	Published   *bool               `json:"published" bson:",omitempty"`
+	Online      *bool               `json:"online" bson:",omitempty"`
+	Status      *EventStatus        `json:"status" bson:",omitempty"`
 }
 
 type Contest struct {
@@ -688,6 +689,10 @@ type Event struct {
 
 func (Event) IsEventQueryResult() {}
 
+type EventFilterInput struct {
+	EventID *primitive.ObjectID `json:"eventId"`
+}
+
 type EventInput struct {
 	ID             *primitive.ObjectID `json:"id"`
 	RedemptionCode *string             `json:"redemptionCode"`
@@ -742,9 +747,14 @@ type EventParticipations struct {
 
 func (EventParticipations) IsEventParticipationsQueryResult() {}
 
+type EventParticipationsFilter struct {
+	EventStatus *EventStatus `json:"eventStatus"`
+}
+
 type EventParticipationsInput struct {
-	PageNumber int64 `json:"pageNumber"`
-	PageSize   int64 `json:"pageSize"`
+	PageNumber int64                      `json:"pageNumber"`
+	PageSize   int64                      `json:"pageSize"`
+	Filter     *EventParticipationsFilter `json:"filter"`
 }
 
 type EventPet struct {
@@ -1344,6 +1354,7 @@ type SendMessageInput struct {
 	Message      *MessageInput      `json:"message"`
 	PetsFilters  *PetsFiltersInput  `json:"petsFilters"`
 	UsersFilters *UsersFiltersInput `json:"usersFilters"`
+	EventFilter  *EventFilterInput  `json:"eventFilter"`
 	WetRun       bool               `json:"wetRun"`
 	JobID        primitive.ObjectID `json:"jobId"`
 }
