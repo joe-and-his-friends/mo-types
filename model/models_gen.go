@@ -693,11 +693,6 @@ type EventFilterInput struct {
 	EventID *primitive.ObjectID `json:"eventId"`
 }
 
-type EventInput struct {
-	ID             *primitive.ObjectID `json:"id"`
-	RedemptionCode *string             `json:"redemptionCode"`
-}
-
 type EventPackagePricing struct {
 	MaxParticipants int64   `json:"maxParticipants"`
 	MaxPets         int64   `json:"maxPets"`
@@ -1764,8 +1759,10 @@ type UpdateEventTicketsByParticipationIDInput struct {
 }
 
 type UpdateEventTicketsInput struct {
-	Ids           []primitive.ObjectID              `json:"ids"`
-	Participation *UpdateEventTicketByParticipation `json:"participation"`
+	Ids             []primitive.ObjectID              `json:"ids"`
+	ParticipationID *primitive.ObjectID               `json:"participationId"`
+	UserID          *primitive.ObjectID               `json:"userId"`
+	Participation   *UpdateEventTicketByParticipation `json:"participation"`
 }
 
 type UpdateEventTimeSlot struct {
