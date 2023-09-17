@@ -95,6 +95,13 @@ func (r *PointTransactionDecoder) DecodeValue(dc bsoncodec.DecodeContext, vr bso
 			}
 
 			val.FieldByName("UserID").Set(reflect.ValueOf(&fVal))
+		case "remarks":
+			fVal, err := elemReader.ReadString()
+			if err != nil {
+				return err
+			}
+
+			val.FieldByName("remarks").SetString(fVal)
 		case "customeremail":
 			fVal, err := elemReader.ReadString()
 
