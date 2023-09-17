@@ -701,6 +701,7 @@ type EventFilterInput struct {
 }
 
 type EventPackagePricing struct {
+	Name            string  `json:"name"`
 	MaxParticipants int64   `json:"maxParticipants"`
 	MaxPets         int64   `json:"maxPets"`
 	Price           float64 `json:"price"`
@@ -1711,6 +1712,7 @@ type UpdateEventInput struct {
 }
 
 type UpdateEventPackagePricing struct {
+	Name            *string  `json:"name" bson:",omitempty"`
 	MaxParticipants *int64   `json:"maxParticipants" bson:",omitempty"`
 	MaxPets         *int64   `json:"maxPets" bson:",omitempty"`
 	Price           *float64 `json:"price" bson:",omitempty"`
