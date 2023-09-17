@@ -604,6 +604,13 @@ type DatetimeFilter struct {
 	EndedAt   primitive.DateTime `json:"endedAt"`
 }
 
+type DatetimeRangeFilter struct {
+	StartedBefore *primitive.DateTime `json:"startedBefore"`
+	StartedAfter  *primitive.DateTime `json:"startedAfter"`
+	EndedBefore   *primitive.DateTime `json:"endedBefore"`
+	EndedAfter    *primitive.DateTime `json:"endedAfter"`
+}
+
 type DeleteFcmRegistrationTokenInput struct {
 	UserID primitive.ObjectID `json:"userId"`
 	UUID   string             `json:"uuid"`
@@ -742,14 +749,10 @@ type EventParticipations struct {
 
 func (EventParticipations) IsEventParticipationsQueryResult() {}
 
-type EventParticipationsFilter struct {
-	EventStatus *EventStatus `json:"eventStatus"`
-}
-
 type EventParticipationsInput struct {
-	PageNumber int64                      `json:"pageNumber"`
-	PageSize   int64                      `json:"pageSize"`
-	Filter     *EventParticipationsFilter `json:"filter"`
+	PageNumber          int64                `json:"pageNumber"`
+	PageSize            int64                `json:"pageSize"`
+	DatetimeRangeFilter *DatetimeRangeFilter `json:"datetimeRangeFilter"`
 }
 
 type EventPet struct {
