@@ -101,7 +101,7 @@ func (r *PointTransactionDecoder) DecodeValue(dc bsoncodec.DecodeContext, vr bso
 				return err
 			}
 
-			val.FieldByName("remarks").SetString(fVal)
+			val.FieldByName("Remarks").SetString(fVal)
 		case "customeremail":
 			fVal, err := elemReader.ReadString()
 
