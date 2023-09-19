@@ -701,12 +701,12 @@ type EventFilterInput struct {
 }
 
 type EventPackagePricing struct {
-	Remarks         string  `json:"remarks"`
 	MaxParticipants int64   `json:"maxParticipants"`
 	MaxPets         int64   `json:"maxPets"`
 	Price           float64 `json:"price"`
 	PriceLabel      string  `json:"priceLabel"`
 	Points          int64   `json:"points"`
+	Remarks         string  `json:"remarks"`
 }
 
 type EventParticipant struct {
@@ -1712,12 +1712,12 @@ type UpdateEventInput struct {
 }
 
 type UpdateEventPackagePricing struct {
-	Remarks         *string  `json:"remarks" bson:",omitempty"`
 	MaxParticipants *int64   `json:"maxParticipants" bson:",omitempty"`
 	MaxPets         *int64   `json:"maxPets" bson:",omitempty"`
 	Price           *float64 `json:"price" bson:",omitempty"`
 	PriceLabel      *string  `json:"priceLabel" bson:",omitempty"`
 	Points          *int64   `json:"points" bson:",omitempty"`
+	Remarks         *string  `json:"remarks" bson:",omitempty"`
 }
 
 type UpdateEventParticipant struct {
@@ -2606,30 +2606,30 @@ func (e Sex) MarshalGQL(w io.Writer) {
 type SystemTransactionType string
 
 const (
+	SystemTransactionTypeIncomeTransfer            SystemTransactionType = "INCOME_TRANSFER"
 	SystemTransactionTypeIncomeCheckInRecords      SystemTransactionType = "INCOME_CHECK_IN_RECORDS"
 	SystemTransactionTypeIncomeTaskParticipation   SystemTransactionType = "INCOME_TASK_PARTICIPATION"
-	SystemTransactionTypeIncomeManual              SystemTransactionType = "INCOME_MANUAL"
+	SystemTransactionTypeExpenseTransfer           SystemTransactionType = "EXPENSE_TRANSFER"
 	SystemTransactionTypeExpenseVouchersOwnership  SystemTransactionType = "EXPENSE_VOUCHERS_OWNERSHIP"
 	SystemTransactionTypeExpenseEventParticipation SystemTransactionType = "EXPENSE_EVENT_PARTICIPATION"
 	SystemTransactionTypeRefundVouchersOwnership   SystemTransactionType = "REFUND_VOUCHERS_OWNERSHIP"
 	SystemTransactionTypeRefundEventParticipation  SystemTransactionType = "REFUND_EVENT_PARTICIPATION"
-	SystemTransactionTypeDeductionManaul           SystemTransactionType = "DEDUCTION_MANAUL"
 )
 
 var AllSystemTransactionType = []SystemTransactionType{
+	SystemTransactionTypeIncomeTransfer,
 	SystemTransactionTypeIncomeCheckInRecords,
 	SystemTransactionTypeIncomeTaskParticipation,
-	SystemTransactionTypeIncomeManual,
+	SystemTransactionTypeExpenseTransfer,
 	SystemTransactionTypeExpenseVouchersOwnership,
 	SystemTransactionTypeExpenseEventParticipation,
 	SystemTransactionTypeRefundVouchersOwnership,
 	SystemTransactionTypeRefundEventParticipation,
-	SystemTransactionTypeDeductionManaul,
 }
 
 func (e SystemTransactionType) IsValid() bool {
 	switch e {
-	case SystemTransactionTypeIncomeCheckInRecords, SystemTransactionTypeIncomeTaskParticipation, SystemTransactionTypeIncomeManual, SystemTransactionTypeExpenseVouchersOwnership, SystemTransactionTypeExpenseEventParticipation, SystemTransactionTypeRefundVouchersOwnership, SystemTransactionTypeRefundEventParticipation, SystemTransactionTypeDeductionManaul:
+	case SystemTransactionTypeIncomeTransfer, SystemTransactionTypeIncomeCheckInRecords, SystemTransactionTypeIncomeTaskParticipation, SystemTransactionTypeExpenseTransfer, SystemTransactionTypeExpenseVouchersOwnership, SystemTransactionTypeExpenseEventParticipation, SystemTransactionTypeRefundVouchersOwnership, SystemTransactionTypeRefundEventParticipation:
 		return true
 	}
 	return false
@@ -2827,22 +2827,20 @@ func (e TransactionSourceEntity) MarshalGQL(w io.Writer) {
 type TransactionType string
 
 const (
-	TransactionTypeIncome    TransactionType = "INCOME"
-	TransactionTypeExpense   TransactionType = "EXPENSE"
-	TransactionTypeRefund    TransactionType = "REFUND"
-	TransactionTypeDeduction TransactionType = "DEDUCTION"
+	TransactionTypeIncome  TransactionType = "INCOME"
+	TransactionTypeExpense TransactionType = "EXPENSE"
+	TransactionTypeRefund  TransactionType = "REFUND"
 )
 
 var AllTransactionType = []TransactionType{
 	TransactionTypeIncome,
 	TransactionTypeExpense,
 	TransactionTypeRefund,
-	TransactionTypeDeduction,
 }
 
 func (e TransactionType) IsValid() bool {
 	switch e {
-	case TransactionTypeIncome, TransactionTypeExpense, TransactionTypeRefund, TransactionTypeDeduction:
+	case TransactionTypeIncome, TransactionTypeExpense, TransactionTypeRefund:
 		return true
 	}
 	return false
