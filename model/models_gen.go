@@ -738,6 +738,12 @@ type EventParticipation struct {
 
 func (EventParticipation) IsEventParticipationQueryResult() {}
 
+type EventParticipationCommonFilter struct {
+	UserID  *primitive.ObjectID       `json:"userId" bson:",omitempty"`
+	EventID *primitive.ObjectID       `json:"eventId" bson:",omitempty"`
+	Status  *EventParticipationStatus `json:"status" bson:",omitempty"`
+}
+
 type EventParticipationInput struct {
 	ID             *primitive.ObjectID `json:"id"`
 	RedemptionCode *string             `json:"redemptionCode"`
@@ -751,9 +757,10 @@ type EventParticipations struct {
 func (EventParticipations) IsEventParticipationsQueryResult() {}
 
 type EventParticipationsInput struct {
-	PageNumber          int64                `json:"pageNumber"`
-	PageSize            int64                `json:"pageSize"`
-	DatetimeRangeFilter *DatetimeRangeFilter `json:"datetimeRangeFilter"`
+	PageNumber          int64                           `json:"pageNumber"`
+	PageSize            int64                           `json:"pageSize"`
+	CommonFilter        *EventParticipationCommonFilter `json:"commonFilter"`
+	DatetimeRangeFilter *DatetimeRangeFilter            `json:"datetimeRangeFilter"`
 }
 
 type EventPet struct {
