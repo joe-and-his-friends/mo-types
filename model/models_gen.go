@@ -717,6 +717,7 @@ type EventParticipant struct {
 type EventParticipation struct {
 	ID                          primitive.ObjectID       `json:"id" bson:"_id"`
 	UserID                      primitive.ObjectID       `json:"userId"`
+	User                        *UserProfile             `json:"user"`
 	EventID                     primitive.ObjectID       `json:"eventId"`
 	Event                       *Event                   `json:"event"`
 	Points                      int64                    `json:"points"`
