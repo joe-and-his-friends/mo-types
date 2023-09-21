@@ -78,7 +78,7 @@ const (
 	MsgExistingPhoneOrEmail    = "phone or email already exists"
 	MsgNonexistingPhoneOrEmail = "phone or email not exists"
 	MsgAuthenticationFailure   = "authenticating user failure"
-	MsgUnauthorized            = "unauthorized "
+	MsgUnauthorized            = "unauthorized"
 	MsgNotAllowed              = "not allowed"
 
 	MsgExpiredVerificationCode              = "expired verification code"
