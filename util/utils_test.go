@@ -47,47 +47,53 @@ func TestFlattenBsonDoc(t *testing.T) {
 	t.Log(flattened)
 }
 
-func TestFlattenBsonD(t *testing.T) {
-	type Test struct {
-		Level1 struct {
-			Level2 struct {
-				Level3 string
-			}
-		}
-		L1 struct {
-			L2 struct {
-				L3 string
-			}
-		}
-	}
+// func TestFlattenBsonD(t *testing.T) {
+// 	type Test struct {
+// 		Level1 struct {
+// 			Level2 struct {
+// 				Level3 string
+// 			}
+// 		}
+// 		L1 struct {
+// 			L2 struct {
+// 				L3 string
+// 			}
+// 		}
+// 	}
 
-	test := Test{
-		Level1: struct {
-			Level2 struct {
-				Level3 string
-			}
-		}{
-			Level2: struct {
-				Level3 string
-			}{
-				Level3: "hello",
-			},
-		},
-		L1: struct {
-			L2 struct {
-				L3 string
-			}
-		}{
-			L2: struct {
-				L3 string
-			}{
-				L3: "world",
-			},
-		},
-	}
+// 	test := Test{
+// 		Level1: struct {
+// 			Level2 struct {
+// 				Level3 string
+// 			}
+// 		}{
+// 			Level2: struct {
+// 				Level3 string
+// 			}{
+// 				Level3: "hello",
+// 			},
+// 		},
+// 		L1: struct {
+// 			L2 struct {
+// 				L3 string
+// 			}
+// 		}{
+// 			L2: struct {
+// 				L3 string
+// 			}{
+// 				L3: "world",
+// 			},
+// 		},
+// 	}
 
-	doc := StructToBsonD(test)
-	flattened := FlattenBsonD(doc)
+// 	doc := StructToBsonD(test)
+// 	flattened := FlattenBsonD(doc)
 
-	t.Log(flattened)
+// 	t.Log(flattened)
+// }
+
+func TestStructToDoc(t *testing.T) {
+	res := StructToBsonDoc(nil)
+
+	t.Log(res)
 }

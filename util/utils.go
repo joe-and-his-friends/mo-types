@@ -186,6 +186,10 @@ func InjectField(source interface{}, fieldName string, fieldValue interface{}) i
 }
 
 func StructToBsonDoc(source interface{}) bson.M {
+	if source == nil {
+		return bson.M{}
+	}
+
 	bytes, err := bson.Marshal(source)
 
 	if err != nil {
@@ -202,22 +206,22 @@ func StructToBsonDoc(source interface{}) bson.M {
 	return doc
 }
 
-func StructToBsonD(source interface{}) bson.D {
-	bytes, err := bson.Marshal(source)
+// func StructToBsonD(source interface{}) bson.D {
+// 	bytes, err := bson.Marshal(source)
 
-	if err != nil {
-		return nil
-	}
+// 	if err != nil {
+// 		return nil
+// 	}
 
-	doc := bson.D{}
-	err = bson.Unmarshal(bytes, &doc)
+// 	doc := bson.D{}
+// 	err = bson.Unmarshal(bytes, &doc)
 
-	if err != nil {
-		return nil
-	}
+// 	if err != nil {
+// 		return nil
+// 	}
 
-	return doc
-}
+// 	return doc
+// }
 
 func StructToFlattenedBsonDoc(source interface{}) bson.M {
 	return FlattenBsonDoc(StructToBsonDoc(source))
@@ -240,9 +244,9 @@ func FlattenBsonDoc(source bson.M) bson.M {
 	return prefixed
 }
 
-func StructToFlattenedBsonD(source interface{}) bson.D {
-	return FlattenBsonD(StructToBsonD(source))
-}
+// func StructToFlattenedBsonD(source interface{}) bson.D {
+// 	return FlattenBsonD(StructToBsonD(source))
+// }
 
 func FlattenBsonD(source bson.D) bson.D {
 	prefixed := bson.D{}
