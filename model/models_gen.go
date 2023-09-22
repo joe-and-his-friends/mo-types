@@ -212,9 +212,11 @@ type AdoptionAgency struct {
 func (AdoptionAgency) IsAdoptionAgencyQueryResult() {}
 
 type AppVersionInfo struct {
+	Name                   string `json:"name"`
 	LatestReleasedVersion  string `json:"latestReleasedVersion"`
 	LowestSupportedVersion string `json:"lowestSupportedVersion"`
-	DetailsUrl             string `json:"detailsUrl"`
+	Details                string `json:"details"`
+	DetailsURL             string `json:"detailsUrl"`
 }
 
 type Banner struct {
@@ -1604,6 +1606,18 @@ type UpdateAdoptionAgencyInput struct {
 	Agency *UpdateAdoptionAgency `json:"agency"`
 }
 
+type UpdateAppVersionInfo struct {
+	LatestReleasedVersion  *string `json:"latestReleasedVersion" bson:",omitempty"`
+	LowestSupportedVersion *string `json:"lowestSupportedVersion" bson:",omitempty"`
+	Details                *string `json:"details" bson:",omitempty"`
+	DetailsURL             *string `json:"detailsUrl" bson:",omitempty"`
+}
+
+type UpdateAppVersionInfoInput struct {
+	Name string                `json:"name"`
+	Info *UpdateAppVersionInfo `json:"info"`
+}
+
 type UpdateBanner struct {
 	Name          *string            `json:"name" bson:",omitempty"`
 	ImageURL      *string            `json:"imageUrl" bson:",omitempty"`
@@ -2269,17 +2283,19 @@ type BannerDisplayPage string
 
 const (
 	BannerDisplayPageHome        BannerDisplayPage = "HOME"
+	BannerDisplayPageHomeEvent   BannerDisplayPage = "HOME_EVENT"
 	BannerDisplayPageVoucherHome BannerDisplayPage = "VOUCHER_HOME"
 )
 
 var AllBannerDisplayPage = []BannerDisplayPage{
 	BannerDisplayPageHome,
+	BannerDisplayPageHomeEvent,
 	BannerDisplayPageVoucherHome,
 }
 
 func (e BannerDisplayPage) IsValid() bool {
 	switch e {
-	case BannerDisplayPageHome, BannerDisplayPageVoucherHome:
+	case BannerDisplayPageHome, BannerDisplayPageHomeEvent, BannerDisplayPageVoucherHome:
 		return true
 	}
 	return false
