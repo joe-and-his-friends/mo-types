@@ -834,7 +834,6 @@ type EventsInput struct {
 	PageSize            int64                `json:"pageSize"`
 	CommonFilter        *CommonEventFilter   `json:"commonFilter"`
 	CategoriesFilter    *CategoriesFilter    `json:"categoriesFilter"`
-	DatetimeFilter      *DatetimeFilter      `json:"datetimeFilter"`
 	DatetimeRangeFilter *DatetimeRangeFilter `json:"datetimeRangeFilter"`
 	GeographicFilters   []*GeographicFilter  `json:"geographicFilters"`
 }
