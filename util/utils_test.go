@@ -95,5 +95,6 @@ func TestFlattenBsonDoc(t *testing.T) {
 func TestStructToDoc(t *testing.T) {
 	res := StructToBsonDoc(nil)
 
+	res["ccc"] = 123
 	t.Log(res)
 }
