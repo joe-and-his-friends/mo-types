@@ -830,12 +830,12 @@ type Events struct {
 func (Events) IsEventsQueryResult() {}
 
 type EventsInput struct {
-	PageNumber        int64               `json:"pageNumber"`
-	PageSize          int64               `json:"pageSize"`
-	CommonFilter      *CommonEventFilter  `json:"commonFilter"`
-	CategoriesFilter  *CategoriesFilter   `json:"categoriesFilter"`
-	DatetimeFilter    *DatetimeFilter     `json:"datetimeFilter"`
-	GeographicFilters []*GeographicFilter `json:"geographicFilters"`
+	PageNumber          int64                `json:"pageNumber"`
+	PageSize            int64                `json:"pageSize"`
+	CommonFilter        *CommonEventFilter   `json:"commonFilter"`
+	CategoriesFilter    *CategoriesFilter    `json:"categoriesFilter"`
+	DatetimeRangeFilter *DatetimeRangeFilter `json:"datetimeRangeFilter"`
+	GeographicFilters   []*GeographicFilter  `json:"geographicFilters"`
 }
 
 type FavoriteFilter struct {
