@@ -186,10 +186,6 @@ func InjectField(source interface{}, fieldName string, fieldValue interface{}) i
 }
 
 func StructToBsonDoc(source interface{}) bson.M {
-	if source == nil {
-		return make(primitive.M)
-	}
-
 	bytes, err := bson.Marshal(source)
 
 	if err != nil {
