@@ -521,21 +521,21 @@ type CreatePetPawMeasurementsInput struct {
 }
 
 type CreatePetProfileInput struct {
-	UserID             string             `json:"userId"`
-	AvatarURL          string             `json:"avatarUrl"`
-	IDPhotoURL         string             `json:"idPhotoUrl"`
-	IDCardURL          string             `json:"idCardUrl"`
-	IDCardBgRmdURL     *string            `json:"idCardBgRmdUrl"`
-	Name               string             `json:"name"`
-	NameZh             string             `json:"nameZh"`
-	NameEn             string             `json:"nameEn"`
-	Birthday           string             `json:"birthday" bson:",omitempty"`
-	Birthday2          primitive.DateTime `json:"birthday2" bson:",omitempty"`
-	DepartureDate      primitive.DateTime `json:"departureDate"`
-	BreedName          string             `json:"breedName"`
-	PetOwnerSnsAccount string             `json:"petOwnerSnsAccount"`
-	Sex                string             `json:"sex"`
-	HomeArrivalDate    string             `json:"homeArrivalDate"`
+	UserID             *string             `json:"userId" bson:",omitempty"`
+	AvatarURL          *string             `json:"avatarUrl" bson:",omitempty"`
+	IDPhotoURL         *string             `json:"idPhotoUrl" bson:",omitempty"`
+	IDCardURL          *string             `json:"idCardUrl" bson:",omitempty"`
+	IDCardBgRmdURL     *string             `json:"idCardBgRmdUrl" bson:",omitempty"`
+	Name               *string             `json:"name" bson:",omitempty"`
+	NameZh             *string             `json:"nameZh" bson:",omitempty"`
+	NameEn             *string             `json:"nameEn" bson:",omitempty"`
+	Birthday           *string             `json:"birthday" bson:",omitempty"`
+	Birthday2          *primitive.DateTime `json:"birthday2" bson:",omitempty"`
+	DepartureDate      *primitive.DateTime `json:"departureDate"`
+	BreedName          *string             `json:"breedName" bson:",omitempty"`
+	PetOwnerSnsAccount *string             `json:"petOwnerSnsAccount" bson:",omitempty"`
+	Sex                *string             `json:"sex" bson:",omitempty"`
+	HomeArrivalDate    *string             `json:"homeArrivalDate" bson:",omitempty"`
 }
 
 type CreatePetVaxInput struct {
@@ -1112,7 +1112,7 @@ type PetProfile struct {
 	NameEn                 string                  `json:"nameEn"`
 	Birthday               string                  `json:"birthday"`
 	Birthday2              primitive.DateTime      `json:"birthday2"`
-	DepartureDate          primitive.DateTime      `json:"departureDate"`
+	DepartureDate          *primitive.DateTime     `json:"departureDate"`
 	BreedName              string                  `json:"breedName"`
 	PetOwnerSnsAccount     string                  `json:"petOwnerSnsAccount"`
 	UserID                 primitive.ObjectID      `json:"userId"`
@@ -1866,21 +1866,21 @@ type UpdatePetCertificatesInput struct {
 }
 
 type UpdatePetProfileInput struct {
-	ID                 string             `json:"id"`
-	AvatarURL          string             `json:"avatarUrl" bson:",omitempty"`
-	IDPhotoURL         string             `json:"idPhotoUrl" bson:",omitempty"`
-	IDCardURL          string             `json:"idCardUrl" bson:",omitempty"`
-	IDCardBgRmdURL     *string            `json:"idCardBgRmdUrl" bson:",omitempty"`
-	Name               string             `json:"name"`
-	NameZh             string             `json:"nameZh" bson:",omitempty"`
-	NameEn             string             `json:"nameEn" bson:",omitempty"`
-	Birthday           string             `json:"birthday" bson:",omitempty"`
-	Birthday2          primitive.DateTime `json:"birthday2" bson:",omitempty"`
-	DepartureDate      primitive.DateTime `json:"departureDate" bson:",omitempty"`
-	BreedName          string             `json:"breedName" bson:",omitempty"`
-	PetOwnerSnsAccount string             `json:"petOwnerSnsAccount" bson:",omitempty"`
-	Sex                string             `json:"sex" bson:",omitempty"`
-	HomeArrivalDate    string             `json:"homeArrivalDate" bson:",omitempty"`
+	ID                 string              `json:"id"`
+	AvatarURL          *string             `json:"avatarUrl" bson:",omitempty"`
+	IDPhotoURL         *string             `json:"idPhotoUrl" bson:",omitempty"`
+	IDCardURL          *string             `json:"idCardUrl" bson:",omitempty"`
+	IDCardBgRmdURL     *string             `json:"idCardBgRmdUrl" bson:",omitempty"`
+	Name               *string             `json:"name" bson:",omitempty"`
+	NameZh             *string             `json:"nameZh" bson:",omitempty"`
+	NameEn             *string             `json:"nameEn" bson:",omitempty"`
+	Birthday           *string             `json:"birthday" bson:",omitempty"`
+	Birthday2          *primitive.DateTime `json:"birthday2" bson:",omitempty"`
+	DepartureDate      *primitive.DateTime `json:"departureDate"`
+	BreedName          *string             `json:"breedName" bson:",omitempty"`
+	PetOwnerSnsAccount *string             `json:"petOwnerSnsAccount" bson:",omitempty"`
+	Sex                *string             `json:"sex" bson:",omitempty"`
+	HomeArrivalDate    *string             `json:"homeArrivalDate" bson:",omitempty"`
 }
 
 type UpdatePhoto struct {

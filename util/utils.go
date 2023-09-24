@@ -202,23 +202,6 @@ func StructToBsonDoc(source interface{}) bson.M {
 	return doc
 }
 
-// func StructToBsonD(source interface{}) bson.D {
-// 	bytes, err := bson.Marshal(source)
-
-// 	if err != nil {
-// 		return nil
-// 	}
-
-// 	doc := bson.D{}
-// 	err = bson.Unmarshal(bytes, &doc)
-
-// 	if err != nil {
-// 		return nil
-// 	}
-
-// 	return doc
-// }
-
 func StructToFlattenedBsonDoc(source interface{}) bson.M {
 	return FlattenBsonDoc(StructToBsonDoc(source))
 }
@@ -240,10 +223,6 @@ func FlattenBsonDoc(source bson.M) bson.M {
 	return prefixed
 }
 
-// func StructToFlattenedBsonD(source interface{}) bson.D {
-// 	return FlattenBsonD(StructToBsonD(source))
-// }
-
 func FlattenBsonD(source bson.D) bson.D {
 	prefixed := bson.D{}
 
@@ -251,7 +230,6 @@ func FlattenBsonD(source bson.D) bson.D {
 		if subDoc, ok := v.Value.(bson.D); ok {
 			subSubDoc := FlattenBsonD(subDoc)
 			for _, v2 := range subSubDoc {
-				// prefixed[fmt.Sprintf("%s.%s", k, k2)] = v2
 				prefixed = append(prefixed, bson.E{Key: fmt.Sprintf("%s.%s", v.Key, v2.Key), Value: v2.Value})
 
 			}
