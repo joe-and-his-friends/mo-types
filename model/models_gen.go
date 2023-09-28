@@ -1482,6 +1482,8 @@ type Task struct {
 	ShareContent  *ShareContent       `json:"shareContent"`
 	Participation *TaskParticipation  `json:"participation"`
 	Conditional   bool                `json:"conditional"`
+	AppPage       AppPage             `json:"appPage"`
+	PageParams    string              `json:"pageParams"`
 }
 
 type TaskFilter struct {
@@ -1945,6 +1947,8 @@ type UpdateTask struct {
 	Points       *int64              `json:"points" bson:",omitempty"`
 	ShareContent *ShareContentInput  `json:"shareContent" bson:",omitempty"`
 	Conditional  *bool               `json:"conditional" bson:",omitempty"`
+	AppPage      *AppPage            `json:"appPage" bson:",omitempty"`
+	PageParams   *string             `json:"pageParams" bson:",omitempty"`
 }
 
 type UpdateTaskInput struct {
@@ -2208,6 +2212,7 @@ const (
 	AppPageEventDetails    AppPage = "EVENT_DETAILS"
 	AppPageContestDetails  AppPage = "CONTEST_DETAILS"
 	AppPageVoucherDetails  AppPage = "VOUCHER_DETAILS"
+	AppPageUserProfile     AppPage = "USER_PROFILE"
 )
 
 var AllAppPage = []AppPage{
@@ -2217,11 +2222,12 @@ var AllAppPage = []AppPage{
 	AppPageEventDetails,
 	AppPageContestDetails,
 	AppPageVoucherDetails,
+	AppPageUserProfile,
 }
 
 func (e AppPage) IsValid() bool {
 	switch e {
-	case AppPageEditorialPost, AppPageRetailerDetails, AppPageRetailerList, AppPageEventDetails, AppPageContestDetails, AppPageVoucherDetails:
+	case AppPageEditorialPost, AppPageRetailerDetails, AppPageRetailerList, AppPageEventDetails, AppPageContestDetails, AppPageVoucherDetails, AppPageUserProfile:
 		return true
 	}
 	return false
