@@ -1998,6 +1998,11 @@ type UpdateUserBasicsInput struct {
 	AvatarURL              *string                 `json:"avatarUrl" bson:",omitempty"`
 }
 
+type UpdateUserPhoneOrEmail struct {
+	Phone *string `json:"phone" bson:",omitempty"`
+	Email *string `json:"email" bson:",omitempty"`
+}
+
 type UpdateUserPointsInput struct {
 	UserID          primitive.ObjectID `json:"userId"`
 	Points          int64              `json:"points"`
