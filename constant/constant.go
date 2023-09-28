@@ -105,13 +105,6 @@ const (
 	// voucher ownership
 	MsgInsufficientPoints    = "insufficient points"
 	MsgInsufficientInventory = "insufficient inventory"
-
-	// TODO: remove deprecated ones
-	MsgSystemError     = "system error"
-	MsgUnprivileged    = "unprivileged"
-	MsgWrongParameters = "wrong parameters"
-
-	MsgCodeWrongPassword = "wrong password"
 )
 
 func TranslateToHttpStatusCode(code int) int {

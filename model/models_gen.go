@@ -1557,6 +1557,11 @@ type TimeFilter struct {
 	Option int `json:"option"`
 }
 
+type UnbindPhoneOrEmailInput struct {
+	PhoneOrEmail     string `json:"phoneOrEmail"`
+	VerificationCode string `json:"verificationCode"`
+}
+
 type UpdateAddionalPetPricing struct {
 	Price      *float64 `json:"price" bson:",omitempty"`
 	PriceLabel *string  `json:"priceLabel" bson:",omitempty"`
@@ -2104,6 +2109,8 @@ type UserProfileWithPassword struct {
 	Password    string             `json:"password"`
 	Role        int                `json:"role"`
 	Level       int                `json:"level"`
+	Email       string             `json:"email"`
+	Phone       string             `json:"phone"`
 	Deactivated bool               `json:"deactivated"`
 }
 
