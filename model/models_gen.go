@@ -1798,7 +1798,9 @@ type UpdateEventInput struct {
 }
 
 type UpdateEventInvitation struct {
-	UserID *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	EventID   *primitive.ObjectID `json:"eventId" bson:",omitempty"`
+	StartedAt *primitive.DateTime `json:"startedAt" bson:",omitempty"`
+	EndedAt   *primitive.DateTime `json:"endedAt" bson:",omitempty"`
 }
 
 type UpdateEventInvitationInput struct {
