@@ -42,6 +42,14 @@ type CheckInRecordQueryResult interface {
 	IsCheckInRecordQueryResult()
 }
 
+type EventInvitationQueryResult interface {
+	IsEventInvitationQueryResult()
+}
+
+type EventInvitationsQueryResult interface {
+	IsEventInvitationsQueryResult()
+}
+
 type EventParticipationQueryResult interface {
 	IsEventParticipationQueryResult()
 }
@@ -468,6 +476,12 @@ type CreateCommentatorCertificateInput struct {
 	AvatarUrl            string                `json:"avatarUrl"`
 }
 
+type CreateEventInvitationInput struct {
+	EventID   *primitive.ObjectID `json:"eventId" bson:",omitempty"`
+	StartedAt *primitive.DateTime `json:"startedAt" bson:",omitempty"`
+	EndedAt   *primitive.DateTime `json:"endedAt" bson:",omitempty"`
+}
+
 type CreateEventParticipationInput struct {
 	EventID                     primitive.ObjectID        `json:"eventId"`
 	StartedAt                   primitive.DateTime        `json:"startedAt"`
@@ -700,6 +714,39 @@ func (Event) IsEventQueryResult() {}
 
 type EventFilterInput struct {
 	EventID *primitive.ObjectID `json:"eventId"`
+}
+
+type EventInvitation struct {
+	ID        primitive.ObjectID  `json:"id" bson:"_id"`
+	EventID   primitive.ObjectID  `json:"eventId"`
+	UserID    *primitive.ObjectID `json:"userId"`
+	Code      string              `json:"code"`
+	StartedAt primitive.DateTime  `json:"startedAt"`
+	EndedAt   primitive.DateTime  `json:"endedAt"`
+	CreatedAt primitive.DateTime  `json:"createdAt"`
+	UpdatedAt primitive.DateTime  `json:"updatedAt"`
+}
+
+func (EventInvitation) IsEventInvitationQueryResult() {}
+
+type EventInvitationCommonFilter struct {
+	UserID    *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	EventID   *primitive.ObjectID `json:"eventId" bson:",omitempty"`
+	StartedAt *primitive.DateTime `json:"startedAt" bson:",omitempty"`
+	EndedAt   *primitive.DateTime `json:"endedAt" bson:",omitempty"`
+}
+
+type EventInvitations struct {
+	TotalCount int64              `json:"totalCount"`
+	Items      []*EventInvitation `json:"items"`
+}
+
+func (EventInvitations) IsEventInvitationsQueryResult() {}
+
+type EventInvitationsInput struct {
+	PageNumber   int64                        `json:"pageNumber"`
+	PageSize     int64                        `json:"pageSize"`
+	CommonFilter *EventInvitationCommonFilter `json:"commonFilter"`
 }
 
 type EventPackagePricing struct {
@@ -1395,6 +1442,10 @@ func (ServiceError) IsEventParticipationQueryResult() {}
 
 func (ServiceError) IsEventParticipationsQueryResult() {}
 
+func (ServiceError) IsEventInvitationQueryResult() {}
+
+func (ServiceError) IsEventInvitationsQueryResult() {}
+
 func (ServiceError) IsJobsResult() {}
 
 func (ServiceError) IsPetProfilesQueryResult() {}
@@ -1738,6 +1789,15 @@ type UpdateEvent struct {
 type UpdateEventInput struct {
 	ID    primitive.ObjectID `json:"id"`
 	Event *UpdateEvent       `json:"event"`
+}
+
+type UpdateEventInvitation struct {
+	UserID *primitive.ObjectID `json:"userId" bson:",omitempty"`
+}
+
+type UpdateEventInvitationInput struct {
+	ID         primitive.ObjectID     `json:"id"`
+	Invitation *UpdateEventInvitation `json:"invitation"`
 }
 
 type UpdateEventPackagePricing struct {
