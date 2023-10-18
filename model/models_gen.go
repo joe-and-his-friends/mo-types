@@ -1610,6 +1610,12 @@ type TimeFilter struct {
 	Option int `json:"option"`
 }
 
+type TransferPointsInput struct {
+	ToUserID primitive.ObjectID `json:"toUserId"`
+	Amount   int64              `json:"amount"`
+	Remarks  string             `json:"remarks"`
+}
+
 type UnbindPhoneOrEmailInput struct {
 	PhoneOrEmail     string `json:"phoneOrEmail"`
 	VerificationCode string `json:"verificationCode"`
