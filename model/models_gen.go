@@ -1616,9 +1616,9 @@ type TimeFilter struct {
 }
 
 type TransferPointsInput struct {
-	ToUserID primitive.ObjectID `json:"toUserId"`
-	Amount   int64              `json:"amount"`
-	Remarks  string             `json:"remarks"`
+	ToUserPhoneOrEmail string `json:"toUserPhoneOrEmail"`
+	Amount             int64  `json:"amount"`
+	Remarks            string `json:"remarks"`
 }
 
 type UnbindPhoneOrEmailInput struct {
