@@ -717,14 +717,18 @@ type EventFilterInput struct {
 }
 
 type EventInvitation struct {
-	ID        primitive.ObjectID  `json:"id" bson:"_id"`
-	EventID   primitive.ObjectID  `json:"eventId"`
-	UserID    *primitive.ObjectID `json:"userId"`
-	Code      string              `json:"code"`
-	StartedAt primitive.DateTime  `json:"startedAt"`
-	EndedAt   primitive.DateTime  `json:"endedAt"`
-	CreatedAt primitive.DateTime  `json:"createdAt"`
-	UpdatedAt primitive.DateTime  `json:"updatedAt"`
+	ID            primitive.ObjectID  `json:"id" bson:"_id"`
+	EventID       primitive.ObjectID  `json:"eventId"`
+	Event         *Event              `json:"event"`
+	InviteeUserID *primitive.ObjectID `json:"inviteeUserId"`
+	InviterUserID primitive.ObjectID  `json:"inviterUserId"`
+	Code          string              `json:"code"`
+	StartedAt     primitive.DateTime  `json:"startedAt"`
+	EndedAt       primitive.DateTime  `json:"endedAt"`
+	CreatedAt     primitive.DateTime  `json:"createdAt"`
+	UpdatedAt     primitive.DateTime  `json:"updatedAt"`
+	ConfirmedAt   *primitive.DateTime `json:"confirmedAt"`
+	Confirmed     bool                `json:"confirmed"`
 }
 
 func (EventInvitation) IsEventInvitationQueryResult() {}
@@ -734,6 +738,7 @@ type EventInvitationCommonFilter struct {
 	EventID   *primitive.ObjectID `json:"eventId" bson:",omitempty"`
 	StartedAt *primitive.DateTime `json:"startedAt" bson:",omitempty"`
 	EndedAt   *primitive.DateTime `json:"endedAt" bson:",omitempty"`
+	Confirmed *bool               `json:"confirmed" bson:",omitempty"`
 }
 
 type EventInvitations struct {
