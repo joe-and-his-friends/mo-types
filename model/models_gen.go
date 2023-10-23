@@ -547,6 +547,7 @@ type CreatePetProfileInput struct {
 	Birthday2          *primitive.DateTime `json:"birthday2" bson:",omitempty"`
 	DepartureDate      *primitive.DateTime `json:"departureDate"`
 	BreedName          *string             `json:"breedName" bson:",omitempty"`
+	BreedID            *string             `json:"breedId" bson:",omitempty"`
 	PetOwnerSnsAccount *string             `json:"petOwnerSnsAccount" bson:",omitempty"`
 	Sex                *string             `json:"sex" bson:",omitempty"`
 	HomeArrivalDate    *string             `json:"homeArrivalDate" bson:",omitempty"`
@@ -1166,6 +1167,7 @@ type PetProfile struct {
 	Birthday2              primitive.DateTime      `json:"birthday2"`
 	DepartureDate          *primitive.DateTime     `json:"departureDate"`
 	BreedName              string                  `json:"breedName"`
+	BreedID                string                  `json:"breedId"`
 	PetOwnerSnsAccount     string                  `json:"petOwnerSnsAccount"`
 	UserID                 primitive.ObjectID      `json:"userId"`
 	User                   *UserProfile            `json:"user"`
@@ -1958,6 +1960,7 @@ type UpdatePetProfileInput struct {
 	Birthday2          *primitive.DateTime `json:"birthday2" bson:",omitempty"`
 	DepartureDate      *primitive.DateTime `json:"departureDate"`
 	BreedName          *string             `json:"breedName" bson:",omitempty"`
+	BreedID            *string             `json:"breedId" bson:",omitempty"`
 	PetOwnerSnsAccount *string             `json:"petOwnerSnsAccount" bson:",omitempty"`
 	Sex                *string             `json:"sex" bson:",omitempty"`
 	HomeArrivalDate    *string             `json:"homeArrivalDate" bson:",omitempty"`
