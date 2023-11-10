@@ -2217,7 +2217,8 @@ type UsersFilters struct {
 }
 
 type UsersFiltersInput struct {
-	MatchingPhoneOrEmail string `json:"matchingPhoneOrEmail"`
+	MatchingPhoneOrEmail string               `json:"matchingPhoneOrEmail"`
+	UserIds              []primitive.ObjectID `json:"userIds"`
 }
 
 type VerificationCodeGenerationResult struct {
