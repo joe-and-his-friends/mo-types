@@ -286,19 +286,18 @@ type CategoryFilter struct {
 }
 
 type CheckInCounter struct {
-	ID                     primitive.ObjectID     `json:"id" bson:"_id"`
-	ProductID              primitive.ObjectID     `json:"productId"`
-	ProductName            string                 `json:"productName"`
-	Name                   string                 `json:"name"`
-	Greetings              string                 `json:"greetings"`
-	QRCodeURL              string                 `json:"qrCodeUrl"`
-	Points                 int64                  `json:"points"`
-	CreatedAt              *primitive.DateTime    `json:"createdAt"`
-	ValidTo                *primitive.DateTime    `json:"validTo"`
-	ValidFrom              *primitive.DateTime    `json:"validFrom"`
-	GeoLocationConstraint  *GeoLocationConstraint `json:"geoLocationConstraint"`
-	GeoLocationConstrained *bool                  `json:"geoLocationConstrained"`
-	Record                 *CheckInRecord         `json:"record"`
+	ID                    primitive.ObjectID     `json:"id" bson:"_id"`
+	ProductID             primitive.ObjectID     `json:"productId"`
+	ProductName           string                 `json:"productName"`
+	Name                  string                 `json:"name"`
+	Greetings             string                 `json:"greetings"`
+	QRCodeURL             string                 `json:"qrCodeUrl"`
+	Points                int64                  `json:"points"`
+	CreatedAt             *primitive.DateTime    `json:"createdAt"`
+	ValidTo               *primitive.DateTime    `json:"validTo"`
+	ValidFrom             *primitive.DateTime    `json:"validFrom"`
+	GeoLocationConstraint *GeoLocationConstraint `json:"geoLocationConstraint"`
+	Record                *CheckInRecord         `json:"record"`
 }
 
 func (CheckInCounter) IsCheckInCounterQueryResult() {}
@@ -311,8 +310,10 @@ type CheckInCounters struct {
 func (CheckInCounters) IsCheckInCountersQueryResult() {}
 
 type CheckInCountersInput struct {
-	PageNumber int `json:"pageNumber"`
-	PageSize   int `json:"pageSize"`
+	PageNumber       int                  `json:"pageNumber"`
+	PageSize         int                  `json:"pageSize"`
+	GeoFilter        *GeoFilter           `json:"geoFilter"`
+	CounterIdsFilter []primitive.ObjectID `json:"counterIdsFilter"`
 }
 
 type CheckInInput struct {
@@ -932,19 +933,19 @@ type GeoFilter struct {
 	GeoLocation *GeoLocationInput `json:"geoLocation"`
 }
 
+type GeoJSONPoint struct {
+	Type        string    `json:"type"`
+	Coordinates []float64 `json:"coordinates"`
+}
+
 type GeoLocation struct {
 	Long float64 `json:"long"`
 	Lat  float64 `json:"lat"`
 }
 
 type GeoLocationConstraint struct {
-	GeoLocation      *GeoLocation `json:"geoLocation"`
-	FarthestDistance int          `json:"farthestDistance"`
-}
-
-type GeoLocationConstraintInput struct {
-	GeoLocation      *GeoLocationInput `json:"geoLocation"`
-	FarthestDistance int               `json:"farthestDistance"`
+	Location *GeoJSONPoint `json:"location"`
+	Enabled  bool          `json:"enabled"`
 }
 
 type GeoLocationInput struct {
@@ -1706,16 +1707,15 @@ type UpdateBannerInput struct {
 }
 
 type UpdateCheckInCounter struct {
-	Name                   *string                     `json:"name" bson:",omitempty"`
-	Greetings              *string                     `json:"greetings" bson:",omitempty"`
-	ProductID              *primitive.ObjectID         `json:"productId" bson:",omitempty"`
-	ProductName            *string                     `json:"productName" bson:",omitempty"`
-	QRCodeURL              *string                     `json:"qrCodeUrl" bson:",omitempty"`
-	Points                 *int64                      `json:"points" bson:",omitempty"`
-	ValidTo                *primitive.DateTime         `json:"validTo" bson:",omitempty"`
-	ValidFrom              *primitive.DateTime         `json:"validFrom" bson:",omitempty"`
-	GeoLocationConstraint  *GeoLocationConstraintInput `json:"geoLocationConstraint" bson:",omitempty"`
-	GeoLocationConstrained *bool                       `json:"geoLocationConstrained" bson:",omitempty"`
+	Name                  *string                      `json:"name" bson:",omitempty"`
+	Greetings             *string                      `json:"greetings" bson:",omitempty"`
+	ProductID             *primitive.ObjectID          `json:"productId" bson:",omitempty"`
+	ProductName           *string                      `json:"productName" bson:",omitempty"`
+	QRCodeURL             *string                      `json:"qrCodeUrl" bson:",omitempty"`
+	Points                *int64                       `json:"points" bson:",omitempty"`
+	ValidTo               *primitive.DateTime          `json:"validTo" bson:",omitempty"`
+	ValidFrom             *primitive.DateTime          `json:"validFrom" bson:",omitempty"`
+	GeoLocationConstraint *UpdateGeoLocationConstraint `json:"geoLocationConstraint" bson:",omitempty"`
 }
 
 type UpdateCheckInCounterInput struct {
@@ -1885,9 +1885,19 @@ type UpdateEventTimeSlot struct {
 	SubSlots                  []*UpdateEventTimeSlot `json:"subSlots" bson:",omitempty"`
 }
 
+type UpdateGeoJSONPoint struct {
+	Type        string    `json:"type"`
+	Coordinates []float64 `json:"coordinates"`
+}
+
 type UpdateGeoLocation struct {
 	Long *float64 `json:"long" bson:",omitempty"`
 	Lat  *float64 `json:"lat" bson:",omitempty"`
+}
+
+type UpdateGeoLocationConstraint struct {
+	Location *UpdateGeoJSONPoint `json:"location"`
+	Enabled  bool                `json:"enabled"`
 }
 
 type UpdateJobActivationInput struct {

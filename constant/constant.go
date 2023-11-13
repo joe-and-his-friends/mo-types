@@ -58,10 +58,11 @@ const (
 	CodeDataMarshalingFailure    = 2003
 
 	// checkin
-	CodeCheckInRecordExisted      = 4000
-	CodeCheckInInvalidTime        = 4001
-	CodeCheckInInvalidGeolocation = 4002
-	CodeCheckInInvalidCounter     = 4003
+	CodeCheckInRecordExisted        = 4000
+	CodeCheckInInvalidTime          = 4001
+	CodeCheckInInvalidGeolocation   = 4002
+	CodeCheckInInvalidCounter       = 4003
+	CodeCheckInOutOfGeoRangeCounter = 4004
 
 	// order, points
 	CodeInsufficientPoints    = 4100
@@ -97,10 +98,11 @@ const (
 	MsgDataMarshalingFailure    = "data marshaling failure"
 
 	// checkin
-	MsgCheckInRecordExisted      = "check-in record existed"
-	MsgCheckInInvalidTime        = "check-in invalid time"
-	MsgCheckInInvalidGeolocation = "check-in invalid geolocation"
-	MsgCheckInInvalidCounter     = "check-in invalid counter"
+	MsgCheckInRecordExisted        = "check-in record existed"
+	MsgCheckInInvalidTime          = "check-in invalid time"
+	MsgCheckInInvalidGeolocation   = "check-in invalid geolocation"
+	MsgCheckInInvalidCounter       = "check-in invalid counter"
+	MsgCheckInOutOfGeoRangeCounter = "check-in out of geo range"
 
 	// voucher ownership
 	MsgInsufficientPoints    = "insufficient points"
