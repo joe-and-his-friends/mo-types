@@ -2220,6 +2220,7 @@ type UserProfilesInput struct {
 	RoleFilter                 *RoleFilter                 `json:"roleFilter"`
 	FcmRegistrationTokenFilter *FcmRegistrationTokenFilter `json:"fcmRegistrationTokenFilter"`
 	MatchingPhoneOrEmail       string                      `json:"matchingPhoneOrEmail"`
+	MatchingUserIds            []primitive.ObjectID        `json:"matchingUserIds"`
 }
 
 type UsersFilters struct {
