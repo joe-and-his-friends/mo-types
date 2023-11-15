@@ -1542,7 +1542,7 @@ type Task struct {
 	ShareContent  *ShareContent       `json:"shareContent"`
 	Participation *TaskParticipation  `json:"participation"`
 	Conditional   bool                `json:"conditional"`
-	AppPage       AppPage             `json:"appPage"`
+	AppPage       *AppPage            `json:"appPage"`
 	PageParams    string              `json:"pageParams"`
 }
 
