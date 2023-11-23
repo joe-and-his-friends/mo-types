@@ -511,7 +511,7 @@ type CreateEventTicketsInput struct {
 	Ticket *CreateEventTicket `json:"ticket"`
 }
 
-type CreatePaymentInput struct {
+type CreatePaymentIntentInput struct {
 	ProductID      primitive.ObjectID `json:"productId"`
 	ProductType    ProductType        `json:"productType"`
 	Currency       Currency           `json:"currency"`
