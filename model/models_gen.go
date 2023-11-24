@@ -131,17 +131,23 @@ type ActiveContest struct {
 }
 
 type AdditionalParticipantPricing struct {
-	Price      float64   `json:"price"`
-	PriceLabel string    `json:"priceLabel"`
-	Currency   *Currency `json:"currency"`
-	Points     int64     `json:"points"`
+	Price           float64   `json:"price"`
+	PriceLabel      *string   `json:"priceLabel"`
+	Currency        *Currency `json:"currency"`
+	MaxCash         *float64  `json:"maxCash"`
+	MaxPoints       *int64    `json:"maxPoints"`
+	PointsCashRatio *float64  `json:"pointsCashRatio"`
+	Points          int64     `json:"points"`
 }
 
 type AdditionalPetPricing struct {
-	Price      float64   `json:"price"`
-	PriceLabel string    `json:"priceLabel"`
-	Currency   *Currency `json:"currency"`
-	Points     int64     `json:"points"`
+	Price           float64   `json:"price"`
+	PriceLabel      *string   `json:"priceLabel"`
+	Currency        *Currency `json:"currency"`
+	MaxCash         *float64  `json:"maxCash"`
+	MaxPoints       *int64    `json:"maxPoints"`
+	PointsCashRatio *float64  `json:"pointsCashRatio"`
+	Points          int64     `json:"points"`
 }
 
 type AdoptionActivity struct {
@@ -512,11 +518,11 @@ type CreateEventTicketsInput struct {
 }
 
 type CreatePaymentIntentInput struct {
-	ProductID      primitive.ObjectID `json:"productId"`
-	ProductType    ProductType        `json:"productType"`
-	Currency       Currency           `json:"currency"`
-	Remarks        string             `json:"remarks"`
-	PaymentChannel PaymentChannel     `json:"paymentChannel"`
+	OrderID   primitive.ObjectID `json:"orderId"`
+	OrderType OrderType          `json:"orderType"`
+	Currency  Currency           `json:"currency"`
+	Remarks   string             `json:"remarks"`
+	Channel   PaymentChannel     `json:"channel"`
 }
 
 type CreatePetBodyMeasurementsInput struct {
@@ -771,10 +777,13 @@ type EventPackagePricing struct {
 	MaxParticipants int64     `json:"maxParticipants"`
 	MaxPets         int64     `json:"maxPets"`
 	Price           float64   `json:"price"`
-	PriceLabel      string    `json:"priceLabel"`
+	PriceLabel      *string   `json:"priceLabel"`
 	Currency        *Currency `json:"currency"`
+	MaxCash         *float64  `json:"maxCash"`
+	MaxPoints       *int64    `json:"maxPoints"`
+	PointsCashRatio *float64  `json:"pointsCashRatio"`
 	Points          int64     `json:"points"`
-	Remarks         string    `json:"remarks"`
+	Remarks         *string   `json:"remarks"`
 }
 
 type EventParticipant struct {
@@ -1141,8 +1150,8 @@ type OtherFilter struct {
 type Payment struct {
 	ID             primitive.ObjectID `json:"id" bson:"_id"`
 	UserID         primitive.ObjectID `json:"userId"`
-	ProductID      primitive.ObjectID `json:"productId"`
-	ProductType    ProductType        `json:"productType"`
+	OrderID        primitive.ObjectID `json:"orderId"`
+	OrderType      OrderType          `json:"orderType"`
 	Status         PaymentStatus      `json:"status"`
 	Amount         float64            `json:"amount"`
 	Currency       Currency           `json:"currency"`
@@ -1659,17 +1668,23 @@ type UnbindPhoneOrEmailInput struct {
 }
 
 type UpdateAddionalPetPricing struct {
-	Price      *float64  `json:"price" bson:",omitempty"`
-	PriceLabel *string   `json:"priceLabel" bson:",omitempty"`
-	Currency   *Currency `json:"currency" bson:",omitempty"`
-	Points     *int64    `json:"points" bson:",omitempty"`
+	Price           *float64  `json:"price" bson:",omitempty"`
+	PriceLabel      *string   `json:"priceLabel" bson:",omitempty"`
+	Currency        *Currency `json:"currency" bson:",omitempty"`
+	MaxCash         *float64  `json:"maxCash" bson:",omitempty"`
+	MaxPoints       *int64    `json:"maxPoints" bson:",omitempty"`
+	PointsCashRatio *float64  `json:"pointsCashRatio" bson:",omitempty"`
+	Points          *int64    `json:"points" bson:",omitempty"`
 }
 
 type UpdateAdditionalParticipantPricing struct {
-	Price      *float64  `json:"price" bson:",omitempty"`
-	PriceLabel *string   `json:"priceLabel" bson:",omitempty"`
-	Currency   *Currency `json:"currency" bson:",omitempty"`
-	Points     *int64    `json:"points" bson:",omitempty"`
+	Price           *float64  `json:"price" bson:",omitempty"`
+	PriceLabel      *string   `json:"priceLabel" bson:",omitempty"`
+	Currency        *Currency `json:"currency" bson:",omitempty"`
+	MaxCash         *float64  `json:"maxCash" bson:",omitempty"`
+	MaxPoints       *int64    `json:"maxPoints" bson:",omitempty"`
+	PointsCashRatio *float64  `json:"pointsCashRatio" bson:",omitempty"`
+	Points          *int64    `json:"points" bson:",omitempty"`
 }
 
 type UpdateAdoptionAd struct {
@@ -1853,6 +1868,9 @@ type UpdateEventPackagePricing struct {
 	Price           *float64  `json:"price" bson:",omitempty"`
 	PriceLabel      *string   `json:"priceLabel" bson:",omitempty"`
 	Currency        *Currency `json:"currency" bson:",omitempty"`
+	MaxCash         *float64  `json:"maxCash" bson:",omitempty"`
+	MaxPoints       *int64    `json:"maxPoints" bson:",omitempty"`
+	PointsCashRatio *float64  `json:"pointsCashRatio" bson:",omitempty"`
 	Points          *int64    `json:"points" bson:",omitempty"`
 	Remarks         *string   `json:"remarks" bson:",omitempty"`
 }
@@ -2513,6 +2531,7 @@ const (
 	EventParticipationStatusRedeemed   EventParticipationStatus = "REDEEMED"
 	EventParticipationStatusExpired    EventParticipationStatus = "EXPIRED"
 	EventParticipationStatusCanceled   EventParticipationStatus = "CANCELED"
+	EventParticipationStatusPending    EventParticipationStatus = "PENDING"
 	EventParticipationStatusInvalid    EventParticipationStatus = "INVALID"
 )
 
@@ -2521,12 +2540,13 @@ var AllEventParticipationStatus = []EventParticipationStatus{
 	EventParticipationStatusRedeemed,
 	EventParticipationStatusExpired,
 	EventParticipationStatusCanceled,
+	EventParticipationStatusPending,
 	EventParticipationStatusInvalid,
 }
 
 func (e EventParticipationStatus) IsValid() bool {
 	switch e {
-	case EventParticipationStatusRedeemable, EventParticipationStatusRedeemed, EventParticipationStatusExpired, EventParticipationStatusCanceled, EventParticipationStatusInvalid:
+	case EventParticipationStatusRedeemable, EventParticipationStatusRedeemed, EventParticipationStatusExpired, EventParticipationStatusCanceled, EventParticipationStatusPending, EventParticipationStatusInvalid:
 		return true
 	}
 	return false
@@ -2770,6 +2790,45 @@ func (e JobType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type OrderType string
+
+const (
+	OrderTypeEventParticipation OrderType = "EVENT_PARTICIPATION"
+)
+
+var AllOrderType = []OrderType{
+	OrderTypeEventParticipation,
+}
+
+func (e OrderType) IsValid() bool {
+	switch e {
+	case OrderTypeEventParticipation:
+		return true
+	}
+	return false
+}
+
+func (e OrderType) String() string {
+	return string(e)
+}
+
+func (e *OrderType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = OrderType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid OrderType", str)
+	}
+	return nil
+}
+
+func (e OrderType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type PaymentChannel string
 
 const (
@@ -2853,45 +2912,6 @@ func (e *PaymentStatus) UnmarshalGQL(v interface{}) error {
 }
 
 func (e PaymentStatus) MarshalGQL(w io.Writer) {
-	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-type ProductType string
-
-const (
-	ProductTypeEventParticipation ProductType = "EVENT_PARTICIPATION"
-)
-
-var AllProductType = []ProductType{
-	ProductTypeEventParticipation,
-}
-
-func (e ProductType) IsValid() bool {
-	switch e {
-	case ProductTypeEventParticipation:
-		return true
-	}
-	return false
-}
-
-func (e ProductType) String() string {
-	return string(e)
-}
-
-func (e *ProductType) UnmarshalGQL(v interface{}) error {
-	str, ok := v.(string)
-	if !ok {
-		return fmt.Errorf("enums must be strings")
-	}
-
-	*e = ProductType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ProductType", str)
-	}
-	return nil
-}
-
-func (e ProductType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
