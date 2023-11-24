@@ -518,11 +518,12 @@ type CreateEventTicketsInput struct {
 }
 
 type CreatePaymentIntentInput struct {
-	OrderID   primitive.ObjectID `json:"orderId"`
-	OrderType OrderType          `json:"orderType"`
-	Currency  Currency           `json:"currency"`
-	Remarks   string             `json:"remarks"`
-	Channel   PaymentChannel     `json:"channel"`
+	OrderID         primitive.ObjectID `json:"orderId"`
+	OrderType       OrderType          `json:"orderType"`
+	Currency        Currency           `json:"currency"`
+	DeductingPoints int64              `json:"deductingPoints"`
+	Remarks         string             `json:"remarks"`
+	Channel         PaymentChannel     `json:"channel"`
 }
 
 type CreatePetBodyMeasurementsInput struct {
@@ -801,7 +802,7 @@ type EventParticipation struct {
 	RedemptionCode              string                   `json:"redemptionCode"`
 	OperationUserID             *primitive.ObjectID      `json:"operationUserId"`
 	Status                      EventParticipationStatus `json:"status"`
-	Payment                     *Payment                 `json:"payment"`
+	PaymentIntent               *PaymentIntent           `json:"paymentIntent"`
 	PackagesCount               int64                    `json:"packagesCount"`
 	AdditionalParticipantsCount int64                    `json:"additionalParticipantsCount"`
 	AdditionalPetsCount         int64                    `json:"additionalPetsCount"`
@@ -1147,20 +1148,20 @@ type OtherFilter struct {
 	Option int `json:"option"`
 }
 
-type Payment struct {
-	ID             primitive.ObjectID `json:"id" bson:"_id"`
-	UserID         primitive.ObjectID `json:"userId"`
-	OrderID        primitive.ObjectID `json:"orderId"`
-	OrderType      OrderType          `json:"orderType"`
-	Status         PaymentStatus      `json:"status"`
-	Amount         float64            `json:"amount"`
-	Currency       Currency           `json:"currency"`
-	Points         int64              `json:"points"`
-	Remarks        string             `json:"remarks"`
-	PaymentID      string             `json:"paymentId"`
-	PaymentChannel PaymentChannel     `json:"paymentChannel"`
-	CreatedAt      primitive.DateTime `json:"createdAt"`
-	UpdatedAt      primitive.DateTime `json:"updatedAt"`
+type PaymentIntent struct {
+	ID                     primitive.ObjectID `json:"id" bson:"_id"`
+	UserID                 primitive.ObjectID `json:"userId"`
+	OrderID                primitive.ObjectID `json:"orderId"`
+	OrderType              OrderType          `json:"orderType"`
+	Status                 PaymentStatus      `json:"status"`
+	Amount                 float64            `json:"amount"`
+	Currency               Currency           `json:"currency"`
+	DeductedPoints         int64              `json:"deductedPoints"`
+	Remarks                string             `json:"remarks"`
+	ChannelPaymentIntentID string             `json:"channelPaymentIntentId"`
+	Channel                PaymentChannel     `json:"channel"`
+	CreatedAt              primitive.DateTime `json:"createdAt"`
+	UpdatedAt              primitive.DateTime `json:"updatedAt"`
 }
 
 type PetBodyMeasurements struct {
