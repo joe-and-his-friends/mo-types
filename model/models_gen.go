@@ -139,20 +139,20 @@ type ActiveContest struct {
 }
 
 type AdditionalParticipantPricing struct {
-	Price           float64   `json:"price"`
+	Price           int64     `json:"price"`
 	PriceLabel      *string   `json:"priceLabel"`
 	Currency        *Currency `json:"currency"`
-	MaxCash         *float64  `json:"maxCash"`
+	MaxCash         *int64    `json:"maxCash"`
 	MaxPoints       *int64    `json:"maxPoints"`
 	PointsCashRatio *float64  `json:"pointsCashRatio"`
 	Points          int64     `json:"points"`
 }
 
 type AdditionalPetPricing struct {
-	Price           float64   `json:"price"`
+	Price           int64     `json:"price"`
 	PriceLabel      *string   `json:"priceLabel"`
 	Currency        *Currency `json:"currency"`
-	MaxCash         *float64  `json:"maxCash"`
+	MaxCash         *int64    `json:"maxCash"`
 	MaxPoints       *int64    `json:"maxPoints"`
 	PointsCashRatio *float64  `json:"pointsCashRatio"`
 	Points          int64     `json:"points"`
@@ -785,10 +785,10 @@ type EventInvitationsInput struct {
 type EventPackagePricing struct {
 	MaxParticipants int64     `json:"maxParticipants"`
 	MaxPets         int64     `json:"maxPets"`
-	Price           float64   `json:"price"`
+	Price           int64     `json:"price"`
 	PriceLabel      *string   `json:"priceLabel"`
 	Currency        *Currency `json:"currency"`
-	MaxCash         *float64  `json:"maxCash"`
+	MaxCash         *int64    `json:"maxCash"`
 	MaxPoints       *int64    `json:"maxPoints"`
 	PointsCashRatio *float64  `json:"pointsCashRatio"`
 	Points          int64     `json:"points"`
@@ -1159,20 +1159,16 @@ type OtherFilter struct {
 }
 
 type PaymentIntent struct {
-	ID                     primitive.ObjectID `json:"id" bson:"_id"`
-	UserID                 primitive.ObjectID `json:"userId"`
-	OrderID                primitive.ObjectID `json:"orderId"`
-	OrderType              OrderType          `json:"orderType"`
 	Status                 PaymentStatus      `json:"status"`
-	Amount                 float64            `json:"amount"`
+	Amount                 int64              `json:"amount"`
 	Currency               Currency           `json:"currency"`
 	DeductedPoints         int64              `json:"deductedPoints"`
 	Remarks                string             `json:"remarks"`
 	ChannelPaymentIntentID string             `json:"channelPaymentIntentId"`
 	Channel                PaymentChannel     `json:"channel"`
+	ChannelClientSecret    string             `json:"channelClientSecret"`
 	CreatedAt              primitive.DateTime `json:"createdAt"`
 	UpdatedAt              primitive.DateTime `json:"updatedAt"`
-	ClientSecret           string             `json:"clientSecret"`
 }
 
 func (PaymentIntent) IsCreatePaymentIntentResult() {}
@@ -1686,20 +1682,20 @@ type UnbindPhoneOrEmailInput struct {
 }
 
 type UpdateAddionalPetPricing struct {
-	Price           *float64  `json:"price" bson:",omitempty"`
+	Price           *int64    `json:"price" bson:",omitempty"`
 	PriceLabel      *string   `json:"priceLabel" bson:",omitempty"`
 	Currency        *Currency `json:"currency" bson:",omitempty"`
-	MaxCash         *float64  `json:"maxCash" bson:",omitempty"`
+	MaxCash         *int64    `json:"maxCash" bson:",omitempty"`
 	MaxPoints       *int64    `json:"maxPoints" bson:",omitempty"`
 	PointsCashRatio *float64  `json:"pointsCashRatio" bson:",omitempty"`
 	Points          *int64    `json:"points" bson:",omitempty"`
 }
 
 type UpdateAdditionalParticipantPricing struct {
-	Price           *float64  `json:"price" bson:",omitempty"`
+	Price           *int64    `json:"price" bson:",omitempty"`
 	PriceLabel      *string   `json:"priceLabel" bson:",omitempty"`
 	Currency        *Currency `json:"currency" bson:",omitempty"`
-	MaxCash         *float64  `json:"maxCash" bson:",omitempty"`
+	MaxCash         *int64    `json:"maxCash" bson:",omitempty"`
 	MaxPoints       *int64    `json:"maxPoints" bson:",omitempty"`
 	PointsCashRatio *float64  `json:"pointsCashRatio" bson:",omitempty"`
 	Points          *int64    `json:"points" bson:",omitempty"`
@@ -1883,10 +1879,10 @@ type UpdateEventInvitationInput struct {
 type UpdateEventPackagePricing struct {
 	MaxParticipants *int64    `json:"maxParticipants" bson:",omitempty"`
 	MaxPets         *int64    `json:"maxPets" bson:",omitempty"`
-	Price           *float64  `json:"price" bson:",omitempty"`
+	Price           *int64    `json:"price" bson:",omitempty"`
 	PriceLabel      *string   `json:"priceLabel" bson:",omitempty"`
 	Currency        *Currency `json:"currency" bson:",omitempty"`
-	MaxCash         *float64  `json:"maxCash" bson:",omitempty"`
+	MaxCash         *int64    `json:"maxCash" bson:",omitempty"`
 	MaxPoints       *int64    `json:"maxPoints" bson:",omitempty"`
 	PointsCashRatio *float64  `json:"pointsCashRatio" bson:",omitempty"`
 	Points          *int64    `json:"points" bson:",omitempty"`
@@ -1904,6 +1900,7 @@ type UpdateEventParticipation struct {
 	AdditionalParticipants []*UpdateEventParticipant `json:"additionalParticipants" bson:",omitempty"`
 	AdditionalPets         []*UpdateEventPet         `json:"additionalPets" bson:",omitempty"`
 	Status                 *EventParticipationStatus `json:"status" bson:",omitempty"`
+	PaymentIntent          *UpdatePaymentIntent      `json:"paymentIntent" bson:",omitempty"`
 }
 
 type UpdateEventParticipationInput struct {
@@ -2019,6 +2016,16 @@ type UpdateOrderPayment struct {
 	PaymentStatus    *string                 `json:"paymentStatus" bson:",omitempty"`
 	Total            *float64                `json:"total" bson:",omitempty"`
 	TotalLabel       *string                 `json:"totalLabel" bson:",omitempty"`
+}
+
+type UpdatePaymentIntent struct {
+	Status                 *PaymentStatus  `json:"status" bson:",omitempty"`
+	Amount                 *int64          `json:"amount" bson:",omitempty"`
+	Currency               *Currency       `json:"currency" bson:",omitempty"`
+	DeductedPoints         *int64          `json:"deductedPoints" bson:",omitempty"`
+	ChannelPaymentIntentID *string         `json:"channelPaymentIntentId" bson:",omitempty"`
+	Channel                *PaymentChannel `json:"channel" bson:",omitempty"`
+	ChannelClientSecret    *string         `json:"channelClientSecret" bson:",omitempty"`
 }
 
 type UpdatePetCertificatesInput struct {
