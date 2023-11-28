@@ -42,6 +42,10 @@ type CheckInRecordQueryResult interface {
 	IsCheckInRecordQueryResult()
 }
 
+type CreateEventParticipationResult interface {
+	IsCreateEventParticipationResult()
+}
+
 type CreatePaymentIntentResult interface {
 	IsCreatePaymentIntentResult()
 }
@@ -531,7 +535,8 @@ type CreatePaymentIntentInput struct {
 }
 
 type CreatePaymentIntentResponse struct {
-	ClientSceret string `json:"clientSceret"`
+	ClientSecret string `json:"clientSecret"`
+	PointsOnly   bool   `json:"pointsOnly"`
 }
 
 func (CreatePaymentIntentResponse) IsCreatePaymentIntentResult() {}
@@ -827,6 +832,8 @@ type EventParticipation struct {
 }
 
 func (EventParticipation) IsEventParticipationQueryResult() {}
+
+func (EventParticipation) IsCreateEventParticipationResult() {}
 
 type EventParticipationCommonFilter struct {
 	UserID  *primitive.ObjectID       `json:"userId" bson:",omitempty"`
@@ -1502,6 +1509,8 @@ func (ServiceError) IsEventParticipationsQueryResult() {}
 func (ServiceError) IsEventInvitationQueryResult() {}
 
 func (ServiceError) IsEventInvitationsQueryResult() {}
+
+func (ServiceError) IsCreateEventParticipationResult() {}
 
 func (ServiceError) IsJobsResult() {}
 
