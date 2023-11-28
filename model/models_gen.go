@@ -42,6 +42,10 @@ type CheckInRecordQueryResult interface {
 	IsCheckInRecordQueryResult()
 }
 
+type CreatePaymentIntentResult interface {
+	IsCreatePaymentIntentResult()
+}
+
 type EventInvitationQueryResult interface {
 	IsEventInvitationQueryResult()
 }
@@ -525,6 +529,12 @@ type CreatePaymentIntentInput struct {
 	Remarks         string             `json:"remarks"`
 	Channel         PaymentChannel     `json:"channel"`
 }
+
+type CreatePaymentIntentResponse struct {
+	ClientSceret string `json:"clientSceret"`
+}
+
+func (CreatePaymentIntentResponse) IsCreatePaymentIntentResult() {}
 
 type CreatePetBodyMeasurementsInput struct {
 	PetID  primitive.ObjectID `json:"petId"`
@@ -1494,6 +1504,8 @@ func (ServiceError) IsEventInvitationQueryResult() {}
 func (ServiceError) IsEventInvitationsQueryResult() {}
 
 func (ServiceError) IsJobsResult() {}
+
+func (ServiceError) IsCreatePaymentIntentResult() {}
 
 func (ServiceError) IsPetProfilesQueryResult() {}
 
