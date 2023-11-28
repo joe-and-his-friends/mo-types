@@ -534,13 +534,6 @@ type CreatePaymentIntentInput struct {
 	Channel         PaymentChannel     `json:"channel"`
 }
 
-type CreatePaymentIntentResponse struct {
-	ClientSecret string `json:"clientSecret"`
-	PointsOnly   bool   `json:"pointsOnly"`
-}
-
-func (CreatePaymentIntentResponse) IsCreatePaymentIntentResult() {}
-
 type CreatePetBodyMeasurementsInput struct {
 	PetID  primitive.ObjectID `json:"petId"`
 	Weight float64            `json:"weight"`
@@ -1179,7 +1172,10 @@ type PaymentIntent struct {
 	Channel                PaymentChannel     `json:"channel"`
 	CreatedAt              primitive.DateTime `json:"createdAt"`
 	UpdatedAt              primitive.DateTime `json:"updatedAt"`
+	ClientSecret           string             `json:"clientSecret"`
 }
+
+func (PaymentIntent) IsCreatePaymentIntentResult() {}
 
 type PetBodyMeasurements struct {
 	ID              primitive.ObjectID `json:"id"`
