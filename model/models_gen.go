@@ -1297,6 +1297,7 @@ type PointTransaction struct {
 	SourceEntity TransactionSourceEntity `json:"sourceEntity"`
 	Type         TransactionType         `json:"type"`
 	Amount       int64                   `json:"amount"`
+	Points       int64                   `json:"points"`
 	Accumulated  bool                    `json:"accumulated"`
 	UpdatedAt    primitive.DateTime      `json:"updatedAt"`
 	CreatedAt    primitive.DateTime      `json:"createdAt"`
@@ -1914,8 +1915,10 @@ type UpdateEventPet struct {
 }
 
 type UpdateEventTicket struct {
-	EventID *primitive.ObjectID `json:"eventId" bson:",omitempty"`
-	Status  *EventTicketStatus  `json:"status" bson:",omitempty"`
+	EventID         *primitive.ObjectID `json:"eventId" bson:",omitempty"`
+	Status          *EventTicketStatus  `json:"status" bson:",omitempty"`
+	UserID          *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	ParticipationID *primitive.ObjectID `json:"participationId" bson:",omitempty"`
 }
 
 type UpdateEventTicketByParticipation struct {
@@ -1933,11 +1936,15 @@ type UpdateEventTicketsByParticipationIDInput struct {
 	Participation   *UpdateEventTicketByParticipation `json:"participation"`
 }
 
+type UpdateEventTicketsFilter struct {
+	UserID          *primitive.ObjectID  `json:"userId"`
+	ParticipationID *primitive.ObjectID  `json:"participationId"`
+	Ids             []primitive.ObjectID `json:"Ids"`
+}
+
 type UpdateEventTicketsInput struct {
-	Ids             []primitive.ObjectID              `json:"ids"`
-	ParticipationID *primitive.ObjectID               `json:"participationId"`
-	UserID          *primitive.ObjectID               `json:"userId"`
-	Participation   *UpdateEventTicketByParticipation `json:"participation"`
+	Ticket *UpdateEventTicket        `json:"ticket"`
+	Filter *UpdateEventTicketsFilter `json:"filter"`
 }
 
 type UpdateEventTimeSlot struct {
@@ -2143,6 +2150,7 @@ type UpdateTransaction struct {
 	UserID                       *primitive.ObjectID                      `json:"userId" bson:",omitempty"`
 	SourceEntity                 *TransactionSourceEntity                 `json:"sourceEntity" bson:",omitempty"`
 	Amount                       *int64                                   `json:"amount" bson:",omitempty"`
+	Points                       *int64                                   `json:"points" bson:",omitempty"`
 	Accumulated                  *bool                                    `json:"accumulated" bson:",omitempty"`
 	Type                         *TransactionType                         `json:"type" bson:",omitempty"`
 	Remarks                      *string                                  `json:"remarks" bson:",omitempty"`
