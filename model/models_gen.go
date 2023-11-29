@@ -2392,18 +2392,20 @@ type BannerDisplayPage string
 const (
 	BannerDisplayPageHome        BannerDisplayPage = "HOME"
 	BannerDisplayPageHomeEvent   BannerDisplayPage = "HOME_EVENT"
+	BannerDisplayPageHomeAd      BannerDisplayPage = "HOME_AD"
 	BannerDisplayPageVoucherHome BannerDisplayPage = "VOUCHER_HOME"
 )
 
 var AllBannerDisplayPage = []BannerDisplayPage{
 	BannerDisplayPageHome,
 	BannerDisplayPageHomeEvent,
+	BannerDisplayPageHomeAd,
 	BannerDisplayPageVoucherHome,
 }
 
 func (e BannerDisplayPage) IsValid() bool {
 	switch e {
-	case BannerDisplayPageHome, BannerDisplayPageHomeEvent, BannerDisplayPageVoucherHome:
+	case BannerDisplayPageHome, BannerDisplayPageHomeEvent, BannerDisplayPageHomeAd, BannerDisplayPageVoucherHome:
 		return true
 	}
 	return false
