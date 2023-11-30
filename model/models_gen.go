@@ -42,6 +42,14 @@ type CheckInRecordQueryResult interface {
 	IsCheckInRecordQueryResult()
 }
 
+type CreateEventParticipationResult interface {
+	IsCreateEventParticipationResult()
+}
+
+type CreatePaymentIntentResult interface {
+	IsCreatePaymentIntentResult()
+}
+
 type EventInvitationQueryResult interface {
 	IsEventInvitationQueryResult()
 }
@@ -131,15 +139,23 @@ type ActiveContest struct {
 }
 
 type AdditionalParticipantPricing struct {
-	Price      float64 `json:"price"`
-	PriceLabel string  `json:"priceLabel"`
-	Points     int64   `json:"points"`
+	Price           int64     `json:"price"`
+	PriceLabel      *string   `json:"priceLabel"`
+	Currency        *Currency `json:"currency"`
+	MaxCash         *int64    `json:"maxCash"`
+	MaxPoints       *int64    `json:"maxPoints"`
+	PointsCashRatio *float64  `json:"pointsCashRatio"`
+	Points          int64     `json:"points"`
 }
 
 type AdditionalPetPricing struct {
-	Price      float64 `json:"price"`
-	PriceLabel string  `json:"priceLabel"`
-	Points     int64   `json:"points"`
+	Price           int64     `json:"price"`
+	PriceLabel      *string   `json:"priceLabel"`
+	Currency        *Currency `json:"currency"`
+	MaxCash         *int64    `json:"maxCash"`
+	MaxPoints       *int64    `json:"maxPoints"`
+	PointsCashRatio *float64  `json:"pointsCashRatio"`
+	Points          int64     `json:"points"`
 }
 
 type AdoptionActivity struct {
@@ -509,6 +525,15 @@ type CreateEventTicketsInput struct {
 	Ticket *CreateEventTicket `json:"ticket"`
 }
 
+type CreatePaymentIntentInput struct {
+	OrderID         primitive.ObjectID `json:"orderId"`
+	OrderType       OrderType          `json:"orderType"`
+	Currency        Currency           `json:"currency"`
+	DeductingPoints int64              `json:"deductingPoints"`
+	Remarks         string             `json:"remarks"`
+	Channel         PaymentChannel     `json:"channel"`
+}
+
 type CreatePetBodyMeasurementsInput struct {
 	PetID  primitive.ObjectID `json:"petId"`
 	Weight float64            `json:"weight"`
@@ -758,12 +783,16 @@ type EventInvitationsInput struct {
 }
 
 type EventPackagePricing struct {
-	MaxParticipants int64   `json:"maxParticipants"`
-	MaxPets         int64   `json:"maxPets"`
-	Price           float64 `json:"price"`
-	PriceLabel      string  `json:"priceLabel"`
-	Points          int64   `json:"points"`
-	Remarks         string  `json:"remarks"`
+	MaxParticipants int64     `json:"maxParticipants"`
+	MaxPets         int64     `json:"maxPets"`
+	Price           int64     `json:"price"`
+	PriceLabel      *string   `json:"priceLabel"`
+	Currency        *Currency `json:"currency"`
+	MaxCash         *int64    `json:"maxCash"`
+	MaxPoints       *int64    `json:"maxPoints"`
+	PointsCashRatio *float64  `json:"pointsCashRatio"`
+	Points          int64     `json:"points"`
+	Remarks         *string   `json:"remarks"`
 }
 
 type EventParticipant struct {
@@ -781,6 +810,7 @@ type EventParticipation struct {
 	RedemptionCode              string                   `json:"redemptionCode"`
 	OperationUserID             *primitive.ObjectID      `json:"operationUserId"`
 	Status                      EventParticipationStatus `json:"status"`
+	PaymentIntent               *PaymentIntent           `json:"paymentIntent"`
 	PackagesCount               int64                    `json:"packagesCount"`
 	AdditionalParticipantsCount int64                    `json:"additionalParticipantsCount"`
 	AdditionalPetsCount         int64                    `json:"additionalPetsCount"`
@@ -795,6 +825,8 @@ type EventParticipation struct {
 }
 
 func (EventParticipation) IsEventParticipationQueryResult() {}
+
+func (EventParticipation) IsCreateEventParticipationResult() {}
 
 type EventParticipationCommonFilter struct {
 	UserID  *primitive.ObjectID       `json:"userId" bson:",omitempty"`
@@ -1126,6 +1158,21 @@ type OtherFilter struct {
 	Option int `json:"option"`
 }
 
+type PaymentIntent struct {
+	Status                 PaymentStatus      `json:"status"`
+	Amount                 int64              `json:"amount"`
+	Currency               Currency           `json:"currency"`
+	DeductedPoints         int64              `json:"deductedPoints"`
+	Remarks                string             `json:"remarks"`
+	ChannelPaymentIntentID string             `json:"channelPaymentIntentId"`
+	Channel                PaymentChannel     `json:"channel"`
+	ChannelClientSecret    string             `json:"channelClientSecret"`
+	CreatedAt              primitive.DateTime `json:"createdAt"`
+	UpdatedAt              primitive.DateTime `json:"updatedAt"`
+}
+
+func (PaymentIntent) IsCreatePaymentIntentResult() {}
+
 type PetBodyMeasurements struct {
 	ID              primitive.ObjectID `json:"id"`
 	DatetimeCreated primitive.DateTime `json:"datetimeCreated"`
@@ -1250,6 +1297,7 @@ type PointTransaction struct {
 	SourceEntity TransactionSourceEntity `json:"sourceEntity"`
 	Type         TransactionType         `json:"type"`
 	Amount       int64                   `json:"amount"`
+	Points       int64                   `json:"points"`
 	Accumulated  bool                    `json:"accumulated"`
 	UpdatedAt    primitive.DateTime      `json:"updatedAt"`
 	CreatedAt    primitive.DateTime      `json:"createdAt"`
@@ -1455,7 +1503,11 @@ func (ServiceError) IsEventInvitationQueryResult() {}
 
 func (ServiceError) IsEventInvitationsQueryResult() {}
 
+func (ServiceError) IsCreateEventParticipationResult() {}
+
 func (ServiceError) IsJobsResult() {}
+
+func (ServiceError) IsCreatePaymentIntentResult() {}
 
 func (ServiceError) IsPetProfilesQueryResult() {}
 
@@ -1631,15 +1683,23 @@ type UnbindPhoneOrEmailInput struct {
 }
 
 type UpdateAddionalPetPricing struct {
-	Price      *float64 `json:"price" bson:",omitempty"`
-	PriceLabel *string  `json:"priceLabel" bson:",omitempty"`
-	Points     *int64   `json:"points" bson:",omitempty"`
+	Price           *int64    `json:"price" bson:",omitempty"`
+	PriceLabel      *string   `json:"priceLabel" bson:",omitempty"`
+	Currency        *Currency `json:"currency" bson:",omitempty"`
+	MaxCash         *int64    `json:"maxCash" bson:",omitempty"`
+	MaxPoints       *int64    `json:"maxPoints" bson:",omitempty"`
+	PointsCashRatio *float64  `json:"pointsCashRatio" bson:",omitempty"`
+	Points          *int64    `json:"points" bson:",omitempty"`
 }
 
 type UpdateAdditionalParticipantPricing struct {
-	Price      *float64 `json:"price" bson:",omitempty"`
-	PriceLabel *string  `json:"priceLabel" bson:",omitempty"`
-	Points     *int64   `json:"points" bson:",omitempty"`
+	Price           *int64    `json:"price" bson:",omitempty"`
+	PriceLabel      *string   `json:"priceLabel" bson:",omitempty"`
+	Currency        *Currency `json:"currency" bson:",omitempty"`
+	MaxCash         *int64    `json:"maxCash" bson:",omitempty"`
+	MaxPoints       *int64    `json:"maxPoints" bson:",omitempty"`
+	PointsCashRatio *float64  `json:"pointsCashRatio" bson:",omitempty"`
+	Points          *int64    `json:"points" bson:",omitempty"`
 }
 
 type UpdateAdoptionAd struct {
@@ -1818,12 +1878,16 @@ type UpdateEventInvitationInput struct {
 }
 
 type UpdateEventPackagePricing struct {
-	MaxParticipants *int64   `json:"maxParticipants" bson:",omitempty"`
-	MaxPets         *int64   `json:"maxPets" bson:",omitempty"`
-	Price           *float64 `json:"price" bson:",omitempty"`
-	PriceLabel      *string  `json:"priceLabel" bson:",omitempty"`
-	Points          *int64   `json:"points" bson:",omitempty"`
-	Remarks         *string  `json:"remarks" bson:",omitempty"`
+	MaxParticipants *int64    `json:"maxParticipants" bson:",omitempty"`
+	MaxPets         *int64    `json:"maxPets" bson:",omitempty"`
+	Price           *int64    `json:"price" bson:",omitempty"`
+	PriceLabel      *string   `json:"priceLabel" bson:",omitempty"`
+	Currency        *Currency `json:"currency" bson:",omitempty"`
+	MaxCash         *int64    `json:"maxCash" bson:",omitempty"`
+	MaxPoints       *int64    `json:"maxPoints" bson:",omitempty"`
+	PointsCashRatio *float64  `json:"pointsCashRatio" bson:",omitempty"`
+	Points          *int64    `json:"points" bson:",omitempty"`
+	Remarks         *string   `json:"remarks" bson:",omitempty"`
 }
 
 type UpdateEventParticipant struct {
@@ -1837,6 +1901,7 @@ type UpdateEventParticipation struct {
 	AdditionalParticipants []*UpdateEventParticipant `json:"additionalParticipants" bson:",omitempty"`
 	AdditionalPets         []*UpdateEventPet         `json:"additionalPets" bson:",omitempty"`
 	Status                 *EventParticipationStatus `json:"status" bson:",omitempty"`
+	PaymentIntent          *UpdatePaymentIntent      `json:"paymentIntent" bson:",omitempty"`
 }
 
 type UpdateEventParticipationInput struct {
@@ -1850,8 +1915,10 @@ type UpdateEventPet struct {
 }
 
 type UpdateEventTicket struct {
-	EventID *primitive.ObjectID `json:"eventId" bson:",omitempty"`
-	Status  *EventTicketStatus  `json:"status" bson:",omitempty"`
+	EventID         *primitive.ObjectID `json:"eventId" bson:",omitempty"`
+	Status          *EventTicketStatus  `json:"status" bson:",omitempty"`
+	UserID          *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	ParticipationID *primitive.ObjectID `json:"participationId" bson:",omitempty"`
 }
 
 type UpdateEventTicketByParticipation struct {
@@ -1869,11 +1936,15 @@ type UpdateEventTicketsByParticipationIDInput struct {
 	Participation   *UpdateEventTicketByParticipation `json:"participation"`
 }
 
+type UpdateEventTicketsFilter struct {
+	UserID          *primitive.ObjectID  `json:"userId"`
+	ParticipationID *primitive.ObjectID  `json:"participationId"`
+	Ids             []primitive.ObjectID `json:"Ids"`
+}
+
 type UpdateEventTicketsInput struct {
-	Ids             []primitive.ObjectID              `json:"ids"`
-	ParticipationID *primitive.ObjectID               `json:"participationId"`
-	UserID          *primitive.ObjectID               `json:"userId"`
-	Participation   *UpdateEventTicketByParticipation `json:"participation"`
+	Ticket *UpdateEventTicket        `json:"ticket"`
+	Filter *UpdateEventTicketsFilter `json:"filter"`
 }
 
 type UpdateEventTimeSlot struct {
@@ -1952,6 +2023,16 @@ type UpdateOrderPayment struct {
 	PaymentStatus    *string                 `json:"paymentStatus" bson:",omitempty"`
 	Total            *float64                `json:"total" bson:",omitempty"`
 	TotalLabel       *string                 `json:"totalLabel" bson:",omitempty"`
+}
+
+type UpdatePaymentIntent struct {
+	Status                 *PaymentStatus  `json:"status" bson:",omitempty"`
+	Amount                 *int64          `json:"amount" bson:",omitempty"`
+	Currency               *Currency       `json:"currency" bson:",omitempty"`
+	DeductedPoints         *int64          `json:"deductedPoints" bson:",omitempty"`
+	ChannelPaymentIntentID *string         `json:"channelPaymentIntentId" bson:",omitempty"`
+	Channel                *PaymentChannel `json:"channel" bson:",omitempty"`
+	ChannelClientSecret    *string         `json:"channelClientSecret" bson:",omitempty"`
 }
 
 type UpdatePetCertificatesInput struct {
@@ -2069,6 +2150,7 @@ type UpdateTransaction struct {
 	UserID                       *primitive.ObjectID                      `json:"userId" bson:",omitempty"`
 	SourceEntity                 *TransactionSourceEntity                 `json:"sourceEntity" bson:",omitempty"`
 	Amount                       *int64                                   `json:"amount" bson:",omitempty"`
+	Points                       *int64                                   `json:"points" bson:",omitempty"`
 	Accumulated                  *bool                                    `json:"accumulated" bson:",omitempty"`
 	Type                         *TransactionType                         `json:"type" bson:",omitempty"`
 	Remarks                      *string                                  `json:"remarks" bson:",omitempty"`
@@ -2392,20 +2474,18 @@ type BannerDisplayPage string
 const (
 	BannerDisplayPageHome        BannerDisplayPage = "HOME"
 	BannerDisplayPageHomeEvent   BannerDisplayPage = "HOME_EVENT"
-	BannerDisplayPageHomeAd      BannerDisplayPage = "HOME_AD"
 	BannerDisplayPageVoucherHome BannerDisplayPage = "VOUCHER_HOME"
 )
 
 var AllBannerDisplayPage = []BannerDisplayPage{
 	BannerDisplayPageHome,
 	BannerDisplayPageHomeEvent,
-	BannerDisplayPageHomeAd,
 	BannerDisplayPageVoucherHome,
 }
 
 func (e BannerDisplayPage) IsValid() bool {
 	switch e {
-	case BannerDisplayPageHome, BannerDisplayPageHomeEvent, BannerDisplayPageHomeAd, BannerDisplayPageVoucherHome:
+	case BannerDisplayPageHome, BannerDisplayPageHomeEvent, BannerDisplayPageVoucherHome:
 		return true
 	}
 	return false
@@ -2432,6 +2512,51 @@ func (e BannerDisplayPage) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type Currency string
+
+const (
+	CurrencyHkd Currency = "HKD"
+	CurrencyUsd Currency = "USD"
+	CurrencyCny Currency = "CNY"
+	CurrencyJpy Currency = "JPY"
+)
+
+var AllCurrency = []Currency{
+	CurrencyHkd,
+	CurrencyUsd,
+	CurrencyCny,
+	CurrencyJpy,
+}
+
+func (e Currency) IsValid() bool {
+	switch e {
+	case CurrencyHkd, CurrencyUsd, CurrencyCny, CurrencyJpy:
+		return true
+	}
+	return false
+}
+
+func (e Currency) String() string {
+	return string(e)
+}
+
+func (e *Currency) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = Currency(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid Currency", str)
+	}
+	return nil
+}
+
+func (e Currency) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type EventParticipationStatus string
 
 const (
@@ -2439,6 +2564,7 @@ const (
 	EventParticipationStatusRedeemed   EventParticipationStatus = "REDEEMED"
 	EventParticipationStatusExpired    EventParticipationStatus = "EXPIRED"
 	EventParticipationStatusCanceled   EventParticipationStatus = "CANCELED"
+	EventParticipationStatusPending    EventParticipationStatus = "PENDING"
 	EventParticipationStatusInvalid    EventParticipationStatus = "INVALID"
 )
 
@@ -2447,12 +2573,13 @@ var AllEventParticipationStatus = []EventParticipationStatus{
 	EventParticipationStatusRedeemed,
 	EventParticipationStatusExpired,
 	EventParticipationStatusCanceled,
+	EventParticipationStatusPending,
 	EventParticipationStatusInvalid,
 }
 
 func (e EventParticipationStatus) IsValid() bool {
 	switch e {
-	case EventParticipationStatusRedeemable, EventParticipationStatusRedeemed, EventParticipationStatusExpired, EventParticipationStatusCanceled, EventParticipationStatusInvalid:
+	case EventParticipationStatusRedeemable, EventParticipationStatusRedeemed, EventParticipationStatusExpired, EventParticipationStatusCanceled, EventParticipationStatusPending, EventParticipationStatusInvalid:
 		return true
 	}
 	return false
@@ -2693,6 +2820,131 @@ func (e *JobType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e JobType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type OrderType string
+
+const (
+	OrderTypeEventParticipation OrderType = "EVENT_PARTICIPATION"
+)
+
+var AllOrderType = []OrderType{
+	OrderTypeEventParticipation,
+}
+
+func (e OrderType) IsValid() bool {
+	switch e {
+	case OrderTypeEventParticipation:
+		return true
+	}
+	return false
+}
+
+func (e OrderType) String() string {
+	return string(e)
+}
+
+func (e *OrderType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = OrderType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid OrderType", str)
+	}
+	return nil
+}
+
+func (e OrderType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type PaymentChannel string
+
+const (
+	PaymentChannelStripe PaymentChannel = "STRIPE"
+	PaymentChannelPaypal PaymentChannel = "PAYPAL"
+)
+
+var AllPaymentChannel = []PaymentChannel{
+	PaymentChannelStripe,
+	PaymentChannelPaypal,
+}
+
+func (e PaymentChannel) IsValid() bool {
+	switch e {
+	case PaymentChannelStripe, PaymentChannelPaypal:
+		return true
+	}
+	return false
+}
+
+func (e PaymentChannel) String() string {
+	return string(e)
+}
+
+func (e *PaymentChannel) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PaymentChannel(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PaymentChannel", str)
+	}
+	return nil
+}
+
+func (e PaymentChannel) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type PaymentStatus string
+
+const (
+	PaymentStatusProcessing PaymentStatus = "PROCESSING"
+	PaymentStatusSucceeded  PaymentStatus = "SUCCEEDED"
+	PaymentStatusFailed     PaymentStatus = "FAILED"
+	PaymentStatusReturned   PaymentStatus = "RETURNED"
+)
+
+var AllPaymentStatus = []PaymentStatus{
+	PaymentStatusProcessing,
+	PaymentStatusSucceeded,
+	PaymentStatusFailed,
+	PaymentStatusReturned,
+}
+
+func (e PaymentStatus) IsValid() bool {
+	switch e {
+	case PaymentStatusProcessing, PaymentStatusSucceeded, PaymentStatusFailed, PaymentStatusReturned:
+		return true
+	}
+	return false
+}
+
+func (e PaymentStatus) String() string {
+	return string(e)
+}
+
+func (e *PaymentStatus) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PaymentStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PaymentStatus", str)
+	}
+	return nil
+}
+
+func (e PaymentStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
