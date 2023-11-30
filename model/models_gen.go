@@ -944,8 +944,9 @@ type GeoLocation struct {
 }
 
 type GeoLocationConstraint struct {
-	Location *GeoJSONPoint `json:"location"`
-	Enabled  bool          `json:"enabled"`
+	Location    *GeoJSONPoint `json:"location"`
+	Enabled     bool          `json:"enabled"`
+	GeoLocation *GeoLocation  `json:"geoLocation"`
 }
 
 type GeoLocationInput struct {
