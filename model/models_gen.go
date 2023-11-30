@@ -1896,8 +1896,9 @@ type UpdateGeoLocation struct {
 }
 
 type UpdateGeoLocationConstraint struct {
-	Location *UpdateGeoJSONPoint `json:"location"`
-	Enabled  bool                `json:"enabled"`
+	Location    *UpdateGeoJSONPoint `json:"location"`
+	Enabled     bool                `json:"enabled"`
+	GeoLocation *GeoLocationInput   `json:"geoLocation"`
 }
 
 type UpdateJobActivationInput struct {
