@@ -1905,9 +1905,10 @@ type UpdateEventParticipation struct {
 }
 
 type UpdateEventParticipationInput struct {
-	ID             *primitive.ObjectID       `json:"id"`
-	RedemptionCode *string                   `json:"redemptionCode"`
-	Participation  *UpdateEventParticipation `json:"participation"`
+	ID                     *primitive.ObjectID       `json:"id"`
+	RedemptionCode         *string                   `json:"redemptionCode"`
+	ChannelPaymentIntentID *string                   `json:"channelPaymentIntentId"`
+	Participation          *UpdateEventParticipation `json:"participation"`
 }
 
 type UpdateEventPet struct {
