@@ -1159,16 +1159,16 @@ type OtherFilter struct {
 }
 
 type PaymentIntent struct {
-	Status                 PaymentStatus      `json:"status"`
-	Amount                 int64              `json:"amount"`
-	Currency               Currency           `json:"currency"`
-	DeductedPoints         int64              `json:"deductedPoints"`
-	Remarks                string             `json:"remarks"`
-	ChannelPaymentIntentID string             `json:"channelPaymentIntentId"`
-	Channel                PaymentChannel     `json:"channel"`
-	ChannelClientSecret    string             `json:"channelClientSecret"`
-	CreatedAt              primitive.DateTime `json:"createdAt"`
-	UpdatedAt              primitive.DateTime `json:"updatedAt"`
+	Status                 PaymentIntentStatus `json:"status"`
+	Amount                 int64               `json:"amount"`
+	Currency               Currency            `json:"currency"`
+	DeductedPoints         int64               `json:"deductedPoints"`
+	Remarks                string              `json:"remarks"`
+	ChannelPaymentIntentID string              `json:"channelPaymentIntentId"`
+	Channel                PaymentChannel      `json:"channel"`
+	ChannelClientSecret    string              `json:"channelClientSecret"`
+	CreatedAt              primitive.DateTime  `json:"createdAt"`
+	UpdatedAt              primitive.DateTime  `json:"updatedAt"`
 }
 
 func (PaymentIntent) IsCreatePaymentIntentResult() {}
@@ -2027,13 +2027,13 @@ type UpdateOrderPayment struct {
 }
 
 type UpdatePaymentIntent struct {
-	Status                 *PaymentStatus  `json:"status" bson:",omitempty"`
-	Amount                 *int64          `json:"amount" bson:",omitempty"`
-	Currency               *Currency       `json:"currency" bson:",omitempty"`
-	DeductedPoints         *int64          `json:"deductedPoints" bson:",omitempty"`
-	ChannelPaymentIntentID *string         `json:"channelPaymentIntentId" bson:",omitempty"`
-	Channel                *PaymentChannel `json:"channel" bson:",omitempty"`
-	ChannelClientSecret    *string         `json:"channelClientSecret" bson:",omitempty"`
+	Status                 *PaymentIntentStatus `json:"status" bson:",omitempty"`
+	Amount                 *int64               `json:"amount" bson:",omitempty"`
+	Currency               *Currency            `json:"currency" bson:",omitempty"`
+	DeductedPoints         *int64               `json:"deductedPoints" bson:",omitempty"`
+	ChannelPaymentIntentID *string              `json:"channelPaymentIntentId" bson:",omitempty"`
+	Channel                *PaymentChannel      `json:"channel" bson:",omitempty"`
+	ChannelClientSecret    *string              `json:"channelClientSecret" bson:",omitempty"`
 }
 
 type UpdatePetCertificatesInput struct {
@@ -2904,48 +2904,54 @@ func (e PaymentChannel) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-type PaymentStatus string
+type PaymentIntentStatus string
 
 const (
-	PaymentStatusProcessing PaymentStatus = "PROCESSING"
-	PaymentStatusSucceeded  PaymentStatus = "SUCCEEDED"
-	PaymentStatusFailed     PaymentStatus = "FAILED"
-	PaymentStatusReturned   PaymentStatus = "RETURNED"
+	PaymentIntentStatusCreated        PaymentIntentStatus = "CREATED"
+	PaymentIntentStatusProcessing     PaymentIntentStatus = "PROCESSING"
+	PaymentIntentStatusSucceeded      PaymentIntentStatus = "SUCCEEDED"
+	PaymentIntentStatusFailed         PaymentIntentStatus = "FAILED"
+	PaymentIntentStatusCanceled       PaymentIntentStatus = "CANCELED"
+	PaymentIntentStatusRequiresAction PaymentIntentStatus = "REQUIRES_ACTION"
+	PaymentIntentStatusTimedOut       PaymentIntentStatus = "TIMED_OUT"
 )
 
-var AllPaymentStatus = []PaymentStatus{
-	PaymentStatusProcessing,
-	PaymentStatusSucceeded,
-	PaymentStatusFailed,
-	PaymentStatusReturned,
+var AllPaymentIntentStatus = []PaymentIntentStatus{
+	PaymentIntentStatusCreated,
+	PaymentIntentStatusProcessing,
+	PaymentIntentStatusSucceeded,
+	PaymentIntentStatusFailed,
+	PaymentIntentStatusCanceled,
+	PaymentIntentStatusRequiresAction,
+	PaymentIntentStatusTimedOut,
 }
 
-func (e PaymentStatus) IsValid() bool {
+func (e PaymentIntentStatus) IsValid() bool {
 	switch e {
-	case PaymentStatusProcessing, PaymentStatusSucceeded, PaymentStatusFailed, PaymentStatusReturned:
+	case PaymentIntentStatusCreated, PaymentIntentStatusProcessing, PaymentIntentStatusSucceeded, PaymentIntentStatusFailed, PaymentIntentStatusCanceled, PaymentIntentStatusRequiresAction, PaymentIntentStatusTimedOut:
 		return true
 	}
 	return false
 }
 
-func (e PaymentStatus) String() string {
+func (e PaymentIntentStatus) String() string {
 	return string(e)
 }
 
-func (e *PaymentStatus) UnmarshalGQL(v interface{}) error {
+func (e *PaymentIntentStatus) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
 	}
 
-	*e = PaymentStatus(str)
+	*e = PaymentIntentStatus(str)
 	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PaymentStatus", str)
+		return fmt.Errorf("%s is not a valid PaymentIntentStatus", str)
 	}
 	return nil
 }
 
-func (e PaymentStatus) MarshalGQL(w io.Writer) {
+func (e PaymentIntentStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 

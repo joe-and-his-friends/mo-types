@@ -65,8 +65,9 @@ const (
 	CodeCheckInOutOfGeolocationRange = 4004
 
 	// order, points
-	CodeInsufficientPoints    = 4100
-	CodeInsufficientInventory = 4101
+	CodeInsufficientPoints           = 4100
+	CodeInsufficientInventory        = 4101
+	CodePaymentIntentCreationFailure = 4200
 
 	CodeServiceInternalServerError = 5000
 	CodeServiceNotImplemented      = 5001
@@ -107,6 +108,9 @@ const (
 	// voucher ownership
 	MsgInsufficientPoints    = "insufficient points"
 	MsgInsufficientInventory = "insufficient inventory"
+
+	// payment intent
+	MsgPaymentIntentCreationFailure = "payment intent creation failure"
 )
 
 func TranslateToHttpStatusCode(code int) int {
