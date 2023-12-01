@@ -1298,7 +1298,6 @@ type PointTransaction struct {
 	SourceEntity TransactionSourceEntity `json:"sourceEntity"`
 	Type         TransactionType         `json:"type"`
 	Amount       int64                   `json:"amount"`
-	Points       int64                   `json:"points"`
 	Accumulated  bool                    `json:"accumulated"`
 	UpdatedAt    primitive.DateTime      `json:"updatedAt"`
 	CreatedAt    primitive.DateTime      `json:"createdAt"`
@@ -2152,7 +2151,6 @@ type UpdateTransaction struct {
 	UserID                       *primitive.ObjectID                      `json:"userId" bson:",omitempty"`
 	SourceEntity                 *TransactionSourceEntity                 `json:"sourceEntity" bson:",omitempty"`
 	Amount                       *int64                                   `json:"amount" bson:",omitempty"`
-	Points                       *int64                                   `json:"points" bson:",omitempty"`
 	Accumulated                  *bool                                    `json:"accumulated" bson:",omitempty"`
 	Type                         *TransactionType                         `json:"type" bson:",omitempty"`
 	Remarks                      *string                                  `json:"remarks" bson:",omitempty"`
