@@ -705,37 +705,38 @@ type EditorialPosts struct {
 }
 
 type Event struct {
-	ID                           primitive.ObjectID            `json:"id" bson:"_id"`
-	UserID                       primitive.ObjectID            `json:"userId"`
-	Name                         string                        `json:"name"`
-	RetailerAvatarURL            string                        `json:"retailerAvatarUrl"`
-	Status                       EventStatus                   `json:"status"`
-	Online                       bool                          `json:"online"`
-	Introduction                 string                        `json:"introduction"`
-	Details                      string                        `json:"details"`
-	Notice                       string                        `json:"notice"`
-	Terms                        string                        `json:"terms"`
-	PhoneNumber                  string                        `json:"phoneNumber"`
-	WebsiteURL                   string                        `json:"websiteUrl"`
-	FacebookAccount              string                        `json:"facebookAccount"`
-	InstagramAccount             string                        `json:"instagramAccount"`
-	Photos                       []*Photo                      `json:"photos"`
-	TimeSlots                    []*EventTimeSlot              `json:"timeSlots"`
-	StartedAt                    primitive.DateTime            `json:"startedAt"`
-	EndedAt                      primitive.DateTime            `json:"endedAt"`
-	CreatedAt                    primitive.DateTime            `json:"createdAt"`
-	UpdatedAt                    primitive.DateTime            `json:"updatedAt"`
-	PackagePricing               *EventPackagePricing          `json:"packagePricing"`
-	AdditionalParticipantPricing *AdditionalParticipantPricing `json:"additionalParticipantPricing"`
-	AdditionalPetPricing         *AdditionalPetPricing         `json:"additionalPetPricing"`
-	Category                     *SelectionOption              `json:"category"`
-	Address                      string                        `json:"address"`
-	Region                       *SelectionOption              `json:"region"`
-	District                     *SelectionOption              `json:"district"`
-	GeoLocation                  *GeoLocation                  `json:"geoLocation"`
-	Recommended                  bool                          `json:"recommended"`
-	Approved                     bool                          `json:"approved"`
-	Published                    bool                          `json:"published"`
+	ID                           primitive.ObjectID             `json:"id" bson:"_id"`
+	UserID                       primitive.ObjectID             `json:"userId"`
+	Name                         string                         `json:"name"`
+	RetailerAvatarURL            string                         `json:"retailerAvatarUrl"`
+	Status                       EventStatus                    `json:"status"`
+	Online                       bool                           `json:"online"`
+	Introduction                 string                         `json:"introduction"`
+	Details                      string                         `json:"details"`
+	Notice                       string                         `json:"notice"`
+	Terms                        string                         `json:"terms"`
+	PhoneNumber                  string                         `json:"phoneNumber"`
+	WebsiteURL                   string                         `json:"websiteUrl"`
+	FacebookAccount              string                         `json:"facebookAccount"`
+	InstagramAccount             string                         `json:"instagramAccount"`
+	Photos                       []*Photo                       `json:"photos"`
+	TimeSlots                    []*EventTimeSlot               `json:"timeSlots"`
+	StartedAt                    primitive.DateTime             `json:"startedAt"`
+	EndedAt                      primitive.DateTime             `json:"endedAt"`
+	CreatedAt                    primitive.DateTime             `json:"createdAt"`
+	UpdatedAt                    primitive.DateTime             `json:"updatedAt"`
+	PackagePricing               *EventPackagePricing           `json:"packagePricing"`
+	AdditionalParticipantPricing *AdditionalParticipantPricing  `json:"additionalParticipantPricing"`
+	AdditionalPetPricing         *AdditionalPetPricing          `json:"additionalPetPricing"`
+	Category                     *SelectionOption               `json:"category"`
+	Address                      string                         `json:"address"`
+	Region                       *SelectionOption               `json:"region"`
+	District                     *SelectionOption               `json:"district"`
+	GeoLocation                  *GeoLocation                   `json:"geoLocation"`
+	Recommended                  bool                           `json:"recommended"`
+	Approved                     bool                           `json:"approved"`
+	Published                    bool                           `json:"published"`
+	Participations               EventParticipationsQueryResult `json:"participations"`
 }
 
 func (Event) IsEventQueryResult() {}
@@ -1159,16 +1160,16 @@ type OtherFilter struct {
 }
 
 type PaymentIntent struct {
-	Status                 PaymentIntentStatus `json:"status"`
-	Amount                 int64               `json:"amount"`
-	Currency               Currency            `json:"currency"`
-	DeductedPoints         int64               `json:"deductedPoints"`
-	Remarks                string              `json:"remarks"`
-	ChannelPaymentIntentID string              `json:"channelPaymentIntentId"`
-	Channel                PaymentChannel      `json:"channel"`
-	ChannelClientSecret    string              `json:"channelClientSecret"`
-	CreatedAt              primitive.DateTime  `json:"createdAt"`
-	UpdatedAt              primitive.DateTime  `json:"updatedAt"`
+	Status                 *PaymentIntentStatus `json:"status"`
+	Amount                 int64                `json:"amount"`
+	Currency               Currency             `json:"currency"`
+	DeductedPoints         int64                `json:"deductedPoints"`
+	Remarks                string               `json:"remarks"`
+	ChannelPaymentIntentID string               `json:"channelPaymentIntentId"`
+	Channel                PaymentChannel       `json:"channel"`
+	ChannelClientSecret    string               `json:"channelClientSecret"`
+	CreatedAt              primitive.DateTime   `json:"createdAt"`
+	UpdatedAt              primitive.DateTime   `json:"updatedAt"`
 }
 
 func (PaymentIntent) IsCreatePaymentIntentResult() {}
