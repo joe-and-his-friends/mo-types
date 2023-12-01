@@ -42,6 +42,10 @@ type CheckInRecordQueryResult interface {
 	IsCheckInRecordQueryResult()
 }
 
+type CheckInRecordsQueryResult interface {
+	IsCheckInRecordsQueryResult()
+}
+
 type CreateEventParticipationResult interface {
 	IsCreateEventParticipationResult()
 }
@@ -302,18 +306,19 @@ type CategoryFilter struct {
 }
 
 type CheckInCounter struct {
-	ID                    primitive.ObjectID     `json:"id" bson:"_id"`
-	ProductID             primitive.ObjectID     `json:"productId"`
-	ProductName           string                 `json:"productName"`
-	Name                  string                 `json:"name"`
-	Greetings             string                 `json:"greetings"`
-	QRCodeURL             string                 `json:"qrCodeUrl"`
-	Points                int64                  `json:"points"`
-	CreatedAt             *primitive.DateTime    `json:"createdAt"`
-	ValidTo               *primitive.DateTime    `json:"validTo"`
-	ValidFrom             *primitive.DateTime    `json:"validFrom"`
-	GeoLocationConstraint *GeoLocationConstraint `json:"geoLocationConstraint"`
-	Record                *CheckInRecord         `json:"record"`
+	ID                    primitive.ObjectID        `json:"id" bson:"_id"`
+	ProductID             primitive.ObjectID        `json:"productId"`
+	ProductName           string                    `json:"productName"`
+	Name                  string                    `json:"name"`
+	Greetings             string                    `json:"greetings"`
+	QRCodeURL             string                    `json:"qrCodeUrl"`
+	Points                int64                     `json:"points"`
+	CreatedAt             *primitive.DateTime       `json:"createdAt"`
+	ValidTo               *primitive.DateTime       `json:"validTo"`
+	ValidFrom             *primitive.DateTime       `json:"validFrom"`
+	GeoLocationConstraint *GeoLocationConstraint    `json:"geoLocationConstraint"`
+	Record                *CheckInRecord            `json:"record"`
+	Records               CheckInRecordsQueryResult `json:"records"`
 }
 
 func (CheckInCounter) IsCheckInCounterQueryResult() {}
@@ -347,6 +352,25 @@ type CheckInRecord struct {
 }
 
 func (CheckInRecord) IsCheckInRecordQueryResult() {}
+
+type CheckInRecords struct {
+	TotalCount int              `json:"totalCount"`
+	Items      []*CheckInRecord `json:"items"`
+}
+
+func (CheckInRecords) IsCheckInRecordsQueryResult() {}
+
+type CheckInRecordsCommonFilter struct {
+	UserID    *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	ProductID *primitive.ObjectID `json:"productId" bson:",omitempty"`
+	CounterID *primitive.ObjectID `json:"counterId" bson:",omitempty"`
+}
+
+type CheckInRecordsInput struct {
+	PageNumber   int                         `json:"pageNumber"`
+	PageSize     int                         `json:"pageSize"`
+	CommonFilter *CheckInRecordsCommonFilter `json:"commonFilter"`
+}
 
 type Comment struct {
 	Id                     string                  `json:"id" bson:"_id"`
@@ -1490,6 +1514,8 @@ func (ServiceError) IsCheckInCounterQueryResult() {}
 func (ServiceError) IsCheckInCountersQueryResult() {}
 
 func (ServiceError) IsCheckInRecordQueryResult() {}
+
+func (ServiceError) IsCheckInRecordsQueryResult() {}
 
 func (ServiceError) IsEventsQueryResult() {}
 
