@@ -2938,7 +2938,6 @@ const (
 	PaymentIntentStatusFailed         PaymentIntentStatus = "FAILED"
 	PaymentIntentStatusCanceled       PaymentIntentStatus = "CANCELED"
 	PaymentIntentStatusRequiresAction PaymentIntentStatus = "REQUIRES_ACTION"
-	PaymentIntentStatusTimedOut       PaymentIntentStatus = "TIMED_OUT"
 )
 
 var AllPaymentIntentStatus = []PaymentIntentStatus{
@@ -2948,12 +2947,11 @@ var AllPaymentIntentStatus = []PaymentIntentStatus{
 	PaymentIntentStatusFailed,
 	PaymentIntentStatusCanceled,
 	PaymentIntentStatusRequiresAction,
-	PaymentIntentStatusTimedOut,
 }
 
 func (e PaymentIntentStatus) IsValid() bool {
 	switch e {
-	case PaymentIntentStatusCreated, PaymentIntentStatusProcessing, PaymentIntentStatusSucceeded, PaymentIntentStatusFailed, PaymentIntentStatusCanceled, PaymentIntentStatusRequiresAction, PaymentIntentStatusTimedOut:
+	case PaymentIntentStatusCreated, PaymentIntentStatusProcessing, PaymentIntentStatusSucceeded, PaymentIntentStatusFailed, PaymentIntentStatusCanceled, PaymentIntentStatusRequiresAction:
 		return true
 	}
 	return false
