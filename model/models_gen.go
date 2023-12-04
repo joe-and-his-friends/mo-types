@@ -1944,12 +1944,6 @@ type UpdateEventPet struct {
 type UpdateEventTicket struct {
 	EventID         *primitive.ObjectID `json:"eventId" bson:",omitempty"`
 	Status          *EventTicketStatus  `json:"status" bson:",omitempty"`
-	UserID          *primitive.ObjectID `json:"userId" bson:",omitempty"`
-	ParticipationID *primitive.ObjectID `json:"participationId" bson:",omitempty"`
-}
-
-type UpdateEventTicketByParticipation struct {
-	UserID          *primitive.ObjectID `json:"userId"`
 	ParticipationID *primitive.ObjectID `json:"participationId"`
 }
 
@@ -1958,20 +1952,10 @@ type UpdateEventTicketInput struct {
 	Ticket *UpdateEventTicket `json:"ticket"`
 }
 
-type UpdateEventTicketsByParticipationIDInput struct {
-	ParticipationID primitive.ObjectID                `json:"participationId"`
-	Participation   *UpdateEventTicketByParticipation `json:"participation"`
-}
-
-type UpdateEventTicketsFilter struct {
-	UserID          *primitive.ObjectID  `json:"userId"`
-	ParticipationID *primitive.ObjectID  `json:"participationId"`
-	Ids             []primitive.ObjectID `json:"Ids"`
-}
-
 type UpdateEventTicketsInput struct {
-	Ticket *UpdateEventTicket        `json:"ticket"`
-	Filter *UpdateEventTicketsFilter `json:"filter"`
+	Ids             []primitive.ObjectID `json:"Ids"`
+	ParticipationID *primitive.ObjectID  `json:"participationId"`
+	Ticket          *UpdateEventTicket   `json:"ticket"`
 }
 
 type UpdateEventTimeSlot struct {
@@ -2938,6 +2922,7 @@ const (
 	PaymentIntentStatusFailed         PaymentIntentStatus = "FAILED"
 	PaymentIntentStatusCanceled       PaymentIntentStatus = "CANCELED"
 	PaymentIntentStatusRequiresAction PaymentIntentStatus = "REQUIRES_ACTION"
+	PaymentIntentStatusRefunded       PaymentIntentStatus = "REFUNDED"
 )
 
 var AllPaymentIntentStatus = []PaymentIntentStatus{
@@ -2947,11 +2932,12 @@ var AllPaymentIntentStatus = []PaymentIntentStatus{
 	PaymentIntentStatusFailed,
 	PaymentIntentStatusCanceled,
 	PaymentIntentStatusRequiresAction,
+	PaymentIntentStatusRefunded,
 }
 
 func (e PaymentIntentStatus) IsValid() bool {
 	switch e {
-	case PaymentIntentStatusCreated, PaymentIntentStatusProcessing, PaymentIntentStatusSucceeded, PaymentIntentStatusFailed, PaymentIntentStatusCanceled, PaymentIntentStatusRequiresAction:
+	case PaymentIntentStatusCreated, PaymentIntentStatusProcessing, PaymentIntentStatusSucceeded, PaymentIntentStatusFailed, PaymentIntentStatusCanceled, PaymentIntentStatusRequiresAction, PaymentIntentStatusRefunded:
 		return true
 	}
 	return false
