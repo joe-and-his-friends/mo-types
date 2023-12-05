@@ -831,7 +831,6 @@ type EventParticipation struct {
 	User                        *UserProfile             `json:"user"`
 	EventID                     primitive.ObjectID       `json:"eventId"`
 	Event                       *Event                   `json:"event"`
-	Points                      int64                    `json:"points"`
 	RedemptionCode              string                   `json:"redemptionCode"`
 	OperationUserID             *primitive.ObjectID      `json:"operationUserId"`
 	Status                      EventParticipationStatus `json:"status"`
