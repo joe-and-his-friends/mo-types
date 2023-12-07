@@ -1001,8 +1001,9 @@ type GeoLocation struct {
 }
 
 type GeoLocationConstraint struct {
-	Location *GeoJSONPoint `json:"location"`
-	Enabled  bool          `json:"enabled"`
+	Location    *GeoJSONPoint `json:"location"`
+	Enabled     bool          `json:"enabled"`
+	GeoLocation *GeoLocation  `json:"geoLocation"`
 }
 
 type GeoLocationInput struct {
@@ -1978,8 +1979,9 @@ type UpdateGeoLocation struct {
 }
 
 type UpdateGeoLocationConstraint struct {
-	Location *UpdateGeoJSONPoint `json:"location"`
-	Enabled  bool                `json:"enabled"`
+	Location    *UpdateGeoJSONPoint `json:"location"`
+	Enabled     bool                `json:"enabled"`
+	GeoLocation *GeoLocationInput   `json:"geoLocation"`
 }
 
 type UpdateJobActivationInput struct {
@@ -2484,18 +2486,20 @@ type BannerDisplayPage string
 const (
 	BannerDisplayPageHome        BannerDisplayPage = "HOME"
 	BannerDisplayPageHomeEvent   BannerDisplayPage = "HOME_EVENT"
+	BannerDisplayPageHomeAd      BannerDisplayPage = "HOME_AD"
 	BannerDisplayPageVoucherHome BannerDisplayPage = "VOUCHER_HOME"
 )
 
 var AllBannerDisplayPage = []BannerDisplayPage{
 	BannerDisplayPageHome,
 	BannerDisplayPageHomeEvent,
+	BannerDisplayPageHomeAd,
 	BannerDisplayPageVoucherHome,
 }
 
 func (e BannerDisplayPage) IsValid() bool {
 	switch e {
-	case BannerDisplayPageHome, BannerDisplayPageHomeEvent, BannerDisplayPageVoucherHome:
+	case BannerDisplayPageHome, BannerDisplayPageHomeEvent, BannerDisplayPageHomeAd, BannerDisplayPageVoucherHome:
 		return true
 	}
 	return false
