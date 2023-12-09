@@ -151,6 +151,7 @@ type AdditionalParticipantPricing struct {
 	MaxPoints       *int64    `json:"maxPoints"`
 	PointsCashRatio *float64  `json:"pointsCashRatio"`
 	ExtraPoints     int64     `json:"extraPoints"`
+	Points          int64     `json:"Points"`
 }
 
 type AdditionalPetPricing struct {
@@ -162,6 +163,7 @@ type AdditionalPetPricing struct {
 	MaxPoints       *int64    `json:"maxPoints"`
 	PointsCashRatio *float64  `json:"pointsCashRatio"`
 	ExtraPoints     int64     `json:"extraPoints"`
+	Points          int64     `json:"Points"`
 }
 
 type AdoptionActivity struct {
@@ -820,6 +822,7 @@ type EventPackagePricing struct {
 	MaxPoints       *int64    `json:"maxPoints"`
 	PointsCashRatio *float64  `json:"pointsCashRatio"`
 	ExtraPoints     int64     `json:"extraPoints"`
+	Points          int64     `json:"Points"`
 	Remarks         *string   `json:"remarks"`
 }
 
