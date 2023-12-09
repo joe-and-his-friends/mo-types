@@ -147,9 +147,10 @@ type AdditionalParticipantPricing struct {
 	PriceLabel      *string   `json:"priceLabel"`
 	Currency        *Currency `json:"currency"`
 	MaxCash         *int64    `json:"maxCash"`
+	MinCash         *int64    `json:"minCash"`
 	MaxPoints       *int64    `json:"maxPoints"`
 	PointsCashRatio *float64  `json:"pointsCashRatio"`
-	Points          int64     `json:"points"`
+	ExtraPoints     int64     `json:"extraPoints"`
 }
 
 type AdditionalPetPricing struct {
@@ -157,9 +158,10 @@ type AdditionalPetPricing struct {
 	PriceLabel      *string   `json:"priceLabel"`
 	Currency        *Currency `json:"currency"`
 	MaxCash         *int64    `json:"maxCash"`
+	MinCash         *int64    `json:"minCash"`
 	MaxPoints       *int64    `json:"maxPoints"`
 	PointsCashRatio *float64  `json:"pointsCashRatio"`
-	Points          int64     `json:"points"`
+	ExtraPoints     int64     `json:"extraPoints"`
 }
 
 type AdoptionActivity struct {
@@ -814,9 +816,10 @@ type EventPackagePricing struct {
 	PriceLabel      *string   `json:"priceLabel"`
 	Currency        *Currency `json:"currency"`
 	MaxCash         *int64    `json:"maxCash"`
+	MinCash         *int64    `json:"minCash"`
 	MaxPoints       *int64    `json:"maxPoints"`
 	PointsCashRatio *float64  `json:"pointsCashRatio"`
-	Points          int64     `json:"points"`
+	ExtraPoints     int64     `json:"extraPoints"`
 	Remarks         *string   `json:"remarks"`
 }
 
@@ -1714,9 +1717,10 @@ type UpdateAddionalPetPricing struct {
 	PriceLabel      *string   `json:"priceLabel" bson:",omitempty"`
 	Currency        *Currency `json:"currency" bson:",omitempty"`
 	MaxCash         *int64    `json:"maxCash" bson:",omitempty"`
+	MinCash         *int64    `json:"minCash" bson:",omitempty"`
 	MaxPoints       *int64    `json:"maxPoints" bson:",omitempty"`
 	PointsCashRatio *float64  `json:"pointsCashRatio" bson:",omitempty"`
-	Points          *int64    `json:"points" bson:",omitempty"`
+	ExtraPoints     *int64    `json:"extraPoints" bson:",omitempty"`
 }
 
 type UpdateAdditionalParticipantPricing struct {
@@ -1724,9 +1728,10 @@ type UpdateAdditionalParticipantPricing struct {
 	PriceLabel      *string   `json:"priceLabel" bson:",omitempty"`
 	Currency        *Currency `json:"currency" bson:",omitempty"`
 	MaxCash         *int64    `json:"maxCash" bson:",omitempty"`
+	MinCash         *int64    `json:"minCash" bson:",omitempty"`
 	MaxPoints       *int64    `json:"maxPoints" bson:",omitempty"`
 	PointsCashRatio *float64  `json:"pointsCashRatio" bson:",omitempty"`
-	Points          *int64    `json:"points" bson:",omitempty"`
+	ExtraPoints     *int64    `json:"extraPoints" bson:",omitempty"`
 }
 
 type UpdateAdoptionAd struct {
@@ -1911,9 +1916,10 @@ type UpdateEventPackagePricing struct {
 	PriceLabel      *string   `json:"priceLabel" bson:",omitempty"`
 	Currency        *Currency `json:"currency" bson:",omitempty"`
 	MaxCash         *int64    `json:"maxCash" bson:",omitempty"`
+	MinCash         *int64    `json:"minCash" bson:",omitempty"`
 	MaxPoints       *int64    `json:"maxPoints" bson:",omitempty"`
 	PointsCashRatio *float64  `json:"pointsCashRatio" bson:",omitempty"`
-	Points          *int64    `json:"points" bson:",omitempty"`
+	ExtraPoints     *int64    `json:"extraPoints" bson:",omitempty"`
 	Remarks         *string   `json:"remarks" bson:",omitempty"`
 }
 
