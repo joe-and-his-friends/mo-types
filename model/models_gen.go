@@ -2196,6 +2196,8 @@ type UpdateUserBasicsInput struct {
 	SfLockerCode           *string                 `json:"sfLockerCode" bson:",omitempty"`
 	ProfileBackgroundImage *string                 `json:"profileBackgroundImage" bson:",omitempty"`
 	AvatarURL              *string                 `json:"avatarUrl" bson:",omitempty"`
+	Sex                    *SelectionOptionInput   `json:"sex" bson:",omitempty"`
+	AgeRange               *SelectionOptionInput   `json:"ageRange" bson:",omitempty"`
 }
 
 type UpdateUserPhoneOrEmail struct {
@@ -2285,6 +2287,8 @@ type UserProfile struct {
 	AvatarURL              string                    `json:"avatarUrl"`
 	FamilyName             string                    `json:"familyName"`
 	GivenName              string                    `json:"givenName"`
+	Sex                    *SelectionOption          `json:"sex"`
+	AgeGroup               *SelectionOption          `json:"ageGroup"`
 	ReferralUserID         *primitive.ObjectID       `json:"referralUserId"`
 	DatetimeCreated        string                    `json:"datetimeCreated"`
 	FcmRegistrationToken   string                    `json:"fcmRegistrationToken"`
