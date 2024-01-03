@@ -735,6 +735,7 @@ type EditorialPosts struct {
 type Event struct {
 	ID                           primitive.ObjectID             `json:"id" bson:"_id"`
 	UserID                       primitive.ObjectID             `json:"userId"`
+	AuthorizedOperationUserIds   []primitive.ObjectID           `json:"authorizedOperationUserIds"`
 	Name                         string                         `json:"name"`
 	RetailerAvatarURL            string                         `json:"retailerAvatarUrl"`
 	Status                       EventStatus                    `json:"status"`
@@ -866,8 +867,9 @@ type EventParticipationCommonFilter struct {
 }
 
 type EventParticipationInput struct {
-	ID             *primitive.ObjectID `json:"id"`
-	RedemptionCode *string             `json:"redemptionCode"`
+	ID                     *primitive.ObjectID `json:"id"`
+	RedemptionCode         *string             `json:"redemptionCode"`
+	ChannelPaymentIntentID *string             `json:"channelPaymentIntentId"`
 }
 
 type EventParticipations struct {
@@ -1867,6 +1869,7 @@ type UpdateContestCandidateExtraNumberOfVotes struct {
 
 type UpdateEvent struct {
 	UserID                       *primitive.ObjectID                 `json:"userId" bson:",omitempty"`
+	AuthorizedOperationUserIds   []primitive.ObjectID                `json:"authorizedOperationUserIds" bson:",omitempty"`
 	Name                         *string                             `json:"name" bson:",omitempty"`
 	RetailerAvatarURL            *string                             `json:"retailerAvatarUrl" bson:",omitempty"`
 	Status                       *EventStatus                        `json:"status" bson:",omitempty"`
