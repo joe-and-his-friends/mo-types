@@ -1454,6 +1454,7 @@ type RetailersInput struct {
 	MatchingAddress      string                `json:"matchingAddress"`
 	MatchingName         string                `json:"matchingName"`
 	MatchingPhoneOrEmail string                `json:"matchingPhoneOrEmail"`
+	MatchingUserIds      []primitive.ObjectID  `json:"matchingUserIds"`
 	TerritoriesFilter    *TerritoriesFilter    `json:"territoriesFilter"`
 	LandmarksFilter      *LandmarksFilter      `json:"landmarksFilter"`
 	CategoriesFilter     *CategoriesFilter     `json:"categoriesFilter"`
