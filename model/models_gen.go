@@ -2236,6 +2236,8 @@ type UpdateVoucher struct {
 	ImageURL                   *string              `json:"imageUrl" bson:",omitempty"`
 	RetailerAvatarURL          *string              `json:"retailerAvatarUrl" bson:",omitempty"`
 	AuthorizedOperationUserIds []primitive.ObjectID `json:"authorizedOperationUserIds" bson:",omitempty"`
+	Published                  *bool                `json:"published" bson:",omitempty"`
+	Exclusive                  *bool                `json:"exclusive" bson:",omitempty"`
 }
 
 type UpdateVoucherInput struct {
@@ -2397,9 +2399,15 @@ type Vouchers struct {
 
 func (Vouchers) IsVouchersQueryResult() {}
 
+type VouchersCommonFilter struct {
+	Published *bool `json:"published" bson:",omitempty"`
+	Exclusive *bool `json:"exclusive" bson:",omitempty"`
+}
+
 type VouchersInput struct {
-	PageNumber int `json:"pageNumber"`
-	PageSize   int `json:"pageSize"`
+	PageNumber   int64                 `json:"pageNumber"`
+	PageSize     int64                 `json:"pageSize"`
+	CommonFilter *VouchersCommonFilter `json:"commonFilter"`
 }
 
 type VouchersWithOwnershipInput struct {
