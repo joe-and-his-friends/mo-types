@@ -2227,14 +2227,15 @@ type UpdateUserPrivilegesInput struct {
 }
 
 type UpdateVoucher struct {
-	RedemptionPoint   *int64              `json:"redemptionPoint" bson:",omitempty"`
-	Name              *string             `json:"name" bson:",omitempty"`
-	Description       *string             `json:"description" bson:",omitempty"`
-	Terms             *string             `json:"terms" bson:",omitempty"`
-	ValidFrom         *primitive.DateTime `json:"validFrom" bson:",omitempty"`
-	ValidTo           *primitive.DateTime `json:"validTo" bson:",omitempty"`
-	ImageURL          *string             `json:"imageUrl" bson:",omitempty"`
-	RetailerAvatarURL *string             `json:"retailerAvatarUrl" bson:",omitempty"`
+	RedemptionPoint            *int64               `json:"redemptionPoint" bson:",omitempty"`
+	Name                       *string              `json:"name" bson:",omitempty"`
+	Description                *string              `json:"description" bson:",omitempty"`
+	Terms                      *string              `json:"terms" bson:",omitempty"`
+	ValidFrom                  *primitive.DateTime  `json:"validFrom" bson:",omitempty"`
+	ValidTo                    *primitive.DateTime  `json:"validTo" bson:",omitempty"`
+	ImageURL                   *string              `json:"imageUrl" bson:",omitempty"`
+	RetailerAvatarURL          *string              `json:"retailerAvatarUrl" bson:",omitempty"`
+	AuthorizedOperationUserIds []primitive.ObjectID `json:"authorizedOperationUserIds" bson:",omitempty"`
 }
 
 type UpdateVoucherInput struct {
@@ -2358,17 +2359,20 @@ type VotingResult struct {
 }
 
 type Voucher struct {
-	ID                primitive.ObjectID  `json:"id" bson:"_id"`
-	RedemptionPoint   int64               `json:"redemptionPoint"`
-	CreatedAt         *primitive.DateTime `json:"createdAt"`
-	Name              string              `json:"name"`
-	Terms             string              `json:"terms"`
-	Description       string              `json:"description"`
-	ValidFrom         *primitive.DateTime `json:"validFrom"`
-	ValidTo           *primitive.DateTime `json:"validTo"`
-	ImageURL          string              `json:"imageUrl"`
-	RetailerAvatarURL string              `json:"retailerAvatarUrl"`
-	Ownership         *VoucherOwnership   `json:"ownership"`
+	ID                         primitive.ObjectID   `json:"id" bson:"_id"`
+	RedemptionPoint            int64                `json:"redemptionPoint"`
+	CreatedAt                  *primitive.DateTime  `json:"createdAt"`
+	Name                       string               `json:"name"`
+	Terms                      string               `json:"terms"`
+	Description                string               `json:"description"`
+	ValidFrom                  *primitive.DateTime  `json:"validFrom"`
+	ValidTo                    *primitive.DateTime  `json:"validTo"`
+	ImageURL                   string               `json:"imageUrl"`
+	RetailerAvatarURL          string               `json:"retailerAvatarUrl"`
+	AuthorizedOperationUserIds []primitive.ObjectID `json:"authorizedOperationUserIds"`
+	Published                  bool                 `json:"published"`
+	Exclusive                  bool                 `json:"exclusive"`
+	Ownership                  *VoucherOwnership    `json:"ownership"`
 }
 
 func (Voucher) IsVoucherQueryResult() {}
