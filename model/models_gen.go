@@ -130,6 +130,10 @@ type VoucherOwnershipQueryResult interface {
 	IsVoucherOwnershipQueryResult()
 }
 
+type VoucherOwnershipsQueryResult interface {
+	IsVoucherOwnershipsQueryResult()
+}
+
 type VoucherQueryResult interface {
 	IsVoucherQueryResult()
 }
@@ -659,6 +663,11 @@ type CreateUserInput struct {
 
 type CreateVoucherOwnershipInput struct {
 	VoucherID primitive.ObjectID `json:"voucherId"`
+}
+
+type CreateVoucherOwnershipsInput struct {
+	VoucherID primitive.ObjectID   `json:"voucherId"`
+	UserIds   []primitive.ObjectID `json:"userIds"`
 }
 
 type DatesFilter struct {
@@ -1573,6 +1582,8 @@ func (ServiceError) IsVouchersQueryResult() {}
 
 func (ServiceError) IsVoucherOwnershipQueryResult() {}
 
+func (ServiceError) IsVoucherOwnershipsQueryResult() {}
+
 type SexesFilter struct {
 	Names []string `json:"names"`
 }
@@ -2382,7 +2393,9 @@ func (Voucher) IsVoucherQueryResult() {}
 type VoucherOwnership struct {
 	ID                           string              `json:"id" bson:"_id"`
 	UserID                       primitive.ObjectID  `json:"userId"`
+	User                         *UserProfile        `json:"user"`
 	VoucherID                    primitive.ObjectID  `json:"voucherId"`
+	Voucher                      VoucherQueryResult  `json:"voucher"`
 	Status                       VoucherStatus       `json:"status"`
 	RedemptionCode               string              `json:"redemptionCode"`
 	CreatedAt                    *primitive.DateTime `json:"createdAt"`
@@ -2391,6 +2404,25 @@ type VoucherOwnership struct {
 }
 
 func (VoucherOwnership) IsVoucherOwnershipQueryResult() {}
+
+type VoucherOwnershipCommonFilter struct {
+	UserID    *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	VoucherID *primitive.ObjectID `json:"voucherId" bson:",omitempty"`
+	Status    *VoucherStatus      `json:"status" bson:",omitempty"`
+}
+
+type VoucherOwnerships struct {
+	TotalCount int64               `json:"totalCount"`
+	Items      []*VoucherOwnership `json:"items"`
+}
+
+func (VoucherOwnerships) IsVoucherOwnershipsQueryResult() {}
+
+type VoucherOwnershipsInput struct {
+	PageNumber   int64                         `json:"pageNumber"`
+	PageSize     int64                         `json:"pageSize"`
+	CommonFilter *VoucherOwnershipCommonFilter `json:"commonFilter"`
+}
 
 type Vouchers struct {
 	TotalCount int        `json:"totalCount"`
