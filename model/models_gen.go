@@ -2391,16 +2391,16 @@ type Voucher struct {
 func (Voucher) IsVoucherQueryResult() {}
 
 type VoucherOwnership struct {
-	ID                           string              `json:"id" bson:"_id"`
-	UserID                       primitive.ObjectID  `json:"userId"`
-	User                         *UserProfile        `json:"user"`
-	VoucherID                    primitive.ObjectID  `json:"voucherId"`
-	Voucher                      VoucherQueryResult  `json:"voucher"`
-	Status                       VoucherStatus       `json:"status"`
-	RedemptionCode               string              `json:"redemptionCode"`
-	CreatedAt                    *primitive.DateTime `json:"createdAt"`
-	RedeemedAt                   *primitive.DateTime `json:"redeemedAt"`
-	RedemptionConfirmationUserID *primitive.ObjectID `json:"redemptionConfirmationUserId"`
+	ID                           string                 `json:"id" bson:"_id"`
+	UserID                       primitive.ObjectID     `json:"userId"`
+	User                         UserProfileQueryResult `json:"user"`
+	VoucherID                    primitive.ObjectID     `json:"voucherId"`
+	Voucher                      VoucherQueryResult     `json:"voucher"`
+	Status                       VoucherStatus          `json:"status"`
+	RedemptionCode               string                 `json:"redemptionCode"`
+	CreatedAt                    *primitive.DateTime    `json:"createdAt"`
+	RedeemedAt                   *primitive.DateTime    `json:"redeemedAt"`
+	RedemptionConfirmationUserID *primitive.ObjectID    `json:"redemptionConfirmationUserId"`
 }
 
 func (VoucherOwnership) IsVoucherOwnershipQueryResult() {}
