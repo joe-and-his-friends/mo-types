@@ -460,6 +460,7 @@ type CommonEventFilter struct {
 	Published   *bool               `json:"published" bson:",omitempty"`
 	Online      *bool               `json:"online" bson:",omitempty"`
 	Status      *EventStatus        `json:"status" bson:",omitempty"`
+	Type        *EventType          `json:"type" bson:",omitempty"`
 }
 
 type Contest struct {
@@ -746,6 +747,7 @@ type Event struct {
 	UserID                       primitive.ObjectID             `json:"userId"`
 	AuthorizedOperationUserIds   []primitive.ObjectID           `json:"authorizedOperationUserIds"`
 	Name                         string                         `json:"name"`
+	Type                         *EventType                     `json:"type"`
 	RetailerAvatarURL            string                         `json:"retailerAvatarUrl"`
 	Status                       EventStatus                    `json:"status"`
 	Online                       bool                           `json:"online"`
@@ -1884,6 +1886,7 @@ type UpdateEvent struct {
 	UserID                       *primitive.ObjectID                 `json:"userId" bson:",omitempty"`
 	AuthorizedOperationUserIds   []primitive.ObjectID                `json:"authorizedOperationUserIds" bson:",omitempty"`
 	Name                         *string                             `json:"name" bson:",omitempty"`
+	Type                         *EventType                          `json:"type" bson:",omitempty"`
 	RetailerAvatarURL            *string                             `json:"retailerAvatarUrl" bson:",omitempty"`
 	Status                       *EventStatus                        `json:"status" bson:",omitempty"`
 	Online                       *bool                               `json:"online" bson:",omitempty"`
@@ -2811,6 +2814,47 @@ func (e *EventTicketType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e EventTicketType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type EventType string
+
+const (
+	EventTypeEvent  EventType = "EVENT"
+	EventTypeCourse EventType = "COURSE"
+)
+
+var AllEventType = []EventType{
+	EventTypeEvent,
+	EventTypeCourse,
+}
+
+func (e EventType) IsValid() bool {
+	switch e {
+	case EventTypeEvent, EventTypeCourse:
+		return true
+	}
+	return false
+}
+
+func (e EventType) String() string {
+	return string(e)
+}
+
+func (e *EventType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = EventType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid EventType", str)
+	}
+	return nil
+}
+
+func (e EventType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
