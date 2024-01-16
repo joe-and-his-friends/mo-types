@@ -1637,7 +1637,8 @@ type Task struct {
 	EndedAt       *primitive.DateTime `json:"endedAt"`
 	Type          TaskType            `json:"type"`
 	Status        TaskStatus          `json:"status"`
-	Points        int64               `json:"points"`
+	Points        *int64              `json:"points"`
+	VoucherID     *primitive.ObjectID `json:"voucherId"`
 	ShareContent  *ShareContent       `json:"shareContent"`
 	Participation *TaskParticipation  `json:"participation"`
 	Conditional   bool                `json:"conditional"`
@@ -1678,7 +1679,7 @@ type TaskParticipationListInput struct {
 }
 
 type Tasks struct {
-	TotalCount int     `json:"totalCount"`
+	TotalCount int64   `json:"totalCount"`
 	Items      []*Task `json:"items"`
 }
 
@@ -2151,6 +2152,7 @@ type UpdateTask struct {
 	Type         *TaskType           `json:"type" bson:",omitempty"`
 	Status       *TaskStatus         `json:"status" bson:",omitempty"`
 	Points       *int64              `json:"points" bson:",omitempty"`
+	VoucherID    *primitive.ObjectID `json:"voucherId" bson:",omitempty"`
 	ShareContent *ShareContentInput  `json:"shareContent" bson:",omitempty"`
 	Conditional  *bool               `json:"conditional" bson:",omitempty"`
 	AppPage      *AppPage            `json:"appPage" bson:",omitempty"`
