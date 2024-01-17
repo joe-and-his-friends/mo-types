@@ -895,6 +895,7 @@ type EventParticipationsInput struct {
 	PageSize            int64                           `json:"pageSize"`
 	CommonFilter        *EventParticipationCommonFilter `json:"commonFilter"`
 	DatetimeRangeFilter *DatetimeRangeFilter            `json:"datetimeRangeFilter"`
+	EventFilter         *CommonEventFilter              `json:"eventFilter"`
 }
 
 type EventPet struct {
