@@ -155,6 +155,7 @@ type RedisChannel string
 const (
 	RcCreateComment            = "createComment"
 	RcUpdateUserBasics         = "updateUserBasics"
+	RcCreateUser               = "createUser"
 	RcUpdateTransaction        = "updateTransaction"
 	RcCreateEventParticipation = "createEventParticipation"
 )
@@ -164,6 +165,7 @@ type RedisKey string
 const (
 	RkCreateCommentPetIds         = "createCommentPetIds"
 	RkUpdateUserBasicsIds         = "updateUserBasicsIds"
+	RkCreateUserIds               = "createUserIds"
 	RkUpdateTransactionIds        = "updateTransactionIds"
 	RkCreateEventParticipationIds = "createEventParticipationIds"
 )
