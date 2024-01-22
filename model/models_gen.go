@@ -872,8 +872,9 @@ func (EventParticipation) IsEventParticipationQueryResult() {}
 func (EventParticipation) IsCreateEventParticipationResult() {}
 
 type EventParticipationCommonFilter struct {
-	UserID  *primitive.ObjectID `json:"userId" bson:",omitempty"`
-	EventID *primitive.ObjectID `json:"eventId" bson:",omitempty"`
+	UserID  *primitive.ObjectID       `json:"userId" bson:",omitempty"`
+	EventID *primitive.ObjectID       `json:"eventId" bson:",omitempty"`
+	Status  *EventParticipationStatus `json:"status" bson:",omitempty"`
 }
 
 type EventParticipationInput struct {
