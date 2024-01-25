@@ -877,8 +877,9 @@ type EventPackagePricing struct {
 }
 
 type EventParticipant struct {
-	Name        *string `json:"name"`
-	PhoneNumber *string `json:"phoneNumber"`
+	Name        *string             `json:"name"`
+	PhoneNumber *string             `json:"phoneNumber"`
+	UserID      *primitive.ObjectID `json:"userId"`
 }
 
 type EventParticipation struct {
@@ -938,7 +939,8 @@ type EventParticipationsInput struct {
 }
 
 type EventPet struct {
-	Name *string `json:"name"`
+	Name  *string             `json:"name"`
+	PetID *primitive.ObjectID `json:"petId"`
 }
 
 type EventTicket struct {
@@ -1990,8 +1992,9 @@ type UpdateEventPackagePricing struct {
 }
 
 type UpdateEventParticipant struct {
-	Name        *string `json:"name" bson:",omitempty"`
-	PhoneNumber *string `json:"phoneNumber" bson:",omitempty"`
+	Name        *string             `json:"name" bson:",omitempty"`
+	PhoneNumber *string             `json:"phoneNumber" bson:",omitempty"`
+	UserID      *primitive.ObjectID `json:"userId" bson:",omitempty"`
 }
 
 type UpdateEventParticipation struct {
@@ -2011,7 +2014,8 @@ type UpdateEventParticipationInput struct {
 }
 
 type UpdateEventPet struct {
-	Name *string `json:"name" bson:",omitempty"`
+	Name  *string             `json:"name" bson:",omitempty"`
+	PetID *primitive.ObjectID `json:"petId" bson:",omitempty"`
 }
 
 type UpdateEventTicket struct {
