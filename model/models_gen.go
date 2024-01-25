@@ -26,6 +26,14 @@ type AdoptionAgencyQueryResult interface {
 	IsAdoptionAgencyQueryResult()
 }
 
+type AuthorizedOperationUserQueryResult interface {
+	IsAuthorizedOperationUserQueryResult()
+}
+
+type AuthorizedOperationUsersQueryResult interface {
+	IsAuthorizedOperationUsersQueryResult()
+}
+
 type BannersQueryResult interface {
 	IsBannersQueryResult()
 }
@@ -253,6 +261,32 @@ type AppVersionInfo struct {
 	LowestSupportedVersion string `json:"lowestSupportedVersion"`
 	Details                string `json:"details"`
 	DetailsURL             string `json:"detailsUrl"`
+}
+
+type AuthorizedOperationUser struct {
+	UserID    primitive.ObjectID `json:"userId"`
+	User      *UserProfile       `json:"user"`
+	CreatedAt primitive.DateTime `json:"createdAt"`
+	Updated   primitive.DateTime `json:"updated"`
+}
+
+func (AuthorizedOperationUser) IsAuthorizedOperationUserQueryResult() {}
+
+type AuthorizedOperationUserInput struct {
+	ID     *primitive.ObjectID `json:"id"`
+	UserID *primitive.ObjectID `json:"userId"`
+}
+
+type AuthorizedOperationUsers struct {
+	TotalCount int64                      `json:"totalCount"`
+	Items      []*AuthorizedOperationUser `json:"items"`
+}
+
+func (AuthorizedOperationUsers) IsAuthorizedOperationUsersQueryResult() {}
+
+type AuthorizedOperationUsersInput struct {
+	PageSize   int `json:"pageSize"`
+	PageNumber int `json:"pageNumber"`
 }
 
 type Banner struct {
@@ -505,6 +539,10 @@ type ContestEnrollmentInput struct {
 
 type Contests struct {
 	Contests []*Contest `json:"contests"`
+}
+
+type CreateAuthorizedOperationUserInput struct {
+	UserID primitive.ObjectID `json:"userId"`
 }
 
 type CreateCommentInput struct {
@@ -1580,6 +1618,10 @@ func (ServiceError) IsUserProfileQueryResult() {}
 
 func (ServiceError) IsUserAuthenticationResult() {}
 
+func (ServiceError) IsAuthorizedOperationUsersQueryResult() {}
+
+func (ServiceError) IsAuthorizedOperationUserQueryResult() {}
+
 func (ServiceError) IsVoucherQueryResult() {}
 
 func (ServiceError) IsVouchersQueryResult() {}
@@ -2295,35 +2337,36 @@ type UserCredentials struct {
 }
 
 type UserProfile struct {
-	ID                     primitive.ObjectID        `json:"id" bson:"_id"`
-	Name                   string                    `json:"name"`
-	Nickname               string                    `json:"nickname"`
-	Phone                  string                    `json:"phone"`
-	Email                  string                    `json:"email"`
-	City                   *SelectionOption          `json:"city"`
-	Region                 *SelectionOption          `json:"region"`
-	District               *SelectionOption          `json:"district"`
-	SfLockerCode           string                    `json:"sfLockerCode"`
-	QuestionnaireOptions   []*SelectionOption        `json:"questionnaireOptions"`
-	Role                   int                       `json:"role"`
-	Level                  int                       `json:"level"`
-	Points                 int64                     `json:"points"`
-	RetailerProfile        *RetailerProfile          `json:"retailerProfile"`
-	AvatarURL              string                    `json:"avatarUrl"`
-	FamilyName             string                    `json:"familyName"`
-	GivenName              string                    `json:"givenName"`
-	Sex                    *SelectionOption          `json:"sex"`
-	AgeGroup               *SelectionOption          `json:"ageGroup"`
-	ReferralUserID         *primitive.ObjectID       `json:"referralUserId"`
-	DatetimeCreated        string                    `json:"datetimeCreated"`
-	FcmRegistrationToken   string                    `json:"fcmRegistrationToken"`
-	FcmRegistrationTokens  []*FcmRegistrationToken   `json:"fcmRegistrationTokens"`
-	AppleUserID            string                    `json:"appleUserId"`
-	GoogleUserID           string                    `json:"googleUserId"`
-	FacebookUserID         string                    `json:"facebookUserId"`
-	Deactivated            bool                      `json:"deactivated"`
-	ProfileBackgroundImage string                    `json:"profileBackgroundImage"`
-	AdoptionAgency         AdoptionAgencyQueryResult `json:"adoptionAgency"`
+	ID                            primitive.ObjectID        `json:"id" bson:"_id"`
+	Name                          string                    `json:"name"`
+	Nickname                      string                    `json:"nickname"`
+	Phone                         string                    `json:"phone"`
+	Email                         string                    `json:"email"`
+	City                          *SelectionOption          `json:"city"`
+	Region                        *SelectionOption          `json:"region"`
+	District                      *SelectionOption          `json:"district"`
+	SfLockerCode                  string                    `json:"sfLockerCode"`
+	QuestionnaireOptions          []*SelectionOption        `json:"questionnaireOptions"`
+	Role                          int                       `json:"role"`
+	Level                         int                       `json:"level"`
+	Points                        int64                     `json:"points"`
+	RetailerProfile               *RetailerProfile          `json:"retailerProfile"`
+	AvatarURL                     string                    `json:"avatarUrl"`
+	FamilyName                    string                    `json:"familyName"`
+	GivenName                     string                    `json:"givenName"`
+	Sex                           *SelectionOption          `json:"sex"`
+	AgeGroup                      *SelectionOption          `json:"ageGroup"`
+	RedemptionOperationAuthorized bool                      `json:"redemptionOperationAuthorized"`
+	ReferralUserID                *primitive.ObjectID       `json:"referralUserId"`
+	DatetimeCreated               string                    `json:"datetimeCreated"`
+	FcmRegistrationToken          string                    `json:"fcmRegistrationToken"`
+	FcmRegistrationTokens         []*FcmRegistrationToken   `json:"fcmRegistrationTokens"`
+	AppleUserID                   string                    `json:"appleUserId"`
+	GoogleUserID                  string                    `json:"googleUserId"`
+	FacebookUserID                string                    `json:"facebookUserId"`
+	Deactivated                   bool                      `json:"deactivated"`
+	ProfileBackgroundImage        string                    `json:"profileBackgroundImage"`
+	AdoptionAgency                AdoptionAgencyQueryResult `json:"adoptionAgency"`
 }
 
 func (UserProfile) IsUserProfileQueryResult() {}
