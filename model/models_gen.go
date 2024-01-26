@@ -943,8 +943,9 @@ type EventParticipationsInput struct {
 }
 
 type EventPet struct {
-	Name  *string             `json:"name"`
-	PetID *primitive.ObjectID `json:"petId"`
+	Name     *string             `json:"name"`
+	PhotoURL *string             `json:"photoUrl"`
+	PetID    *primitive.ObjectID `json:"petId"`
 }
 
 type EventTicket struct {
@@ -2022,8 +2023,9 @@ type UpdateEventParticipationInput struct {
 }
 
 type UpdateEventPet struct {
-	Name  *string             `json:"name" bson:",omitempty"`
-	PetID *primitive.ObjectID `json:"petId" bson:",omitempty"`
+	Name     *string             `json:"name" bson:",omitempty"`
+	PhotoURL *string             `json:"photoUrl" bson:",omitempty"`
+	PetID    *primitive.ObjectID `json:"petId" bson:",omitempty"`
 }
 
 type UpdateEventTicket struct {
