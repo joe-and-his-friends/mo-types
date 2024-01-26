@@ -816,6 +816,7 @@ type Event struct {
 	Recommended                  bool                           `json:"recommended"`
 	Approved                     bool                           `json:"approved"`
 	Published                    bool                           `json:"published"`
+	PetPhotoRequired             bool                           `json:"petPhotoRequired"`
 	Participations               EventParticipationsQueryResult `json:"participations"`
 }
 
@@ -1964,6 +1965,7 @@ type UpdateEvent struct {
 	Recommended                  *bool                               `json:"recommended" bson:",omitempty"`
 	Approved                     *bool                               `json:"approved" bson:",omitempty"`
 	Published                    *bool                               `json:"published" bson:",omitempty"`
+	PetPhotoRequired             *bool                               `json:"petPhotoRequired" bson:",omitempty"`
 }
 
 type UpdateEventInput struct {
