@@ -3181,6 +3181,7 @@ const (
 	SystemTransactionTypeIncomeTransfer            SystemTransactionType = "INCOME_TRANSFER"
 	SystemTransactionTypeIncomeCheckInRecords      SystemTransactionType = "INCOME_CHECK_IN_RECORDS"
 	SystemTransactionTypeIncomeTaskParticipation   SystemTransactionType = "INCOME_TASK_PARTICIPATION"
+	SystemTransactionTypeIncomeReward              SystemTransactionType = "INCOME_REWARD"
 	SystemTransactionTypeExpenseTransfer           SystemTransactionType = "EXPENSE_TRANSFER"
 	SystemTransactionTypeExpenseVouchersOwnership  SystemTransactionType = "EXPENSE_VOUCHERS_OWNERSHIP"
 	SystemTransactionTypeExpenseEventParticipation SystemTransactionType = "EXPENSE_EVENT_PARTICIPATION"
@@ -3192,6 +3193,7 @@ var AllSystemTransactionType = []SystemTransactionType{
 	SystemTransactionTypeIncomeTransfer,
 	SystemTransactionTypeIncomeCheckInRecords,
 	SystemTransactionTypeIncomeTaskParticipation,
+	SystemTransactionTypeIncomeReward,
 	SystemTransactionTypeExpenseTransfer,
 	SystemTransactionTypeExpenseVouchersOwnership,
 	SystemTransactionTypeExpenseEventParticipation,
@@ -3201,7 +3203,7 @@ var AllSystemTransactionType = []SystemTransactionType{
 
 func (e SystemTransactionType) IsValid() bool {
 	switch e {
-	case SystemTransactionTypeIncomeTransfer, SystemTransactionTypeIncomeCheckInRecords, SystemTransactionTypeIncomeTaskParticipation, SystemTransactionTypeExpenseTransfer, SystemTransactionTypeExpenseVouchersOwnership, SystemTransactionTypeExpenseEventParticipation, SystemTransactionTypeRefundVouchersOwnership, SystemTransactionTypeRefundEventParticipation:
+	case SystemTransactionTypeIncomeTransfer, SystemTransactionTypeIncomeCheckInRecords, SystemTransactionTypeIncomeTaskParticipation, SystemTransactionTypeIncomeReward, SystemTransactionTypeExpenseTransfer, SystemTransactionTypeExpenseVouchersOwnership, SystemTransactionTypeExpenseEventParticipation, SystemTransactionTypeRefundVouchersOwnership, SystemTransactionTypeRefundEventParticipation:
 		return true
 	}
 	return false
@@ -3402,17 +3404,19 @@ const (
 	TransactionTypeIncome  TransactionType = "INCOME"
 	TransactionTypeExpense TransactionType = "EXPENSE"
 	TransactionTypeRefund  TransactionType = "REFUND"
+	TransactionTypeRevoke  TransactionType = "REVOKE"
 )
 
 var AllTransactionType = []TransactionType{
 	TransactionTypeIncome,
 	TransactionTypeExpense,
 	TransactionTypeRefund,
+	TransactionTypeRevoke,
 }
 
 func (e TransactionType) IsValid() bool {
 	switch e {
-	case TransactionTypeIncome, TransactionTypeExpense, TransactionTypeRefund:
+	case TransactionTypeIncome, TransactionTypeExpense, TransactionTypeRefund, TransactionTypeRevoke:
 		return true
 	}
 	return false
