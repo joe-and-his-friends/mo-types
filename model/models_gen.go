@@ -1255,6 +1255,7 @@ type PaymentIntent struct {
 	Amount                 int64                `json:"amount"`
 	Currency               Currency             `json:"currency"`
 	DeductedPoints         int64                `json:"deductedPoints"`
+	AwardedPoints          int64                `json:"awardedPoints"`
 	Remarks                string               `json:"remarks"`
 	ChannelPaymentIntentID string               `json:"channelPaymentIntentId"`
 	Channel                PaymentChannel       `json:"channel"`
@@ -2129,6 +2130,7 @@ type UpdatePaymentIntent struct {
 	Amount                 *int64               `json:"amount" bson:",omitempty"`
 	Currency               *Currency            `json:"currency" bson:",omitempty"`
 	DeductedPoints         *int64               `json:"deductedPoints" bson:",omitempty"`
+	AwardedPoints          *int64               `json:"awardedPoints" bson:",omitempty"`
 	ChannelPaymentIntentID *string              `json:"channelPaymentIntentId" bson:",omitempty"`
 	Channel                *PaymentChannel      `json:"channel" bson:",omitempty"`
 	ChannelClientSecret    *string              `json:"channelClientSecret" bson:",omitempty"`
