@@ -1255,7 +1255,7 @@ type PaymentIntent struct {
 	Amount                 int64                `json:"amount"`
 	Currency               Currency             `json:"currency"`
 	DeductedPoints         int64                `json:"deductedPoints"`
-	AwardedPoints          int64                `json:"awardedPoints"`
+	RewardedPoints         int64                `json:"rewardedPoints"`
 	Remarks                string               `json:"remarks"`
 	ChannelPaymentIntentID string               `json:"channelPaymentIntentId"`
 	Channel                PaymentChannel       `json:"channel"`
@@ -1675,8 +1675,8 @@ type ShoplineMerchatInfoInput struct {
 }
 
 type SystemTransactionDetails struct {
-	ReferenceID primitive.ObjectID    `json:"referenceId"`
-	Type        SystemTransactionType `json:"type"`
+	ReferenceID primitive.ObjectID          `json:"referenceId"`
+	Type        SystemTransactionDetailType `json:"type"`
 }
 
 func (SystemTransactionDetails) IsTransactionDetails() {}
@@ -2130,7 +2130,7 @@ type UpdatePaymentIntent struct {
 	Amount                 *int64               `json:"amount" bson:",omitempty"`
 	Currency               *Currency            `json:"currency" bson:",omitempty"`
 	DeductedPoints         *int64               `json:"deductedPoints" bson:",omitempty"`
-	AwardedPoints          *int64               `json:"awardedPoints" bson:",omitempty"`
+	RewardedPoints         *int64               `json:"rewardedPoints" bson:",omitempty"`
 	ChannelPaymentIntentID *string              `json:"channelPaymentIntentId" bson:",omitempty"`
 	Channel                *PaymentChannel      `json:"channel" bson:",omitempty"`
 	ChannelClientSecret    *string              `json:"channelClientSecret" bson:",omitempty"`
@@ -2201,8 +2201,8 @@ type UpdateShoplineMerchantInfoInput struct {
 }
 
 type UpdateSystemTransactionDetails struct {
-	ReferenceID *primitive.ObjectID    `json:"referenceId" bson:",omitempty"`
-	Type        *SystemTransactionType `json:"type" bson:",omitempty"`
+	ReferenceID *primitive.ObjectID          `json:"referenceId" bson:",omitempty"`
+	Type        *SystemTransactionDetailType `json:"type" bson:",omitempty"`
 }
 
 type UpdateTask struct {
@@ -3177,58 +3177,62 @@ func (e Sex) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-type SystemTransactionType string
+type SystemTransactionDetailType string
 
 const (
-	SystemTransactionTypeIncomeTransfer            SystemTransactionType = "INCOME_TRANSFER"
-	SystemTransactionTypeIncomeCheckInRecords      SystemTransactionType = "INCOME_CHECK_IN_RECORDS"
-	SystemTransactionTypeIncomeTaskParticipation   SystemTransactionType = "INCOME_TASK_PARTICIPATION"
-	SystemTransactionTypeIncomeReward              SystemTransactionType = "INCOME_REWARD"
-	SystemTransactionTypeExpenseTransfer           SystemTransactionType = "EXPENSE_TRANSFER"
-	SystemTransactionTypeExpenseVouchersOwnership  SystemTransactionType = "EXPENSE_VOUCHERS_OWNERSHIP"
-	SystemTransactionTypeExpenseEventParticipation SystemTransactionType = "EXPENSE_EVENT_PARTICIPATION"
-	SystemTransactionTypeRefundVouchersOwnership   SystemTransactionType = "REFUND_VOUCHERS_OWNERSHIP"
-	SystemTransactionTypeRefundEventParticipation  SystemTransactionType = "REFUND_EVENT_PARTICIPATION"
+	SystemTransactionDetailTypeTransferIn                   SystemTransactionDetailType = "TRANSFER_IN"
+	SystemTransactionDetailTypeRewardCheckInRecords         SystemTransactionDetailType = "REWARD_CHECK_IN_RECORDS"
+	SystemTransactionDetailTypeRewardTaskParticipation      SystemTransactionDetailType = "REWARD_TASK_PARTICIPATION"
+	SystemTransactionDetailTypeRewardEventParticipation     SystemTransactionDetailType = "REWARD_EVENT_PARTICIPATION"
+	SystemTransactionDetailTypeRefundEventParticipation     SystemTransactionDetailType = "REFUND_EVENT_PARTICIPATION"
+	SystemTransactionDetailTypeRefundVouchersOwnership      SystemTransactionDetailType = "REFUND_VOUCHERS_OWNERSHIP"
+	SystemTransactionDetailTypeRefundShopline               SystemTransactionDetailType = "REFUND_SHOPLINE"
+	SystemTransactionDetailTypeTransferOut                  SystemTransactionDetailType = "TRANSFER_OUT"
+	SystemTransactionDetailTypePurchaseVouchersOwnership    SystemTransactionDetailType = "PURCHASE_VOUCHERS_OWNERSHIP"
+	SystemTransactionDetailTypePurchaseEventParticipation   SystemTransactionDetailType = "PURCHASE_EVENT_PARTICIPATION"
+	SystemTransactionDetailTypeRevokationEventParticipation SystemTransactionDetailType = "REVOKATION_EVENT_PARTICIPATION"
 )
 
-var AllSystemTransactionType = []SystemTransactionType{
-	SystemTransactionTypeIncomeTransfer,
-	SystemTransactionTypeIncomeCheckInRecords,
-	SystemTransactionTypeIncomeTaskParticipation,
-	SystemTransactionTypeIncomeReward,
-	SystemTransactionTypeExpenseTransfer,
-	SystemTransactionTypeExpenseVouchersOwnership,
-	SystemTransactionTypeExpenseEventParticipation,
-	SystemTransactionTypeRefundVouchersOwnership,
-	SystemTransactionTypeRefundEventParticipation,
+var AllSystemTransactionDetailType = []SystemTransactionDetailType{
+	SystemTransactionDetailTypeTransferIn,
+	SystemTransactionDetailTypeRewardCheckInRecords,
+	SystemTransactionDetailTypeRewardTaskParticipation,
+	SystemTransactionDetailTypeRewardEventParticipation,
+	SystemTransactionDetailTypeRefundEventParticipation,
+	SystemTransactionDetailTypeRefundVouchersOwnership,
+	SystemTransactionDetailTypeRefundShopline,
+	SystemTransactionDetailTypeTransferOut,
+	SystemTransactionDetailTypePurchaseVouchersOwnership,
+	SystemTransactionDetailTypePurchaseEventParticipation,
+	SystemTransactionDetailTypeRevokationEventParticipation,
 }
 
-func (e SystemTransactionType) IsValid() bool {
+func (e SystemTransactionDetailType) IsValid() bool {
 	switch e {
-	case SystemTransactionTypeIncomeTransfer, SystemTransactionTypeIncomeCheckInRecords, SystemTransactionTypeIncomeTaskParticipation, SystemTransactionTypeIncomeReward, SystemTransactionTypeExpenseTransfer, SystemTransactionTypeExpenseVouchersOwnership, SystemTransactionTypeExpenseEventParticipation, SystemTransactionTypeRefundVouchersOwnership, SystemTransactionTypeRefundEventParticipation:
+	case SystemTransactionDetailTypeTransferIn, SystemTransactionDetailTypeRewardCheckInRecords, SystemTransactionDetailTypeRewardTaskParticipation, SystemTransactionDetailTypeRewardEventParticipation, SystemTransactionDetailTypeRefundEventParticipation, SystemTransactionDetailTypeRefundVouchersOwnership, SystemTransactionDetailTypeRefundShopline, SystemTransactionDetailTypeTransferOut, SystemTransactionDetailTypePurchaseVouchersOwnership, SystemTransactionDetailTypePurchaseEventParticipation, SystemTransactionDetailTypeRevokationEventParticipation:
 		return true
 	}
 	return false
 }
 
-func (e SystemTransactionType) String() string {
+func (e SystemTransactionDetailType) String() string {
 	return string(e)
 }
 
-func (e *SystemTransactionType) UnmarshalGQL(v interface{}) error {
+func (e *SystemTransactionDetailType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
 	}
 
-	*e = SystemTransactionType(str)
+	*e = SystemTransactionDetailType(str)
 	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SystemTransactionType", str)
+		return fmt.Errorf("%s is not a valid SystemTransactionDetailType", str)
 	}
 	return nil
 }
 
-func (e SystemTransactionType) MarshalGQL(w io.Writer) {
+func (e SystemTransactionDetailType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -3405,20 +3409,16 @@ type TransactionType string
 const (
 	TransactionTypeIncome  TransactionType = "INCOME"
 	TransactionTypeExpense TransactionType = "EXPENSE"
-	TransactionTypeRefund  TransactionType = "REFUND"
-	TransactionTypeRevoke  TransactionType = "REVOKE"
 )
 
 var AllTransactionType = []TransactionType{
 	TransactionTypeIncome,
 	TransactionTypeExpense,
-	TransactionTypeRefund,
-	TransactionTypeRevoke,
 }
 
 func (e TransactionType) IsValid() bool {
 	switch e {
-	case TransactionTypeIncome, TransactionTypeExpense, TransactionTypeRefund, TransactionTypeRevoke:
+	case TransactionTypeIncome, TransactionTypeExpense:
 		return true
 	}
 	return false
