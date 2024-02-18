@@ -2293,8 +2293,9 @@ type UpdateUserPointsInput struct {
 }
 
 type UpdateUserPrivileges struct {
-	Role  *int `json:"role" bson:",omitempty"`
-	Level *int `json:"level" bson:",omitempty"`
+	Role                          *int  `json:"role" bson:",omitempty"`
+	Level                         *int  `json:"level" bson:",omitempty"`
+	RedemptionOperationAuthorized *bool `json:"redemptionOperationAuthorized" bson:",omitempty"`
 }
 
 type UpdateUserPrivilegesInput struct {
