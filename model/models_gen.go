@@ -2265,6 +2265,7 @@ type UpdateTransactionInput struct {
 }
 
 type UpdateUserBasicsInput struct {
+	Sequence               *int                    `json:"sequence" bson:",omitempty"`
 	Name                   *string                 `json:"name" bson:",omitempty"`
 	FamilyName             *string                 `json:"familyName" bson:",omitempty"`
 	GivenName              *string                 `json:"givenName" bson:",omitempty"`
@@ -2355,6 +2356,7 @@ type UserCredentials struct {
 
 type UserProfile struct {
 	ID                            primitive.ObjectID        `json:"id" bson:"_id"`
+	Sequence                      int                       `json:"sequence"`
 	Name                          string                    `json:"name"`
 	Nickname                      string                    `json:"nickname"`
 	Phone                         string                    `json:"phone"`
