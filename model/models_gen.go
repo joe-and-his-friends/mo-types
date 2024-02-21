@@ -122,6 +122,10 @@ type TransactionDetails interface {
 	IsTransactionDetails()
 }
 
+type UpdateEventParticipationStatusResult interface {
+	IsUpdateEventParticipationStatusResult()
+}
+
 type UserAuthenticationResult interface {
 	IsUserAuthenticationResult()
 }
@@ -915,6 +919,8 @@ func (EventParticipation) IsEventParticipationQueryResult() {}
 
 func (EventParticipation) IsCreateEventParticipationResult() {}
 
+func (EventParticipation) IsUpdateEventParticipationStatusResult() {}
+
 type EventParticipationCommonFilter struct {
 	UserID  *primitive.ObjectID       `json:"userId" bson:",omitempty"`
 	EventID *primitive.ObjectID       `json:"eventId" bson:",omitempty"`
@@ -1601,6 +1607,8 @@ func (ServiceError) IsEventInvitationsQueryResult() {}
 
 func (ServiceError) IsCreateEventParticipationResult() {}
 
+func (ServiceError) IsUpdateEventParticipationStatusResult() {}
+
 func (ServiceError) IsJobsResult() {}
 
 func (ServiceError) IsCreatePaymentIntentResult() {}
@@ -2022,6 +2030,13 @@ type UpdateEventParticipationInput struct {
 	RedemptionCode         *string                   `json:"redemptionCode"`
 	ChannelPaymentIntentID *string                   `json:"channelPaymentIntentId"`
 	Participation          *UpdateEventParticipation `json:"participation"`
+}
+
+type UpdateEventParticipationStatusInput struct {
+	EventParticipationID                     *primitive.ObjectID      `json:"eventParticipationId"`
+	EventParticipationRedemptionCode         *string                  `json:"eventParticipationRedemptionCode"`
+	EventParticipationChannelPaymentIntentID *string                  `json:"eventParticipationChannelPaymentIntentId"`
+	Status                                   EventParticipationStatus `json:"status"`
 }
 
 type UpdateEventPet struct {
