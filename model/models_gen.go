@@ -708,6 +708,7 @@ type CreateVoucherOwnershipInput struct {
 
 type CreateVoucherOwnershipsInput struct {
 	VoucherID primitive.ObjectID   `json:"voucherId"`
+	Status    VoucherStatus        `json:"status"`
 	UserIds   []primitive.ObjectID `json:"userIds"`
 }
 
