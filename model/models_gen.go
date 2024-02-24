@@ -805,6 +805,7 @@ type Event struct {
 	FacebookAccount              string                         `json:"facebookAccount"`
 	InstagramAccount             string                         `json:"instagramAccount"`
 	Photos                       []*Photo                       `json:"photos"`
+	ActivityURL                  string                         `json:"activityUrl"`
 	TimeSlots                    []*EventTimeSlot               `json:"timeSlots"`
 	StartedAt                    primitive.DateTime             `json:"startedAt"`
 	EndedAt                      primitive.DateTime             `json:"endedAt"`
@@ -1962,6 +1963,7 @@ type UpdateEvent struct {
 	FacebookAccount              *string                             `json:"facebookAccount" bson:",omitempty"`
 	InstagramAccount             *string                             `json:"instagramAccount" bson:",omitempty"`
 	Photos                       []*UpdatePhoto                      `json:"photos" bson:",omitempty"`
+	ActivityURL                  *string                             `json:"activityUrl" bson:",omitempty"`
 	TimeSlots                    []*UpdateEventTimeSlot              `json:"timeSlots" bson:",omitempty"`
 	StartedAt                    *primitive.DateTime                 `json:"startedAt" bson:",omitempty"`
 	EndedAt                      *primitive.DateTime                 `json:"endedAt" bson:",omitempty"`
