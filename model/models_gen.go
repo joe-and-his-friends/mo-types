@@ -2485,9 +2485,8 @@ type VoucherOwnership struct {
 func (VoucherOwnership) IsVoucherOwnershipQueryResult() {}
 
 type VoucherOwnershipCommonFilter struct {
-	UserID    *primitive.ObjectID `json:"userId" bson:",omitempty"`
-	VoucherID *primitive.ObjectID `json:"voucherId" bson:",omitempty"`
-	Status    *VoucherStatus      `json:"status" bson:",omitempty"`
+	UserID *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	Status *VoucherStatus      `json:"status" bson:",omitempty"`
 }
 
 type VoucherOwnerships struct {
@@ -2501,6 +2500,7 @@ type VoucherOwnershipsInput struct {
 	PageNumber   int64                         `json:"pageNumber"`
 	PageSize     int64                         `json:"pageSize"`
 	CommonFilter *VoucherOwnershipCommonFilter `json:"commonFilter"`
+	VoucherIds   []primitive.ObjectID          `json:"voucherIds"`
 }
 
 type Vouchers struct {
