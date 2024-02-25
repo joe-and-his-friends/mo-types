@@ -122,10 +122,6 @@ type TransactionDetails interface {
 	IsTransactionDetails()
 }
 
-type UpdateEventParticipationStatusResult interface {
-	IsUpdateEventParticipationStatusResult()
-}
-
 type UserAuthenticationResult interface {
 	IsUserAuthenticationResult()
 }
@@ -920,8 +916,6 @@ func (EventParticipation) IsEventParticipationQueryResult() {}
 
 func (EventParticipation) IsCreateEventParticipationResult() {}
 
-func (EventParticipation) IsUpdateEventParticipationStatusResult() {}
-
 type EventParticipationCommonFilter struct {
 	UserID  *primitive.ObjectID       `json:"userId" bson:",omitempty"`
 	EventID *primitive.ObjectID       `json:"eventId" bson:",omitempty"`
@@ -1607,8 +1601,6 @@ func (ServiceError) IsEventInvitationQueryResult() {}
 func (ServiceError) IsEventInvitationsQueryResult() {}
 
 func (ServiceError) IsCreateEventParticipationResult() {}
-
-func (ServiceError) IsUpdateEventParticipationStatusResult() {}
 
 func (ServiceError) IsJobsResult() {}
 
