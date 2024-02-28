@@ -2470,7 +2470,7 @@ type Voucher struct {
 func (Voucher) IsVoucherQueryResult() {}
 
 type VoucherOwnership struct {
-	ID                           string                 `json:"id" bson:"_id"`
+	ID                           primitive.ObjectID     `json:"id" bson:"_id"`
 	UserID                       primitive.ObjectID     `json:"userId"`
 	User                         UserProfileQueryResult `json:"user"`
 	VoucherID                    primitive.ObjectID     `json:"voucherId"`
