@@ -155,19 +155,23 @@ type ActiveContest struct {
 }
 
 type AdditionalParticipantPricing struct {
-	Price             int64     `json:"price"`
-	PriceLabel        *string   `json:"priceLabel"`
-	Currency          *Currency `json:"currency"`
-	MaxCash           *int64    `json:"maxCash"`
-	MinCash           *int64    `json:"minCash"`
-	MaxPoints         *int64    `json:"maxPoints"`
-	PointsCashRatio   *float64  `json:"pointsCashRatio"`
-	ExtraPoints       int64     `json:"extraPoints"`
-	Points            int64     `json:"points"`
-	PointsRewardRatio *float64  `json:"pointsRewardRatio"`
+	ParticipantsUnlimited bool      `json:"participantsUnlimited"`
+	MaxParticipants       int64     `json:"maxParticipants"`
+	Price                 int64     `json:"price"`
+	PriceLabel            *string   `json:"priceLabel"`
+	Currency              *Currency `json:"currency"`
+	MaxCash               *int64    `json:"maxCash"`
+	MinCash               *int64    `json:"minCash"`
+	MaxPoints             *int64    `json:"maxPoints"`
+	PointsCashRatio       *float64  `json:"pointsCashRatio"`
+	ExtraPoints           int64     `json:"extraPoints"`
+	Points                int64     `json:"points"`
+	PointsRewardRatio     *float64  `json:"pointsRewardRatio"`
 }
 
 type AdditionalPetPricing struct {
+	PetsUnlimited     bool      `json:"petsUnlimited"`
+	MaxPets           int64     `json:"maxPets"`
 	Price             int64     `json:"price"`
 	PriceLabel        *string   `json:"priceLabel"`
 	Currency          *Currency `json:"currency"`
@@ -867,19 +871,21 @@ type EventInvitationsInput struct {
 }
 
 type EventPackagePricing struct {
-	MaxParticipants   int64     `json:"maxParticipants"`
-	MaxPets           int64     `json:"maxPets"`
-	Price             int64     `json:"price"`
-	PriceLabel        *string   `json:"priceLabel"`
-	Currency          *Currency `json:"currency"`
-	MaxCash           *int64    `json:"maxCash"`
-	MinCash           *int64    `json:"minCash"`
-	MaxPoints         *int64    `json:"maxPoints"`
-	PointsCashRatio   *float64  `json:"pointsCashRatio"`
-	ExtraPoints       int64     `json:"extraPoints"`
-	Points            int64     `json:"points"`
-	PointsRewardRatio *float64  `json:"pointsRewardRatio"`
-	Remarks           *string   `json:"remarks"`
+	ParticipantsUnlimited bool      `json:"participantsUnlimited"`
+	PetsUnlimited         bool      `json:"petsUnlimited"`
+	MaxParticipants       int64     `json:"maxParticipants"`
+	MaxPets               int64     `json:"maxPets"`
+	Price                 int64     `json:"price"`
+	PriceLabel            *string   `json:"priceLabel"`
+	Currency              *Currency `json:"currency"`
+	MaxCash               *int64    `json:"maxCash"`
+	MinCash               *int64    `json:"minCash"`
+	MaxPoints             *int64    `json:"maxPoints"`
+	PointsCashRatio       *float64  `json:"pointsCashRatio"`
+	ExtraPoints           int64     `json:"extraPoints"`
+	Points                int64     `json:"points"`
+	PointsRewardRatio     *float64  `json:"pointsRewardRatio"`
+	Remarks               *string   `json:"remarks"`
 }
 
 type EventParticipant struct {
@@ -1596,11 +1602,11 @@ func (ServiceError) IsEventParticipationQueryResult() {}
 
 func (ServiceError) IsEventParticipationsQueryResult() {}
 
+func (ServiceError) IsCreateEventParticipationResult() {}
+
 func (ServiceError) IsEventInvitationQueryResult() {}
 
 func (ServiceError) IsEventInvitationsQueryResult() {}
-
-func (ServiceError) IsCreateEventParticipationResult() {}
 
 func (ServiceError) IsJobsResult() {}
 
@@ -1787,6 +1793,8 @@ type UnbindPhoneOrEmailInput struct {
 }
 
 type UpdateAddionalPetPricing struct {
+	PetsUnlimited     *bool     `json:"petsUnlimited" bson:",omitempty"`
+	MaxPets           *int64    `json:"maxPets" bson:",omitempty"`
 	Price             *int64    `json:"price" bson:",omitempty"`
 	PriceLabel        *string   `json:"priceLabel" bson:",omitempty"`
 	Currency          *Currency `json:"currency" bson:",omitempty"`
@@ -1799,15 +1807,17 @@ type UpdateAddionalPetPricing struct {
 }
 
 type UpdateAdditionalParticipantPricing struct {
-	Price             *int64    `json:"price" bson:",omitempty"`
-	PriceLabel        *string   `json:"priceLabel" bson:",omitempty"`
-	Currency          *Currency `json:"currency" bson:",omitempty"`
-	MaxCash           *int64    `json:"maxCash" bson:",omitempty"`
-	MinCash           *int64    `json:"minCash" bson:",omitempty"`
-	MaxPoints         *int64    `json:"maxPoints" bson:",omitempty"`
-	PointsCashRatio   *float64  `json:"pointsCashRatio" bson:",omitempty"`
-	ExtraPoints       *int64    `json:"extraPoints" bson:",omitempty"`
-	PointsRewardRatio *float64  `json:"pointsRewardRatio" bson:",omitempty"`
+	ParticipantsUnlimited *bool     `json:"participantsUnlimited" bson:",omitempty"`
+	MaxParticipants       *int64    `json:"maxParticipants" bson:",omitempty"`
+	Price                 *int64    `json:"price" bson:",omitempty"`
+	PriceLabel            *string   `json:"priceLabel" bson:",omitempty"`
+	Currency              *Currency `json:"currency" bson:",omitempty"`
+	MaxCash               *int64    `json:"maxCash" bson:",omitempty"`
+	MinCash               *int64    `json:"minCash" bson:",omitempty"`
+	MaxPoints             *int64    `json:"maxPoints" bson:",omitempty"`
+	PointsCashRatio       *float64  `json:"pointsCashRatio" bson:",omitempty"`
+	ExtraPoints           *int64    `json:"extraPoints" bson:",omitempty"`
+	PointsRewardRatio     *float64  `json:"pointsRewardRatio" bson:",omitempty"`
 }
 
 type UpdateAdoptionAd struct {
@@ -1990,18 +2000,20 @@ type UpdateEventInvitationInput struct {
 }
 
 type UpdateEventPackagePricing struct {
-	MaxParticipants   *int64    `json:"maxParticipants" bson:",omitempty"`
-	MaxPets           *int64    `json:"maxPets" bson:",omitempty"`
-	Price             *int64    `json:"price" bson:",omitempty"`
-	PriceLabel        *string   `json:"priceLabel" bson:",omitempty"`
-	Currency          *Currency `json:"currency" bson:",omitempty"`
-	MaxCash           *int64    `json:"maxCash" bson:",omitempty"`
-	MinCash           *int64    `json:"minCash" bson:",omitempty"`
-	MaxPoints         *int64    `json:"maxPoints" bson:",omitempty"`
-	PointsCashRatio   *float64  `json:"pointsCashRatio" bson:",omitempty"`
-	ExtraPoints       *int64    `json:"extraPoints" bson:",omitempty"`
-	PointsRewardRatio *float64  `json:"pointsRewardRatio" bson:",omitempty"`
-	Remarks           *string   `json:"remarks" bson:",omitempty"`
+	ParticipantsUnlimited *bool     `json:"participantsUnlimited" bson:",omitempty"`
+	PetsUnlimited         *bool     `json:"petsUnlimited" bson:",omitempty"`
+	MaxParticipants       *int64    `json:"maxParticipants" bson:",omitempty"`
+	MaxPets               *int64    `json:"maxPets" bson:",omitempty"`
+	Price                 *int64    `json:"price" bson:",omitempty"`
+	PriceLabel            *string   `json:"priceLabel" bson:",omitempty"`
+	Currency              *Currency `json:"currency" bson:",omitempty"`
+	MaxCash               *int64    `json:"maxCash" bson:",omitempty"`
+	MinCash               *int64    `json:"minCash" bson:",omitempty"`
+	MaxPoints             *int64    `json:"maxPoints" bson:",omitempty"`
+	PointsCashRatio       *float64  `json:"pointsCashRatio" bson:",omitempty"`
+	ExtraPoints           *int64    `json:"extraPoints" bson:",omitempty"`
+	PointsRewardRatio     *float64  `json:"pointsRewardRatio" bson:",omitempty"`
+	Remarks               *string   `json:"remarks" bson:",omitempty"`
 }
 
 type UpdateEventParticipant struct {
