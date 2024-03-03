@@ -589,10 +589,12 @@ type CreateEventParticipationInput struct {
 }
 
 type CreateEventTicket struct {
-	EventID   primitive.ObjectID `json:"eventId"`
-	StartedAt primitive.DateTime `json:"startedAt"`
-	EndedAt   primitive.DateTime `json:"endedAt"`
-	Type      EventTicketType    `json:"type"`
+	EventID         primitive.ObjectID `json:"eventId"`
+	StartedAt       primitive.DateTime `json:"startedAt"`
+	EndedAt         primitive.DateTime `json:"endedAt"`
+	Type            EventTicketType    `json:"type"`
+	ParticipationID primitive.ObjectID `json:"participationId"`
+	UserID          primitive.ObjectID `json:"userId"`
 }
 
 type CreateEventTicketsInput struct {
