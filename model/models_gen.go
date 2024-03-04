@@ -800,6 +800,8 @@ type Event struct {
 	Details                      string                         `json:"details"`
 	Notice                       string                         `json:"notice"`
 	Terms                        string                         `json:"terms"`
+	AdditionalTermsZh            string                         `json:"additionalTermsZh"`
+	AdditionalTermsEn            string                         `json:"additionalTermsEn"`
 	PhoneNumber                  string                         `json:"phoneNumber"`
 	WebsiteURL                   string                         `json:"websiteUrl"`
 	FacebookAccount              string                         `json:"facebookAccount"`
@@ -1956,6 +1958,8 @@ type UpdateEvent struct {
 	Details                      *string                             `json:"details" bson:",omitempty"`
 	Notice                       *string                             `json:"notice" bson:",omitempty"`
 	Terms                        *string                             `json:"terms" bson:",omitempty"`
+	AdditionalTermsZh            *string                             `json:"additionalTermsZh" bson:",omitempty"`
+	AdditionalTermsEn            *string                             `json:"additionalTermsEn" bson:",omitempty"`
 	PhoneNumber                  *string                             `json:"phoneNumber" bson:",omitempty"`
 	WebsiteURL                   *string                             `json:"websiteUrl" bson:",omitempty"`
 	FacebookAccount              *string                             `json:"facebookAccount" bson:",omitempty"`
