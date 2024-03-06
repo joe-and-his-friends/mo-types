@@ -98,6 +98,10 @@ type PetProfilesQueryResult interface {
 	IsPetProfilesQueryResult()
 }
 
+type PetQueryResult interface {
+	IsPetQueryResult()
+}
+
 type PointTransactionQueryResult interface {
 	IsPointTransactionQueryResult()
 }
@@ -954,6 +958,7 @@ type EventPet struct {
 	Name     *string             `json:"name"`
 	PhotoURL *string             `json:"photoUrl"`
 	PetID    *primitive.ObjectID `json:"petId"`
+	Pet      PetQueryResult      `json:"pet"`
 }
 
 type EventTicket struct {
@@ -1332,6 +1337,8 @@ type PetProfile struct {
 	Comments               []*Comment              `json:"comments"`
 }
 
+func (PetProfile) IsPetQueryResult() {}
+
 type PetProfiles struct {
 	Profiles   []*PetProfile `json:"profiles"`
 	TotalCount int           `json:"totalCount"`
@@ -1613,6 +1620,8 @@ func (ServiceError) IsJobsResult() {}
 func (ServiceError) IsCreatePaymentIntentResult() {}
 
 func (ServiceError) IsPetProfilesQueryResult() {}
+
+func (ServiceError) IsPetQueryResult() {}
 
 func (ServiceError) IsRefreshAccessTokenResult() {}
 
