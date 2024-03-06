@@ -657,7 +657,7 @@ type CreatePetProfileInput struct {
 	BreedName          *string               `json:"breedName" bson:",omitempty"`
 	Breed              *SelectionOptionInput `json:"breed" bson:",omitempty"`
 	PetOwnerSnsAccount *string               `json:"petOwnerSnsAccount" bson:",omitempty"`
-	Sex                *string               `json:"sex" bson:",omitempty"`
+	Sex                *Sex                  `json:"sex" bson:",omitempty"`
 	HomeArrivalDate    *string               `json:"homeArrivalDate" bson:",omitempty"`
 }
 
@@ -1326,7 +1326,7 @@ type PetProfile struct {
 	PetOwnerSnsAccount     string                  `json:"petOwnerSnsAccount"`
 	UserID                 primitive.ObjectID      `json:"userId"`
 	User                   *UserProfile            `json:"user"`
-	Sex                    string                  `json:"sex"`
+	Sex                    *Sex                    `json:"sex"`
 	HomeArrivalDate        string                  `json:"homeArrivalDate"`
 	CommentatorCertificate *CommentatorCertificate `json:"commentatorCertificate"`
 	CertificateUrls        []string                `json:"certificateUrls"`
@@ -2185,7 +2185,7 @@ type UpdatePetProfileInput struct {
 	BreedName          *string               `json:"breedName" bson:",omitempty"`
 	Breed              *SelectionOptionInput `json:"breed" bson:",omitempty"`
 	PetOwnerSnsAccount *string               `json:"petOwnerSnsAccount" bson:",omitempty"`
-	Sex                *string               `json:"sex" bson:",omitempty"`
+	Sex                *Sex                  `json:"sex" bson:",omitempty"`
 	HomeArrivalDate    *string               `json:"homeArrivalDate" bson:",omitempty"`
 }
 
