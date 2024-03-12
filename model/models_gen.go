@@ -820,6 +820,7 @@ type Event struct {
 	PackagePricing               *EventPackagePricing           `json:"packagePricing"`
 	AdditionalParticipantPricing *AdditionalParticipantPricing  `json:"additionalParticipantPricing"`
 	AdditionalPetPricing         *AdditionalPetPricing          `json:"additionalPetPricing"`
+	MaxParticipationsPerUser     int64                          `json:"maxParticipationsPerUser"`
 	Category                     *SelectionOption               `json:"category"`
 	Address                      string                         `json:"address"`
 	Region                       *SelectionOption               `json:"region"`
@@ -1981,6 +1982,7 @@ type UpdateEvent struct {
 	PackagePricing               *UpdateEventPackagePricing          `json:"packagePricing" bson:",omitempty"`
 	AdditionalParticipantPricing *UpdateAdditionalParticipantPricing `json:"additionalParticipantPricing" bson:",omitempty"`
 	AdditionalPetPricing         *UpdateAddionalPetPricing           `json:"additionalPetPricing" bson:",omitempty"`
+	MaxParticipationsPerUser     *int64                              `json:"maxParticipationsPerUser" bson:",omitempty"`
 	Category                     *UpdateSelectionOption              `json:"category" bson:",omitempty"`
 	Address                      *string                             `json:"address" bson:",omitempty"`
 	Region                       *UpdateSelectionOption              `json:"region" bson:",omitempty"`
