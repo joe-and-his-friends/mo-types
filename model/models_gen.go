@@ -70,6 +70,10 @@ type EventInvitationsQueryResult interface {
 	IsEventInvitationsQueryResult()
 }
 
+type EventParticipationCountQueryResult interface {
+	IsEventParticipationCountQueryResult()
+}
+
 type EventParticipationQueryResult interface {
 	IsEventParticipationQueryResult()
 }
@@ -933,6 +937,22 @@ type EventParticipationCommonFilter struct {
 	Status  *EventParticipationStatus `json:"status" bson:",omitempty"`
 }
 
+type EventParticipationCount struct {
+	Count int64 `json:"count"`
+}
+
+func (EventParticipationCount) IsEventParticipationCountQueryResult() {}
+
+type EventParticipationCountCommonFilter struct {
+	UserID  *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	EventID *primitive.ObjectID `json:"eventId" bson:",omitempty"`
+}
+
+type EventParticipationCountInput struct {
+	CommonFilter *EventParticipationCountCommonFilter `json:"commonFilter"`
+	Statuses     []EventParticipationStatus           `json:"statuses"`
+}
+
 type EventParticipationInput struct {
 	ID                     *primitive.ObjectID `json:"id"`
 	RedemptionCode         *string             `json:"redemptionCode"`
@@ -1611,6 +1631,8 @@ func (ServiceError) IsEventParticipationQueryResult() {}
 func (ServiceError) IsEventParticipationsQueryResult() {}
 
 func (ServiceError) IsCreateEventParticipationResult() {}
+
+func (ServiceError) IsEventParticipationCountQueryResult() {}
 
 func (ServiceError) IsEventInvitationQueryResult() {}
 
