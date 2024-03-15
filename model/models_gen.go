@@ -279,7 +279,7 @@ type AuthorizedOperationUser struct {
 	UserID    primitive.ObjectID `json:"userId"`
 	User      *UserProfile       `json:"user"`
 	CreatedAt primitive.DateTime `json:"createdAt"`
-	Updated   primitive.DateTime `json:"updated"`
+	UpdatedAt primitive.DateTime `json:"updatedAt"`
 }
 
 func (AuthorizedOperationUser) IsAuthorizedOperationUserQueryResult() {}
@@ -1513,7 +1513,6 @@ type RetailerProfile struct {
 	RawData            string             `json:"rawData"`
 	CategoryOptions    []*SelectionOption `json:"categoryOptions"`
 	SortingOption      *SelectionOption   `json:"sortingOption"`
-	DatetimeModified   string             `json:"datetimeModified"`
 	CalculatedDistance float64            `json:"calculatedDistance"`
 	Favorited          bool               `json:"favorited" bson:"favorited,omitempty"`
 	FavoritingUserIds  []string           `json:"favoritingUserIds"`
@@ -1525,9 +1524,10 @@ type RetailerProfile struct {
 	InstagramAccount   string             `json:"instagramAccount"`
 	Recommended        bool               `json:"recommended"`
 	Rating             float64            `json:"rating"`
-	CreatedBy          *UserProfile       `json:"createdBy"`
-	CreatedAt          primitive.DateTime `json:"createdAt"`
 	BusinessLicense    string             `json:"businessLicense"`
+	CreatedAt          primitive.DateTime `json:"createdAt"`
+	UpdatedAt          primitive.DateTime `json:"updatedAt"`
+	CreatedBy          *UserProfile       `json:"createdBy"`
 }
 
 type RetailerProfiles struct {
@@ -2430,7 +2430,6 @@ type UserProfile struct {
 	AgeGroup                      *SelectionOption          `json:"ageGroup"`
 	RedemptionOperationAuthorized bool                      `json:"redemptionOperationAuthorized"`
 	ReferralUserID                *primitive.ObjectID       `json:"referralUserId"`
-	DatetimeCreated               string                    `json:"datetimeCreated"`
 	FcmRegistrationToken          string                    `json:"fcmRegistrationToken"`
 	FcmRegistrationTokens         []*FcmRegistrationToken   `json:"fcmRegistrationTokens"`
 	AppleUserID                   string                    `json:"appleUserId"`
@@ -2438,6 +2437,10 @@ type UserProfile struct {
 	FacebookUserID                string                    `json:"facebookUserId"`
 	Deactivated                   bool                      `json:"deactivated"`
 	ProfileBackgroundImage        string                    `json:"profileBackgroundImage"`
+	CreatedAt                     primitive.DateTime        `json:"createdAt"`
+	UpdatedAt                     primitive.DateTime        `json:"updatedAt"`
+	LastAccessAt                  primitive.DateTime        `json:"lastAccessAt"`
+	LastAccessIP                  string                    `json:"lastAccessIp"`
 	AdoptionAgency                AdoptionAgencyQueryResult `json:"adoptionAgency"`
 }
 
