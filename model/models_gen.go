@@ -1211,7 +1211,6 @@ type Moment struct {
 	IsTemplate        bool             `json:"isTemplate"`
 	IsVideo           bool             `json:"isVideo"`
 	DatetimeCreated   string           `json:"datetimeCreated"`
-	CreateDatetime    string           `json:"createDatetime"`
 	RetailerProfile   *RetailerProfile `json:"retailerProfile"`
 }
 
