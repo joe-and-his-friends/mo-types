@@ -817,7 +817,7 @@ type Event struct {
 	Photos                       []*Photo                       `json:"photos"`
 	ActivityURL                  string                         `json:"activityUrl"`
 	TimeSlots                    []*EventTimeSlot               `json:"timeSlots"`
-	DisplayTimeZone              *TimeZone                      `json:"displayTimeZone"`
+	TimezoneOffset               int                            `json:"timezoneOffset"`
 	StartedAt                    primitive.DateTime             `json:"startedAt"`
 	EndedAt                      primitive.DateTime             `json:"endedAt"`
 	CreatedAt                    primitive.DateTime             `json:"createdAt"`
@@ -1999,7 +1999,7 @@ type UpdateEvent struct {
 	Photos                       []*UpdatePhoto                      `json:"photos" bson:",omitempty"`
 	ActivityURL                  *string                             `json:"activityUrl" bson:",omitempty"`
 	TimeSlots                    []*UpdateEventTimeSlot              `json:"timeSlots" bson:",omitempty"`
-	DisplayTimeZone              *TimeZone                           `json:"displayTimeZone" bson:",omitempty"`
+	TimezoneOffset               *int                                `json:"timezoneOffset" bson:",omitempty"`
 	StartedAt                    *primitive.DateTime                 `json:"startedAt" bson:",omitempty"`
 	EndedAt                      *primitive.DateTime                 `json:"endedAt" bson:",omitempty"`
 	PackagePricing               *UpdateEventPackagePricing          `json:"packagePricing" bson:",omitempty"`
@@ -3420,93 +3420,6 @@ func (e *TaskType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e TaskType) MarshalGQL(w io.Writer) {
-	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-type TimeZone string
-
-const (
-	TimeZoneUtcMinus12 TimeZone = "UTC_MINUS_12"
-	TimeZoneUtcMinus11 TimeZone = "UTC_MINUS_11"
-	TimeZoneUtcMinus10 TimeZone = "UTC_MINUS_10"
-	TimeZoneUtcMinus9  TimeZone = "UTC_MINUS_9"
-	TimeZoneUtcMinus8  TimeZone = "UTC_MINUS_8"
-	TimeZoneUtcMinus7  TimeZone = "UTC_MINUS_7"
-	TimeZoneUtcMinus6  TimeZone = "UTC_MINUS_6"
-	TimeZoneUtcMinus5  TimeZone = "UTC_MINUS_5"
-	TimeZoneUtcMinus4  TimeZone = "UTC_MINUS_4"
-	TimeZoneUtcMinus3  TimeZone = "UTC_MINUS_3"
-	TimeZoneUtcMinus2  TimeZone = "UTC_MINUS_2"
-	TimeZoneUtcMinus1  TimeZone = "UTC_MINUS_1"
-	TimeZoneUtc        TimeZone = "UTC"
-	TimeZoneUtcPlus1   TimeZone = "UTC_PLUS_1"
-	TimeZoneUtcPlus2   TimeZone = "UTC_PLUS_2"
-	TimeZoneUtcPlus3   TimeZone = "UTC_PLUS_3"
-	TimeZoneUtcPlus4   TimeZone = "UTC_PLUS_4"
-	TimeZoneUtcPlus5   TimeZone = "UTC_PLUS_5"
-	TimeZoneUtcPlus6   TimeZone = "UTC_PLUS_6"
-	TimeZoneUtcPlus7   TimeZone = "UTC_PLUS_7"
-	TimeZoneUtcPlus8   TimeZone = "UTC_PLUS_8"
-	TimeZoneUtcPlus9   TimeZone = "UTC_PLUS_9"
-	TimeZoneUtcPlus10  TimeZone = "UTC_PLUS_10"
-	TimeZoneUtcPlus11  TimeZone = "UTC_PLUS_11"
-	TimeZoneUtcPlus12  TimeZone = "UTC_PLUS_12"
-)
-
-var AllTimeZone = []TimeZone{
-	TimeZoneUtcMinus12,
-	TimeZoneUtcMinus11,
-	TimeZoneUtcMinus10,
-	TimeZoneUtcMinus9,
-	TimeZoneUtcMinus8,
-	TimeZoneUtcMinus7,
-	TimeZoneUtcMinus6,
-	TimeZoneUtcMinus5,
-	TimeZoneUtcMinus4,
-	TimeZoneUtcMinus3,
-	TimeZoneUtcMinus2,
-	TimeZoneUtcMinus1,
-	TimeZoneUtc,
-	TimeZoneUtcPlus1,
-	TimeZoneUtcPlus2,
-	TimeZoneUtcPlus3,
-	TimeZoneUtcPlus4,
-	TimeZoneUtcPlus5,
-	TimeZoneUtcPlus6,
-	TimeZoneUtcPlus7,
-	TimeZoneUtcPlus8,
-	TimeZoneUtcPlus9,
-	TimeZoneUtcPlus10,
-	TimeZoneUtcPlus11,
-	TimeZoneUtcPlus12,
-}
-
-func (e TimeZone) IsValid() bool {
-	switch e {
-	case TimeZoneUtcMinus12, TimeZoneUtcMinus11, TimeZoneUtcMinus10, TimeZoneUtcMinus9, TimeZoneUtcMinus8, TimeZoneUtcMinus7, TimeZoneUtcMinus6, TimeZoneUtcMinus5, TimeZoneUtcMinus4, TimeZoneUtcMinus3, TimeZoneUtcMinus2, TimeZoneUtcMinus1, TimeZoneUtc, TimeZoneUtcPlus1, TimeZoneUtcPlus2, TimeZoneUtcPlus3, TimeZoneUtcPlus4, TimeZoneUtcPlus5, TimeZoneUtcPlus6, TimeZoneUtcPlus7, TimeZoneUtcPlus8, TimeZoneUtcPlus9, TimeZoneUtcPlus10, TimeZoneUtcPlus11, TimeZoneUtcPlus12:
-		return true
-	}
-	return false
-}
-
-func (e TimeZone) String() string {
-	return string(e)
-}
-
-func (e *TimeZone) UnmarshalGQL(v interface{}) error {
-	str, ok := v.(string)
-	if !ok {
-		return fmt.Errorf("enums must be strings")
-	}
-
-	*e = TimeZone(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid TimeZone", str)
-	}
-	return nil
-}
-
-func (e TimeZone) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
