@@ -817,7 +817,7 @@ type Event struct {
 	Photos                       []*Photo                       `json:"photos"`
 	ActivityURL                  string                         `json:"activityUrl"`
 	TimeSlots                    []*EventTimeSlot               `json:"timeSlots"`
-	TimezoneOffset               int                            `json:"timezoneOffset"`
+	TimezoneOffset               float64                        `json:"timezoneOffset"`
 	StartedAt                    primitive.DateTime             `json:"startedAt"`
 	EndedAt                      primitive.DateTime             `json:"endedAt"`
 	CreatedAt                    primitive.DateTime             `json:"createdAt"`
@@ -1026,6 +1026,8 @@ type EventTicketsInput struct {
 type EventTimeSlot struct {
 	StartedAt                            primitive.DateTime `json:"startedAt"`
 	EndedAt                              primitive.DateTime `json:"endedAt"`
+	DisplayStartedAt                     string             `json:"displayStartedAt"`
+	DisplayEndedAt                       string             `json:"displayEndedAt"`
 	MaxPackages                          int64              `json:"maxPackages"`
 	MaxAdditionalParticipants            int64              `json:"maxAdditionalParticipants"`
 	MaxAdditionalPets                    int64              `json:"maxAdditionalPets"`
@@ -1999,7 +2001,7 @@ type UpdateEvent struct {
 	Photos                       []*UpdatePhoto                      `json:"photos" bson:",omitempty"`
 	ActivityURL                  *string                             `json:"activityUrl" bson:",omitempty"`
 	TimeSlots                    []*UpdateEventTimeSlot              `json:"timeSlots" bson:",omitempty"`
-	TimezoneOffset               *int                                `json:"timezoneOffset" bson:",omitempty"`
+	TimezoneOffset               *float64                            `json:"timezoneOffset" bson:",omitempty"`
 	StartedAt                    *primitive.DateTime                 `json:"startedAt" bson:",omitempty"`
 	EndedAt                      *primitive.DateTime                 `json:"endedAt" bson:",omitempty"`
 	PackagePricing               *UpdateEventPackagePricing          `json:"packagePricing" bson:",omitempty"`
@@ -2103,6 +2105,8 @@ type UpdateEventTicketsInput struct {
 type UpdateEventTimeSlot struct {
 	StartedAt                 *primitive.DateTime    `json:"startedAt" bson:",omitempty"`
 	EndedAt                   *primitive.DateTime    `json:"endedAt" bson:",omitempty"`
+	DisplayStartedAt          *string                `json:"displayStartedAt" bson:",omitempty"`
+	DisplayEndedAt            *string                `json:"displayEndedAt" bson:",omitempty"`
 	MaxPackages               *int64                 `json:"maxPackages" bson:",omitempty"`
 	MaxAdditionalParticipants *int                   `json:"maxAdditionalParticipants" bson:",omitempty"`
 	MaxAdditionalPets         *int                   `json:"maxAdditionalPets" bson:",omitempty"`
