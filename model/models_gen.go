@@ -835,6 +835,7 @@ type Event struct {
 	Approved                     bool                           `json:"approved"`
 	Published                    bool                           `json:"published"`
 	PetPhotoRequired             bool                           `json:"petPhotoRequired"`
+	ShareContent                 *ShareContent                  `json:"shareContent"`
 	Participations               EventParticipationsQueryResult `json:"participations"`
 }
 
@@ -1694,12 +1695,6 @@ type ShareContent struct {
 	WebpageURL string `json:"webpageUrl"`
 }
 
-type ShareContentInput struct {
-	Text       *string `json:"text" bson:",omitempty"`
-	ImageURL   *string `json:"imageUrl" bson:",omitempty"`
-	WebpageURL *string `json:"webpageUrl" bson:",omitempty"`
-}
-
 type ShoplineMerchantInfo struct {
 	ID            primitive.ObjectID `json:"id" bson:"_id"`
 	MerchantID    string             `json:"merchantId"`
@@ -2017,6 +2012,7 @@ type UpdateEvent struct {
 	Approved                     *bool                               `json:"approved" bson:",omitempty"`
 	Published                    *bool                               `json:"published" bson:",omitempty"`
 	PetPhotoRequired             *bool                               `json:"petPhotoRequired" bson:",omitempty"`
+	ShareContent                 *UpdateShareContent                 `json:"shareContent" bson:",omitempty"`
 }
 
 type UpdateEventInput struct {
@@ -2244,6 +2240,12 @@ type UpdateSelectionOption struct {
 	Options []*UpdateSelectionOption `json:"options" bson:",omitempty"`
 }
 
+type UpdateShareContent struct {
+	Text       *string `json:"text" bson:",omitempty"`
+	ImageURL   *string `json:"imageUrl" bson:",omitempty"`
+	WebpageURL *string `json:"webpageUrl" bson:",omitempty"`
+}
+
 type UpdateShoplineMerchantInfo struct {
 	Name          *string `json:"name" bson:",omitempty"`
 	Email         *string `json:"email" bson:",omitempty"`
@@ -2274,7 +2276,7 @@ type UpdateTask struct {
 	Status       *TaskStatus         `json:"status" bson:",omitempty"`
 	Points       *int64              `json:"points" bson:",omitempty"`
 	VoucherID    *primitive.ObjectID `json:"voucherId" bson:",omitempty"`
-	ShareContent *ShareContentInput  `json:"shareContent" bson:",omitempty"`
+	ShareContent *UpdateShareContent `json:"shareContent" bson:",omitempty"`
 	Conditional  *bool               `json:"conditional" bson:",omitempty"`
 	AppPage      *AppPage            `json:"appPage" bson:",omitempty"`
 	PageParams   *string             `json:"pageParams" bson:",omitempty"`
