@@ -465,10 +465,6 @@ type CommentatorCertificate struct {
 	DatetimeCreated      primitive.DateTime `json:"datetimeCreated"`
 }
 
-type CommentatorCertificateCommonFilter struct {
-	Level *int `json:"level" bson:",omitempty"`
-}
-
 type CommentatorCertificateStatusFilter struct {
 	Option int `json:"option"`
 }
@@ -1411,10 +1407,10 @@ type PetsInput struct {
 }
 
 type PetsWithCommentsInput struct {
-	PageNumber                         int                                 `json:"pageNumber"`
-	PageSize                           int                                 `json:"pageSize"`
-	CommentDatesFilter                 *DatesFilterInput                   `json:"commentDatesFilter"`
-	CommentatorCertificateCommonFilter *CommentatorCertificateCommonFilter `json:"commentatorCertificateCommonFilter"`
+	PageNumber                   int               `json:"pageNumber"`
+	PageSize                     int               `json:"pageSize"`
+	CommentDatesFilter           *DatesFilterInput `json:"commentDatesFilter"`
+	CommentatorCertificateLevels []int             `json:"commentatorCertificateLevels"`
 }
 
 type Photo struct {
