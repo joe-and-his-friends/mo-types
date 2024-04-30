@@ -1407,6 +1407,8 @@ type PetsInput struct {
 type PetsWithCommentsInput struct {
 	PageNumber                   int               `json:"pageNumber"`
 	PageSize                     int               `json:"pageSize"`
+	CommentPageNumber            int               `json:"commentPageNumber"`
+	CommentPageSize              int               `json:"commentPageSize"`
 	CommentDatesFilter           *DatesFilterInput `json:"commentDatesFilter"`
 	CommentRecommended           *bool             `json:"commentRecommended"`
 	CommentatorCertificateLevels []int             `json:"commentatorCertificateLevels"`
