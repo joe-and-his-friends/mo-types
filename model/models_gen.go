@@ -427,10 +427,10 @@ type CheckInRecordsInput struct {
 }
 
 type Comment struct {
-	Id                     string                  `json:"id" bson:"_id"`
-	PetId                  string                  `json:"petId"`
-	UserId                 string                  `json:"userId"`
-	RetailerUserId         string                  `json:"retailerUserId"`
+	ID                     string                  `json:"id" bson:"_id"`
+	PetID                  primitive.ObjectID      `json:"petId"`
+	UserID                 primitive.ObjectID      `json:"userId"`
+	RetailerUserID         primitive.ObjectID      `json:"retailerUserId"`
 	Title                  string                  `json:"title"`
 	Details                string                  `json:"details"`
 	PictureUrls            []string                `json:"pictureUrls"`
@@ -438,6 +438,7 @@ type Comment struct {
 	Status                 int                     `json:"status"`
 	Recommended            bool                    `json:"recommended"`
 	DatetimeCreated        string                  `json:"datetimeCreated"`
+	CreatedAt              primitive.DateTime      `json:"createdAt"`
 	CommentatorCertificate *CommentatorCertificate `json:"commentatorCertificate"`
 	RetailerProfile        *RetailerProfile        `json:"retailerProfile" bson:"retailerprofile"`
 }
@@ -459,7 +460,7 @@ type CommentatorCertificate struct {
 	Name                 string             `json:"name"`
 	SnsPlatformName      string             `json:"snsPlatformName"`
 	SnsPlatformSelection *SelectionOption   `json:"snsPlatformSelection"`
-	AvatarUrl            string             `json:"avatarUrl"`
+	AvatarURL            string             `json:"avatarUrl"`
 	Level                int                `json:"level"`
 	Status               int                `json:"status"`
 	DatetimeCreated      primitive.DateTime `json:"datetimeCreated"`
@@ -486,9 +487,9 @@ type Comments struct {
 }
 
 type CommentsInput struct {
-	PetId                   string                       `json:"petId"`
-	UserId                  string                       `json:"userId"`
-	RetailerUserId          string                       `json:"retailerUserId"`
+	PetID                   *primitive.ObjectID          `json:"petId"`
+	UserID                  *primitive.ObjectID          `json:"userId"`
+	RetailerUserID          *primitive.ObjectID          `json:"retailerUserId"`
 	PageNumber              int                          `json:"pageNumber"`
 	PageSize                int                          `json:"pageSize"`
 	StatusFilter            *CommentStatusFilter         `json:"statusFilter"`
@@ -558,23 +559,21 @@ type CreateAuthorizedOperationUserInput struct {
 }
 
 type CreateCommentInput struct {
-	PetId          string   `json:"petId"`
-	UserId         string   `json:"userId"`
-	RetailerUserId string   `json:"retailerUserId"`
-	Title          string   `json:"title"`
-	Details        string   `json:"details"`
-	PictureUrls    []string `json:"pictureUrls"`
-	Score          int      `json:"score"`
+	PetID          primitive.ObjectID `json:"petId"`
+	RetailerUserID primitive.ObjectID `json:"retailerUserId"`
+	Title          string             `json:"title"`
+	Details        string             `json:"details"`
+	PictureUrls    []string           `json:"pictureUrls"`
+	Score          int                `json:"score"`
 }
 
 type CreateCommentatorCertificateInput struct {
-	UserId               string                `json:"userId"`
-	PetId                string                `json:"petId"`
+	PetID                primitive.ObjectID    `json:"petId"`
 	Phone                string                `json:"phone"`
 	Name                 string                `json:"name"`
 	SnsPlatformName      string                `json:"snsPlatformName"`
 	SnsPlatformSelection *SelectionOptionInput `json:"snsPlatformSelection"`
-	AvatarUrl            string                `json:"avatarUrl"`
+	AvatarURL            string                `json:"avatarUrl"`
 }
 
 type CreateEventInvitationInput struct {
@@ -647,7 +646,6 @@ type CreatePetPawMeasurementsInput struct {
 }
 
 type CreatePetProfileInput struct {
-	UserID             *string               `json:"userId" bson:",omitempty"`
 	AvatarURL          *string               `json:"avatarUrl" bson:",omitempty"`
 	IDPhotoURL         *string               `json:"idPhotoUrl" bson:",omitempty"`
 	IDCardURL          *string               `json:"idCardUrl" bson:",omitempty"`
@@ -1333,7 +1331,7 @@ type PetPawMeasurements struct {
 }
 
 type PetProfile struct {
-	ID                     string                  `json:"id" bson:"_id"`
+	ID                     primitive.ObjectID      `json:"id" bson:"_id"`
 	AvatarURL              string                  `json:"avatarUrl"`
 	IDPhotoURL             string                  `json:"idPhotoUrl"`
 	IDCardURL              string                  `json:"idCardUrl"`
@@ -1395,7 +1393,7 @@ type PetsFiltersInput struct {
 }
 
 type PetsInput struct {
-	UserID                             string                              `json:"userId"`
+	UserID                             *primitive.ObjectID                 `json:"userId"`
 	PageNumber                         int                                 `json:"pageNumber"`
 	PageSize                           int                                 `json:"pageSize"`
 	MatchingText                       string                              `json:"matchingText"`
@@ -1945,7 +1943,7 @@ type UpdateCommentatorCertificate struct {
 }
 
 type UpdateCommentatorCertificateInput struct {
-	PetId       primitive.ObjectID            `json:"petId"`
+	PetID       primitive.ObjectID            `json:"petId"`
 	Certificate *UpdateCommentatorCertificate `json:"certificate"`
 }
 
@@ -2197,7 +2195,7 @@ type UpdatePetCertificatesInput struct {
 }
 
 type UpdatePetProfileInput struct {
-	ID                 string                `json:"id"`
+	ID                 primitive.ObjectID    `json:"id"`
 	AvatarURL          *string               `json:"avatarUrl" bson:",omitempty"`
 	IDPhotoURL         *string               `json:"idPhotoUrl" bson:",omitempty"`
 	IDCardURL          *string               `json:"idCardUrl" bson:",omitempty"`
