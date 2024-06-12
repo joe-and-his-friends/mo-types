@@ -22,11 +22,11 @@ const (
 )
 
 const (
-	SmsSubject             = "「毛孩街」驗證碼"
-	SmsRegistration        = "「毛孩街」註冊的驗證碼(5分鐘內有效)"
-	SmsLogin               = "「毛孩街」登錄的驗證碼(5分鐘內有效)"
-	SmsResettingPassword   = "「毛孩街」重置密碼的驗證碼(5分鐘內有效)"
-	SmsBindingPhoneOrEmail = "「毛孩街」綁定手機或郵箱的驗證碼(5分鐘內有效)"
+	SmsTemplateSubject             = "驗證碼"
+	SmsTemplateRegistration        = "註冊的驗證碼(5分鐘內有效)"
+	SmsTemplateLogin               = "登錄的驗證碼(5分鐘內有效)"
+	SmsTemplateResettingPassword   = "重置密碼的驗證碼(5分鐘內有效)"
+	SmsTemplateBindingPhoneOrEmail = "綁定手機或郵箱的驗證碼(5分鐘內有效)"
 )
 
 const (
