@@ -2336,6 +2336,7 @@ type UpdateUserBasicsInput struct {
 	Region                 *SelectionOptionInput   `json:"region" bson:",omitempty"`
 	District               *SelectionOptionInput   `json:"district" bson:",omitempty"`
 	QuestionnaireOptions   []*SelectionOptionInput `json:"questionnaireOptions" bson:",omitempty"`
+	InterestedCategories   []*SelectionOptionInput `json:"interestedCategories"`
 	SfLockerCode           *string                 `json:"sfLockerCode" bson:",omitempty"`
 	ProfileBackgroundImage *string                 `json:"profileBackgroundImage" bson:",omitempty"`
 	AvatarURL              *string                 `json:"avatarUrl" bson:",omitempty"`
@@ -2428,6 +2429,7 @@ type UserProfile struct {
 	District                      *SelectionOption          `json:"district"`
 	SfLockerCode                  string                    `json:"sfLockerCode"`
 	QuestionnaireOptions          []*SelectionOption        `json:"questionnaireOptions"`
+	InterestedCategories          []*SelectionOption        `json:"interestedCategories"`
 	Role                          int                       `json:"role"`
 	Level                         int                       `json:"level"`
 	Points                        int64                     `json:"points"`
