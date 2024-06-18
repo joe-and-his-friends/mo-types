@@ -26,6 +26,10 @@ type AdoptionAgencyQueryResult interface {
 	IsAdoptionAgencyQueryResult()
 }
 
+type AppConfigQueryResult interface {
+	IsAppConfigQueryResult()
+}
+
 type AuthorizedOperationUserQueryResult interface {
 	IsAuthorizedOperationUserQueryResult()
 }
@@ -266,6 +270,12 @@ type AdoptionAgency struct {
 }
 
 func (AdoptionAgency) IsAdoptionAgencyQueryResult() {}
+
+type AppConfig struct {
+	Categories []*SelectionOption `json:"categories"`
+}
+
+func (AppConfig) IsAppConfigQueryResult() {}
 
 type AppVersionInfo struct {
 	Name                   string `json:"name"`
@@ -671,6 +681,11 @@ type CreatePetVaxInput struct {
 	ImmunityLastingUtil primitive.DateTime `json:"immunityLastingUtil"`
 	NotifiedDaysAhead   int                `json:"notifiedDaysAhead"`
 	NotificationOn      bool               `json:"notificationOn"`
+}
+
+type CreateRetailerInput struct {
+	User            *CreateUserInput            `json:"user"`
+	RetailerProfile *CreateRetailerProfileInput `json:"retailerProfile"`
 }
 
 type CreateRetailerProfileInput struct {
@@ -1617,6 +1632,8 @@ func (ServiceError) IsAdoptionAdsQueryResult() {}
 
 func (ServiceError) IsAdoptionAgenciesQueryResult() {}
 
+func (ServiceError) IsAppConfigQueryResult() {}
+
 func (ServiceError) IsBannersQueryResult() {}
 
 func (ServiceError) IsCheckInCounterQueryResult() {}
@@ -1884,6 +1901,10 @@ type UpdateAdoptionAgency struct {
 type UpdateAdoptionAgencyInput struct {
 	ID     primitive.ObjectID    `json:"id" bson:"_id"`
 	Agency *UpdateAdoptionAgency `json:"agency"`
+}
+
+type UpdateAppConfigInput struct {
+	Categories []*SelectionOptionInput `json:"categories"`
 }
 
 type UpdateAppVersionInfo struct {
@@ -2222,7 +2243,7 @@ type UpdatePhoto struct {
 }
 
 type UpdateRetailerProfileInput struct {
-	UserID  string                      `json:"userId"`
+	UserID  *primitive.ObjectID         `json:"userId"`
 	Profile *CreateRetailerProfileInput `json:"profile"`
 }
 
