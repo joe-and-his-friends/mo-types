@@ -1910,8 +1910,13 @@ type UpdateAdoptionAgencyInput struct {
 	Agency *UpdateAdoptionAgency `json:"agency"`
 }
 
-type UpdateAppConfigInput struct {
+type UpdateAppConfig struct {
 	Categories []*UpdateCategoryOption `json:"categories" bson:",omitempty"`
+}
+
+type UpdateAppConfigInput struct {
+	Version string           `json:"version"`
+	Config  *UpdateAppConfig `json:"config"`
 }
 
 type UpdateAppVersionInfo struct {
