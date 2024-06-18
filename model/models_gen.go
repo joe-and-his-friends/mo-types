@@ -272,7 +272,7 @@ type AdoptionAgency struct {
 func (AdoptionAgency) IsAdoptionAgencyQueryResult() {}
 
 type AppConfig struct {
-	Categories []*SelectionOption `json:"categories"`
+	Categories []*CategoryOption `json:"categories"`
 }
 
 func (AppConfig) IsAppConfigQueryResult() {}
@@ -367,6 +367,13 @@ type CategoryFilter struct {
 	Option            *SelectionOptionInput   `json:"option"`
 	AdditionalOptions []string                `json:"additionalOptions"`
 	SubOptions        []*SelectionOptionInput `json:"subOptions"`
+}
+
+type CategoryOption struct {
+	ID      string            `json:"id"`
+	Name    string            `json:"name"`
+	IconURL string            `json:"iconUrl"`
+	Options []*CategoryOption `json:"options"`
 }
 
 type CheckInCounter struct {
@@ -1904,7 +1911,7 @@ type UpdateAdoptionAgencyInput struct {
 }
 
 type UpdateAppConfigInput struct {
-	Categories []*SelectionOptionInput `json:"categories"`
+	Categories []*UpdateCategoryOption `json:"categories" bson:",omitempty"`
 }
 
 type UpdateAppVersionInfo struct {
@@ -1932,6 +1939,13 @@ type UpdateBanner struct {
 type UpdateBannerInput struct {
 	ID     primitive.ObjectID `json:"id"`
 	Banner *UpdateBanner      `json:"banner"`
+}
+
+type UpdateCategoryOption struct {
+	ID      string                  `json:"id"`
+	Name    *string                 `json:"name" bson:",omitempty"`
+	IconURL *string                 `json:"iconUrl" bson:",omitempty"`
+	Options []*UpdateCategoryOption `json:"options" bson:",omitempty"`
 }
 
 type UpdateCheckInCounter struct {

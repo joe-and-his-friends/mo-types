@@ -54,8 +54,6 @@ const (
 
 	CodeDatabaseOperationFailure = 2000
 	CodeDatabaseDocumentNotFound = 2001
-	CodeDataUnmarshalingFailure  = 2002
-	CodeDataMarshalingFailure    = 2003
 
 	// checkin
 	CodeCheckInRecordExisted         = 4000
