@@ -277,6 +277,11 @@ type AppConfig struct {
 
 func (AppConfig) IsAppConfigQueryResult() {}
 
+type AppConfigInput struct {
+	Version  string   `json:"version"`
+	Language Language `json:"language"`
+}
+
 type AppVersionInfo struct {
 	Name                   string `json:"name"`
 	LatestReleasedVersion  string `json:"latestReleasedVersion"`
@@ -1915,8 +1920,9 @@ type UpdateAppConfig struct {
 }
 
 type UpdateAppConfigInput struct {
-	Version string           `json:"version"`
-	Config  *UpdateAppConfig `json:"config"`
+	Version  string           `json:"version"`
+	Language Language         `json:"language"`
+	Config   *UpdateAppConfig `json:"config"`
 }
 
 type UpdateAppVersionInfo struct {
@@ -3112,6 +3118,51 @@ func (e *JobType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e JobType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type Language string
+
+const (
+	LanguageEnglish   Language = "ENGLISH"
+	LanguageJapanese  Language = "JAPANESE"
+	LanguageKorean    Language = "KOREAN"
+	LanguageChineseHk Language = "CHINESE_HK"
+)
+
+var AllLanguage = []Language{
+	LanguageEnglish,
+	LanguageJapanese,
+	LanguageKorean,
+	LanguageChineseHk,
+}
+
+func (e Language) IsValid() bool {
+	switch e {
+	case LanguageEnglish, LanguageJapanese, LanguageKorean, LanguageChineseHk:
+		return true
+	}
+	return false
+}
+
+func (e Language) String() string {
+	return string(e)
+}
+
+func (e *Language) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = Language(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid Language", str)
+	}
+	return nil
+}
+
+func (e Language) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
