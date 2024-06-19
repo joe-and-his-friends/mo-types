@@ -77,6 +77,11 @@ func IsEmail(phoneOrEmail string) bool {
 	return strings.Contains(phoneOrEmail, "@")
 }
 
+func IsPhone(phoneOrEmail string) bool {
+	_, err := strconv.Atoi(SanitizePhone(phoneOrEmail))
+	return err == nil
+}
+
 // remove + and spaces in phone number
 func SanitizePhone(phone string) string {
 	return strings.ReplaceAll(strings.ReplaceAll(phone, "+", ""), " ", "")
