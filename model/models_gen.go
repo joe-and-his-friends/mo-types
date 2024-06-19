@@ -704,6 +704,7 @@ type CreateRetailerProfileInput struct {
 	AvatarURL        string                  `json:"avatarUrl" bson:",omitempty"`
 	Name             string                  `json:"name" bson:",omitempty"`
 	Phone            string                  `json:"phone" bson:",omitempty"`
+	Email            string                  `json:"email" bson:",omitempty"`
 	GeoLocation      *GeoLocationInput       `json:"geoLocation" bson:",omitempty"`
 	ShopPhotoUrls    []string                `json:"shopPhotoUrls" bson:",omitempty"`
 	ShopPhotos       []*PhotoInput           `json:"shopPhotos" bson:",omitempty"`
@@ -1530,6 +1531,7 @@ type RetailerProfile struct {
 	AvatarURL          string             `json:"avatarUrl"`
 	Name               string             `json:"name"`
 	Phone              string             `json:"phone"`
+	Email              string             `json:"email"`
 	GeoLocation        *GeoLocation       `json:"geoLocation"`
 	ShopPhotoUrls      []string           `json:"shopPhotoUrls"`
 	ShopPhotos         []*Photo           `json:"shopPhotos"`
