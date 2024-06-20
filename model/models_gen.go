@@ -241,13 +241,13 @@ type AdoptionAgencies struct {
 func (AdoptionAgencies) IsAdoptionAgenciesQueryResult() {}
 
 type AdoptionAgenciesInput struct {
-	PageNumber           int                   `json:"pageNumber"`
-	PageSize             int                   `json:"pageSize"`
-	DatetimeFilter       *DatetimeFilter       `json:"datetimeFilter"`
-	TerritoriesFilter    *TerritoriesFilter    `json:"territoriesFilter"`
-	RecommendationFilter *RecommendationFilter `json:"recommendationFilter"`
-	ApprovalFilter       ApprovalFilter        `json:"approvalFilter"`
-	UserID               primitive.ObjectID    `json:"userId"`
+	PageNumber        int                `json:"pageNumber"`
+	PageSize          int                `json:"pageSize"`
+	DatetimeFilter    *DatetimeFilter    `json:"datetimeFilter"`
+	TerritoriesFilter *TerritoriesFilter `json:"territoriesFilter"`
+	Recommended       *bool              `json:"recommended"`
+	Approved          *bool              `json:"approved"`
+	UserID            primitive.ObjectID `json:"userId"`
 }
 
 type AdoptionAgency struct {
@@ -369,9 +369,8 @@ type CategoriesFilter struct {
 }
 
 type CategoryFilter struct {
-	Option            *SelectionOptionInput   `json:"option"`
-	AdditionalOptions []string                `json:"additionalOptions"`
-	SubOptions        []*SelectionOptionInput `json:"subOptions"`
+	Option     *SelectionOptionInput   `json:"option"`
+	SubOptions []*SelectionOptionInput `json:"subOptions"`
 }
 
 type CategoryOption struct {
@@ -1080,10 +1079,6 @@ type EventsInput struct {
 	GeographicFilters   []*GeographicFilter  `json:"geographicFilters"`
 }
 
-type FavoriteFilter struct {
-	Option int `json:"option"`
-}
-
 type FavoriteRetailerInput struct {
 	UserID         string `json:"userId"`
 	RetailerUserID string `json:"retailerUserId"`
@@ -1493,10 +1488,6 @@ type RankingFilter struct {
 	Option int `json:"option"`
 }
 
-type RecommendationFilter struct {
-	Option int `json:"option"`
-}
-
 type ReportMomentInput struct {
 	MomentId       string `json:"momentId"`
 	ReportedUserId string `json:"reportedUserId"`
@@ -1576,24 +1567,22 @@ type RetailersBlocked struct {
 }
 
 type RetailersInput struct {
-	UserID               string                `json:"userId"`
-	PageSize             int                   `json:"pageSize"`
-	PageNumber           int                   `json:"pageNumber"`
-	StartUserID          string                `json:"startUserId"`
-	MatchingAddress      string                `json:"matchingAddress"`
-	MatchingName         string                `json:"matchingName"`
-	MatchingPhoneOrEmail string                `json:"matchingPhoneOrEmail"`
-	MatchingUserIds      []primitive.ObjectID  `json:"matchingUserIds"`
-	TerritoriesFilter    *TerritoriesFilter    `json:"territoriesFilter"`
-	LandmarksFilter      *LandmarksFilter      `json:"landmarksFilter"`
-	CategoriesFilter     *CategoriesFilter     `json:"categoriesFilter"`
-	GeoFilter            *GeoFilter            `json:"geoFilter"`
-	TimeFilter           *TimeFilter           `json:"timeFilter"`
-	RoleFilter           *RoleFilter           `json:"roleFilter"`
-	LevelFilter          *LevelFilter          `json:"levelFilter"`
-	RecommendationFilter *RecommendationFilter `json:"recommendationFilter"`
-	FavoriteFilter       *FavoriteFilter       `json:"favoriteFilter"`
-	RankingFilter        *RankingFilter        `json:"rankingFilter"`
+	PageSize             int                  `json:"pageSize"`
+	PageNumber           int                  `json:"pageNumber"`
+	MatchingAddress      string               `json:"matchingAddress"`
+	MatchingName         string               `json:"matchingName"`
+	MatchingPhoneOrEmail string               `json:"matchingPhoneOrEmail"`
+	MatchingUserIds      []primitive.ObjectID `json:"matchingUserIds"`
+	TerritoriesFilter    *TerritoriesFilter   `json:"territoriesFilter"`
+	LandmarksFilter      *LandmarksFilter     `json:"landmarksFilter"`
+	CategoriesFilter     *CategoriesFilter    `json:"categoriesFilter"`
+	GeoFilter            *GeoFilter           `json:"geoFilter"`
+	TimeFilter           *TimeFilter          `json:"timeFilter"`
+	RoleFilter           *RoleFilter          `json:"roleFilter"`
+	LevelFilter          *LevelFilter         `json:"levelFilter"`
+	Recommended          *bool                `json:"recommended"`
+	Favorited            *bool                `json:"favorited"`
+	RankingFilter        *RankingFilter       `json:"rankingFilter"`
 }
 
 type RoleFilter struct {
@@ -2680,49 +2669,6 @@ func (e *AppPage) UnmarshalGQL(v interface{}) error {
 }
 
 func (e AppPage) MarshalGQL(w io.Writer) {
-	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-type ApprovalFilter string
-
-const (
-	ApprovalFilterApproved   ApprovalFilter = "APPROVED"
-	ApprovalFilterUnapproved ApprovalFilter = "UNAPPROVED"
-	ApprovalFilterAny        ApprovalFilter = "ANY"
-)
-
-var AllApprovalFilter = []ApprovalFilter{
-	ApprovalFilterApproved,
-	ApprovalFilterUnapproved,
-	ApprovalFilterAny,
-}
-
-func (e ApprovalFilter) IsValid() bool {
-	switch e {
-	case ApprovalFilterApproved, ApprovalFilterUnapproved, ApprovalFilterAny:
-		return true
-	}
-	return false
-}
-
-func (e ApprovalFilter) String() string {
-	return string(e)
-}
-
-func (e *ApprovalFilter) UnmarshalGQL(v interface{}) error {
-	str, ok := v.(string)
-	if !ok {
-		return fmt.Errorf("enums must be strings")
-	}
-
-	*e = ApprovalFilter(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ApprovalFilter", str)
-	}
-	return nil
-}
-
-func (e ApprovalFilter) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
