@@ -66,6 +66,10 @@ type CreatePaymentIntentResult interface {
 	IsCreatePaymentIntentResult()
 }
 
+type CreateRetailerResult interface {
+	IsCreateRetailerResult()
+}
+
 type EventInvitationQueryResult interface {
 	IsEventInvitationQueryResult()
 }
@@ -120,6 +124,10 @@ type PointTransactionsQueryResult interface {
 
 type RefreshAccessTokenResult interface {
 	IsRefreshAccessTokenResult()
+}
+
+type ResetUserPasswordResult interface {
+	IsResetUserPasswordResult()
 }
 
 type RetailersQueryResult interface {
@@ -1675,6 +1683,8 @@ func (ServiceError) IsRefreshAccessTokenResult() {}
 
 func (ServiceError) IsRetailersQueryResult() {}
 
+func (ServiceError) IsCreateRetailerResult() {}
+
 func (ServiceError) IsTasksQueryResult() {}
 
 func (ServiceError) IsPointTransactionQueryResult() {}
@@ -1694,6 +1704,8 @@ func (ServiceError) IsUserAuthenticationResult() {}
 func (ServiceError) IsAuthorizedOperationUsersQueryResult() {}
 
 func (ServiceError) IsAuthorizedOperationUserQueryResult() {}
+
+func (ServiceError) IsResetUserPasswordResult() {}
 
 func (ServiceError) IsVoucherQueryResult() {}
 
@@ -2520,6 +2532,15 @@ type UserProfilesInput struct {
 	MatchingPhoneOrEmail       string                      `json:"matchingPhoneOrEmail"`
 	MatchingUserIds            []primitive.ObjectID        `json:"matchingUserIds"`
 }
+
+type UserWithPassword struct {
+	ID       *primitive.ObjectID `json:"id"`
+	Password string              `json:"password"`
+}
+
+func (UserWithPassword) IsCreateRetailerResult() {}
+
+func (UserWithPassword) IsResetUserPasswordResult() {}
 
 type UsersFilters struct {
 	MatchingPhoneOrEmail string `json:"matchingPhoneOrEmail"`
