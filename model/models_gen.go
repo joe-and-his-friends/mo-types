@@ -2534,8 +2534,8 @@ type UserProfilesInput struct {
 }
 
 type UserWithPassword struct {
-	ID       *primitive.ObjectID `json:"id"`
-	Password string              `json:"password"`
+	ID       primitive.ObjectID `json:"id"`
+	Password string             `json:"password"`
 }
 
 func (UserWithPassword) IsCreateRetailerResult() {}
