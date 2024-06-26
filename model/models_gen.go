@@ -466,7 +466,6 @@ type Comment struct {
 	Score                  int                     `json:"score"`
 	Status                 int                     `json:"status"`
 	Recommended            bool                    `json:"recommended"`
-	DatetimeCreated        string                  `json:"datetimeCreated"`
 	CreatedAt              primitive.DateTime      `json:"createdAt"`
 	CommentatorCertificate *CommentatorCertificate `json:"commentatorCertificate"`
 	RetailerProfile        *RetailerProfile        `json:"retailerProfile"`
