@@ -3313,6 +3313,7 @@ const (
 	SystemTransactionDetailTypeRewardCheckInRecords         SystemTransactionDetailType = "REWARD_CHECK_IN_RECORDS"
 	SystemTransactionDetailTypeRewardTaskParticipation      SystemTransactionDetailType = "REWARD_TASK_PARTICIPATION"
 	SystemTransactionDetailTypeRewardEventParticipation     SystemTransactionDetailType = "REWARD_EVENT_PARTICIPATION"
+	SystemTransactionDetailTypeRewardUserRegistration       SystemTransactionDetailType = "REWARD_USER_REGISTRATION"
 	SystemTransactionDetailTypeRefundEventParticipation     SystemTransactionDetailType = "REFUND_EVENT_PARTICIPATION"
 	SystemTransactionDetailTypeRefundVouchersOwnership      SystemTransactionDetailType = "REFUND_VOUCHERS_OWNERSHIP"
 	SystemTransactionDetailTypeRefundShopline               SystemTransactionDetailType = "REFUND_SHOPLINE"
@@ -3327,6 +3328,7 @@ var AllSystemTransactionDetailType = []SystemTransactionDetailType{
 	SystemTransactionDetailTypeRewardCheckInRecords,
 	SystemTransactionDetailTypeRewardTaskParticipation,
 	SystemTransactionDetailTypeRewardEventParticipation,
+	SystemTransactionDetailTypeRewardUserRegistration,
 	SystemTransactionDetailTypeRefundEventParticipation,
 	SystemTransactionDetailTypeRefundVouchersOwnership,
 	SystemTransactionDetailTypeRefundShopline,
@@ -3338,7 +3340,7 @@ var AllSystemTransactionDetailType = []SystemTransactionDetailType{
 
 func (e SystemTransactionDetailType) IsValid() bool {
 	switch e {
-	case SystemTransactionDetailTypeTransferIn, SystemTransactionDetailTypeRewardCheckInRecords, SystemTransactionDetailTypeRewardTaskParticipation, SystemTransactionDetailTypeRewardEventParticipation, SystemTransactionDetailTypeRefundEventParticipation, SystemTransactionDetailTypeRefundVouchersOwnership, SystemTransactionDetailTypeRefundShopline, SystemTransactionDetailTypeTransferOut, SystemTransactionDetailTypePurchaseVouchersOwnership, SystemTransactionDetailTypePurchaseEventParticipation, SystemTransactionDetailTypeRevokationEventParticipation:
+	case SystemTransactionDetailTypeTransferIn, SystemTransactionDetailTypeRewardCheckInRecords, SystemTransactionDetailTypeRewardTaskParticipation, SystemTransactionDetailTypeRewardEventParticipation, SystemTransactionDetailTypeRewardUserRegistration, SystemTransactionDetailTypeRefundEventParticipation, SystemTransactionDetailTypeRefundVouchersOwnership, SystemTransactionDetailTypeRefundShopline, SystemTransactionDetailTypeTransferOut, SystemTransactionDetailTypePurchaseVouchersOwnership, SystemTransactionDetailTypePurchaseEventParticipation, SystemTransactionDetailTypeRevokationEventParticipation:
 		return true
 	}
 	return false
