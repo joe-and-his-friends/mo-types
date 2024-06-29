@@ -457,13 +457,13 @@ type CheckInRecordsInput struct {
 
 type Comment struct {
 	ID                     string                  `json:"id" bson:"_id"`
-	PetID                  primitive.ObjectID      `json:"petId"`
+	PetID                  *primitive.ObjectID     `json:"petId"`
 	UserID                 primitive.ObjectID      `json:"userId"`
 	RetailerUserID         primitive.ObjectID      `json:"retailerUserId"`
 	Title                  string                  `json:"title"`
 	Details                string                  `json:"details"`
 	PictureUrls            []string                `json:"pictureUrls"`
-	Score                  int                     `json:"score"`
+	Score                  *int                    `json:"score"`
 	Status                 int                     `json:"status"`
 	Recommended            bool                    `json:"recommended"`
 	CreatedAt              primitive.DateTime      `json:"createdAt"`
@@ -587,12 +587,12 @@ type CreateAuthorizedOperationUserInput struct {
 }
 
 type CreateCommentInput struct {
-	PetID          primitive.ObjectID `json:"petId"`
-	RetailerUserID primitive.ObjectID `json:"retailerUserId"`
-	Title          string             `json:"title"`
-	Details        string             `json:"details"`
-	PictureUrls    []string           `json:"pictureUrls"`
-	Score          int                `json:"score"`
+	PetID          *primitive.ObjectID `json:"petId"`
+	RetailerUserID primitive.ObjectID  `json:"retailerUserId"`
+	Title          string              `json:"title"`
+	Details        string              `json:"details"`
+	PictureUrls    []string            `json:"pictureUrls"`
+	Score          *int                `json:"score"`
 }
 
 type CreateCommentatorCertificateInput struct {
@@ -3314,6 +3314,7 @@ const (
 	SystemTransactionDetailTypeRewardTaskParticipation      SystemTransactionDetailType = "REWARD_TASK_PARTICIPATION"
 	SystemTransactionDetailTypeRewardEventParticipation     SystemTransactionDetailType = "REWARD_EVENT_PARTICIPATION"
 	SystemTransactionDetailTypeRewardUserRegistration       SystemTransactionDetailType = "REWARD_USER_REGISTRATION"
+	SystemTransactionDetailTypeRewardRetailerReview         SystemTransactionDetailType = "REWARD_RETAILER_REVIEW"
 	SystemTransactionDetailTypeRefundEventParticipation     SystemTransactionDetailType = "REFUND_EVENT_PARTICIPATION"
 	SystemTransactionDetailTypeRefundVouchersOwnership      SystemTransactionDetailType = "REFUND_VOUCHERS_OWNERSHIP"
 	SystemTransactionDetailTypeRefundShopline               SystemTransactionDetailType = "REFUND_SHOPLINE"
@@ -3329,6 +3330,7 @@ var AllSystemTransactionDetailType = []SystemTransactionDetailType{
 	SystemTransactionDetailTypeRewardTaskParticipation,
 	SystemTransactionDetailTypeRewardEventParticipation,
 	SystemTransactionDetailTypeRewardUserRegistration,
+	SystemTransactionDetailTypeRewardRetailerReview,
 	SystemTransactionDetailTypeRefundEventParticipation,
 	SystemTransactionDetailTypeRefundVouchersOwnership,
 	SystemTransactionDetailTypeRefundShopline,
@@ -3340,7 +3342,7 @@ var AllSystemTransactionDetailType = []SystemTransactionDetailType{
 
 func (e SystemTransactionDetailType) IsValid() bool {
 	switch e {
-	case SystemTransactionDetailTypeTransferIn, SystemTransactionDetailTypeRewardCheckInRecords, SystemTransactionDetailTypeRewardTaskParticipation, SystemTransactionDetailTypeRewardEventParticipation, SystemTransactionDetailTypeRewardUserRegistration, SystemTransactionDetailTypeRefundEventParticipation, SystemTransactionDetailTypeRefundVouchersOwnership, SystemTransactionDetailTypeRefundShopline, SystemTransactionDetailTypeTransferOut, SystemTransactionDetailTypePurchaseVouchersOwnership, SystemTransactionDetailTypePurchaseEventParticipation, SystemTransactionDetailTypeRevokationEventParticipation:
+	case SystemTransactionDetailTypeTransferIn, SystemTransactionDetailTypeRewardCheckInRecords, SystemTransactionDetailTypeRewardTaskParticipation, SystemTransactionDetailTypeRewardEventParticipation, SystemTransactionDetailTypeRewardUserRegistration, SystemTransactionDetailTypeRewardRetailerReview, SystemTransactionDetailTypeRefundEventParticipation, SystemTransactionDetailTypeRefundVouchersOwnership, SystemTransactionDetailTypeRefundShopline, SystemTransactionDetailTypeTransferOut, SystemTransactionDetailTypePurchaseVouchersOwnership, SystemTransactionDetailTypePurchaseEventParticipation, SystemTransactionDetailTypeRevokationEventParticipation:
 		return true
 	}
 	return false
