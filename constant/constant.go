@@ -162,6 +162,7 @@ type RedisKey string
 
 const (
 	RkCreateCommentPetIds         = "createCommentPetIds"
+	RkCreateCommentUserIds        = "createCommentUserIds"
 	RkUpdateUserBasicsIds         = "updateUserBasicsIds"
 	RkCreateUserIds               = "createUserIds"
 	RkUpdateTransactionIds        = "updateTransactionIds"
