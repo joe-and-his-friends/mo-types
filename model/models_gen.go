@@ -3458,18 +3458,20 @@ type TaskType string
 const (
 	TaskTypeUserProfileCompletion TaskType = "USER_PROFILE_COMPLETION"
 	TaskTypeUserRegistration      TaskType = "USER_REGISTRATION"
+	TaskTypeRetailerReview        TaskType = "RETAILER_REVIEW"
 	TaskTypeCustom                TaskType = "CUSTOM"
 )
 
 var AllTaskType = []TaskType{
 	TaskTypeUserProfileCompletion,
 	TaskTypeUserRegistration,
+	TaskTypeRetailerReview,
 	TaskTypeCustom,
 }
 
 func (e TaskType) IsValid() bool {
 	switch e {
-	case TaskTypeUserProfileCompletion, TaskTypeUserRegistration, TaskTypeCustom:
+	case TaskTypeUserProfileCompletion, TaskTypeUserRegistration, TaskTypeRetailerReview, TaskTypeCustom:
 		return true
 	}
 	return false
