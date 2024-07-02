@@ -1613,7 +1613,6 @@ type Product struct {
 	UpdatedAt                  primitive.DateTime   `json:"updatedAt"`
 	Pricing                    *ProductPricing      `json:"pricing"`
 	MaxPurchasesPerUser        int64                `json:"maxPurchasesPerUser"`
-	Category                   *SelectionOption     `json:"category"`
 	Recommended                bool                 `json:"recommended"`
 	Published                  bool                 `json:"published"`
 	ShareContent               *ShareContent        `json:"shareContent"`
@@ -2481,7 +2480,7 @@ type UpdateProduct struct {
 
 type UpdateProductInput struct {
 	ID      primitive.ObjectID `json:"id"`
-	Product *UpdateProduct     `json:"Product"`
+	Product *UpdateProduct     `json:"product"`
 }
 
 type UpdateProductPricing struct {
