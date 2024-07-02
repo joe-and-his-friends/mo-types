@@ -62,6 +62,10 @@ type CreateEventParticipationResult interface {
 	IsCreateEventParticipationResult()
 }
 
+type CreateOrderResult interface {
+	IsCreateOrderResult()
+}
+
 type CreatePaymentIntentResult interface {
 	IsCreatePaymentIntentResult()
 }
@@ -106,6 +110,18 @@ type LoginUserResult interface {
 	IsLoginUserResult()
 }
 
+type OrderCountQueryResult interface {
+	IsOrderCountQueryResult()
+}
+
+type OrderQueryResult interface {
+	IsOrderQueryResult()
+}
+
+type OrdersQueryResult interface {
+	IsOrdersQueryResult()
+}
+
 type PetProfilesQueryResult interface {
 	IsPetProfilesQueryResult()
 }
@@ -120,6 +136,14 @@ type PointTransactionQueryResult interface {
 
 type PointTransactionsQueryResult interface {
 	IsPointTransactionsQueryResult()
+}
+
+type ProductQueryResult interface {
+	IsProductQueryResult()
+}
+
+type ProductsQueryResult interface {
+	IsProductsQueryResult()
 }
 
 type RefreshAccessTokenResult interface {
@@ -538,6 +562,14 @@ type CommonEventFilter struct {
 	Type        *EventType          `json:"type" bson:",omitempty"`
 }
 
+type CommonProductFilter struct {
+	UserID      *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	Recommended *bool               `json:"recommended" bson:",omitempty"`
+	Published   *bool               `json:"published" bson:",omitempty"`
+	Online      *bool               `json:"online" bson:",omitempty"`
+	Type        *ProductType        `json:"type" bson:",omitempty"`
+}
+
 type Contest struct {
 	Id        string `json:"id"`
 	Name      string `json:"name"`
@@ -635,6 +667,12 @@ type CreateEventTicket struct {
 type CreateEventTicketsInput struct {
 	Count  int64              `json:"count"`
 	Ticket *CreateEventTicket `json:"ticket"`
+}
+
+type CreateOrderInput struct {
+	ProductID    primitive.ObjectID `json:"productId"`
+	ProductCount int64              `json:"productCount"`
+	Products     []*UpdateProduct   `json:"products" bson:",omitempty"`
 }
 
 type CreatePaymentIntentInput struct {
@@ -1302,6 +1340,55 @@ type NewUserWithAppleBinding struct {
 	AuthCode         string `json:"authCode"`
 }
 
+type Order struct {
+	ID              primitive.ObjectID  `json:"id" bson:"_id"`
+	UserID          primitive.ObjectID  `json:"userId"`
+	User            *UserProfile        `json:"user"`
+	ProductID       primitive.ObjectID  `json:"productId"`
+	Product         *Product            `json:"product"`
+	Points          int64               `json:"points"`
+	RedemptionCode  string              `json:"redemptionCode"`
+	OperationUserID *primitive.ObjectID `json:"operationUserId"`
+	Status          OrderStatus         `json:"status"`
+	PaymentIntent   *PaymentIntent      `json:"paymentIntent"`
+	ProductCount    int64               `json:"productCount"`
+	Products        []*Product          `json:"products"`
+	CreatedAt       primitive.DateTime  `json:"createdAt"`
+	UpdatedAt       primitive.DateTime  `json:"updatedAt"`
+}
+
+func (Order) IsOrderQueryResult() {}
+
+func (Order) IsCreateOrderResult() {}
+
+type OrderCommonFilter struct {
+	UserID    *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	ProductID *primitive.ObjectID `json:"productId" bson:",omitempty"`
+	Status    *OrderStatus        `json:"status" bson:",omitempty"`
+}
+
+type OrderCount struct {
+	Count int64 `json:"count"`
+}
+
+func (OrderCount) IsOrderCountQueryResult() {}
+
+type OrderCountCommonFilter struct {
+	UserID    *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	ProductID *primitive.ObjectID `json:"productId" bson:",omitempty"`
+}
+
+type OrderCountInput struct {
+	CommonFilter *OrderCountCommonFilter `json:"commonFilter"`
+	Statuses     []OrderStatus           `json:"statuses"`
+}
+
+type OrderInput struct {
+	ID                     *primitive.ObjectID `json:"id"`
+	RedemptionCode         *string             `json:"redemptionCode"`
+	ChannelPaymentIntentID *string             `json:"channelPaymentIntentId"`
+}
+
 type OrderPayment struct {
 	PaymentMethodID  string            `json:"paymentMethodId"`
 	PaymentType      string            `json:"paymentType"`
@@ -1309,6 +1396,22 @@ type OrderPayment struct {
 	PaymentStatus    string            `json:"paymentStatus"`
 	Total            float64           `json:"total"`
 	TotalLabel       string            `json:"totalLabel"`
+}
+
+type Orders struct {
+	TotalCount int64    `json:"totalCount"`
+	Items      []*Order `json:"items"`
+}
+
+func (Orders) IsOrdersQueryResult() {}
+
+type OrdersInput struct {
+	PageNumber          int64                `json:"pageNumber"`
+	PageSize            int64                `json:"pageSize"`
+	CommonFilter        *OrderCommonFilter   `json:"commonFilter"`
+	DatetimeRangeFilter *DatetimeRangeFilter `json:"datetimeRangeFilter"`
+	ProductFilter       *CommonProductFilter `json:"productFilter"`
+	StatusesFilter      []OrderStatus        `json:"statusesFilter"`
 }
 
 type OtherFilter struct {
@@ -1489,6 +1592,61 @@ type PointTransctionsInput struct {
 	PageNumber   int                            `json:"pageNumber"`
 	CommonFilter *PointTransactionsCommonFilter `json:"commonFilter"`
 	DatesFilter  *DatesFilterInput              `json:"datesFilter"`
+}
+
+type Product struct {
+	ID                         primitive.ObjectID   `json:"id" bson:"_id"`
+	UserID                     primitive.ObjectID   `json:"userId"`
+	AuthorizedOperationUserIds []primitive.ObjectID `json:"authorizedOperationUserIds"`
+	Name                       string               `json:"name"`
+	Type                       *ProductType         `json:"type"`
+	Online                     bool                 `json:"online"`
+	Introduction               string               `json:"introduction"`
+	Details                    string               `json:"details"`
+	Notice                     string               `json:"notice"`
+	Terms                      string               `json:"terms"`
+	WebsiteURL                 string               `json:"websiteUrl"`
+	FacebookAccount            string               `json:"facebookAccount"`
+	InstagramAccount           string               `json:"instagramAccount"`
+	Photos                     []*Photo             `json:"photos"`
+	CreatedAt                  primitive.DateTime   `json:"createdAt"`
+	UpdatedAt                  primitive.DateTime   `json:"updatedAt"`
+	Pricing                    *ProductPricing      `json:"pricing"`
+	MaxPurchasesPerUser        int64                `json:"maxPurchasesPerUser"`
+	Category                   *SelectionOption     `json:"category"`
+	Recommended                bool                 `json:"recommended"`
+	Published                  bool                 `json:"published"`
+	ShareContent               *ShareContent        `json:"shareContent"`
+}
+
+func (Product) IsProductQueryResult() {}
+
+type ProductPricing struct {
+	MaxParchases      int64     `json:"maxParchases"`
+	Price             int64     `json:"price"`
+	PriceLabel        *string   `json:"priceLabel"`
+	Currency          *Currency `json:"currency"`
+	MaxCash           *int64    `json:"maxCash"`
+	MinCash           *int64    `json:"minCash"`
+	MaxPoints         *int64    `json:"maxPoints"`
+	PointsCashRatio   *float64  `json:"pointsCashRatio"`
+	ExtraPoints       int64     `json:"extraPoints"`
+	Points            int64     `json:"points"`
+	PointsRewardRatio *float64  `json:"pointsRewardRatio"`
+	Remarks           *string   `json:"remarks"`
+}
+
+type Products struct {
+	TotalCount int64      `json:"totalCount"`
+	Items      []*Product `json:"items"`
+}
+
+func (Products) IsProductsQueryResult() {}
+
+type ProductsInput struct {
+	PageNumber   int64                `json:"pageNumber"`
+	PageSize     int64                `json:"pageSize"`
+	CommonFilter *CommonProductFilter `json:"commonFilter"`
 }
 
 type RankingFilter struct {
@@ -1672,11 +1830,23 @@ func (ServiceError) IsEventInvitationsQueryResult() {}
 
 func (ServiceError) IsJobsResult() {}
 
+func (ServiceError) IsOrderQueryResult() {}
+
+func (ServiceError) IsOrdersQueryResult() {}
+
+func (ServiceError) IsCreateOrderResult() {}
+
+func (ServiceError) IsOrderCountQueryResult() {}
+
 func (ServiceError) IsCreatePaymentIntentResult() {}
 
 func (ServiceError) IsPetProfilesQueryResult() {}
 
 func (ServiceError) IsPetQueryResult() {}
+
+func (ServiceError) IsProductsQueryResult() {}
+
+func (ServiceError) IsProductQueryResult() {}
 
 func (ServiceError) IsRefreshAccessTokenResult() {}
 
@@ -2220,6 +2390,19 @@ type UpdateNameTranslations struct {
 	ZhHant string `json:"zhHant"`
 }
 
+type UpdateOrder struct {
+	Products      []*UpdateProduct     `json:"products" bson:",omitempty"`
+	Status        *OrderStatus         `json:"status" bson:",omitempty"`
+	PaymentIntent *UpdatePaymentIntent `json:"paymentIntent" bson:",omitempty"`
+}
+
+type UpdateOrderInput struct {
+	ID                     *primitive.ObjectID `json:"id"`
+	RedemptionCode         *string             `json:"redemptionCode"`
+	ChannelPaymentIntentID *string             `json:"channelPaymentIntentId"`
+	Order                  *UpdateOrder        `json:"order"`
+}
+
 type UpdateOrderPayment struct {
 	PaymentMethodID  *string                 `json:"paymentMethodId" bson:",omitempty"`
 	PaymentType      *string                 `json:"paymentType" bson:",omitempty"`
@@ -2227,6 +2410,13 @@ type UpdateOrderPayment struct {
 	PaymentStatus    *string                 `json:"paymentStatus" bson:",omitempty"`
 	Total            *float64                `json:"total" bson:",omitempty"`
 	TotalLabel       *string                 `json:"totalLabel" bson:",omitempty"`
+}
+
+type UpdateOrderStatusInput struct {
+	OrderID                     *primitive.ObjectID `json:"OrderId"`
+	OrderRedemptionCode         *string             `json:"OrderRedemptionCode"`
+	OrderChannelPaymentIntentID *string             `json:"OrderChannelPaymentIntentId"`
+	Status                      OrderStatus         `json:"status"`
 }
 
 type UpdatePaymentIntent struct {
@@ -2267,6 +2457,46 @@ type UpdatePetProfileInput struct {
 type UpdatePhoto struct {
 	URL         *string `json:"url" bson:",omitempty"`
 	Description *string `json:"description" bson:",omitempty"`
+}
+
+type UpdateProduct struct {
+	UserID                     *primitive.ObjectID   `json:"userId" bson:",omitempty"`
+	AuthorizedOperationUserIds []primitive.ObjectID  `json:"authorizedOperationUserIds" bson:",omitempty"`
+	Name                       *string               `json:"name" bson:",omitempty"`
+	Type                       *ProductType          `json:"type" bson:",omitempty"`
+	Online                     *bool                 `json:"online" bson:",omitempty"`
+	Introduction               *string               `json:"introduction" bson:",omitempty"`
+	Details                    *string               `json:"details" bson:",omitempty"`
+	Notice                     *string               `json:"notice" bson:",omitempty"`
+	Terms                      *string               `json:"terms" bson:",omitempty"`
+	WebsiteURL                 *string               `json:"websiteUrl" bson:",omitempty"`
+	FacebookAccount            *string               `json:"facebookAccount" bson:",omitempty"`
+	InstagramAccount           *string               `json:"instagramAccount" bson:",omitempty"`
+	Photos                     []*UpdatePhoto        `json:"photos" bson:",omitempty"`
+	Pricing                    *UpdateProductPricing `json:"pricing" bson:",omitempty"`
+	Recommended                *bool                 `json:"recommended" bson:",omitempty"`
+	Published                  *bool                 `json:"published" bson:",omitempty"`
+	ShareContent               *UpdateShareContent   `json:"shareContent" bson:",omitempty"`
+}
+
+type UpdateProductInput struct {
+	ID      primitive.ObjectID `json:"id"`
+	Product *UpdateProduct     `json:"Product"`
+}
+
+type UpdateProductPricing struct {
+	MaxParticipants   *int64    `json:"maxParticipants" bson:",omitempty"`
+	MaxPets           *int64    `json:"maxPets" bson:",omitempty"`
+	Price             *int64    `json:"price" bson:",omitempty"`
+	PriceLabel        *string   `json:"priceLabel" bson:",omitempty"`
+	Currency          *Currency `json:"currency" bson:",omitempty"`
+	MaxCash           *int64    `json:"maxCash" bson:",omitempty"`
+	MinCash           *int64    `json:"minCash" bson:",omitempty"`
+	MaxPoints         *int64    `json:"maxPoints" bson:",omitempty"`
+	PointsCashRatio   *float64  `json:"pointsCashRatio" bson:",omitempty"`
+	ExtraPoints       *int64    `json:"extraPoints" bson:",omitempty"`
+	PointsRewardRatio *float64  `json:"pointsRewardRatio" bson:",omitempty"`
+	Remarks           *string   `json:"remarks" bson:",omitempty"`
 }
 
 type UpdateRetailerProfileInput struct {
@@ -3134,6 +3364,55 @@ func (e Language) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type OrderStatus string
+
+const (
+	OrderStatusProcessing OrderStatus = "PROCESSING"
+	OrderStatusCompleted  OrderStatus = "COMPLETED"
+	OrderStatusExpired    OrderStatus = "EXPIRED"
+	OrderStatusCanceled   OrderStatus = "CANCELED"
+	OrderStatusPending    OrderStatus = "PENDING"
+	OrderStatusInvalid    OrderStatus = "INVALID"
+)
+
+var AllOrderStatus = []OrderStatus{
+	OrderStatusProcessing,
+	OrderStatusCompleted,
+	OrderStatusExpired,
+	OrderStatusCanceled,
+	OrderStatusPending,
+	OrderStatusInvalid,
+}
+
+func (e OrderStatus) IsValid() bool {
+	switch e {
+	case OrderStatusProcessing, OrderStatusCompleted, OrderStatusExpired, OrderStatusCanceled, OrderStatusPending, OrderStatusInvalid:
+		return true
+	}
+	return false
+}
+
+func (e OrderStatus) String() string {
+	return string(e)
+}
+
+func (e *OrderStatus) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = OrderStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid OrderStatus", str)
+	}
+	return nil
+}
+
+func (e OrderStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type OrderType string
 
 const (
@@ -3262,6 +3541,47 @@ func (e *PaymentIntentStatus) UnmarshalGQL(v interface{}) error {
 }
 
 func (e PaymentIntentStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type ProductType string
+
+const (
+	ProductTypeProduct ProductType = "PRODUCT"
+	ProductTypeService ProductType = "SERVICE"
+)
+
+var AllProductType = []ProductType{
+	ProductTypeProduct,
+	ProductTypeService,
+}
+
+func (e ProductType) IsValid() bool {
+	switch e {
+	case ProductTypeProduct, ProductTypeService:
+		return true
+	}
+	return false
+}
+
+func (e ProductType) String() string {
+	return string(e)
+}
+
+func (e *ProductType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ProductType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ProductType", str)
+	}
+	return nil
+}
+
+func (e ProductType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
