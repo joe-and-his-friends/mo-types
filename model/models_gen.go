@@ -1124,6 +1124,11 @@ type EventsInput struct {
 	GeographicFilters   []*GeographicFilter  `json:"geographicFilters"`
 }
 
+type FavoriteProductInput struct {
+	ProductID    primitive.ObjectID `json:"productId"`
+	Unfavoriting bool               `json:"unfavoriting"`
+}
+
 type FavoriteRetailerInput struct {
 	UserID         string `json:"userId"`
 	RetailerUserID string `json:"retailerUserId"`
@@ -1597,9 +1602,11 @@ type PointTransctionsInput struct {
 type Product struct {
 	ID                         primitive.ObjectID   `json:"id" bson:"_id"`
 	UserID                     primitive.ObjectID   `json:"userId"`
+	User                       *UserProfile         `json:"user"`
 	AuthorizedOperationUserIds []primitive.ObjectID `json:"authorizedOperationUserIds"`
 	Name                       string               `json:"name"`
 	Type                       *ProductType         `json:"type"`
+	FavoritingUserIds          []primitive.ObjectID `json:"favoritingUserIds"`
 	Online                     bool                 `json:"online"`
 	Introduction               string               `json:"introduction"`
 	Details                    string               `json:"details"`
@@ -1646,6 +1653,7 @@ type ProductsInput struct {
 	PageNumber   int64                `json:"pageNumber"`
 	PageSize     int64                `json:"pageSize"`
 	CommonFilter *CommonProductFilter `json:"commonFilter"`
+	Favorited    *bool                `json:"favorited"`
 }
 
 type RankingFilter struct {
