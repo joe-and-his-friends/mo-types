@@ -1607,21 +1607,21 @@ type Product struct {
 	Name                       string               `json:"name"`
 	Type                       *ProductType         `json:"type"`
 	FavoritingUserIds          []primitive.ObjectID `json:"favoritingUserIds"`
+	Favorited                  bool                 `json:"favorited"`
+	FavoriteCount              int64                `json:"favoriteCount"`
 	Online                     bool                 `json:"online"`
 	Introduction               string               `json:"introduction"`
 	Details                    string               `json:"details"`
 	Notice                     string               `json:"notice"`
 	Terms                      string               `json:"terms"`
-	WebsiteURL                 string               `json:"websiteUrl"`
-	FacebookAccount            string               `json:"facebookAccount"`
-	InstagramAccount           string               `json:"instagramAccount"`
+	ServiceLocation            string               `json:"serviceLocation"`
 	Photos                     []*Photo             `json:"photos"`
 	CreatedAt                  primitive.DateTime   `json:"createdAt"`
 	UpdatedAt                  primitive.DateTime   `json:"updatedAt"`
 	Pricing                    *ProductPricing      `json:"pricing"`
 	MaxPurchasesPerUser        int64                `json:"maxPurchasesPerUser"`
 	Recommended                bool                 `json:"recommended"`
-	Published                  bool                 `json:"published"`
+	Available                  bool                 `json:"available"`
 	ShareContent               *ShareContent        `json:"shareContent"`
 }
 
@@ -1719,6 +1719,8 @@ type RetailerProfile struct {
 	WebsiteURL         string             `json:"websiteUrl"`
 	FacebookAccount    string             `json:"facebookAccount"`
 	InstagramAccount   string             `json:"instagramAccount"`
+	WhatsappAccount    string             `json:"whatsappAccount"`
+	RedBookAccount     string             `json:"redBookAccount"`
 	Recommended        bool               `json:"recommended"`
 	Rating             float64            `json:"rating"`
 	BusinessLicense    string             `json:"businessLicense"`
