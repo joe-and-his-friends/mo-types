@@ -768,6 +768,8 @@ type CreateRetailerProfileInput struct {
 	WebsiteURL       string                  `json:"websiteUrl" bson:",omitempty"`
 	FacebookAccount  string                  `json:"facebookAccount" bson:",omitempty"`
 	InstagramAccount string                  `json:"instagramAccount" bson:",omitempty"`
+	WhatsappAccount  string                  `json:"whatsappAccount" bson:",omitempty"`
+	RedBookAccount   string                  `json:"redBookAccount" bson:",omitempty"`
 	BusinessLicense  *string                 `json:"businessLicense" bson:",omitempty"`
 }
 
@@ -2476,11 +2478,9 @@ type UpdateProduct struct {
 	Online                     *bool                 `json:"online" bson:",omitempty"`
 	Introduction               *string               `json:"introduction" bson:",omitempty"`
 	Details                    *string               `json:"details" bson:",omitempty"`
+	ServiceLocation            *string               `json:"serviceLocation" bson:",omitempty"`
 	Notice                     *string               `json:"notice" bson:",omitempty"`
 	Terms                      *string               `json:"terms" bson:",omitempty"`
-	WebsiteURL                 *string               `json:"websiteUrl" bson:",omitempty"`
-	FacebookAccount            *string               `json:"facebookAccount" bson:",omitempty"`
-	InstagramAccount           *string               `json:"instagramAccount" bson:",omitempty"`
 	Photos                     []*UpdatePhoto        `json:"photos" bson:",omitempty"`
 	Pricing                    *UpdateProductPricing `json:"pricing" bson:",omitempty"`
 	Recommended                *bool                 `json:"recommended" bson:",omitempty"`
