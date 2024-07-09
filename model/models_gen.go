@@ -769,7 +769,7 @@ type CreateRetailerProfileInput struct {
 	FacebookAccount  string                  `json:"facebookAccount" bson:",omitempty"`
 	InstagramAccount string                  `json:"instagramAccount" bson:",omitempty"`
 	WhatsappAccount  string                  `json:"whatsappAccount" bson:",omitempty"`
-	RedBookAccount   string                  `json:"redBookAccount" bson:",omitempty"`
+	RedbookAccount   string                  `json:"redbookAccount" bson:",omitempty"`
 	BusinessLicense  *string                 `json:"businessLicense" bson:",omitempty"`
 }
 
