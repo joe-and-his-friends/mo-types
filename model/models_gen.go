@@ -565,7 +565,7 @@ type CommonEventFilter struct {
 type CommonProductFilter struct {
 	UserID      *primitive.ObjectID `json:"userId" bson:",omitempty"`
 	Recommended *bool               `json:"recommended" bson:",omitempty"`
-	Published   *bool               `json:"published" bson:",omitempty"`
+	Available   *bool               `json:"available" bson:",omitempty"`
 	Online      *bool               `json:"online" bson:",omitempty"`
 	Type        *ProductType        `json:"type" bson:",omitempty"`
 }
