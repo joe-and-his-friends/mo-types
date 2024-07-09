@@ -1722,7 +1722,7 @@ type RetailerProfile struct {
 	FacebookAccount    string             `json:"facebookAccount"`
 	InstagramAccount   string             `json:"instagramAccount"`
 	WhatsappAccount    string             `json:"whatsappAccount"`
-	RedBookAccount     string             `json:"redBookAccount"`
+	RedbookAccount     string             `json:"redbookAccount"`
 	Recommended        bool               `json:"recommended"`
 	Rating             float64            `json:"rating"`
 	BusinessLicense    string             `json:"businessLicense"`
