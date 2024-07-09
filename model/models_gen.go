@@ -2484,7 +2484,7 @@ type UpdateProduct struct {
 	Photos                     []*UpdatePhoto        `json:"photos" bson:",omitempty"`
 	Pricing                    *UpdateProductPricing `json:"pricing" bson:",omitempty"`
 	Recommended                *bool                 `json:"recommended" bson:",omitempty"`
-	Published                  *bool                 `json:"published" bson:",omitempty"`
+	Available                  *bool                 `json:"available" bson:",omitempty"`
 	ShareContent               *UpdateShareContent   `json:"shareContent" bson:",omitempty"`
 }
 
