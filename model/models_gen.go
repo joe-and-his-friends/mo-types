@@ -488,6 +488,7 @@ type Comment struct {
 	Details                string                  `json:"details"`
 	PictureUrls            []string                `json:"pictureUrls"`
 	Score                  *int                    `json:"score"`
+	ScoreOptions           []*SelectionOption      `json:"scoreOptions"`
 	Status                 int                     `json:"status"`
 	Recommended            bool                    `json:"recommended"`
 	CreatedAt              primitive.DateTime      `json:"createdAt"`
@@ -619,12 +620,13 @@ type CreateAuthorizedOperationUserInput struct {
 }
 
 type CreateCommentInput struct {
-	PetID          *primitive.ObjectID `json:"petId"`
-	RetailerUserID primitive.ObjectID  `json:"retailerUserId"`
-	Title          string              `json:"title"`
-	Details        string              `json:"details"`
-	PictureUrls    []string            `json:"pictureUrls"`
-	Score          *int                `json:"score"`
+	PetID          *primitive.ObjectID      `json:"petId"`
+	RetailerUserID primitive.ObjectID       `json:"retailerUserId"`
+	Title          string                   `json:"title"`
+	Details        string                   `json:"details"`
+	PictureUrls    []string                 `json:"pictureUrls"`
+	Score          *int                     `json:"score"`
+	ScoreOptions   []*UpdateSelectionOption `json:"scoreOptions"`
 }
 
 type CreateCommentatorCertificateInput struct {
