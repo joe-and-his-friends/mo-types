@@ -304,8 +304,8 @@ type AdoptionAgency struct {
 func (AdoptionAgency) IsAdoptionAgencyQueryResult() {}
 
 type AppConfig struct {
-	Categories []*CategoryOption    `json:"categories"`
-	Scores     []*ReviewScoreOption `json:"scores"`
+	Categories []*SelectOption    `json:"categories"`
+	Scores     []*SelectionOption `json:"scores"`
 }
 
 func (AppConfig) IsAppConfigQueryResult() {}
@@ -404,13 +404,6 @@ type CategoriesFilter struct {
 type CategoryFilter struct {
 	Option     *SelectionOptionInput   `json:"option"`
 	SubOptions []*SelectionOptionInput `json:"subOptions"`
-}
-
-type CategoryOption struct {
-	ID      string            `json:"id"`
-	Name    string            `json:"name"`
-	IconURL string            `json:"iconUrl"`
-	Options []*CategoryOption `json:"options"`
 }
 
 type CheckInCounter struct {
@@ -1790,6 +1783,13 @@ type ScheduleInput struct {
 	Repeated bool `json:"repeated"`
 }
 
+type SelectOption struct {
+	ID      string          `json:"id"`
+	Name    string          `json:"name"`
+	IconURL string          `json:"iconUrl"`
+	Options []*SelectOption `json:"options"`
+}
+
 type SelectionOption struct {
 	ID      string             `json:"id"`
 	Name    string             `json:"name"`
@@ -2110,8 +2110,8 @@ type UpdateAdoptionAgencyInput struct {
 }
 
 type UpdateAppConfig struct {
-	Categories []*UpdateCategoryOption    `json:"categories" bson:",omitempty"`
-	Scores     []*UpdateReviewScoreOption `json:"scores" bson:",omitempty"`
+	Categories []*UpdateSelectOption `json:"categories" bson:",omitempty"`
+	Scores     []*UpdateSelectOption `json:"scores" bson:",omitempty"`
 }
 
 type UpdateAppConfigInput struct {
@@ -2145,13 +2145,6 @@ type UpdateBanner struct {
 type UpdateBannerInput struct {
 	ID     primitive.ObjectID `json:"id"`
 	Banner *UpdateBanner      `json:"banner"`
-}
-
-type UpdateCategoryOption struct {
-	ID      string                  `json:"id"`
-	Name    *string                 `json:"name" bson:",omitempty"`
-	IconURL *string                 `json:"iconUrl" bson:",omitempty"`
-	Options []*UpdateCategoryOption `json:"options" bson:",omitempty"`
 }
 
 type UpdateCheckInCounter struct {
@@ -2540,6 +2533,13 @@ type UpdateReviewScoreOption struct {
 	Name    *string  `json:"name" bson:",omitempty"`
 	IconURL *string  `json:"iconUrl" bson:",omitempty"`
 	Score   *float64 `json:"score" bson:",omitempty"`
+}
+
+type UpdateSelectOption struct {
+	ID      string                `json:"id"`
+	Name    *string               `json:"name" bson:",omitempty"`
+	IconURL *string               `json:"iconUrl" bson:",omitempty"`
+	Options []*UpdateSelectOption `json:"options" bson:",omitempty"`
 }
 
 type UpdateSelectionOption struct {
