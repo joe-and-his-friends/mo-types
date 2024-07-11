@@ -304,7 +304,8 @@ type AdoptionAgency struct {
 func (AdoptionAgency) IsAdoptionAgencyQueryResult() {}
 
 type AppConfig struct {
-	Categories []*CategoryOption `json:"categories"`
+	Categories   []*CategoryOption    `json:"categories"`
+	ReviewScores []*ReviewScoreOption `json:"reviewScores"`
 }
 
 func (AppConfig) IsAppConfigQueryResult() {}
@@ -488,7 +489,7 @@ type Comment struct {
 	Details                string                  `json:"details"`
 	PictureUrls            []string                `json:"pictureUrls"`
 	Score                  *int                    `json:"score"`
-	ScoreOptions           []*SelectionOption      `json:"scoreOptions"`
+	Scores                 []*ReviewScoreOption    `json:"scores"`
 	Status                 int                     `json:"status"`
 	Recommended            bool                    `json:"recommended"`
 	CreatedAt              primitive.DateTime      `json:"createdAt"`
@@ -620,13 +621,13 @@ type CreateAuthorizedOperationUserInput struct {
 }
 
 type CreateCommentInput struct {
-	PetID          *primitive.ObjectID      `json:"petId"`
-	RetailerUserID primitive.ObjectID       `json:"retailerUserId"`
-	Title          string                   `json:"title"`
-	Details        string                   `json:"details"`
-	PictureUrls    []string                 `json:"pictureUrls"`
-	Score          *int                     `json:"score"`
-	ScoreOptions   []*UpdateSelectionOption `json:"scoreOptions"`
+	PetID          *primitive.ObjectID        `json:"petId"`
+	RetailerUserID primitive.ObjectID         `json:"retailerUserId"`
+	Title          string                     `json:"title"`
+	Details        string                     `json:"details"`
+	PictureUrls    []string                   `json:"pictureUrls"`
+	Score          *int                       `json:"score"`
+	Scores         []*UpdateReviewScoreOption `json:"scores"`
 }
 
 type CreateCommentatorCertificateInput struct {
@@ -1764,6 +1765,13 @@ type RetailersInput struct {
 	RankingFilter        *RankingFilter       `json:"rankingFilter"`
 }
 
+type ReviewScoreOption struct {
+	ID      string  `json:"id"`
+	Name    string  `json:"name"`
+	IconURL string  `json:"iconUrl"`
+	Score   float64 `json:"score"`
+}
+
 type RoleFilter struct {
 	Option int `json:"option"`
 }
@@ -2524,6 +2532,13 @@ type UpdateRetailerRatingInput struct {
 type UpdateRetailerRecommendationInput struct {
 	UserID      primitive.ObjectID `json:"userId"`
 	Recommended bool               `json:"recommended"`
+}
+
+type UpdateReviewScoreOption struct {
+	ID      string   `json:"id"`
+	Name    *string  `json:"name" bson:",omitempty"`
+	IconURL *string  `json:"iconUrl" bson:",omitempty"`
+	Score   *float64 `json:"score" bson:",omitempty"`
 }
 
 type UpdateSelectionOption struct {
