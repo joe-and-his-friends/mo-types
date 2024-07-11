@@ -304,8 +304,8 @@ type AdoptionAgency struct {
 func (AdoptionAgency) IsAdoptionAgencyQueryResult() {}
 
 type AppConfig struct {
-	Categories   []*CategoryOption    `json:"categories"`
-	ReviewScores []*ReviewScoreOption `json:"reviewScores"`
+	Categories []*CategoryOption    `json:"categories"`
+	Scores     []*ReviewScoreOption `json:"scores"`
 }
 
 func (AppConfig) IsAppConfigQueryResult() {}
@@ -2110,7 +2110,8 @@ type UpdateAdoptionAgencyInput struct {
 }
 
 type UpdateAppConfig struct {
-	Categories []*UpdateCategoryOption `json:"categories" bson:",omitempty"`
+	Categories []*UpdateCategoryOption    `json:"categories" bson:",omitempty"`
+	Scores     []*UpdateReviewScoreOption `json:"scores" bson:",omitempty"`
 }
 
 type UpdateAppConfigInput struct {
