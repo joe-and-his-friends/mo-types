@@ -481,6 +481,7 @@ type Comment struct {
 	Title                  string                  `json:"title"`
 	Details                string                  `json:"details"`
 	PictureUrls            []string                `json:"pictureUrls"`
+	Photos                 []*Photo                `json:"photos"`
 	Score                  *int                    `json:"score"`
 	Scores                 []*ReviewScoreOption    `json:"scores"`
 	Status                 int                     `json:"status"`
@@ -619,6 +620,7 @@ type CreateCommentInput struct {
 	Title          string                     `json:"title"`
 	Details        string                     `json:"details"`
 	PictureUrls    []string                   `json:"pictureUrls"`
+	Photos         []*UpdatePhoto             `json:"photos"`
 	Score          *int                       `json:"score"`
 	Scores         []*UpdateReviewScoreOption `json:"scores"`
 }
