@@ -479,6 +479,7 @@ type Comment struct {
 	UserID                 primitive.ObjectID      `json:"userId"`
 	RetailerUserID         primitive.ObjectID      `json:"retailerUserId"`
 	Title                  string                  `json:"title"`
+	CoverURL               *string                 `json:"coverUrl"`
 	Details                string                  `json:"details"`
 	PictureUrls            []string                `json:"pictureUrls"`
 	Photos                 []*Photo                `json:"photos"`
@@ -618,6 +619,7 @@ type CreateCommentInput struct {
 	PetID          *primitive.ObjectID        `json:"petId"`
 	RetailerUserID primitive.ObjectID         `json:"retailerUserId"`
 	Title          string                     `json:"title"`
+	CoverURL       *string                    `json:"coverUrl"`
 	Details        string                     `json:"details"`
 	PictureUrls    []string                   `json:"pictureUrls"`
 	Photos         []*UpdatePhoto             `json:"photos"`
