@@ -479,11 +479,11 @@ type Comment struct {
 	UserID                 primitive.ObjectID      `json:"userId"`
 	RetailerUserID         primitive.ObjectID      `json:"retailerUserId"`
 	Title                  string                  `json:"title"`
-	CoverURL               *string                 `json:"coverUrl"`
+	CoverURL               string                  `json:"coverUrl"`
 	Details                string                  `json:"details"`
 	PictureUrls            []string                `json:"pictureUrls"`
 	Photos                 []*Photo                `json:"photos"`
-	Score                  *int                    `json:"score"`
+	Score                  int                     `json:"score"`
 	Scores                 []*ReviewScoreOption    `json:"scores"`
 	Status                 int                     `json:"status"`
 	Recommended            bool                    `json:"recommended"`
@@ -619,11 +619,11 @@ type CreateCommentInput struct {
 	PetID          *primitive.ObjectID        `json:"petId"`
 	RetailerUserID primitive.ObjectID         `json:"retailerUserId"`
 	Title          string                     `json:"title"`
-	CoverURL       *string                    `json:"coverUrl"`
+	CoverURL       string                     `json:"coverUrl"`
 	Details        string                     `json:"details"`
 	PictureUrls    []string                   `json:"pictureUrls"`
 	Photos         []*UpdatePhoto             `json:"photos"`
-	Score          *int                       `json:"score"`
+	Score          int                        `json:"score"`
 	Scores         []*UpdateReviewScoreOption `json:"scores"`
 }
 
