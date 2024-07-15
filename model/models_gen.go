@@ -719,8 +719,7 @@ type CreatePetProfileInput struct {
 	Name               *string               `json:"name" bson:",omitempty"`
 	NameZh             *string               `json:"nameZh" bson:",omitempty"`
 	NameEn             *string               `json:"nameEn" bson:",omitempty"`
-	Birthday           *string               `json:"birthday" bson:",omitempty"`
-	Birthday2          *primitive.DateTime   `json:"birthday2" bson:",omitempty"`
+	Birthday           *primitive.DateTime   `json:"birthday" bson:",omitempty"`
 	DepartureDate      *primitive.DateTime   `json:"departureDate"`
 	BreedName          *string               `json:"breedName" bson:",omitempty"`
 	Breed              *SelectionOptionInput `json:"breed" bson:",omitempty"`
@@ -1480,8 +1479,7 @@ type PetProfile struct {
 	Name                   string                  `json:"name"`
 	NameZh                 string                  `json:"nameZh"`
 	NameEn                 string                  `json:"nameEn"`
-	Birthday               string                  `json:"birthday"`
-	Birthday2              primitive.DateTime      `json:"birthday2"`
+	Birthday               primitive.DateTime      `json:"birthday"`
 	DepartureDate          *primitive.DateTime     `json:"departureDate"`
 	BreedName              string                  `json:"breedName"`
 	Breed                  *SelectionOption        `json:"breed"`
@@ -2464,8 +2462,7 @@ type UpdatePetProfileInput struct {
 	Name               *string               `json:"name" bson:",omitempty"`
 	NameZh             *string               `json:"nameZh" bson:",omitempty"`
 	NameEn             *string               `json:"nameEn" bson:",omitempty"`
-	Birthday           *string               `json:"birthday" bson:",omitempty"`
-	Birthday2          *primitive.DateTime   `json:"birthday2" bson:",omitempty"`
+	Birthday           *primitive.DateTime   `json:"birthday" bson:",omitempty"`
 	DepartureDate      *primitive.DateTime   `json:"departureDate"`
 	BreedName          *string               `json:"breedName" bson:",omitempty"`
 	Breed              *SelectionOptionInput `json:"breed" bson:",omitempty"`
