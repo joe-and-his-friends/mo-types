@@ -2166,6 +2166,25 @@ type UpdateCheckInCounterInput struct {
 	Counter *UpdateCheckInCounter `json:"counter"`
 }
 
+type UpdateComment struct {
+	PetID          *primitive.ObjectID        `json:"petId" bson:",omitempty"`
+	RetailerUserID *primitive.ObjectID        `json:"retailerUserId" bson:",omitempty"`
+	Title          *string                    `json:"title" bson:",omitempty"`
+	CoverURL       *string                    `json:"coverUrl" bson:",omitempty"`
+	Details        *string                    `json:"details" bson:",omitempty"`
+	PictureUrls    []string                   `json:"pictureUrls" bson:",omitempty"`
+	Photos         []*UpdatePhoto             `json:"photos" bson:",omitempty"`
+	Score          *int                       `json:"score" bson:",omitempty"`
+	Scores         []*UpdateReviewScoreOption `json:"scores" bson:",omitempty"`
+	Status         *int                       `json:"status" bson:",omitempty"`
+	Recommended    *bool                      `json:"recommended" bson:",omitempty"`
+}
+
+type UpdateCommentInput struct {
+	ID      *primitive.ObjectID `json:"id"`
+	Comment *UpdateComment      `json:"comment"`
+}
+
 type UpdateCommentStatusInput struct {
 	Id     string `json:"id"`
 	Status int    `json:"status"`
