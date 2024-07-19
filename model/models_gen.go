@@ -2863,7 +2863,6 @@ type Voucher struct {
 	Published                  bool                 `json:"published"`
 	Exclusive                  bool                 `json:"exclusive"`
 	Virtual                    bool                 `json:"virtual"`
-	Ownership                  *VoucherOwnership    `json:"ownership"`
 }
 
 func (Voucher) IsVoucherQueryResult() {}
@@ -2922,7 +2921,7 @@ type VouchersInput struct {
 	SortBy       *SortBy               `json:"sortBy"`
 }
 
-type VouchersWithOwnershipInput struct {
+type VouchersWithOwnershipsInput struct {
 	PageNumber    int            `json:"pageNumber"`
 	PageSize      int            `json:"pageSize"`
 	VoucherStatus *VoucherStatus `json:"voucherStatus"`
