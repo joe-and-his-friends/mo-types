@@ -2710,6 +2710,7 @@ type UpdateVoucher struct {
 	AuthorizedOperationUserIds []primitive.ObjectID `json:"authorizedOperationUserIds" bson:",omitempty"`
 	Published                  *bool                `json:"published" bson:",omitempty"`
 	Exclusive                  *bool                `json:"exclusive" bson:",omitempty"`
+	Virtual                    *bool                `json:"virtual" bson:",omitempty"`
 }
 
 type UpdateVoucherInput struct {
@@ -2861,6 +2862,7 @@ type Voucher struct {
 	AuthorizedOperationUserIds []primitive.ObjectID `json:"authorizedOperationUserIds"`
 	Published                  bool                 `json:"published"`
 	Exclusive                  bool                 `json:"exclusive"`
+	Virtual                    bool                 `json:"virtual"`
 	Ownership                  *VoucherOwnership    `json:"ownership"`
 }
 
@@ -2910,6 +2912,7 @@ func (Vouchers) IsVouchersQueryResult() {}
 type VouchersCommonFilter struct {
 	Published *bool `json:"published" bson:",omitempty"`
 	Exclusive *bool `json:"exclusive" bson:",omitempty"`
+	Virtual   *bool `json:"virtual" bson:",omitempty"`
 }
 
 type VouchersInput struct {
