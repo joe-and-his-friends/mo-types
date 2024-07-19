@@ -1938,6 +1938,11 @@ type ShoplineMerchatInfoInput struct {
 	MerchantID string `json:"merchantId"`
 }
 
+type SortBy struct {
+	Field string `json:"field"`
+	Order int    `json:"order"`
+}
+
 type SystemTransactionDetails struct {
 	ReferenceID primitive.ObjectID          `json:"referenceId"`
 	Type        SystemTransactionDetailType `json:"type"`
@@ -2911,12 +2916,14 @@ type VouchersInput struct {
 	PageNumber   int64                 `json:"pageNumber"`
 	PageSize     int64                 `json:"pageSize"`
 	CommonFilter *VouchersCommonFilter `json:"commonFilter"`
+	SortBy       *SortBy               `json:"sortBy"`
 }
 
 type VouchersWithOwnershipInput struct {
 	PageNumber    int            `json:"pageNumber"`
 	PageSize      int            `json:"pageSize"`
 	VoucherStatus *VoucherStatus `json:"voucherStatus"`
+	SortBy        *SortBy        `json:"sortBy"`
 }
 
 type AppPage string
