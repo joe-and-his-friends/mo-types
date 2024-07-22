@@ -568,6 +568,7 @@ type CommonProductFilter struct {
 }
 
 type ContactInfo struct {
+	Name       string `json:"name"`
 	Email      string `json:"email"`
 	Phone      string `json:"phone"`
 	Address    string `json:"address"`
@@ -2220,6 +2221,7 @@ type UpdateCommentatorCertificateInput struct {
 }
 
 type UpdateContactInfo struct {
+	Name       *string `json:"name" bson:",omitempty"`
 	Email      *string `json:"email" bson:",omitempty"`
 	Phone      *string `json:"phone" bson:",omitempty"`
 	Address    *string `json:"address" bson:",omitempty"`
