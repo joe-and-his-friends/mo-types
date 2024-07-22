@@ -567,6 +567,14 @@ type CommonProductFilter struct {
 	Type        *ProductType        `json:"type" bson:",omitempty"`
 }
 
+type ContactInfo struct {
+	Email      *string `json:"email"`
+	Phone      *string `json:"phone"`
+	Address    *string `json:"address"`
+	SnsAccount *string `json:"snsAccount"`
+	Remarks    *string `json:"remarks"`
+}
+
 type Contest struct {
 	Id        string `json:"id"`
 	Name      string `json:"name"`
@@ -786,7 +794,8 @@ type CreateUserInput struct {
 }
 
 type CreateVoucherOwnershipInput struct {
-	VoucherID primitive.ObjectID `json:"voucherId"`
+	VoucherID   primitive.ObjectID `json:"voucherId"`
+	ContactInfo *UpdateContactInfo `json:"contactInfo"`
 }
 
 type CreateVoucherOwnershipsInput struct {
@@ -2210,6 +2219,14 @@ type UpdateCommentatorCertificateInput struct {
 	Certificate *UpdateCommentatorCertificate `json:"certificate"`
 }
 
+type UpdateContactInfo struct {
+	Email      *string `json:"email" bson:",omitempty"`
+	Phone      *string `json:"phone" bson:",omitempty"`
+	Address    *string `json:"address" bson:",omitempty"`
+	SnsAccount *string `json:"snsAccount" bson:",omitempty"`
+	Remarks    *string `json:"remarks" bson:",omitempty"`
+}
+
 type UpdateContest struct {
 	Id        string `json:"id"`
 	Name      string `json:"name"`
@@ -2711,6 +2728,7 @@ type UpdateVoucher struct {
 	Published                  *bool                `json:"published" bson:",omitempty"`
 	Exclusive                  *bool                `json:"exclusive" bson:",omitempty"`
 	Virtual                    *bool                `json:"virtual" bson:",omitempty"`
+	MaxOwnershipsPerUser       *int64               `json:"maxOwnershipsPerUser" bson:",omitempty"`
 }
 
 type UpdateVoucherInput struct {
@@ -2860,6 +2878,7 @@ type Voucher struct {
 	ImageURL                   string               `json:"imageUrl"`
 	RetailerAvatarURL          string               `json:"retailerAvatarUrl"`
 	AuthorizedOperationUserIds []primitive.ObjectID `json:"authorizedOperationUserIds"`
+	MaxOwnershipsPerUser       int64                `json:"maxOwnershipsPerUser"`
 	Published                  bool                 `json:"published"`
 	Exclusive                  bool                 `json:"exclusive"`
 	Virtual                    bool                 `json:"virtual"`
@@ -2878,6 +2897,7 @@ type VoucherOwnership struct {
 	CreatedAt                    *primitive.DateTime    `json:"createdAt"`
 	RedeemedAt                   *primitive.DateTime    `json:"redeemedAt"`
 	RedemptionConfirmationUserID *primitive.ObjectID    `json:"redemptionConfirmationUserId"`
+	ContactInfo                  *ContactInfo           `json:"contactInfo"`
 }
 
 func (VoucherOwnership) IsVoucherOwnershipQueryResult() {}
