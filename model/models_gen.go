@@ -568,11 +568,11 @@ type CommonProductFilter struct {
 }
 
 type ContactInfo struct {
-	Email      *string `json:"email"`
-	Phone      *string `json:"phone"`
-	Address    *string `json:"address"`
-	SnsAccount *string `json:"snsAccount"`
-	Remarks    *string `json:"remarks"`
+	Email      string `json:"email"`
+	Phone      string `json:"phone"`
+	Address    string `json:"address"`
+	SnsAccount string `json:"snsAccount"`
+	Remarks    string `json:"remarks"`
 }
 
 type Contest struct {
