@@ -535,6 +535,10 @@ type Comments struct {
 	TotalCount int        `json:"totalCount"`
 }
 
+type CommentsCommonFilter struct {
+	Recommended *bool `json:"recommended" bson:",omitempty"`
+}
+
 type CommentsInput struct {
 	PetID                   *primitive.ObjectID          `json:"petId"`
 	UserID                  *primitive.ObjectID          `json:"userId"`
@@ -547,6 +551,7 @@ type CommentsInput struct {
 	MatchingRetailerName    string                       `json:"matchingRetailerName"`
 	MatchingCommentatorName string                       `json:"matchingCommentatorName"`
 	DatesFilter             *DatesFilterInput            `json:"datesFilter"`
+	CommonFilter            *CommentsCommonFilter        `json:"commonFilter"`
 }
 
 type CommonEventFilter struct {
