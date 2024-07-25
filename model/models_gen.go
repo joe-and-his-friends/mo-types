@@ -656,6 +656,11 @@ type CreateEventInvitationInput struct {
 	EndedAt   *primitive.DateTime `json:"endedAt" bson:",omitempty"`
 }
 
+type CreateEventInvitationsInput struct {
+	Invitation *CreateEventInvitationInput `json:"invitation"`
+	Count      int                         `json:"count"`
+}
+
 type CreateEventParticipationInput struct {
 	EventID                     primitive.ObjectID        `json:"eventId"`
 	StartedAt                   primitive.DateTime        `json:"startedAt"`
@@ -2838,6 +2843,7 @@ type UserProfilesInput struct {
 	RoleFilter                 *RoleFilter                 `json:"roleFilter"`
 	FcmRegistrationTokenFilter *FcmRegistrationTokenFilter `json:"fcmRegistrationTokenFilter"`
 	MatchingPhoneOrEmail       string                      `json:"matchingPhoneOrEmail"`
+	MatchingPhonesOrEmails     []string                    `json:"matchingPhonesOrEmails"`
 	MatchingUserIds            []primitive.ObjectID        `json:"matchingUserIds"`
 }
 
