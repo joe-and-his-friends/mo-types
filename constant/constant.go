@@ -37,10 +37,10 @@ const (
 const (
 	CodeExistingPhoneOrEmail    = 1000
 	CodeNonexistingPhoneOrEmail = 1001
+	CodeInvalidPhoneOrEmail     = 1002
 
-	CodeAuthenticationFailure = 1002
-	CodeUnauthorized          = 1003
-	CodeNotAllowed            = 1004
+	CodeUnauthorized = 1003
+	CodeNotAllowed   = 1004
 
 	CodeExpiredVerificationCode              = 1100
 	CodeWrongVerificationCode                = 1101
@@ -54,8 +54,6 @@ const (
 
 	CodeDatabaseOperationFailure = 2000
 	CodeDatabaseDocumentNotFound = 2001
-	CodeDataUnmarshalingFailure  = 2002
-	CodeDataMarshalingFailure    = 2003
 
 	// checkin
 	CodeCheckInRecordExisted         = 4000
@@ -79,7 +77,7 @@ const (
 const (
 	MsgExistingPhoneOrEmail    = "phone or email already exists"
 	MsgNonexistingPhoneOrEmail = "phone or email not exists"
-	MsgAuthenticationFailure   = "authenticating user failure"
+	MsgInvalidPhoneOrEmail     = "invalid phone or email"
 	MsgUnauthorized            = "unauthorized"
 	MsgNotAllowed              = "not allowed"
 
@@ -164,6 +162,7 @@ type RedisKey string
 
 const (
 	RkCreateCommentPetIds         = "createCommentPetIds"
+	RkCreateCommentUserIds        = "createCommentUserIds"
 	RkUpdateUserBasicsIds         = "updateUserBasicsIds"
 	RkCreateUserIds               = "createUserIds"
 	RkUpdateTransactionIds        = "updateTransactionIds"
