@@ -490,6 +490,7 @@ type Comment struct {
 	CreatedAt              primitive.DateTime      `json:"createdAt"`
 	CommentatorCertificate *CommentatorCertificate `json:"commentatorCertificate"`
 	RetailerProfile        *RetailerProfile        `json:"retailerProfile"`
+	User                   UserProfileQueryResult  `json:"user"`
 }
 
 type CommentRecommendationFilter struct {
