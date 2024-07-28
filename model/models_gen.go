@@ -938,18 +938,19 @@ type EventFilterInput struct {
 }
 
 type EventInvitation struct {
-	ID            primitive.ObjectID  `json:"id" bson:"_id"`
-	EventID       primitive.ObjectID  `json:"eventId"`
-	Event         *Event              `json:"event"`
-	InviteeUserID *primitive.ObjectID `json:"inviteeUserId"`
-	InviterUserID primitive.ObjectID  `json:"inviterUserId"`
-	Code          string              `json:"code"`
-	StartedAt     primitive.DateTime  `json:"startedAt"`
-	EndedAt       primitive.DateTime  `json:"endedAt"`
-	CreatedAt     primitive.DateTime  `json:"createdAt"`
-	UpdatedAt     primitive.DateTime  `json:"updatedAt"`
-	ConfirmedAt   *primitive.DateTime `json:"confirmedAt"`
-	Confirmed     bool                `json:"confirmed"`
+	ID            primitive.ObjectID     `json:"id" bson:"_id"`
+	EventID       primitive.ObjectID     `json:"eventId"`
+	Event         EventQueryResult       `json:"event"`
+	InviteeUserID *primitive.ObjectID    `json:"inviteeUserId"`
+	Invitee       UserProfileQueryResult `json:"invitee"`
+	InviterUserID primitive.ObjectID     `json:"inviterUserId"`
+	Code          string                 `json:"code"`
+	StartedAt     primitive.DateTime     `json:"startedAt"`
+	EndedAt       primitive.DateTime     `json:"endedAt"`
+	CreatedAt     primitive.DateTime     `json:"createdAt"`
+	UpdatedAt     primitive.DateTime     `json:"updatedAt"`
+	ConfirmedAt   *primitive.DateTime    `json:"confirmedAt"`
+	Confirmed     bool                   `json:"confirmed"`
 }
 
 func (EventInvitation) IsEventInvitationQueryResult() {}
@@ -1861,6 +1862,10 @@ func (ServiceError) IsEventsQueryResult() {}
 
 func (ServiceError) IsEventQueryResult() {}
 
+func (ServiceError) IsEventInvitationQueryResult() {}
+
+func (ServiceError) IsEventInvitationsQueryResult() {}
+
 func (ServiceError) IsEventParticipationQueryResult() {}
 
 func (ServiceError) IsEventParticipationsQueryResult() {}
@@ -1868,10 +1873,6 @@ func (ServiceError) IsEventParticipationsQueryResult() {}
 func (ServiceError) IsCreateEventParticipationResult() {}
 
 func (ServiceError) IsEventParticipationCountQueryResult() {}
-
-func (ServiceError) IsEventInvitationQueryResult() {}
-
-func (ServiceError) IsEventInvitationsQueryResult() {}
 
 func (ServiceError) IsJobsResult() {}
 
