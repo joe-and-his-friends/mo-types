@@ -102,6 +102,10 @@ type EventsQueryResult interface {
 	IsEventsQueryResult()
 }
 
+type ExportCSVFileResult interface {
+	IsExportCSVFileResult()
+}
+
 type JobsResult interface {
 	IsJobsResult()
 }
@@ -816,6 +820,13 @@ type CreateVoucherOwnershipsInput struct {
 	UserIds   []primitive.ObjectID `json:"userIds"`
 }
 
+type CSVFile struct {
+	Filename string `json:"filename"`
+	URL      string `json:"url"`
+}
+
+func (CSVFile) IsExportCSVFileResult() {}
+
 type DatesFilter struct {
 	Before primitive.DateTime `json:"before"`
 	After  primitive.DateTime `json:"after"`
@@ -1145,6 +1156,11 @@ type EventsInput struct {
 	CategoriesFilter    *CategoriesFilter    `json:"categoriesFilter"`
 	DatetimeRangeFilter *DatetimeRangeFilter `json:"datetimeRangeFilter"`
 	GeographicFilters   []*GeographicFilter  `json:"geographicFilters"`
+}
+
+type ExportCSVFileInput struct {
+	Filename string `json:"filename"`
+	Query    string `json:"query"`
 }
 
 type FavoriteProductInput struct {
@@ -1857,6 +1873,8 @@ func (ServiceError) IsCheckInCountersQueryResult() {}
 func (ServiceError) IsCheckInRecordQueryResult() {}
 
 func (ServiceError) IsCheckInRecordsQueryResult() {}
+
+func (ServiceError) IsExportCSVFileResult() {}
 
 func (ServiceError) IsEventsQueryResult() {}
 
