@@ -65,6 +65,7 @@ const (
 	// order, points
 	CodeInsufficientPoints           = 4100
 	CodeInsufficientInventory        = 4101
+	CodeMaxPurchaseQuantityExceeded  = 4102
 	CodePaymentIntentCreationFailure = 4200
 
 	CodeServiceInternalServerError = 5000
@@ -104,8 +105,9 @@ const (
 	MsgCheckInOutOfGeolocationRange = "check-in out of geolocation range"
 
 	// voucher ownership
-	MsgInsufficientPoints    = "insufficient points"
-	MsgInsufficientInventory = "insufficient inventory"
+	MsgInsufficientPoints          = "insufficient points"
+	MsgInsufficientInventory       = "insufficient inventory"
+	MsgMaxPurchaseQuantityExceeded = "maximum purchase quantity exceeded"
 
 	// payment intent
 	MsgPaymentIntentCreationFailure = "payment intent creation failure"
