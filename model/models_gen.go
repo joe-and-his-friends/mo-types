@@ -1159,9 +1159,10 @@ type EventsInput struct {
 }
 
 type ExportCSVFileInput struct {
-	Filename  string `json:"filename"`
-	Query     string `json:"query"`
-	Variables string `json:"variables"`
+	Filename  string   `json:"filename"`
+	Query     string   `json:"query"`
+	Variables string   `json:"variables"`
+	Fields    []string `json:"fields"`
 }
 
 type FavoriteProductInput struct {
