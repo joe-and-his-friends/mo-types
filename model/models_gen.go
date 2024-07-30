@@ -960,7 +960,7 @@ type EventFilterInput struct {
 type EventInvitation struct {
 	ID            primitive.ObjectID     `json:"id" bson:"_id"`
 	EventID       primitive.ObjectID     `json:"eventId"`
-	Event         EventQueryResult       `json:"event"`
+	Event         *Event                 `json:"event"`
 	InviteeUserID *primitive.ObjectID    `json:"inviteeUserId"`
 	Invitee       UserProfileQueryResult `json:"invitee"`
 	InviterUserID primitive.ObjectID     `json:"inviterUserId"`
