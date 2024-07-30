@@ -74,6 +74,10 @@ type CreateRetailerResult interface {
 	IsCreateRetailerResult()
 }
 
+type CSVFileExportResult interface {
+	IsCSVFileExportResult()
+}
+
 type EventInvitationQueryResult interface {
 	IsEventInvitationQueryResult()
 }
@@ -100,10 +104,6 @@ type EventQueryResult interface {
 
 type EventsQueryResult interface {
 	IsEventsQueryResult()
-}
-
-type ExportCSVFileResult interface {
-	IsExportCSVFileResult()
 }
 
 type JobsResult interface {
@@ -820,12 +820,21 @@ type CreateVoucherOwnershipsInput struct {
 	UserIds   []primitive.ObjectID `json:"userIds"`
 }
 
-type CSVFile struct {
-	Filename string `json:"filename"`
-	URL      string `json:"url"`
+type CSVFileExport struct {
+	Filename    string `json:"filename"`
+	Content     string `json:"content"`
+	DownloadURL string `json:"downloadUrl"`
 }
 
-func (CSVFile) IsExportCSVFileResult() {}
+func (CSVFileExport) IsCSVFileExportResult() {}
+
+type CSVFileExportInput struct {
+	Filename      string   `json:"filename"`
+	Query         string   `json:"query"`
+	Variables     string   `json:"variables"`
+	FieldBasePath string   `json:"fieldBasePath"`
+	Fields        []*Field `json:"fields"`
+}
 
 type DatesFilter struct {
 	Before primitive.DateTime `json:"before"`
@@ -1158,13 +1167,6 @@ type EventsInput struct {
 	GeographicFilters   []*GeographicFilter  `json:"geographicFilters"`
 }
 
-type ExportCSVFileInput struct {
-	Filename  string   `json:"filename"`
-	Query     string   `json:"query"`
-	Variables string   `json:"variables"`
-	Fields    []string `json:"fields"`
-}
-
 type FavoriteProductInput struct {
 	ProductID    primitive.ObjectID `json:"productId"`
 	Unfavoriting bool               `json:"unfavoriting"`
@@ -1184,6 +1186,11 @@ type FcmRegistrationToken struct {
 
 type FcmRegistrationTokenFilter struct {
 	Present bool `json:"present"`
+}
+
+type Field struct {
+	Name string `json:"name"`
+	Path string `json:"path"`
 }
 
 type FileOperation struct {
@@ -1876,7 +1883,7 @@ func (ServiceError) IsCheckInRecordQueryResult() {}
 
 func (ServiceError) IsCheckInRecordsQueryResult() {}
 
-func (ServiceError) IsExportCSVFileResult() {}
+func (ServiceError) IsCSVFileExportResult() {}
 
 func (ServiceError) IsEventsQueryResult() {}
 
