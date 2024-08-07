@@ -1714,6 +1714,7 @@ type ProductsInput struct {
 	PageSize     int64                `json:"pageSize"`
 	CommonFilter *CommonProductFilter `json:"commonFilter"`
 	Favorited    *bool                `json:"favorited"`
+	MatchingText string               `json:"matchingText"`
 }
 
 type RankingFilter struct {
@@ -1801,23 +1802,24 @@ type RetailersBlocked struct {
 }
 
 type RetailersInput struct {
-	PageSize             int                  `json:"pageSize"`
-	PageNumber           int                  `json:"pageNumber"`
-	MatchingAddress      string               `json:"matchingAddress"`
-	MatchingName         string               `json:"matchingName"`
-	MatchingPhoneOrEmail string               `json:"matchingPhoneOrEmail"`
-	MatchingUserIds      []primitive.ObjectID `json:"matchingUserIds"`
-	TerritoriesFilter    *TerritoriesFilter   `json:"territoriesFilter"`
-	LandmarksFilter      *LandmarksFilter     `json:"landmarksFilter"`
-	CategoriesFilter     *CategoriesFilter    `json:"categoriesFilter"`
-	GeoFilter            *GeoFilter           `json:"geoFilter"`
-	TimeFilter           *TimeFilter          `json:"timeFilter"`
-	RoleFilter           *RoleFilter          `json:"roleFilter"`
-	LevelFilter          *LevelFilter         `json:"levelFilter"`
-	Recommended          *bool                `json:"recommended"`
-	Favorited            *bool                `json:"favorited"`
-	Approved             *bool                `json:"approved"`
-	RankingFilter        *RankingFilter       `json:"rankingFilter"`
+	PageSize             int                     `json:"pageSize"`
+	PageNumber           int                     `json:"pageNumber"`
+	MatchingAddress      string                  `json:"matchingAddress"`
+	MatchingName         string                  `json:"matchingName"`
+	MatchingPhoneOrEmail string                  `json:"matchingPhoneOrEmail"`
+	MatchingUserIds      []primitive.ObjectID    `json:"matchingUserIds"`
+	TerritoriesFilter    *TerritoriesFilter      `json:"territoriesFilter"`
+	LandmarksFilter      *LandmarksFilter        `json:"landmarksFilter"`
+	CategoriesFilter     *CategoriesFilter       `json:"categoriesFilter"`
+	CategoryOptions      []*SelectionOptionInput `json:"categoryOptions"`
+	GeoFilter            *GeoFilter              `json:"geoFilter"`
+	TimeFilter           *TimeFilter             `json:"timeFilter"`
+	RoleFilter           *RoleFilter             `json:"roleFilter"`
+	LevelFilter          *LevelFilter            `json:"levelFilter"`
+	Recommended          *bool                   `json:"recommended"`
+	Favorited            *bool                   `json:"favorited"`
+	Approved             *bool                   `json:"approved"`
+	RankingFilter        *RankingFilter          `json:"rankingFilter"`
 }
 
 type ReviewScoreOption struct {
