@@ -479,7 +479,8 @@ type CheckInRecordsInput struct {
 
 type Comment struct {
 	ID                     string                  `json:"id" bson:"_id"`
-	PetID                  *primitive.ObjectID     `json:"petId"`
+	PetID                  primitive.ObjectID      `json:"petId"`
+	Pet                    PetQueryResult          `json:"pet"`
 	UserID                 primitive.ObjectID      `json:"userId"`
 	RetailerUserID         primitive.ObjectID      `json:"retailerUserId"`
 	Title                  string                  `json:"title"`
