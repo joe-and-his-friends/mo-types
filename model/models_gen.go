@@ -58,6 +58,14 @@ type CheckInRecordsQueryResult interface {
 	IsCheckInRecordsQueryResult()
 }
 
+type CommentQueryResult interface {
+	IsCommentQueryResult()
+}
+
+type CommentsQueryResult interface {
+	IsCommentsQueryResult()
+}
+
 type CreateEventParticipationResult interface {
 	IsCreateEventParticipationResult()
 }
@@ -498,6 +506,8 @@ type Comment struct {
 	User                   UserProfileQueryResult  `json:"user"`
 }
 
+func (Comment) IsCommentQueryResult() {}
+
 type CommentRecommendationFilter struct {
 	Option int `json:"option"`
 }
@@ -540,6 +550,8 @@ type Comments struct {
 	Comments   []*Comment `json:"comments"`
 	TotalCount int        `json:"totalCount"`
 }
+
+func (Comments) IsCommentsQueryResult() {}
 
 type CommentsCommonFilter struct {
 	Recommended *bool `json:"recommended" bson:",omitempty"`
@@ -1883,6 +1895,10 @@ func (ServiceError) IsCheckInCountersQueryResult() {}
 func (ServiceError) IsCheckInRecordQueryResult() {}
 
 func (ServiceError) IsCheckInRecordsQueryResult() {}
+
+func (ServiceError) IsCommentQueryResult() {}
+
+func (ServiceError) IsCommentsQueryResult() {}
 
 func (ServiceError) IsCSVFileExportResult() {}
 
