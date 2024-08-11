@@ -62,6 +62,10 @@ type CommentQueryResult interface {
 	IsCommentQueryResult()
 }
 
+type CommentsByUsersQueryResult interface {
+	IsCommentsByUsersQueryResult()
+}
+
 type CommentsQueryResult interface {
 	IsCommentsQueryResult()
 }
@@ -553,6 +557,25 @@ type Comments struct {
 
 func (Comments) IsCommentsQueryResult() {}
 
+type CommentsByUser struct {
+	UserID primitive.ObjectID     `json:"userId" bson:"_id"`
+	User   UserProfileQueryResult `json:"user"`
+	Count  int64                  `json:"count"`
+}
+
+type CommentsByUsers struct {
+	TotalCount int               `json:"totalCount"`
+	Items      []*CommentsByUser `json:"items"`
+}
+
+func (CommentsByUsers) IsCommentsByUsersQueryResult() {}
+
+type CommentsByUsersInput struct {
+	PageNumber  int64             `json:"pageNumber"`
+	PageSize    int64             `json:"pageSize"`
+	DatesFilter *DatesFilterInput `json:"datesFilter"`
+}
+
 type CommentsCommonFilter struct {
 	Recommended *bool `json:"recommended" bson:",omitempty"`
 }
@@ -561,8 +584,8 @@ type CommentsInput struct {
 	PetID                   *primitive.ObjectID          `json:"petId"`
 	UserID                  *primitive.ObjectID          `json:"userId"`
 	RetailerUserID          *primitive.ObjectID          `json:"retailerUserId"`
-	PageNumber              int                          `json:"pageNumber"`
-	PageSize                int                          `json:"pageSize"`
+	PageNumber              int64                        `json:"pageNumber"`
+	PageSize                int64                        `json:"pageSize"`
 	StatusFilter            *CommentStatusFilter         `json:"statusFilter"`
 	ScoreFilter             *CommentScoreFilter          `json:"scoreFilter"`
 	RecommendationFilter    *CommentRecommendationFilter `json:"recommendationFilter"`
@@ -1901,6 +1924,8 @@ func (ServiceError) IsCheckInRecordsQueryResult() {}
 func (ServiceError) IsCommentQueryResult() {}
 
 func (ServiceError) IsCommentsQueryResult() {}
+
+func (ServiceError) IsCommentsByUsersQueryResult() {}
 
 func (ServiceError) IsCSVFileExportResult() {}
 
