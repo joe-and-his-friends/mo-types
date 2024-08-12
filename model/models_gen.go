@@ -90,6 +90,10 @@ type CreateRetailerResult interface {
 	IsCreateRetailerResult()
 }
 
+type CreateUserAltResult interface {
+	IsCreateUserAltResult()
+}
+
 type CSVFileExportResult interface {
 	IsCSVFileExportResult()
 }
@@ -2018,6 +2022,8 @@ func (ServiceError) IsAuthorizedOperationUserQueryResult() {}
 
 func (ServiceError) IsResetUserPasswordResult() {}
 
+func (ServiceError) IsCreateUserAltResult() {}
+
 func (ServiceError) IsVoucherQueryResult() {}
 
 func (ServiceError) IsVouchersQueryResult() {}
@@ -2953,6 +2959,8 @@ type UserWithPassword struct {
 func (UserWithPassword) IsCreateRetailerResult() {}
 
 func (UserWithPassword) IsResetUserPasswordResult() {}
+
+func (UserWithPassword) IsCreateUserAltResult() {}
 
 type UsersFilters struct {
 	MatchingPhoneOrEmail string `json:"matchingPhoneOrEmail"`
