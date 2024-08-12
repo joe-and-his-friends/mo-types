@@ -62,6 +62,10 @@ type CommentQueryResult interface {
 	IsCommentQueryResult()
 }
 
+type CommentsByPetsQueryResult interface {
+	IsCommentsByPetsQueryResult()
+}
+
 type CommentsByUsersQueryResult interface {
 	IsCommentsByUsersQueryResult()
 }
@@ -556,6 +560,25 @@ type Comments struct {
 }
 
 func (Comments) IsCommentsQueryResult() {}
+
+type CommentsByPet struct {
+	PetID primitive.ObjectID `json:"petId" bson:"_id"`
+	Pet   PetQueryResult     `json:"pet"`
+	Count int64              `json:"count"`
+}
+
+type CommentsByPets struct {
+	TotalCount int              `json:"totalCount"`
+	Items      []*CommentsByPet `json:"items"`
+}
+
+func (CommentsByPets) IsCommentsByPetsQueryResult() {}
+
+type CommentsByPetsInput struct {
+	PageNumber  int64             `json:"pageNumber"`
+	PageSize    int64             `json:"pageSize"`
+	DatesFilter *DatesFilterInput `json:"datesFilter"`
+}
 
 type CommentsByUser struct {
 	UserID primitive.ObjectID     `json:"userId" bson:"_id"`
@@ -1926,6 +1949,8 @@ func (ServiceError) IsCommentQueryResult() {}
 func (ServiceError) IsCommentsQueryResult() {}
 
 func (ServiceError) IsCommentsByUsersQueryResult() {}
+
+func (ServiceError) IsCommentsByPetsQueryResult() {}
 
 func (ServiceError) IsCSVFileExportResult() {}
 
