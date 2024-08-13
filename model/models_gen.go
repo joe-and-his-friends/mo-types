@@ -2907,6 +2907,7 @@ type UserProfile struct {
 	AgeGroup                      *SelectionOption          `json:"ageGroup"`
 	RedemptionOperationAuthorized bool                      `json:"redemptionOperationAuthorized"`
 	ReferralUserID                *primitive.ObjectID       `json:"referralUserId"`
+	ReferralUser                  UserProfileQueryResult    `json:"referralUser"`
 	FcmRegistrationToken          string                    `json:"fcmRegistrationToken"`
 	FcmRegistrationTokens         []*FcmRegistrationToken   `json:"fcmRegistrationTokens"`
 	AppleUserID                   string                    `json:"appleUserId"`
