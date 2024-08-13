@@ -2947,9 +2947,9 @@ type UserProfilesInput struct {
 	PageNumber                 int                         `json:"pageNumber"`
 	RoleFilter                 *RoleFilter                 `json:"roleFilter"`
 	FcmRegistrationTokenFilter *FcmRegistrationTokenFilter `json:"fcmRegistrationTokenFilter"`
-	MatchingPhoneOrEmail       string                      `json:"matchingPhoneOrEmail"`
 	MatchingPhonesOrEmails     []string                    `json:"matchingPhonesOrEmails"`
 	MatchingUserIds            []primitive.ObjectID        `json:"matchingUserIds"`
+	MatchingName               string                      `json:"matchingName"`
 }
 
 type UserWithPassword struct {
