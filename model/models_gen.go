@@ -3826,19 +3826,21 @@ func (e Sex) MarshalGQL(w io.Writer) {
 type SystemTransactionDetailType string
 
 const (
-	SystemTransactionDetailTypeTransferIn                   SystemTransactionDetailType = "TRANSFER_IN"
-	SystemTransactionDetailTypeRewardCheckInRecords         SystemTransactionDetailType = "REWARD_CHECK_IN_RECORDS"
-	SystemTransactionDetailTypeRewardTaskParticipation      SystemTransactionDetailType = "REWARD_TASK_PARTICIPATION"
-	SystemTransactionDetailTypeRewardEventParticipation     SystemTransactionDetailType = "REWARD_EVENT_PARTICIPATION"
-	SystemTransactionDetailTypeRewardUserRegistration       SystemTransactionDetailType = "REWARD_USER_REGISTRATION"
-	SystemTransactionDetailTypeRewardRetailerReview         SystemTransactionDetailType = "REWARD_RETAILER_REVIEW"
-	SystemTransactionDetailTypeRefundEventParticipation     SystemTransactionDetailType = "REFUND_EVENT_PARTICIPATION"
-	SystemTransactionDetailTypeRefundVouchersOwnership      SystemTransactionDetailType = "REFUND_VOUCHERS_OWNERSHIP"
-	SystemTransactionDetailTypeRefundShopline               SystemTransactionDetailType = "REFUND_SHOPLINE"
-	SystemTransactionDetailTypeTransferOut                  SystemTransactionDetailType = "TRANSFER_OUT"
-	SystemTransactionDetailTypePurchaseVouchersOwnership    SystemTransactionDetailType = "PURCHASE_VOUCHERS_OWNERSHIP"
-	SystemTransactionDetailTypePurchaseEventParticipation   SystemTransactionDetailType = "PURCHASE_EVENT_PARTICIPATION"
-	SystemTransactionDetailTypeRevokationEventParticipation SystemTransactionDetailType = "REVOKATION_EVENT_PARTICIPATION"
+	SystemTransactionDetailTypeTransferIn                     SystemTransactionDetailType = "TRANSFER_IN"
+	SystemTransactionDetailTypeRewardCheckInRecords           SystemTransactionDetailType = "REWARD_CHECK_IN_RECORDS"
+	SystemTransactionDetailTypeRewardTaskParticipation        SystemTransactionDetailType = "REWARD_TASK_PARTICIPATION"
+	SystemTransactionDetailTypeRewardEventParticipation       SystemTransactionDetailType = "REWARD_EVENT_PARTICIPATION"
+	SystemTransactionDetailTypeRewardUserRegistration         SystemTransactionDetailType = "REWARD_USER_REGISTRATION"
+	SystemTransactionDetailTypeRewardUserRegistrationReferral SystemTransactionDetailType = "REWARD_USER_REGISTRATION_REFERRAL"
+	SystemTransactionDetailTypeRewardUserProfileCompletion    SystemTransactionDetailType = "REWARD_USER_PROFILE_COMPLETION"
+	SystemTransactionDetailTypeRewardRetailerReview           SystemTransactionDetailType = "REWARD_RETAILER_REVIEW"
+	SystemTransactionDetailTypeRefundEventParticipation       SystemTransactionDetailType = "REFUND_EVENT_PARTICIPATION"
+	SystemTransactionDetailTypeRefundVouchersOwnership        SystemTransactionDetailType = "REFUND_VOUCHERS_OWNERSHIP"
+	SystemTransactionDetailTypeRefundShopline                 SystemTransactionDetailType = "REFUND_SHOPLINE"
+	SystemTransactionDetailTypeTransferOut                    SystemTransactionDetailType = "TRANSFER_OUT"
+	SystemTransactionDetailTypePurchaseVouchersOwnership      SystemTransactionDetailType = "PURCHASE_VOUCHERS_OWNERSHIP"
+	SystemTransactionDetailTypePurchaseEventParticipation     SystemTransactionDetailType = "PURCHASE_EVENT_PARTICIPATION"
+	SystemTransactionDetailTypeRevokationEventParticipation   SystemTransactionDetailType = "REVOKATION_EVENT_PARTICIPATION"
 )
 
 var AllSystemTransactionDetailType = []SystemTransactionDetailType{
@@ -3847,6 +3849,8 @@ var AllSystemTransactionDetailType = []SystemTransactionDetailType{
 	SystemTransactionDetailTypeRewardTaskParticipation,
 	SystemTransactionDetailTypeRewardEventParticipation,
 	SystemTransactionDetailTypeRewardUserRegistration,
+	SystemTransactionDetailTypeRewardUserRegistrationReferral,
+	SystemTransactionDetailTypeRewardUserProfileCompletion,
 	SystemTransactionDetailTypeRewardRetailerReview,
 	SystemTransactionDetailTypeRefundEventParticipation,
 	SystemTransactionDetailTypeRefundVouchersOwnership,
@@ -3859,7 +3863,7 @@ var AllSystemTransactionDetailType = []SystemTransactionDetailType{
 
 func (e SystemTransactionDetailType) IsValid() bool {
 	switch e {
-	case SystemTransactionDetailTypeTransferIn, SystemTransactionDetailTypeRewardCheckInRecords, SystemTransactionDetailTypeRewardTaskParticipation, SystemTransactionDetailTypeRewardEventParticipation, SystemTransactionDetailTypeRewardUserRegistration, SystemTransactionDetailTypeRewardRetailerReview, SystemTransactionDetailTypeRefundEventParticipation, SystemTransactionDetailTypeRefundVouchersOwnership, SystemTransactionDetailTypeRefundShopline, SystemTransactionDetailTypeTransferOut, SystemTransactionDetailTypePurchaseVouchersOwnership, SystemTransactionDetailTypePurchaseEventParticipation, SystemTransactionDetailTypeRevokationEventParticipation:
+	case SystemTransactionDetailTypeTransferIn, SystemTransactionDetailTypeRewardCheckInRecords, SystemTransactionDetailTypeRewardTaskParticipation, SystemTransactionDetailTypeRewardEventParticipation, SystemTransactionDetailTypeRewardUserRegistration, SystemTransactionDetailTypeRewardUserRegistrationReferral, SystemTransactionDetailTypeRewardUserProfileCompletion, SystemTransactionDetailTypeRewardRetailerReview, SystemTransactionDetailTypeRefundEventParticipation, SystemTransactionDetailTypeRefundVouchersOwnership, SystemTransactionDetailTypeRefundShopline, SystemTransactionDetailTypeTransferOut, SystemTransactionDetailTypePurchaseVouchersOwnership, SystemTransactionDetailTypePurchaseEventParticipation, SystemTransactionDetailTypeRevokationEventParticipation:
 		return true
 	}
 	return false
@@ -3973,22 +3977,24 @@ func (e TaskStatus) MarshalGQL(w io.Writer) {
 type TaskType string
 
 const (
-	TaskTypeUserProfileCompletion TaskType = "USER_PROFILE_COMPLETION"
-	TaskTypeUserRegistration      TaskType = "USER_REGISTRATION"
-	TaskTypeRetailerReview        TaskType = "RETAILER_REVIEW"
-	TaskTypeCustom                TaskType = "CUSTOM"
+	TaskTypeUserProfileCompletion    TaskType = "USER_PROFILE_COMPLETION"
+	TaskTypeUserRegistration         TaskType = "USER_REGISTRATION"
+	TaskTypeUserRegistrationReferral TaskType = "USER_REGISTRATION_REFERRAL"
+	TaskTypeRetailerReview           TaskType = "RETAILER_REVIEW"
+	TaskTypeCustom                   TaskType = "CUSTOM"
 )
 
 var AllTaskType = []TaskType{
 	TaskTypeUserProfileCompletion,
 	TaskTypeUserRegistration,
+	TaskTypeUserRegistrationReferral,
 	TaskTypeRetailerReview,
 	TaskTypeCustom,
 }
 
 func (e TaskType) IsValid() bool {
 	switch e {
-	case TaskTypeUserProfileCompletion, TaskTypeUserRegistration, TaskTypeRetailerReview, TaskTypeCustom:
+	case TaskTypeUserProfileCompletion, TaskTypeUserRegistration, TaskTypeUserRegistrationReferral, TaskTypeRetailerReview, TaskTypeCustom:
 		return true
 	}
 	return false
