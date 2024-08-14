@@ -502,13 +502,14 @@ type Comment struct {
 	PetID                  primitive.ObjectID      `json:"petId"`
 	Pet                    PetQueryResult          `json:"pet"`
 	UserID                 primitive.ObjectID      `json:"userId"`
-	RetailerUserID         primitive.ObjectID      `json:"retailerUserId"`
+	RetailerUserID         *primitive.ObjectID     `json:"retailerUserId"`
+	ProductID              *primitive.ObjectID     `json:"productId"`
 	Title                  string                  `json:"title"`
 	CoverURL               string                  `json:"coverUrl"`
 	Details                string                  `json:"details"`
 	PictureUrls            []string                `json:"pictureUrls"`
 	Photos                 []*Photo                `json:"photos"`
-	Score                  int                     `json:"score"`
+	AverageScore           float64                 `json:"averageScore"`
 	Scores                 []*ReviewScoreOption    `json:"scores"`
 	Status                 int                     `json:"status"`
 	Recommended            bool                    `json:"recommended"`
@@ -604,7 +605,11 @@ type CommentsByUsersInput struct {
 }
 
 type CommentsCommonFilter struct {
-	Recommended *bool `json:"recommended" bson:",omitempty"`
+	Recommended    *bool               `json:"recommended" bson:",omitempty"`
+	UserID         *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	PetID          *primitive.ObjectID `json:"petId" bson:",omitempty"`
+	RetailerUserID *primitive.ObjectID `json:"retailerUserId" bson:",omitempty"`
+	ProductID      *primitive.ObjectID `json:"productId" bson:",omitempty"`
 }
 
 type CommentsInput struct {
@@ -699,13 +704,14 @@ type CreateAuthorizedOperationUserInput struct {
 
 type CreateCommentInput struct {
 	PetID          *primitive.ObjectID        `json:"petId"`
-	RetailerUserID primitive.ObjectID         `json:"retailerUserId"`
+	RetailerUserID *primitive.ObjectID        `json:"retailerUserId"`
+	ProductID      *primitive.ObjectID        `json:"productId"`
 	Title          string                     `json:"title"`
 	CoverURL       string                     `json:"coverUrl"`
 	Details        string                     `json:"details"`
 	PictureUrls    []string                   `json:"pictureUrls"`
 	Photos         []*UpdatePhoto             `json:"photos"`
-	Score          int                        `json:"score"`
+	AverageScore   float64                    `json:"averageScore"`
 	Scores         []*UpdateReviewScoreOption `json:"scores"`
 }
 
@@ -2298,12 +2304,13 @@ type UpdateCheckInCounterInput struct {
 type UpdateComment struct {
 	PetID          *primitive.ObjectID        `json:"petId" bson:",omitempty"`
 	RetailerUserID *primitive.ObjectID        `json:"retailerUserId" bson:",omitempty"`
+	ProductID      *primitive.ObjectID        `json:"productId" bson:",omitempty"`
 	Title          *string                    `json:"title" bson:",omitempty"`
 	CoverURL       *string                    `json:"coverUrl" bson:",omitempty"`
 	Details        *string                    `json:"details" bson:",omitempty"`
 	PictureUrls    []string                   `json:"pictureUrls" bson:",omitempty"`
 	Photos         []*UpdatePhoto             `json:"photos" bson:",omitempty"`
-	Score          *int                       `json:"score" bson:",omitempty"`
+	AverageScore   *float64                   `json:"averageScore" bson:",omitempty"`
 	Scores         []*UpdateReviewScoreOption `json:"scores" bson:",omitempty"`
 	Status         *int                       `json:"status" bson:",omitempty"`
 	Recommended    *bool                      `json:"recommended" bson:",omitempty"`
