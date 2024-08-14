@@ -509,6 +509,7 @@ type Comment struct {
 	Details                string                  `json:"details"`
 	PictureUrls            []string                `json:"pictureUrls"`
 	Photos                 []*Photo                `json:"photos"`
+	Score                  int                     `json:"score"`
 	AverageScore           float64                 `json:"averageScore"`
 	Scores                 []*ReviewScoreOption    `json:"scores"`
 	Status                 int                     `json:"status"`
