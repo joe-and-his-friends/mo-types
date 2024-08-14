@@ -704,16 +704,16 @@ type CreateAuthorizedOperationUserInput struct {
 }
 
 type CreateCommentInput struct {
-	PetID          *primitive.ObjectID        `json:"petId"`
-	RetailerUserID *primitive.ObjectID        `json:"retailerUserId"`
-	ProductID      *primitive.ObjectID        `json:"productId"`
+	PetID          *primitive.ObjectID        `json:"petId" bson:",omitempty"`
+	RetailerUserID *primitive.ObjectID        `json:"retailerUserId" bson:",omitempty"`
+	ProductID      *primitive.ObjectID        `json:"productId" bson:",omitempty"`
 	Title          string                     `json:"title"`
-	CoverURL       string                     `json:"coverUrl"`
+	CoverURL       *string                    `json:"coverUrl" bson:",omitempty"`
 	Details        string                     `json:"details"`
-	PictureUrls    []string                   `json:"pictureUrls"`
-	Photos         []*UpdatePhoto             `json:"photos"`
-	AverageScore   float64                    `json:"averageScore"`
-	Scores         []*UpdateReviewScoreOption `json:"scores"`
+	PictureUrls    []string                   `json:"pictureUrls" bson:",omitempty"`
+	Photos         []*UpdatePhoto             `json:"photos" bson:",omitempty"`
+	AverageScore   *float64                   `json:"averageScore" bson:",omitempty"`
+	Scores         []*UpdateReviewScoreOption `json:"scores" bson:",omitempty"`
 }
 
 type CreateCommentatorCertificateInput struct {
