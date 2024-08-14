@@ -156,6 +156,7 @@ const (
 	RcCreateComment            = "createComment"
 	RcUpdateUserBasics         = "updateUserBasics"
 	RcCreateUser               = "createUser"
+	RcReferralUser             = "referralUser"
 	RcUpdateTransaction        = "updateTransaction"
 	RcCreateEventParticipation = "createEventParticipation"
 )
@@ -167,6 +168,7 @@ const (
 	RkCreateCommentUserIds        = "createCommentUserIds"
 	RkUpdateUserBasicsIds         = "updateUserBasicsIds"
 	RkCreateUserIds               = "createUserIds"
+	RkReferralUserIds             = "referralUserIds"
 	RkUpdateTransactionIds        = "updateTransactionIds"
 	RkCreateEventParticipationIds = "createEventParticipationIds"
 )
