@@ -879,6 +879,17 @@ type CreateUserInput struct {
 	ReferralUserID   *primitive.ObjectID `json:"referralUserId" bson:",omitempty"`
 }
 
+type CreateUserWithPhoneAndEmailInput struct {
+	Email                 string              `json:"email"`
+	Phone                 string              `json:"phone"`
+	Password              string              `json:"password"`
+	EmailVerificationCode string              `json:"emailVerificationCode"`
+	PhoneVerificationCode string              `json:"phoneVerificationCode"`
+	Name                  *string             `json:"name" bson:",omitempty"`
+	ReferralCode          *string             `json:"referralCode" bson:",omitempty"`
+	ReferralUserID        *primitive.ObjectID `json:"referralUserId" bson:",omitempty"`
+}
+
 type CreateVoucherOwnershipInput struct {
 	VoucherID   primitive.ObjectID `json:"voucherId"`
 	ContactInfo *UpdateContactInfo `json:"contactInfo"`
@@ -2916,7 +2927,6 @@ type UserProfile struct {
 	RedemptionOperationAuthorized bool                      `json:"redemptionOperationAuthorized"`
 	ReferralUserID                *primitive.ObjectID       `json:"referralUserId"`
 	ReferralUser                  UserProfileQueryResult    `json:"referralUser"`
-	FcmRegistrationToken          string                    `json:"fcmRegistrationToken"`
 	FcmRegistrationTokens         []*FcmRegistrationToken   `json:"fcmRegistrationTokens"`
 	AppleUserID                   string                    `json:"appleUserId"`
 	GoogleUserID                  string                    `json:"googleUserId"`
