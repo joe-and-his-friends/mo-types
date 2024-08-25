@@ -890,6 +890,11 @@ type CreateUserWithPhoneAndEmailInput struct {
 	ReferralUserID        *primitive.ObjectID `json:"referralUserId" bson:",omitempty"`
 }
 
+type CreateUsersBatchInput struct {
+	Emails   []string `json:"emails"`
+	Password string   `json:"password"`
+}
+
 type CreateVoucherOwnershipInput struct {
 	VoucherID   primitive.ObjectID `json:"voucherId"`
 	ContactInfo *UpdateContactInfo `json:"contactInfo"`
