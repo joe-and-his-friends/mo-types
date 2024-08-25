@@ -2969,6 +2969,7 @@ type UserProfilesInput struct {
 	MatchingPhonesOrEmails     []string                    `json:"matchingPhonesOrEmails"`
 	MatchingUserIds            []primitive.ObjectID        `json:"matchingUserIds"`
 	MatchingName               string                      `json:"matchingName"`
+	Deactivated                bool                        `json:"deactivated"`
 }
 
 type UserWithPassword struct {
