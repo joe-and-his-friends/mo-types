@@ -78,10 +78,6 @@ type CreateEventParticipationResult interface {
 	IsCreateEventParticipationResult()
 }
 
-type CreateOrderResult interface {
-	IsCreateOrderResult()
-}
-
 type CreatePaymentIntentResult interface {
 	IsCreatePaymentIntentResult()
 }
@@ -134,16 +130,19 @@ type LoginUserResult interface {
 	IsLoginUserResult()
 }
 
-type OrderCountQueryResult interface {
-	IsOrderCountQueryResult()
-}
-
-type OrderQueryResult interface {
-	IsOrderQueryResult()
-}
-
-type OrdersQueryResult interface {
-	IsOrdersQueryResult()
+type Order interface {
+	IsOrder()
+	GetID() primitive.ObjectID
+	GetName() string
+	GetUserID() primitive.ObjectID
+	GetUser() UserProfileQueryResult
+	GetOperationUserID() *primitive.ObjectID
+	GetStatus() OrderStatus
+	GetAmount() int
+	GetStripePaymentIntent() *PaymentIntent
+	GetBbmslReference() *BbmslReference
+	GetCreatedAt() primitive.DateTime
+	GetUpdatedAt() primitive.DateTime
 }
 
 type PetProfilesQueryResult interface {
@@ -170,6 +169,14 @@ type ProductsQueryResult interface {
 	IsProductsQueryResult()
 }
 
+type ProgramOrderQueryResult interface {
+	IsProgramOrderQueryResult()
+}
+
+type ProgramQueryResult interface {
+	IsProgramQueryResult()
+}
+
 type RefreshAccessTokenResult interface {
 	IsRefreshAccessTokenResult()
 }
@@ -188,6 +195,10 @@ type TasksQueryResult interface {
 
 type TransactionDetails interface {
 	IsTransactionDetails()
+}
+
+type UpdateProgramOrderResult interface {
+	IsUpdateProgramOrderResult()
 }
 
 type UserAuthenticationResult interface {
@@ -396,6 +407,24 @@ func (Banners) IsBannersQueryResult() {}
 type BannersInput struct {
 	Visible     *bool              `json:"visible" bson:",omitempty"`
 	DisplayPage *BannerDisplayPage `json:"displayPage" bson:",omitempty"`
+}
+
+type BbmslOrder struct {
+	ID                int    `json:"id"`
+	MerchantID        int    `json:"merchantId"`
+	MerchantReference string `json:"merchantReference"`
+	Currency          string `json:"currency"`
+	Amount            int    `json:"amount"`
+	NetAmount         int    `json:"netAmount"`
+	CreateTime        string `json:"createTime"`
+	UpdateTime        string `json:"updateTime"`
+	Status            string `json:"status"`
+	Recurring         bool   `json:"recurring"`
+}
+
+type BbmslReference struct {
+	CheckoutURL string      `json:"checkoutUrl"`
+	Order       *BbmslOrder `json:"order"`
 }
 
 type BindPhoneOrEmailInput struct {
@@ -830,6 +859,10 @@ type CreatePetVaxInput struct {
 	ImmunityLastingUtil primitive.DateTime `json:"immunityLastingUtil"`
 	NotifiedDaysAhead   int                `json:"notifiedDaysAhead"`
 	NotificationOn      bool               `json:"notificationOn"`
+}
+
+type CreateProgramOrderInput struct {
+	ProgramID primitive.ObjectID `json:"programId"`
 }
 
 type CreateRetailerInput struct {
@@ -1479,47 +1512,10 @@ type NewUserWithAppleBinding struct {
 	AuthCode         string `json:"authCode"`
 }
 
-type Order struct {
-	ID              primitive.ObjectID  `json:"id" bson:"_id"`
-	UserID          primitive.ObjectID  `json:"userId"`
-	User            *UserProfile        `json:"user"`
-	ProductID       primitive.ObjectID  `json:"productId"`
-	Product         *Product            `json:"product"`
-	Points          int64               `json:"points"`
-	RedemptionCode  string              `json:"redemptionCode"`
-	OperationUserID *primitive.ObjectID `json:"operationUserId"`
-	Status          OrderStatus         `json:"status"`
-	PaymentIntent   *PaymentIntent      `json:"paymentIntent"`
-	ProductCount    int64               `json:"productCount"`
-	Products        []*Product          `json:"products"`
-	CreatedAt       primitive.DateTime  `json:"createdAt"`
-	UpdatedAt       primitive.DateTime  `json:"updatedAt"`
-}
-
-func (Order) IsOrderQueryResult() {}
-
-func (Order) IsCreateOrderResult() {}
-
 type OrderCommonFilter struct {
 	UserID    *primitive.ObjectID `json:"userId" bson:",omitempty"`
 	ProductID *primitive.ObjectID `json:"productId" bson:",omitempty"`
 	Status    *OrderStatus        `json:"status" bson:",omitempty"`
-}
-
-type OrderCount struct {
-	Count int64 `json:"count"`
-}
-
-func (OrderCount) IsOrderCountQueryResult() {}
-
-type OrderCountCommonFilter struct {
-	UserID    *primitive.ObjectID `json:"userId" bson:",omitempty"`
-	ProductID *primitive.ObjectID `json:"productId" bson:",omitempty"`
-}
-
-type OrderCountInput struct {
-	CommonFilter *OrderCountCommonFilter `json:"commonFilter"`
-	Statuses     []OrderStatus           `json:"statuses"`
 }
 
 type OrderInput struct {
@@ -1538,18 +1534,15 @@ type OrderPayment struct {
 }
 
 type Orders struct {
-	TotalCount int64    `json:"totalCount"`
-	Items      []*Order `json:"items"`
+	TotalCount int64   `json:"totalCount"`
+	Items      []Order `json:"items"`
 }
-
-func (Orders) IsOrdersQueryResult() {}
 
 type OrdersInput struct {
 	PageNumber          int64                `json:"pageNumber"`
 	PageSize            int64                `json:"pageSize"`
 	CommonFilter        *OrderCommonFilter   `json:"commonFilter"`
 	DatetimeRangeFilter *DatetimeRangeFilter `json:"datetimeRangeFilter"`
-	ProductFilter       *CommonProductFilter `json:"productFilter"`
 	StatusesFilter      []OrderStatus        `json:"statusesFilter"`
 }
 
@@ -1790,6 +1783,59 @@ type ProductsInput struct {
 	MatchingText string               `json:"matchingText"`
 }
 
+type Program struct {
+	ID             primitive.ObjectID `json:"id" bson:"_id"`
+	Name           string             `json:"name"`
+	Type           ProgramType        `json:"type"`
+	Price          int64              `json:"price"`
+	DaysOfValidity int                `json:"daysOfValidity"`
+	Available      bool               `json:"available"`
+	CreatedAt      primitive.DateTime `json:"createdAt"`
+	UpdatedAt      primitive.DateTime `json:"updatedAt"`
+}
+
+func (Program) IsProgramQueryResult() {}
+
+type ProgramEnrollment struct {
+	ProgramID primitive.ObjectID `json:"programId"`
+	CreatedAt primitive.DateTime `json:"createdAt"`
+	UpdatedAt primitive.DateTime `json:"updatedAt"`
+	ValidTo   primitive.DateTime `json:"validTo"`
+}
+
+type ProgramOrder struct {
+	ID                  primitive.ObjectID     `json:"id" bson:"_id"`
+	Name                string                 `json:"name"`
+	UserID              primitive.ObjectID     `json:"userId"`
+	User                UserProfileQueryResult `json:"user"`
+	ProgramID           primitive.ObjectID     `json:"programId"`
+	Program             ProgramQueryResult     `json:"program"`
+	OperationUserID     *primitive.ObjectID    `json:"operationUserId"`
+	Status              OrderStatus            `json:"status"`
+	Amount              int                    `json:"amount"`
+	StripePaymentIntent *PaymentIntent         `json:"stripePaymentIntent"`
+	BbmslReference      *BbmslReference        `json:"bbmslReference"`
+	CreatedAt           primitive.DateTime     `json:"createdAt"`
+	UpdatedAt           primitive.DateTime     `json:"updatedAt"`
+}
+
+func (ProgramOrder) IsOrder()                                     {}
+func (this ProgramOrder) GetID() primitive.ObjectID               { return this.ID }
+func (this ProgramOrder) GetName() string                         { return this.Name }
+func (this ProgramOrder) GetUserID() primitive.ObjectID           { return this.UserID }
+func (this ProgramOrder) GetUser() UserProfileQueryResult         { return this.User }
+func (this ProgramOrder) GetOperationUserID() *primitive.ObjectID { return this.OperationUserID }
+func (this ProgramOrder) GetStatus() OrderStatus                  { return this.Status }
+func (this ProgramOrder) GetAmount() int                          { return this.Amount }
+func (this ProgramOrder) GetStripePaymentIntent() *PaymentIntent  { return this.StripePaymentIntent }
+func (this ProgramOrder) GetBbmslReference() *BbmslReference      { return this.BbmslReference }
+func (this ProgramOrder) GetCreatedAt() primitive.DateTime        { return this.CreatedAt }
+func (this ProgramOrder) GetUpdatedAt() primitive.DateTime        { return this.UpdatedAt }
+
+func (ProgramOrder) IsUpdateProgramOrderResult() {}
+
+func (ProgramOrder) IsProgramOrderQueryResult() {}
+
 type RankingFilter struct {
 	Option int `json:"option"`
 }
@@ -2000,13 +2046,9 @@ func (ServiceError) IsEventParticipationCountQueryResult() {}
 
 func (ServiceError) IsJobsResult() {}
 
-func (ServiceError) IsOrderQueryResult() {}
+func (ServiceError) IsUpdateProgramOrderResult() {}
 
-func (ServiceError) IsOrdersQueryResult() {}
-
-func (ServiceError) IsCreateOrderResult() {}
-
-func (ServiceError) IsOrderCountQueryResult() {}
+func (ServiceError) IsProgramOrderQueryResult() {}
 
 func (ServiceError) IsCreatePaymentIntentResult() {}
 
@@ -2017,6 +2059,8 @@ func (ServiceError) IsPetQueryResult() {}
 func (ServiceError) IsProductsQueryResult() {}
 
 func (ServiceError) IsProductQueryResult() {}
+
+func (ServiceError) IsProgramQueryResult() {}
 
 func (ServiceError) IsRefreshAccessTokenResult() {}
 
@@ -2300,6 +2344,24 @@ type UpdateBanner struct {
 type UpdateBannerInput struct {
 	ID     primitive.ObjectID `json:"id"`
 	Banner *UpdateBanner      `json:"banner"`
+}
+
+type UpdateBbmslOrder struct {
+	ID                *int    `json:"id" bson:",omitempty"`
+	MerchantID        *int    `json:"merchantId" bson:",omitempty"`
+	MerchantReference *string `json:"merchantReference" bson:",omitempty"`
+	Currency          *string `json:"currency" bson:",omitempty"`
+	Amount            *int    `json:"amount" bson:",omitempty"`
+	NetAmount         *int    `json:"netAmount" bson:",omitempty"`
+	CreateTime        *string `json:"createTime" bson:",omitempty"`
+	UpdateTime        *string `json:"updateTime" bson:",omitempty"`
+	Status            *string `json:"status" bson:",omitempty"`
+	Recurring         *bool   `json:"recurring" bson:",omitempty"`
+}
+
+type UpdateBbmslReference struct {
+	CheckoutURL *string           `json:"checkoutUrl" bson:",omitempty"`
+	Order       *UpdateBbmslOrder `json:"order" bson:",omitempty"`
 }
 
 type UpdateCheckInCounter struct {
@@ -2590,19 +2652,6 @@ type UpdateNameTranslations struct {
 	ZhHant string `json:"zhHant"`
 }
 
-type UpdateOrder struct {
-	Products      []*UpdateProduct     `json:"products" bson:",omitempty"`
-	Status        *OrderStatus         `json:"status" bson:",omitempty"`
-	PaymentIntent *UpdatePaymentIntent `json:"paymentIntent" bson:",omitempty"`
-}
-
-type UpdateOrderInput struct {
-	ID                     *primitive.ObjectID `json:"id"`
-	RedemptionCode         *string             `json:"redemptionCode"`
-	ChannelPaymentIntentID *string             `json:"channelPaymentIntentId"`
-	Order                  *UpdateOrder        `json:"order"`
-}
-
 type UpdateOrderPayment struct {
 	PaymentMethodID  *string                 `json:"paymentMethodId" bson:",omitempty"`
 	PaymentType      *string                 `json:"paymentType" bson:",omitempty"`
@@ -2694,6 +2743,38 @@ type UpdateProductPricing struct {
 	ExtraPoints       *int64    `json:"extraPoints" bson:",omitempty"`
 	PointsRewardRatio *float64  `json:"pointsRewardRatio" bson:",omitempty"`
 	Remarks           *string   `json:"remarks" bson:",omitempty"`
+}
+
+type UpdateProgram struct {
+	Name           *string `json:"name" bson:",omitempty"`
+	Price          *int64  `json:"price" bson:",omitempty"`
+	DaysOfValidity *int    `json:"daysOfValidity" bson:",omitempty"`
+	Available      *bool   `json:"available" bson:",omitempty"`
+}
+
+type UpdateProgramEnrollmentInput struct {
+	UserID         primitive.ObjectID `json:"userId"`
+	ProgramID      primitive.ObjectID `json:"programId"`
+	DaysOfValidity int                `json:"daysOfValidity"`
+}
+
+type UpdateProgramInput struct {
+	ID      primitive.ObjectID `json:"id"`
+	Program *UpdateProgram     `json:"program"`
+}
+
+type UpdateProgramOrder struct {
+	Name           *string               `json:"name" bson:",omitempty"`
+	ProgramID      *primitive.ObjectID   `json:"programId" bson:",omitempty"`
+	Status         *OrderStatus          `json:"status" bson:",omitempty"`
+	Amount         *int                  `json:"amount" bson:",omitempty"`
+	PaymentIntent  *UpdatePaymentIntent  `json:"paymentIntent" bson:",omitempty"`
+	BbmslReference *UpdateBbmslReference `json:"bbmslReference" bson:",omitempty"`
+}
+
+type UpdateProgramOrderInput struct {
+	ID    *primitive.ObjectID `json:"id"`
+	Order *UpdateProgramOrder `json:"order"`
 }
 
 type UpdateRetailerProfileInput struct {
@@ -2924,7 +3005,6 @@ type UserProfile struct {
 	Role                          int                       `json:"role"`
 	Level                         int                       `json:"level"`
 	Points                        int64                     `json:"points"`
-	RetailerProfile               *RetailerProfile          `json:"retailerProfile"`
 	AvatarURL                     string                    `json:"avatarUrl"`
 	FamilyName                    string                    `json:"familyName"`
 	GivenName                     string                    `json:"givenName"`
@@ -2944,6 +3024,8 @@ type UserProfile struct {
 	LastAccessAt                  primitive.DateTime        `json:"lastAccessAt"`
 	LastAccessIP                  string                    `json:"lastAccessIp"`
 	AdoptionAgency                AdoptionAgencyQueryResult `json:"adoptionAgency"`
+	RetailerProfile               *RetailerProfile          `json:"retailerProfile"`
+	RetailerProgramEnrollment     *ProgramEnrollment        `json:"retailerProgramEnrollment"`
 }
 
 func (UserProfile) IsUserProfileQueryResult() {}
@@ -3103,6 +3185,7 @@ const (
 	AppPageContestDetails  AppPage = "CONTEST_DETAILS"
 	AppPageVoucherDetails  AppPage = "VOUCHER_DETAILS"
 	AppPageUserProfile     AppPage = "USER_PROFILE"
+	AppPageProductDetails  AppPage = "PRODUCT_DETAILS"
 )
 
 var AllAppPage = []AppPage{
@@ -3113,11 +3196,12 @@ var AllAppPage = []AppPage{
 	AppPageContestDetails,
 	AppPageVoucherDetails,
 	AppPageUserProfile,
+	AppPageProductDetails,
 }
 
 func (e AppPage) IsValid() bool {
 	switch e {
-	case AppPageEditorialPost, AppPageRetailerDetails, AppPageRetailerList, AppPageEventDetails, AppPageContestDetails, AppPageVoucherDetails, AppPageUserProfile:
+	case AppPageEditorialPost, AppPageRetailerDetails, AppPageRetailerList, AppPageEventDetails, AppPageContestDetails, AppPageVoucherDetails, AppPageUserProfile, AppPageProductDetails:
 		return true
 	}
 	return false
@@ -3804,6 +3888,45 @@ func (e *ProductType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e ProductType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type ProgramType string
+
+const (
+	ProgramTypeRetailerProgram ProgramType = "RETAILER_PROGRAM"
+)
+
+var AllProgramType = []ProgramType{
+	ProgramTypeRetailerProgram,
+}
+
+func (e ProgramType) IsValid() bool {
+	switch e {
+	case ProgramTypeRetailerProgram:
+		return true
+	}
+	return false
+}
+
+func (e ProgramType) String() string {
+	return string(e)
+}
+
+func (e *ProgramType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ProgramType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ProgramType", str)
+	}
+	return nil
+}
+
+func (e ProgramType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
