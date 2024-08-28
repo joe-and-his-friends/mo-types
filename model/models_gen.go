@@ -1787,7 +1787,7 @@ type Program struct {
 	ID             primitive.ObjectID `json:"id" bson:"_id"`
 	Name           string             `json:"name"`
 	Type           ProgramType        `json:"type"`
-	Price          int64              `json:"price"`
+	Price          int                `json:"price"`
 	DaysOfValidity int                `json:"daysOfValidity"`
 	Available      bool               `json:"available"`
 	CreatedAt      primitive.DateTime `json:"createdAt"`
@@ -2747,7 +2747,7 @@ type UpdateProductPricing struct {
 
 type UpdateProgram struct {
 	Name           *string `json:"name" bson:",omitempty"`
-	Price          *int64  `json:"price" bson:",omitempty"`
+	Price          *int    `json:"price" bson:",omitempty"`
 	DaysOfValidity *int    `json:"daysOfValidity" bson:",omitempty"`
 	Available      *bool   `json:"available" bson:",omitempty"`
 }
