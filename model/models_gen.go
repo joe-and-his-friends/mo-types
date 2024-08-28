@@ -1781,6 +1781,7 @@ func (Program) IsProgramQueryResult() {}
 
 type ProgramEnrollment struct {
 	ProgramID primitive.ObjectID `json:"programId"`
+	Program   ProgramQueryResult `json:"program"`
 	CreatedAt primitive.DateTime `json:"createdAt"`
 	UpdatedAt primitive.DateTime `json:"updatedAt"`
 	ValidTo   primitive.DateTime `json:"validTo"`
