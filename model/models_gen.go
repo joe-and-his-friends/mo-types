@@ -173,8 +173,16 @@ type ProgramOrderQueryResult interface {
 	IsProgramOrderQueryResult()
 }
 
+type ProgramOrdersQueryResult interface {
+	IsProgramOrdersQueryResult()
+}
+
 type ProgramQueryResult interface {
 	IsProgramQueryResult()
+}
+
+type ProgramsQueryResult interface {
+	IsProgramsQueryResult()
 }
 
 type RefreshAccessTokenResult interface {
@@ -1512,18 +1520,6 @@ type NewUserWithAppleBinding struct {
 	AuthCode         string `json:"authCode"`
 }
 
-type OrderCommonFilter struct {
-	UserID    *primitive.ObjectID `json:"userId" bson:",omitempty"`
-	ProductID *primitive.ObjectID `json:"productId" bson:",omitempty"`
-	Status    *OrderStatus        `json:"status" bson:",omitempty"`
-}
-
-type OrderInput struct {
-	ID                     *primitive.ObjectID `json:"id"`
-	RedemptionCode         *string             `json:"redemptionCode"`
-	ChannelPaymentIntentID *string             `json:"channelPaymentIntentId"`
-}
-
 type OrderPayment struct {
 	PaymentMethodID  string            `json:"paymentMethodId"`
 	PaymentType      string            `json:"paymentType"`
@@ -1531,19 +1527,6 @@ type OrderPayment struct {
 	PaymentStatus    string            `json:"paymentStatus"`
 	Total            float64           `json:"total"`
 	TotalLabel       string            `json:"totalLabel"`
-}
-
-type Orders struct {
-	TotalCount int64   `json:"totalCount"`
-	Items      []Order `json:"items"`
-}
-
-type OrdersInput struct {
-	PageNumber          int64                `json:"pageNumber"`
-	PageSize            int64                `json:"pageSize"`
-	CommonFilter        *OrderCommonFilter   `json:"commonFilter"`
-	DatetimeRangeFilter *DatetimeRangeFilter `json:"datetimeRangeFilter"`
-	StatusesFilter      []OrderStatus        `json:"statusesFilter"`
 }
 
 type OtherFilter struct {
@@ -1836,6 +1819,42 @@ func (ProgramOrder) IsUpdateProgramOrderResult() {}
 
 func (ProgramOrder) IsProgramOrderQueryResult() {}
 
+type ProgramOrderCommonFilter struct {
+	ProgramID *primitive.ObjectID `json:"programId" bson:",omitempty"`
+	Status    *OrderStatus        `json:"status" bson:",omitempty"`
+}
+
+type ProgramOrders struct {
+	TotalCount int64           `json:"totalCount"`
+	Items      []*ProgramOrder `json:"items"`
+}
+
+func (ProgramOrders) IsProgramOrdersQueryResult() {}
+
+type ProgramOrdersInput struct {
+	PageNumber   int64                     `json:"pageNumber"`
+	PageSize     int64                     `json:"pageSize"`
+	CommonFilter *ProgramOrderCommonFilter `json:"commonFilter"`
+}
+
+type Programs struct {
+	Items      []*Program `json:"items"`
+	TotalCount int64      `json:"totalCount"`
+}
+
+func (Programs) IsProgramsQueryResult() {}
+
+type ProgramsCommonFilter struct {
+	Available *bool        `json:"available" bson:",omitempty"`
+	Type      *ProgramType `json:"type" bson:",omitempty"`
+}
+
+type ProgramsInput struct {
+	PageSize     int64                 `json:"pageSize"`
+	PageNumber   int64                 `json:"pageNumber"`
+	CommonFilter *ProgramsCommonFilter `json:"commonFilter"`
+}
+
 type RankingFilter struct {
 	Option int `json:"option"`
 }
@@ -2050,6 +2069,8 @@ func (ServiceError) IsUpdateProgramOrderResult() {}
 
 func (ServiceError) IsProgramOrderQueryResult() {}
 
+func (ServiceError) IsProgramOrdersQueryResult() {}
+
 func (ServiceError) IsCreatePaymentIntentResult() {}
 
 func (ServiceError) IsPetProfilesQueryResult() {}
@@ -2061,6 +2082,8 @@ func (ServiceError) IsProductsQueryResult() {}
 func (ServiceError) IsProductQueryResult() {}
 
 func (ServiceError) IsProgramQueryResult() {}
+
+func (ServiceError) IsProgramsQueryResult() {}
 
 func (ServiceError) IsRefreshAccessTokenResult() {}
 
@@ -2659,13 +2682,6 @@ type UpdateOrderPayment struct {
 	PaymentStatus    *string                 `json:"paymentStatus" bson:",omitempty"`
 	Total            *float64                `json:"total" bson:",omitempty"`
 	TotalLabel       *string                 `json:"totalLabel" bson:",omitempty"`
-}
-
-type UpdateOrderStatusInput struct {
-	OrderID                     *primitive.ObjectID `json:"OrderId"`
-	OrderRedemptionCode         *string             `json:"OrderRedemptionCode"`
-	OrderChannelPaymentIntentID *string             `json:"OrderChannelPaymentIntentId"`
-	Status                      OrderStatus         `json:"status"`
 }
 
 type UpdatePaymentIntent struct {
