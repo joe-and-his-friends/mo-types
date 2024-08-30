@@ -549,7 +549,7 @@ type Comment struct {
 	Score                  int                     `json:"score"`
 	AverageScore           float64                 `json:"averageScore"`
 	Scores                 []*ReviewScoreOption    `json:"scores"`
-	Status                 int                     `json:"status"`
+	Approved               bool                    `json:"approved"`
 	Recommended            bool                    `json:"recommended"`
 	CreatedAt              primitive.DateTime      `json:"createdAt"`
 	CommentatorCertificate *CommentatorCertificate `json:"commentatorCertificate"`
@@ -558,18 +558,6 @@ type Comment struct {
 }
 
 func (Comment) IsCommentQueryResult() {}
-
-type CommentRecommendationFilter struct {
-	Option int `json:"option"`
-}
-
-type CommentScoreFilter struct {
-	Option int `json:"option"`
-}
-
-type CommentStatusFilter struct {
-	Option int `json:"option"`
-}
 
 type CommentatorCertificate struct {
 	Phone                string             `json:"phone"`
@@ -598,7 +586,7 @@ type CommentatorCertificatesInput struct {
 }
 
 type Comments struct {
-	Comments   []*Comment `json:"comments"`
+	Items      []*Comment `json:"items"`
 	TotalCount int        `json:"totalCount"`
 }
 
@@ -643,7 +631,9 @@ type CommentsByUsersInput struct {
 }
 
 type CommentsCommonFilter struct {
+	Approved       *bool               `json:"approved" bson:",omitempty"`
 	Recommended    *bool               `json:"recommended" bson:",omitempty"`
+	Score          *int                `json:"score" bson:",omitempty"`
 	UserID         *primitive.ObjectID `json:"userId" bson:",omitempty"`
 	PetID          *primitive.ObjectID `json:"petId" bson:",omitempty"`
 	RetailerUserID *primitive.ObjectID `json:"retailerUserId" bson:",omitempty"`
@@ -651,18 +641,12 @@ type CommentsCommonFilter struct {
 }
 
 type CommentsInput struct {
-	PetID                   *primitive.ObjectID          `json:"petId"`
-	UserID                  *primitive.ObjectID          `json:"userId"`
-	RetailerUserID          *primitive.ObjectID          `json:"retailerUserId"`
-	PageNumber              int64                        `json:"pageNumber"`
-	PageSize                int64                        `json:"pageSize"`
-	StatusFilter            *CommentStatusFilter         `json:"statusFilter"`
-	ScoreFilter             *CommentScoreFilter          `json:"scoreFilter"`
-	RecommendationFilter    *CommentRecommendationFilter `json:"recommendationFilter"`
-	MatchingRetailerName    string                       `json:"matchingRetailerName"`
-	MatchingCommentatorName string                       `json:"matchingCommentatorName"`
-	DatesFilter             *DatesFilterInput            `json:"datesFilter"`
-	CommonFilter            *CommentsCommonFilter        `json:"commonFilter"`
+	PageNumber              int64                 `json:"pageNumber"`
+	PageSize                int64                 `json:"pageSize"`
+	MatchingRetailerName    string                `json:"matchingRetailerName"`
+	MatchingCommentatorName string                `json:"matchingCommentatorName"`
+	DatesFilter             *DatesFilterInput     `json:"datesFilter"`
+	CommonFilter            *CommentsCommonFilter `json:"commonFilter"`
 }
 
 type CommonEventFilter struct {
@@ -2417,18 +2401,13 @@ type UpdateComment struct {
 	Photos         []*UpdatePhoto             `json:"photos" bson:",omitempty"`
 	AverageScore   *float64                   `json:"averageScore" bson:",omitempty"`
 	Scores         []*UpdateReviewScoreOption `json:"scores" bson:",omitempty"`
-	Status         *int                       `json:"status" bson:",omitempty"`
 	Recommended    *bool                      `json:"recommended" bson:",omitempty"`
+	Approved       *bool                      `json:"approved" bson:",omitempty"`
 }
 
 type UpdateCommentInput struct {
 	ID      *primitive.ObjectID `json:"id"`
 	Comment *UpdateComment      `json:"comment"`
-}
-
-type UpdateCommentStatusInput struct {
-	Id     string `json:"id"`
-	Status int    `json:"status"`
 }
 
 type UpdateCommentatorCertificate struct {
