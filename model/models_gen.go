@@ -633,7 +633,6 @@ type CommentsByUsersInput struct {
 type CommentsCommonFilter struct {
 	Approved       *bool               `json:"approved" bson:",omitempty"`
 	Recommended    *bool               `json:"recommended" bson:",omitempty"`
-	Score          *int                `json:"score" bson:",omitempty"`
 	UserID         *primitive.ObjectID `json:"userId" bson:",omitempty"`
 	PetID          *primitive.ObjectID `json:"petId" bson:",omitempty"`
 	RetailerUserID *primitive.ObjectID `json:"retailerUserId" bson:",omitempty"`
@@ -1911,6 +1910,7 @@ type RetailerProfile struct {
 	CreatedAt          primitive.DateTime `json:"createdAt"`
 	UpdatedAt          primitive.DateTime `json:"updatedAt"`
 	CreatedBy          *UserProfile       `json:"createdBy"`
+	ProgramEnrollment  *ProgramEnrollment `json:"programEnrollment"`
 }
 
 type RetailerProfiles struct {
@@ -3023,7 +3023,6 @@ type UserProfile struct {
 	LastAccessIP                  string                    `json:"lastAccessIp"`
 	AdoptionAgency                AdoptionAgencyQueryResult `json:"adoptionAgency"`
 	RetailerProfile               *RetailerProfile          `json:"retailerProfile"`
-	RetailerProgramEnrollment     *ProgramEnrollment        `json:"retailerProgramEnrollment"`
 }
 
 func (UserProfile) IsUserProfileQueryResult() {}
