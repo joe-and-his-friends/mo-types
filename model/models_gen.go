@@ -2810,10 +2810,11 @@ type UpdateRetailerRecommendationInput struct {
 }
 
 type UpdateReviewScoreOption struct {
-	ID      string   `json:"id"`
-	Name    *string  `json:"name" bson:",omitempty"`
-	IconURL *string  `json:"iconUrl" bson:",omitempty"`
-	Score   *float64 `json:"score" bson:",omitempty"`
+	ID      string                     `json:"id"`
+	Name    *string                    `json:"name" bson:",omitempty"`
+	IconURL *string                    `json:"iconUrl" bson:",omitempty"`
+	Score   *float64                   `json:"score" bson:",omitempty"`
+	Options []*UpdateReviewScoreOption `json:"options" bson:",omitempty"`
 }
 
 type UpdateSelectOption struct {
