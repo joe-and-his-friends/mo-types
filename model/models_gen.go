@@ -1963,10 +1963,11 @@ type RetailersInput struct {
 }
 
 type ReviewScoreOption struct {
-	ID      string  `json:"id"`
-	Name    string  `json:"name"`
-	IconURL string  `json:"iconUrl"`
-	Score   float64 `json:"score"`
+	ID      string               `json:"id"`
+	Name    string               `json:"name"`
+	IconURL string               `json:"iconUrl"`
+	Score   float64              `json:"score"`
+	Options []*ReviewScoreOption `json:"options"`
 }
 
 type RoleFilter struct {
