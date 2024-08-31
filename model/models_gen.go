@@ -1299,8 +1299,9 @@ type FcmRegistrationTokenFilter struct {
 }
 
 type Field struct {
-	Name string `json:"name"`
-	Path string `json:"path"`
+	Name string     `json:"name"`
+	Type *FieldType `json:"type"`
+	Path string     `json:"path"`
 }
 
 type FileOperation struct {
@@ -3533,6 +3534,53 @@ func (e *EventType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e EventType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type FieldType string
+
+const (
+	FieldTypeString   FieldType = "STRING"
+	FieldTypeNumber   FieldType = "NUMBER"
+	FieldTypeBoolean  FieldType = "BOOLEAN"
+	FieldTypeDate     FieldType = "DATE"
+	FieldTypeDatetime FieldType = "DATETIME"
+)
+
+var AllFieldType = []FieldType{
+	FieldTypeString,
+	FieldTypeNumber,
+	FieldTypeBoolean,
+	FieldTypeDate,
+	FieldTypeDatetime,
+}
+
+func (e FieldType) IsValid() bool {
+	switch e {
+	case FieldTypeString, FieldTypeNumber, FieldTypeBoolean, FieldTypeDate, FieldTypeDatetime:
+		return true
+	}
+	return false
+}
+
+func (e FieldType) String() string {
+	return string(e)
+}
+
+func (e *FieldType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = FieldType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid FieldType", str)
+	}
+	return nil
+}
+
+func (e FieldType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
