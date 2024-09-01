@@ -1708,6 +1708,7 @@ type Product struct {
 	Notice                     string                 `json:"notice"`
 	Terms                      string                 `json:"terms"`
 	ServiceLocation            string                 `json:"serviceLocation"`
+	CategoryOptions            []*SelectionOption     `json:"categoryOptions"`
 	Photos                     []*Photo               `json:"photos"`
 	CreatedAt                  primitive.DateTime     `json:"createdAt"`
 	UpdatedAt                  primitive.DateTime     `json:"updatedAt"`
@@ -1743,11 +1744,12 @@ type Products struct {
 func (Products) IsProductsQueryResult() {}
 
 type ProductsInput struct {
-	PageNumber   int64                `json:"pageNumber"`
-	PageSize     int64                `json:"pageSize"`
-	CommonFilter *CommonProductFilter `json:"commonFilter"`
-	Favorited    *bool                `json:"favorited"`
-	MatchingText string               `json:"matchingText"`
+	PageNumber      int64                   `json:"pageNumber"`
+	PageSize        int64                   `json:"pageSize"`
+	CommonFilter    *CommonProductFilter    `json:"commonFilter"`
+	Favorited       *bool                   `json:"favorited"`
+	MatchingText    string                  `json:"matchingText"`
+	CategoryOptions []*SelectionOptionInput `json:"categoryOptions"`
 }
 
 type Program struct {
@@ -2706,21 +2708,22 @@ type UpdatePhoto struct {
 }
 
 type UpdateProduct struct {
-	UserID                     *primitive.ObjectID   `json:"userId" bson:",omitempty"`
-	AuthorizedOperationUserIds []primitive.ObjectID  `json:"authorizedOperationUserIds" bson:",omitempty"`
-	Name                       *string               `json:"name" bson:",omitempty"`
-	Type                       *ProductType          `json:"type" bson:",omitempty"`
-	Online                     *bool                 `json:"online" bson:",omitempty"`
-	Introduction               *string               `json:"introduction" bson:",omitempty"`
-	Details                    *string               `json:"details" bson:",omitempty"`
-	ServiceLocation            *string               `json:"serviceLocation" bson:",omitempty"`
-	Notice                     *string               `json:"notice" bson:",omitempty"`
-	Terms                      *string               `json:"terms" bson:",omitempty"`
-	Photos                     []*UpdatePhoto        `json:"photos" bson:",omitempty"`
-	Pricing                    *UpdateProductPricing `json:"pricing" bson:",omitempty"`
-	Recommended                *bool                 `json:"recommended" bson:",omitempty"`
-	Available                  *bool                 `json:"available" bson:",omitempty"`
-	ShareContent               *UpdateShareContent   `json:"shareContent" bson:",omitempty"`
+	UserID                     *primitive.ObjectID      `json:"userId" bson:",omitempty"`
+	AuthorizedOperationUserIds []primitive.ObjectID     `json:"authorizedOperationUserIds" bson:",omitempty"`
+	Name                       *string                  `json:"name" bson:",omitempty"`
+	Type                       *ProductType             `json:"type" bson:",omitempty"`
+	Online                     *bool                    `json:"online" bson:",omitempty"`
+	Introduction               *string                  `json:"introduction" bson:",omitempty"`
+	Details                    *string                  `json:"details" bson:",omitempty"`
+	ServiceLocation            *string                  `json:"serviceLocation" bson:",omitempty"`
+	Notice                     *string                  `json:"notice" bson:",omitempty"`
+	Terms                      *string                  `json:"terms" bson:",omitempty"`
+	CategoryOptions            []*UpdateSelectionOption `json:"categoryOptions" bson:",omitempty"`
+	Photos                     []*UpdatePhoto           `json:"photos" bson:",omitempty"`
+	Pricing                    *UpdateProductPricing    `json:"pricing" bson:",omitempty"`
+	Recommended                *bool                    `json:"recommended" bson:",omitempty"`
+	Available                  *bool                    `json:"available" bson:",omitempty"`
+	ShareContent               *UpdateShareContent      `json:"shareContent" bson:",omitempty"`
 }
 
 type UpdateProductInput struct {
