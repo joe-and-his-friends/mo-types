@@ -1693,29 +1693,29 @@ type PointTransctionsInput struct {
 }
 
 type Product struct {
-	ID                         primitive.ObjectID   `json:"id" bson:"_id"`
-	UserID                     primitive.ObjectID   `json:"userId"`
-	User                       *UserProfile         `json:"user"`
-	AuthorizedOperationUserIds []primitive.ObjectID `json:"authorizedOperationUserIds"`
-	Name                       string               `json:"name"`
-	Type                       *ProductType         `json:"type"`
-	FavoritingUserIds          []primitive.ObjectID `json:"favoritingUserIds"`
-	Favorited                  bool                 `json:"favorited"`
-	FavoriteCount              int64                `json:"favoriteCount"`
-	Online                     bool                 `json:"online"`
-	Introduction               string               `json:"introduction"`
-	Details                    string               `json:"details"`
-	Notice                     string               `json:"notice"`
-	Terms                      string               `json:"terms"`
-	ServiceLocation            string               `json:"serviceLocation"`
-	Photos                     []*Photo             `json:"photos"`
-	CreatedAt                  primitive.DateTime   `json:"createdAt"`
-	UpdatedAt                  primitive.DateTime   `json:"updatedAt"`
-	Pricing                    *ProductPricing      `json:"pricing"`
-	MaxPurchasesPerUser        int64                `json:"maxPurchasesPerUser"`
-	Recommended                bool                 `json:"recommended"`
-	Available                  bool                 `json:"available"`
-	ShareContent               *ShareContent        `json:"shareContent"`
+	ID                         primitive.ObjectID     `json:"id" bson:"_id"`
+	UserID                     primitive.ObjectID     `json:"userId"`
+	User                       UserProfileQueryResult `json:"user"`
+	AuthorizedOperationUserIds []primitive.ObjectID   `json:"authorizedOperationUserIds"`
+	Name                       string                 `json:"name"`
+	Type                       *ProductType           `json:"type"`
+	FavoritingUserIds          []primitive.ObjectID   `json:"favoritingUserIds"`
+	Favorited                  bool                   `json:"favorited"`
+	FavoriteCount              int64                  `json:"favoriteCount"`
+	Online                     bool                   `json:"online"`
+	Introduction               string                 `json:"introduction"`
+	Details                    string                 `json:"details"`
+	Notice                     string                 `json:"notice"`
+	Terms                      string                 `json:"terms"`
+	ServiceLocation            string                 `json:"serviceLocation"`
+	Photos                     []*Photo               `json:"photos"`
+	CreatedAt                  primitive.DateTime     `json:"createdAt"`
+	UpdatedAt                  primitive.DateTime     `json:"updatedAt"`
+	Pricing                    *ProductPricing        `json:"pricing"`
+	MaxPurchasesPerUser        int64                  `json:"maxPurchasesPerUser"`
+	Recommended                bool                   `json:"recommended"`
+	Available                  bool                   `json:"available"`
+	ShareContent               *ShareContent          `json:"shareContent"`
 }
 
 func (Product) IsProductQueryResult() {}
