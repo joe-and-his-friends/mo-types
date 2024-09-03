@@ -857,37 +857,8 @@ type CreateProgramOrderInput struct {
 }
 
 type CreateRetailerInput struct {
-	User            *CreateUserInput            `json:"user"`
-	RetailerProfile *CreateRetailerProfileInput `json:"retailerProfile"`
-}
-
-type CreateRetailerProfileInput struct {
-	AvatarURL        string                  `json:"avatarUrl" bson:",omitempty"`
-	Name             string                  `json:"name" bson:",omitempty"`
-	Phone            string                  `json:"phone" bson:",omitempty"`
-	Email            string                  `json:"email" bson:",omitempty"`
-	GeoLocation      *GeoLocationInput       `json:"geoLocation" bson:",omitempty"`
-	ShopPhotoUrls    []string                `json:"shopPhotoUrls" bson:",omitempty"`
-	ShopPhotos       []*PhotoInput           `json:"shopPhotos" bson:",omitempty"`
-	ShopIntro        string                  `json:"shopIntro" bson:",omitempty"`
-	City             *SelectionOptionInput   `json:"city" bson:",omitempty"`
-	Region           *SelectionOptionInput   `json:"region" bson:",omitempty"`
-	District         *SelectionOptionInput   `json:"district" bson:",omitempty"`
-	Landmark         *SelectionOptionInput   `json:"landmark" bson:",omitempty"`
-	Address          string                  `json:"address" bson:",omitempty"`
-	PaymentMethods   []*SelectionOptionInput `json:"paymentMethods" bson:",omitempty"`
-	Category         *SelectionOptionInput   `json:"category" bson:",omitempty"`
-	CategoryOptions  []*SelectionOptionInput `json:"categoryOptions" bson:",omitempty"`
-	SortingOption    *SelectionOptionInput   `json:"sortingOption" bson:",omitempty"`
-	Promotions       string                  `json:"promotions"`
-	OpeningHours     string                  `json:"openingHours"`
-	Routes           string                  `json:"routes" bson:",omitempty"`
-	WebsiteURL       string                  `json:"websiteUrl" bson:",omitempty"`
-	FacebookAccount  string                  `json:"facebookAccount" bson:",omitempty"`
-	InstagramAccount string                  `json:"instagramAccount" bson:",omitempty"`
-	WhatsappAccount  string                  `json:"whatsappAccount" bson:",omitempty"`
-	RedbookAccount   string                  `json:"redbookAccount" bson:",omitempty"`
-	BusinessLicense  *string                 `json:"businessLicense" bson:",omitempty"`
+	User            *CreateUserInput       `json:"user"`
+	RetailerProfile *UpdateRetailerProfile `json:"retailerProfile"`
 }
 
 type CreateTaskParticipationInput struct {
@@ -2778,9 +2749,38 @@ type UpdateProgramOrderInput struct {
 	Order *UpdateProgramOrder `json:"order"`
 }
 
+type UpdateRetailerProfile struct {
+	AvatarURL        string                  `json:"avatarUrl" bson:",omitempty"`
+	Name             string                  `json:"name" bson:",omitempty"`
+	Phone            string                  `json:"phone" bson:",omitempty"`
+	Email            string                  `json:"email" bson:",omitempty"`
+	GeoLocation      *GeoLocationInput       `json:"geoLocation" bson:",omitempty"`
+	ShopPhotoUrls    []string                `json:"shopPhotoUrls" bson:",omitempty"`
+	ShopPhotos       []*PhotoInput           `json:"shopPhotos" bson:",omitempty"`
+	ShopIntro        string                  `json:"shopIntro" bson:",omitempty"`
+	City             *SelectionOptionInput   `json:"city" bson:",omitempty"`
+	Region           *SelectionOptionInput   `json:"region" bson:",omitempty"`
+	District         *SelectionOptionInput   `json:"district" bson:",omitempty"`
+	Landmark         *SelectionOptionInput   `json:"landmark" bson:",omitempty"`
+	Address          string                  `json:"address" bson:",omitempty"`
+	PaymentMethods   []*SelectionOptionInput `json:"paymentMethods" bson:",omitempty"`
+	Category         *SelectionOptionInput   `json:"category" bson:",omitempty"`
+	CategoryOptions  []*SelectionOptionInput `json:"categoryOptions" bson:",omitempty"`
+	SortingOption    *SelectionOptionInput   `json:"sortingOption" bson:",omitempty"`
+	Promotions       string                  `json:"promotions"`
+	OpeningHours     string                  `json:"openingHours"`
+	Routes           string                  `json:"routes" bson:",omitempty"`
+	WebsiteURL       string                  `json:"websiteUrl" bson:",omitempty"`
+	FacebookAccount  string                  `json:"facebookAccount" bson:",omitempty"`
+	InstagramAccount string                  `json:"instagramAccount" bson:",omitempty"`
+	WhatsappAccount  string                  `json:"whatsappAccount" bson:",omitempty"`
+	RedbookAccount   string                  `json:"redbookAccount" bson:",omitempty"`
+	BusinessLicense  *string                 `json:"businessLicense" bson:",omitempty"`
+}
+
 type UpdateRetailerProfileInput struct {
-	UserID  *primitive.ObjectID         `json:"userId"`
-	Profile *CreateRetailerProfileInput `json:"profile"`
+	UserID  *primitive.ObjectID    `json:"userId"`
+	Profile *UpdateRetailerProfile `json:"profile"`
 }
 
 type UpdateRetailerRatingInput struct {
