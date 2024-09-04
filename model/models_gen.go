@@ -570,6 +570,11 @@ type CommentatorCertificate struct {
 	DatetimeCreated      primitive.DateTime `json:"datetimeCreated"`
 }
 
+type CommentatorCertificateCommonFilter struct {
+	Approved *bool   `json:"approved" bson:",omitempty"`
+	Name     *string `json:"name" bson:",omitempty"`
+}
+
 type CommentatorCertificateStatusFilter struct {
 	Option int `json:"option"`
 }
@@ -606,9 +611,10 @@ type CommentsByPets struct {
 func (CommentsByPets) IsCommentsByPetsQueryResult() {}
 
 type CommentsByPetsInput struct {
-	PageNumber  int64             `json:"pageNumber"`
-	PageSize    int64             `json:"pageSize"`
-	DatesFilter *DatesFilterInput `json:"datesFilter"`
+	PageNumber                         int64                               `json:"pageNumber"`
+	PageSize                           int64                               `json:"pageSize"`
+	DatesFilter                        *DatesFilterInput                   `json:"datesFilter"`
+	CommentatorCertificateCommonFilter *CommentatorCertificateCommonFilter `json:"commentatorCertificateCommonFilter"`
 }
 
 type CommentsByUser struct {
