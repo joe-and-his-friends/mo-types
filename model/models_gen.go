@@ -1554,7 +1554,7 @@ type PetProfile struct {
 	Breed                  *SelectionOption        `json:"breed"`
 	PetOwnerSnsAccount     string                  `json:"petOwnerSnsAccount"`
 	UserID                 primitive.ObjectID      `json:"userId"`
-	User                   *UserProfile            `json:"user"`
+	User                   UserProfileQueryResult  `json:"user"`
 	Sex                    *Sex                    `json:"sex"`
 	HomeArrivalDate        string                  `json:"homeArrivalDate"`
 	CommentatorCertificate *CommentatorCertificate `json:"commentatorCertificate"`
@@ -1569,7 +1569,7 @@ type PetProfile struct {
 func (PetProfile) IsPetQueryResult() {}
 
 type PetProfiles struct {
-	Profiles   []*PetProfile `json:"profiles"`
+	Items      []*PetProfile `json:"items"`
 	TotalCount int           `json:"totalCount"`
 }
 
