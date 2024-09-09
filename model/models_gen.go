@@ -347,8 +347,11 @@ type AdoptionAgency struct {
 func (AdoptionAgency) IsAdoptionAgencyQueryResult() {}
 
 type AppConfig struct {
+	Version    string             `json:"version"`
+	Language   Language           `json:"language"`
 	Categories []*SelectOption    `json:"categories"`
 	Scores     []*SelectionOption `json:"scores"`
+	Breeds     []*SelectOption    `json:"breeds"`
 }
 
 func (AppConfig) IsAppConfigQueryResult() {}
@@ -446,10 +449,6 @@ type BlockMomentInput struct {
 }
 
 type BreedsFilter struct {
-	Names []string `json:"names"`
-}
-
-type BreedsFilterInput struct {
 	Names []string `json:"names"`
 }
 
@@ -1594,10 +1593,10 @@ type PetsFilters struct {
 }
 
 type PetsFiltersInput struct {
-	IdCardNumber   int                `json:"idCardNumber"`
-	BirthdayFilter *DatesFilterInput  `json:"birthdayFilter"`
-	BreedsFilter   *BreedsFilterInput `json:"breedsFilter"`
-	SexesFilter    *SexesFilterInput  `json:"sexesFilter"`
+	IdCardNumber   int                   `json:"idCardNumber"`
+	BirthdayFilter *DatesFilterInput     `json:"birthdayFilter"`
+	Breeds         []*SelectOptionFilter `json:"breeds"`
+	Sexes          []*SelectOptionFilter `json:"sexes"`
 }
 
 type PetsInput struct {
@@ -1608,8 +1607,8 @@ type PetsInput struct {
 	CommentatorCertificateStatusFilter *CommentatorCertificateStatusFilter `json:"commentatorCertificateStatusFilter"`
 	IDCardNumber                       int                                 `json:"idCardNumber"`
 	BirthdayFilter                     *DatesFilterInput                   `json:"birthdayFilter"`
-	BreedsFilter                       *BreedsFilterInput                  `json:"breedsFilter"`
-	SexesFilter                        *SexesFilterInput                   `json:"sexesFilter"`
+	Breeds                             []*SelectOptionFilter               `json:"breeds"`
+	Sexes                              []*SelectOptionFilter               `json:"sexes"`
 }
 
 type PetsWithCommentsInput struct {
@@ -1959,6 +1958,12 @@ type SelectOption struct {
 	Options []*SelectOption `json:"options"`
 }
 
+type SelectOptionFilter struct {
+	ID      string                `json:"id"`
+	Name    string                `json:"name"`
+	Options []*SelectOptionFilter `json:"options"`
+}
+
 type SelectionOption struct {
 	ID      string             `json:"id"`
 	Name    string             `json:"name"`
@@ -2090,10 +2095,6 @@ func (ServiceError) IsVoucherOwnershipQueryResult() {}
 func (ServiceError) IsVoucherOwnershipsQueryResult() {}
 
 type SexesFilter struct {
-	Names []string `json:"names"`
-}
-
-type SexesFilterInput struct {
 	Names []string `json:"names"`
 }
 
@@ -2300,6 +2301,7 @@ type UpdateAdoptionAgencyInput struct {
 type UpdateAppConfig struct {
 	Categories []*UpdateSelectOption `json:"categories" bson:",omitempty"`
 	Scores     []*UpdateSelectOption `json:"scores" bson:",omitempty"`
+	Breeds     []*UpdateSelectOption `json:"breeds" bson:",omitempty"`
 }
 
 type UpdateAppConfigInput struct {
