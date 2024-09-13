@@ -654,13 +654,14 @@ type CommentsInput struct {
 }
 
 type CommonEventFilter struct {
-	UserID      *primitive.ObjectID `json:"userId" bson:",omitempty"`
-	Recommended *bool               `json:"recommended" bson:",omitempty"`
-	Approved    *bool               `json:"approved" bson:",omitempty"`
-	Published   *bool               `json:"published" bson:",omitempty"`
-	Online      *bool               `json:"online" bson:",omitempty"`
-	Status      *EventStatus        `json:"status" bson:",omitempty"`
-	Type        *EventType          `json:"type" bson:",omitempty"`
+	UserID            *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	Recommended       *bool               `json:"recommended" bson:",omitempty"`
+	Approved          *bool               `json:"approved" bson:",omitempty"`
+	Published         *bool               `json:"published" bson:",omitempty"`
+	ParticipationOpen *bool               `json:"participationOpen" bson:",omitempty"`
+	Online            *bool               `json:"online" bson:",omitempty"`
+	Status            *EventStatus        `json:"status" bson:",omitempty"`
+	Type              *EventType          `json:"type" bson:",omitempty"`
 }
 
 type CommonProductFilter struct {
@@ -1032,6 +1033,7 @@ type Event struct {
 	Recommended                  bool                           `json:"recommended"`
 	Approved                     bool                           `json:"approved"`
 	Published                    bool                           `json:"published"`
+	ParticipationOpen            bool                           `json:"participationOpen"`
 	PetPhotoRequired             bool                           `json:"petPhotoRequired"`
 	ShareContent                 *ShareContent                  `json:"shareContent"`
 	Participations               EventParticipationsQueryResult `json:"participations"`
@@ -2479,6 +2481,7 @@ type UpdateEvent struct {
 	Recommended                  *bool                               `json:"recommended" bson:",omitempty"`
 	Approved                     *bool                               `json:"approved" bson:",omitempty"`
 	Published                    *bool                               `json:"published" bson:",omitempty"`
+	ParticipationOpen            *bool                               `json:"participationOpen" bson:",omitempty"`
 	PetPhotoRequired             *bool                               `json:"petPhotoRequired" bson:",omitempty"`
 	ShareContent                 *UpdateShareContent                 `json:"shareContent" bson:",omitempty"`
 }
