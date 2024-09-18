@@ -2925,6 +2925,7 @@ type UpdateUserBasicsInput struct {
 	AvatarURL              *string                 `json:"avatarUrl" bson:",omitempty"`
 	Sex                    *SelectionOptionInput   `json:"sex" bson:",omitempty"`
 	AgeGroup               *SelectionOptionInput   `json:"ageGroup" bson:",omitempty"`
+	Phone                  *string                 `json:"phone" bson:",omitempty"`
 }
 
 type UpdateUserPhoneOrEmail struct {
