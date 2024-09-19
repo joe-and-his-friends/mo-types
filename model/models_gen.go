@@ -1850,48 +1850,49 @@ type RetailerNameEntry struct {
 }
 
 type RetailerProfile struct {
-	ID                 string             `json:"id" bson:"_id"`
-	UserID             primitive.ObjectID `json:"userId"`
-	Account            string             `json:"account"`
-	Role               int                `json:"role"`
-	Level              int                `json:"level"`
-	AvatarURL          string             `json:"avatarUrl"`
-	Name               string             `json:"name"`
-	Phone              string             `json:"phone"`
-	Email              string             `json:"email"`
-	GeoLocation        *GeoLocation       `json:"geoLocation"`
-	ShopPhotoUrls      []string           `json:"shopPhotoUrls"`
-	ShopPhotos         []*Photo           `json:"shopPhotos"`
-	ShopIntro          string             `json:"shopIntro"`
-	City               *SelectionOption   `json:"city"`
-	Region             *SelectionOption   `json:"region"`
-	District           *SelectionOption   `json:"district"`
-	Landmark           *SelectionOption   `json:"landmark"`
-	Address            string             `json:"address"`
-	Moments            []*Moment          `json:"moments"`
-	PaymentMethods     []*SelectionOption `json:"paymentMethods"`
-	Category           *SelectionOption   `json:"category"`
-	RawData            string             `json:"rawData"`
-	CategoryOptions    []*SelectionOption `json:"categoryOptions"`
-	SortingOption      *SelectionOption   `json:"sortingOption"`
-	CalculatedDistance float64            `json:"calculatedDistance"`
-	Favorited          bool               `json:"favorited" bson:"favorited,omitempty"`
-	FavoritingUserIds  []string           `json:"favoritingUserIds"`
-	Promotions         string             `json:"promotions"`
-	OpeningHours       string             `json:"openingHours"`
-	Routes             string             `json:"routes"`
-	WebsiteURL         string             `json:"websiteUrl"`
-	FacebookAccount    string             `json:"facebookAccount"`
-	InstagramAccount   string             `json:"instagramAccount"`
-	WhatsappAccount    string             `json:"whatsappAccount"`
-	RedbookAccount     string             `json:"redbookAccount"`
-	Recommended        bool               `json:"recommended"`
-	Rating             float64            `json:"rating"`
-	BusinessLicense    string             `json:"businessLicense"`
-	CreatedAt          primitive.DateTime `json:"createdAt"`
-	UpdatedAt          primitive.DateTime `json:"updatedAt"`
-	CreatedBy          *UserProfile       `json:"createdBy"`
-	ProgramEnrollment  *ProgramEnrollment `json:"programEnrollment"`
+	ID                   string             `json:"id" bson:"_id"`
+	UserID               primitive.ObjectID `json:"userId"`
+	Account              string             `json:"account"`
+	Role                 int                `json:"role"`
+	Level                int                `json:"level"`
+	AvatarURL            string             `json:"avatarUrl"`
+	Name                 string             `json:"name"`
+	Phone                string             `json:"phone"`
+	Email                string             `json:"email"`
+	GeoLocation          *GeoLocation       `json:"geoLocation"`
+	ShopPhotoUrls        []string           `json:"shopPhotoUrls"`
+	ShopPhotos           []*Photo           `json:"shopPhotos"`
+	ShopIntro            string             `json:"shopIntro"`
+	City                 *SelectionOption   `json:"city"`
+	Region               *SelectionOption   `json:"region"`
+	District             *SelectionOption   `json:"district"`
+	Landmark             *SelectionOption   `json:"landmark"`
+	Address              string             `json:"address"`
+	Moments              []*Moment          `json:"moments"`
+	PaymentMethods       []*SelectionOption `json:"paymentMethods"`
+	Category             *SelectionOption   `json:"category"`
+	RawData              string             `json:"rawData"`
+	CategoryOptions      []*SelectionOption `json:"categoryOptions"`
+	SortingOption        *SelectionOption   `json:"sortingOption"`
+	CalculatedDistance   float64            `json:"calculatedDistance"`
+	Favorited            bool               `json:"favorited"`
+	FavoritingUserIds    []string           `json:"favoritingUserIds"`
+	FavoritingUsersCount int                `json:"favoritingUsersCount"`
+	Promotions           string             `json:"promotions"`
+	OpeningHours         string             `json:"openingHours"`
+	Routes               string             `json:"routes"`
+	WebsiteURL           string             `json:"websiteUrl"`
+	FacebookAccount      string             `json:"facebookAccount"`
+	InstagramAccount     string             `json:"instagramAccount"`
+	WhatsappAccount      string             `json:"whatsappAccount"`
+	RedbookAccount       string             `json:"redbookAccount"`
+	Recommended          bool               `json:"recommended"`
+	Rating               float64            `json:"rating"`
+	BusinessLicense      string             `json:"businessLicense"`
+	CreatedAt            primitive.DateTime `json:"createdAt"`
+	UpdatedAt            primitive.DateTime `json:"updatedAt"`
+	CreatedBy            *UserProfile       `json:"createdBy"`
+	ProgramEnrollment    *ProgramEnrollment `json:"programEnrollment"`
 }
 
 type RetailerProfiles struct {
@@ -1925,6 +1926,7 @@ type RetailersInput struct {
 	Favorited            *bool                   `json:"favorited"`
 	Approved             *bool                   `json:"approved"`
 	RankingFilter        *RankingFilter          `json:"rankingFilter"`
+	SortBy               *SortBy                 `json:"sortBy"`
 }
 
 type ReviewScoreOption struct {
