@@ -1927,6 +1927,7 @@ type RetailersInput struct {
 	Approved             *bool                   `json:"approved"`
 	RankingFilter        *RankingFilter          `json:"rankingFilter"`
 	SortBy               *SortBy                 `json:"sortBy"`
+	UserID               *primitive.ObjectID     `json:"userId"`
 }
 
 type ReviewScoreOption struct {
