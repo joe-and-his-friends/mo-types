@@ -38,9 +38,7 @@ const (
 	CodeExistingPhoneOrEmail    = 1000
 	CodeNonexistingPhoneOrEmail = 1001
 	CodeInvalidPhoneOrEmail     = 1002
-
-	CodeUnauthorized = 1003
-	CodeNotAllowed   = 1004
+	CodeExistingName            = 1003
 
 	CodeExpiredVerificationCode              = 1100
 	CodeWrongVerificationCode                = 1101
@@ -54,6 +52,9 @@ const (
 
 	CodeDatabaseOperationFailure = 2000
 	CodeDatabaseDocumentNotFound = 2001
+
+	CodeUnauthorized = 2100
+	CodeNotAllowed   = 2101
 
 	// checkin
 	CodeCheckInRecordExisted         = 4000
@@ -79,8 +80,7 @@ const (
 	MsgExistingPhoneOrEmail    = "phone or email already exists"
 	MsgNonexistingPhoneOrEmail = "phone or email not exists"
 	MsgInvalidPhoneOrEmail     = "invalid phone or email"
-	MsgUnauthorized            = "unauthorized"
-	MsgNotAllowed              = "not allowed"
+	MsgExistingName            = "existing name"
 
 	MsgExpiredVerificationCode              = "expired verification code"
 	MsgWrongVerificationCode                = "wrong verification code"
@@ -96,6 +96,9 @@ const (
 	MsgDatabaseDocumentNotFound = "document not found in database"
 	MsgDataUnmarshalingFailure  = "data unmarshaling failure"
 	MsgDataMarshalingFailure    = "data marshaling failure"
+
+	MsgUnauthorized = "unauthorized"
+	MsgNotAllowed   = "not allowed"
 
 	// checkin
 	MsgCheckInRecordExisted         = "check-in record existed"
