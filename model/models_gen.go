@@ -1889,6 +1889,7 @@ type RetailerProfile struct {
 	RedbookAccount       string             `json:"redbookAccount"`
 	Recommended          bool               `json:"recommended"`
 	Rating               *float64           `json:"rating"`
+	Sequence             *int               `json:"sequence"`
 	BusinessLicense      string             `json:"businessLicense"`
 	CreatedAt            primitive.DateTime `json:"createdAt"`
 	UpdatedAt            primitive.DateTime `json:"updatedAt"`
@@ -2792,6 +2793,7 @@ type UpdateRetailerProfile struct {
 	RedbookAccount   string                  `json:"redbookAccount" bson:",omitempty"`
 	BusinessLicense  *string                 `json:"businessLicense" bson:",omitempty"`
 	Rating           *float64                `json:"rating" bson:",omitempty"`
+	Sequence         *int                    `json:"sequence" bson:",omitempty"`
 }
 
 type UpdateRetailerProfileInput struct {
