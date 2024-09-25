@@ -1680,6 +1680,7 @@ type Product struct {
 	FavoritingUserIds          []primitive.ObjectID   `json:"favoritingUserIds"`
 	Favorited                  bool                   `json:"favorited"`
 	FavoriteCount              int64                  `json:"favoriteCount"`
+	Rating                     *float64               `json:"rating"`
 	Online                     bool                   `json:"online"`
 	Introduction               string                 `json:"introduction"`
 	Details                    string                 `json:"details"`
@@ -1887,7 +1888,7 @@ type RetailerProfile struct {
 	WhatsappAccount      string             `json:"whatsappAccount"`
 	RedbookAccount       string             `json:"redbookAccount"`
 	Recommended          bool               `json:"recommended"`
-	Rating               float64            `json:"rating"`
+	Rating               *float64           `json:"rating"`
 	BusinessLicense      string             `json:"businessLicense"`
 	CreatedAt            primitive.DateTime `json:"createdAt"`
 	UpdatedAt            primitive.DateTime `json:"updatedAt"`
@@ -2706,6 +2707,7 @@ type UpdateProduct struct {
 	Photos                     []*UpdatePhoto           `json:"photos" bson:",omitempty"`
 	Pricing                    *UpdateProductPricing    `json:"pricing" bson:",omitempty"`
 	Recommended                *bool                    `json:"recommended" bson:",omitempty"`
+	Rating                     *float64                 `json:"rating" bson:",omitempty"`
 	Available                  *bool                    `json:"available" bson:",omitempty"`
 	ShareContent               *UpdateShareContent      `json:"shareContent" bson:",omitempty"`
 }
@@ -2780,8 +2782,8 @@ type UpdateRetailerProfile struct {
 	Category         *SelectionOptionInput   `json:"category" bson:",omitempty"`
 	CategoryOptions  []*SelectionOptionInput `json:"categoryOptions" bson:",omitempty"`
 	SortingOption    *SelectionOptionInput   `json:"sortingOption" bson:",omitempty"`
-	Promotions       string                  `json:"promotions"`
-	OpeningHours     string                  `json:"openingHours"`
+	Promotions       *string                 `json:"promotions" bson:",omitempty"`
+	OpeningHours     *string                 `json:"openingHours" bson:",omitempty"`
 	Routes           string                  `json:"routes" bson:",omitempty"`
 	WebsiteURL       string                  `json:"websiteUrl" bson:",omitempty"`
 	FacebookAccount  string                  `json:"facebookAccount" bson:",omitempty"`
@@ -2789,6 +2791,7 @@ type UpdateRetailerProfile struct {
 	WhatsappAccount  string                  `json:"whatsappAccount" bson:",omitempty"`
 	RedbookAccount   string                  `json:"redbookAccount" bson:",omitempty"`
 	BusinessLicense  *string                 `json:"businessLicense" bson:",omitempty"`
+	Rating           *float64                `json:"rating" bson:",omitempty"`
 }
 
 type UpdateRetailerProfileInput struct {
