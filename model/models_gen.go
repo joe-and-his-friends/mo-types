@@ -1887,6 +1887,7 @@ type RetailerProfile struct {
 	InstagramAccount     string             `json:"instagramAccount"`
 	WhatsappAccount      string             `json:"whatsappAccount"`
 	RedbookAccount       string             `json:"redbookAccount"`
+	ShareContent         *ShareContent      `json:"shareContent"`
 	Recommended          bool               `json:"recommended"`
 	Rating               *float64           `json:"rating"`
 	Sequence             *int               `json:"sequence"`
@@ -2791,6 +2792,7 @@ type UpdateRetailerProfile struct {
 	InstagramAccount string                  `json:"instagramAccount" bson:",omitempty"`
 	WhatsappAccount  string                  `json:"whatsappAccount" bson:",omitempty"`
 	RedbookAccount   string                  `json:"redbookAccount" bson:",omitempty"`
+	ShareContent     *UpdateShareContent     `json:"shareContent" bson:",omitempty"`
 	BusinessLicense  *string                 `json:"businessLicense" bson:",omitempty"`
 	Rating           *float64                `json:"rating" bson:",omitempty"`
 	Sequence         *int                    `json:"sequence" bson:",omitempty"`
