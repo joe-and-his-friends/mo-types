@@ -1928,7 +1928,6 @@ type RetailersInput struct {
 	Recommended          *bool                   `json:"recommended"`
 	Favorited            *bool                   `json:"favorited"`
 	Approved             *bool                   `json:"approved"`
-	RankingFilter        *RankingFilter          `json:"rankingFilter"`
 	SortBy               *SortBy                 `json:"sortBy"`
 }
 
