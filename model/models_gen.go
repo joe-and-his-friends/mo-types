@@ -4196,7 +4196,8 @@ const (
 	TaskTypeUserProfileCompletion    TaskType = "USER_PROFILE_COMPLETION"
 	TaskTypeUserRegistration         TaskType = "USER_REGISTRATION"
 	TaskTypeUserRegistrationReferral TaskType = "USER_REGISTRATION_REFERRAL"
-	TaskTypeRetailerReview           TaskType = "RETAILER_REVIEW"
+	TaskTypeRetailerReviewLength     TaskType = "RETAILER_REVIEW_LENGTH"
+	TaskTypeRetailerReviewCount      TaskType = "RETAILER_REVIEW_COUNT"
 	TaskTypeCustom                   TaskType = "CUSTOM"
 )
 
@@ -4204,13 +4205,14 @@ var AllTaskType = []TaskType{
 	TaskTypeUserProfileCompletion,
 	TaskTypeUserRegistration,
 	TaskTypeUserRegistrationReferral,
-	TaskTypeRetailerReview,
+	TaskTypeRetailerReviewLength,
+	TaskTypeRetailerReviewCount,
 	TaskTypeCustom,
 }
 
 func (e TaskType) IsValid() bool {
 	switch e {
-	case TaskTypeUserProfileCompletion, TaskTypeUserRegistration, TaskTypeUserRegistrationReferral, TaskTypeRetailerReview, TaskTypeCustom:
+	case TaskTypeUserProfileCompletion, TaskTypeUserRegistration, TaskTypeUserRegistrationReferral, TaskTypeRetailerReviewLength, TaskTypeRetailerReviewCount, TaskTypeCustom:
 		return true
 	}
 	return false
