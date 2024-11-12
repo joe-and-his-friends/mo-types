@@ -322,6 +322,7 @@ type AdoptionAgenciesInput struct {
 	TerritoriesFilter *TerritoriesFilter `json:"territoriesFilter"`
 	Recommended       *bool              `json:"recommended"`
 	Approved          *bool              `json:"approved"`
+	ApprovalFilter    *AppvalStatus      `json:"approvalFilter"`
 	UserID            primitive.ObjectID `json:"userId"`
 }
 
@@ -3246,6 +3247,49 @@ func (e *AppPage) UnmarshalGQL(v interface{}) error {
 }
 
 func (e AppPage) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type AppvalStatus string
+
+const (
+	AppvalStatusPending  AppvalStatus = "PENDING"
+	AppvalStatusApproved AppvalStatus = "APPROVED"
+	AppvalStatusRejected AppvalStatus = "REJECTED"
+)
+
+var AllAppvalStatus = []AppvalStatus{
+	AppvalStatusPending,
+	AppvalStatusApproved,
+	AppvalStatusRejected,
+}
+
+func (e AppvalStatus) IsValid() bool {
+	switch e {
+	case AppvalStatusPending, AppvalStatusApproved, AppvalStatusRejected:
+		return true
+	}
+	return false
+}
+
+func (e AppvalStatus) String() string {
+	return string(e)
+}
+
+func (e *AppvalStatus) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AppvalStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AppvalStatus", str)
+	}
+	return nil
+}
+
+func (e AppvalStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
