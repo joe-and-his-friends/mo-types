@@ -244,29 +244,29 @@ type ActiveContest struct {
 type AdditionalParticipantPricing struct {
 	MaxParticipants   int64     `json:"maxParticipants"`
 	Price             int64     `json:"price"`
-	PriceLabel        *string   `json:"priceLabel"`
-	Currency          *Currency `json:"currency"`
-	MaxCash           *int64    `json:"maxCash"`
-	MinCash           *int64    `json:"minCash"`
-	MaxPoints         *int64    `json:"maxPoints"`
-	PointsCashRatio   *float64  `json:"pointsCashRatio"`
+	PriceLabel        *string   `json:"priceLabel,omitempty"`
+	Currency          *Currency `json:"currency,omitempty"`
+	MaxCash           *int64    `json:"maxCash,omitempty"`
+	MinCash           *int64    `json:"minCash,omitempty"`
+	MaxPoints         *int64    `json:"maxPoints,omitempty"`
+	PointsCashRatio   *float64  `json:"pointsCashRatio,omitempty"`
 	ExtraPoints       int64     `json:"extraPoints"`
 	Points            int64     `json:"points"`
-	PointsRewardRatio *float64  `json:"pointsRewardRatio"`
+	PointsRewardRatio *float64  `json:"pointsRewardRatio,omitempty"`
 }
 
 type AdditionalPetPricing struct {
 	MaxPets           int64     `json:"maxPets"`
 	Price             int64     `json:"price"`
-	PriceLabel        *string   `json:"priceLabel"`
-	Currency          *Currency `json:"currency"`
-	MaxCash           *int64    `json:"maxCash"`
-	MinCash           *int64    `json:"minCash"`
-	MaxPoints         *int64    `json:"maxPoints"`
-	PointsCashRatio   *float64  `json:"pointsCashRatio"`
+	PriceLabel        *string   `json:"priceLabel,omitempty"`
+	Currency          *Currency `json:"currency,omitempty"`
+	MaxCash           *int64    `json:"maxCash,omitempty"`
+	MinCash           *int64    `json:"minCash,omitempty"`
+	MaxPoints         *int64    `json:"maxPoints,omitempty"`
+	PointsCashRatio   *float64  `json:"pointsCashRatio,omitempty"`
 	ExtraPoints       int64     `json:"extraPoints"`
 	Points            int64     `json:"points"`
-	PointsRewardRatio *float64  `json:"pointsRewardRatio"`
+	PointsRewardRatio *float64  `json:"pointsRewardRatio,omitempty"`
 }
 
 type AdoptionActivity struct {
@@ -285,7 +285,7 @@ type AdoptionAd struct {
 	PetName   string             `json:"petName"`
 	Sex       Sex                `json:"sex"`
 	PetAge    string             `json:"petAge"`
-	Breed     *SelectionOption   `json:"breed"`
+	Breed     *SelectionOption   `json:"breed,omitempty"`
 	PhotoUrls []string           `json:"photoUrls"`
 	Remarks   string             `json:"remarks"`
 	CreatedAt primitive.DateTime `json:"createdAt"`
@@ -305,7 +305,7 @@ func (AdoptionAds) IsAdoptionAdsQueryResult() {}
 
 type AdoptionAdsInput struct {
 	AgencyID primitive.ObjectID    `json:"agencyId"`
-	Breed    *SelectionOptionInput `json:"breed"`
+	Breed    *SelectionOptionInput `json:"breed,omitempty"`
 }
 
 type AdoptionAgencies struct {
@@ -318,11 +318,11 @@ func (AdoptionAgencies) IsAdoptionAgenciesQueryResult() {}
 type AdoptionAgenciesInput struct {
 	PageNumber        int                `json:"pageNumber"`
 	PageSize          int                `json:"pageSize"`
-	DatetimeFilter    *DatetimeFilter    `json:"datetimeFilter"`
-	TerritoriesFilter *TerritoriesFilter `json:"territoriesFilter"`
-	Recommended       *bool              `json:"recommended"`
-	Approved          *bool              `json:"approved"`
-	ApprovalFilter    *AppvalStatus      `json:"approvalFilter"`
+	DatetimeFilter    *DatetimeFilter    `json:"datetimeFilter,omitempty"`
+	TerritoriesFilter *TerritoriesFilter `json:"territoriesFilter,omitempty"`
+	Recommended       *bool              `json:"recommended,omitempty"`
+	Approved          *bool              `json:"approved,omitempty"`
+	ApprovalFilter    *AppvalStatus      `json:"approvalFilter,omitempty"`
 	UserID            primitive.ObjectID `json:"userId"`
 }
 
@@ -333,12 +333,12 @@ type AdoptionAgency struct {
 	AvatarURL      string                 `json:"avatarUrl"`
 	Phone          string                 `json:"phone"`
 	Address        string                 `json:"address"`
-	GeoLocation    *GeoLocation           `json:"geoLocation"`
+	GeoLocation    *GeoLocation           `json:"geoLocation,omitempty"`
 	WebsiteURL     string                 `json:"websiteUrl"`
 	PhotoUrls      []string               `json:"photoUrls"`
 	Introduction   string                 `json:"introduction"`
-	Activity       *AdoptionActivity      `json:"activity"`
-	DonationMethod *DonationMethod        `json:"donationMethod"`
+	Activity       *AdoptionActivity      `json:"activity,omitempty"`
+	DonationMethod *DonationMethod        `json:"donationMethod,omitempty"`
 	CreatedAt      primitive.DateTime     `json:"createdAt"`
 	UpdatedAt      primitive.DateTime     `json:"updatedAt"`
 	Ads            AdoptionAdsQueryResult `json:"ads"`
@@ -350,9 +350,9 @@ func (AdoptionAgency) IsAdoptionAgencyQueryResult() {}
 type AppConfig struct {
 	Version    string             `json:"version"`
 	Language   Language           `json:"language"`
-	Categories []*SelectOption    `json:"categories"`
-	Scores     []*SelectionOption `json:"scores"`
-	Breeds     []*SelectOption    `json:"breeds"`
+	Categories []*SelectOption    `json:"categories,omitempty"`
+	Scores     []*SelectionOption `json:"scores,omitempty"`
+	Breeds     []*SelectOption    `json:"breeds,omitempty"`
 }
 
 func (AppConfig) IsAppConfigQueryResult() {}
@@ -380,8 +380,8 @@ type AuthorizedOperationUser struct {
 func (AuthorizedOperationUser) IsAuthorizedOperationUserQueryResult() {}
 
 type AuthorizedOperationUserInput struct {
-	ID     *primitive.ObjectID `json:"id"`
-	UserID *primitive.ObjectID `json:"userId"`
+	ID     *primitive.ObjectID `json:"id,omitempty"`
+	UserID *primitive.ObjectID `json:"userId,omitempty"`
 }
 
 type AuthorizedOperationUsers struct {
@@ -417,8 +417,8 @@ type Banners struct {
 func (Banners) IsBannersQueryResult() {}
 
 type BannersInput struct {
-	Visible     *bool              `json:"visible" bson:",omitempty"`
-	DisplayPage *BannerDisplayPage `json:"displayPage" bson:",omitempty"`
+	Visible     *bool              `json:"visible,omitempty" bson:",omitempty"`
+	DisplayPage *BannerDisplayPage `json:"displayPage,omitempty" bson:",omitempty"`
 }
 
 type BbmslOrder struct {
@@ -464,7 +464,7 @@ type CategoriesFilter struct {
 
 type CategoryFilter struct {
 	Option     *SelectionOptionInput   `json:"option"`
-	SubOptions []*SelectionOptionInput `json:"subOptions"`
+	SubOptions []*SelectionOptionInput `json:"subOptions,omitempty"`
 }
 
 type CheckInCounter struct {
@@ -475,12 +475,12 @@ type CheckInCounter struct {
 	Greetings             string                    `json:"greetings"`
 	QRCodeURL             string                    `json:"qrCodeUrl"`
 	Points                int64                     `json:"points"`
-	CreatedAt             *primitive.DateTime       `json:"createdAt"`
-	ValidTo               *primitive.DateTime       `json:"validTo"`
-	ValidFrom             *primitive.DateTime       `json:"validFrom"`
-	GeoLocationConstraint *GeoLocationConstraint    `json:"geoLocationConstraint"`
-	Record                *CheckInRecord            `json:"record"`
-	Records               CheckInRecordsQueryResult `json:"records"`
+	CreatedAt             *primitive.DateTime       `json:"createdAt,omitempty"`
+	ValidTo               *primitive.DateTime       `json:"validTo,omitempty"`
+	ValidFrom             *primitive.DateTime       `json:"validFrom,omitempty"`
+	GeoLocationConstraint *GeoLocationConstraint    `json:"geoLocationConstraint,omitempty"`
+	Record                *CheckInRecord            `json:"record,omitempty"`
+	Records               CheckInRecordsQueryResult `json:"records,omitempty"`
 }
 
 func (CheckInCounter) IsCheckInCounterQueryResult() {}
@@ -495,13 +495,13 @@ func (CheckInCounters) IsCheckInCountersQueryResult() {}
 type CheckInCountersInput struct {
 	PageNumber       int                  `json:"pageNumber"`
 	PageSize         int                  `json:"pageSize"`
-	GeoFilter        *GeoFilter           `json:"geoFilter"`
-	CounterIdsFilter []primitive.ObjectID `json:"counterIdsFilter"`
+	GeoFilter        *GeoFilter           `json:"geoFilter,omitempty"`
+	CounterIdsFilter []primitive.ObjectID `json:"counterIdsFilter,omitempty"`
 }
 
 type CheckInInput struct {
 	CounterID   primitive.ObjectID `json:"counterId"`
-	GeoLocation *GeoLocationInput  `json:"geoLocation"`
+	GeoLocation *GeoLocationInput  `json:"geoLocation,omitempty"`
 }
 
 type CheckInRecord struct {
@@ -509,8 +509,8 @@ type CheckInRecord struct {
 	UserID      primitive.ObjectID  `json:"userId"`
 	ProductID   primitive.ObjectID  `json:"productId"`
 	CounterID   primitive.ObjectID  `json:"counterId"`
-	GeoLocation *GeoLocation        `json:"geoLocation"`
-	CreatedAt   *primitive.DateTime `json:"createdAt"`
+	GeoLocation *GeoLocation        `json:"geoLocation,omitempty"`
+	CreatedAt   *primitive.DateTime `json:"createdAt,omitempty"`
 }
 
 func (CheckInRecord) IsCheckInRecordQueryResult() {}
@@ -523,9 +523,9 @@ type CheckInRecords struct {
 func (CheckInRecords) IsCheckInRecordsQueryResult() {}
 
 type CheckInRecordsCommonFilter struct {
-	UserID    *primitive.ObjectID `json:"userId" bson:",omitempty"`
-	ProductID *primitive.ObjectID `json:"productId" bson:",omitempty"`
-	CounterID *primitive.ObjectID `json:"counterId" bson:",omitempty"`
+	UserID    *primitive.ObjectID `json:"userId,omitempty" bson:",omitempty"`
+	ProductID *primitive.ObjectID `json:"productId,omitempty" bson:",omitempty"`
+	CounterID *primitive.ObjectID `json:"counterId,omitempty" bson:",omitempty"`
 }
 
 type CheckInRecordsInput struct {
@@ -539,21 +539,21 @@ type Comment struct {
 	PetID                  primitive.ObjectID      `json:"petId"`
 	Pet                    PetQueryResult          `json:"pet"`
 	UserID                 primitive.ObjectID      `json:"userId"`
-	RetailerUserID         *primitive.ObjectID     `json:"retailerUserId"`
-	ProductID              *primitive.ObjectID     `json:"productId"`
+	RetailerUserID         *primitive.ObjectID     `json:"retailerUserId,omitempty"`
+	ProductID              *primitive.ObjectID     `json:"productId,omitempty"`
 	Title                  string                  `json:"title"`
 	CoverURL               string                  `json:"coverUrl"`
 	Details                string                  `json:"details"`
 	PictureUrls            []string                `json:"pictureUrls"`
-	Photos                 []*Photo                `json:"photos"`
+	Photos                 []*Photo                `json:"photos,omitempty"`
 	Score                  int                     `json:"score"`
 	AverageScore           float64                 `json:"averageScore"`
-	Scores                 []*ReviewScoreOption    `json:"scores"`
+	Scores                 []*ReviewScoreOption    `json:"scores,omitempty"`
 	Approved               bool                    `json:"approved"`
 	Recommended            bool                    `json:"recommended"`
 	CreatedAt              primitive.DateTime      `json:"createdAt"`
-	CommentatorCertificate *CommentatorCertificate `json:"commentatorCertificate"`
-	RetailerProfile        *RetailerProfile        `json:"retailerProfile"`
+	CommentatorCertificate *CommentatorCertificate `json:"commentatorCertificate,omitempty"`
+	RetailerProfile        *RetailerProfile        `json:"retailerProfile,omitempty"`
 	User                   UserProfileQueryResult  `json:"user"`
 }
 
@@ -563,7 +563,7 @@ type CommentatorCertificate struct {
 	Phone                string             `json:"phone"`
 	Name                 string             `json:"name"`
 	SnsPlatformName      string             `json:"snsPlatformName"`
-	SnsPlatformSelection *SelectionOption   `json:"snsPlatformSelection"`
+	SnsPlatformSelection *SelectionOption   `json:"snsPlatformSelection,omitempty"`
 	AvatarURL            string             `json:"avatarUrl"`
 	Level                int                `json:"level"`
 	Status               int                `json:"status"`
@@ -571,8 +571,8 @@ type CommentatorCertificate struct {
 }
 
 type CommentatorCertificateCommonFilter struct {
-	Approved *bool   `json:"approved" bson:",omitempty"`
-	Name     *string `json:"name" bson:",omitempty"`
+	Approved *bool   `json:"approved,omitempty" bson:",omitempty"`
+	Name     *string `json:"name,omitempty" bson:",omitempty"`
 }
 
 type CommentatorCertificateStatusFilter struct {
@@ -587,7 +587,7 @@ type CommentatorCertificates struct {
 type CommentatorCertificatesInput struct {
 	PageNumber   int                                 `json:"pageNumber"`
 	PageSize     int                                 `json:"pageSize"`
-	StatusFilter *CommentatorCertificateStatusFilter `json:"statusFilter"`
+	StatusFilter *CommentatorCertificateStatusFilter `json:"statusFilter,omitempty"`
 }
 
 type Comments struct {
@@ -605,7 +605,7 @@ type CommentsByPet struct {
 
 type CommentsByPets struct {
 	TotalCount int              `json:"totalCount"`
-	Items      []*CommentsByPet `json:"items"`
+	Items      []*CommentsByPet `json:"items,omitempty"`
 }
 
 func (CommentsByPets) IsCommentsByPetsQueryResult() {}
@@ -613,7 +613,7 @@ func (CommentsByPets) IsCommentsByPetsQueryResult() {}
 type CommentsByPetsInput struct {
 	PageNumber                         int64                               `json:"pageNumber"`
 	PageSize                           int64                               `json:"pageSize"`
-	DatesFilter                        *DatesFilterInput                   `json:"datesFilter"`
+	DatesFilter                        *DatesFilterInput                   `json:"datesFilter,omitempty"`
 	CommentatorCertificateCommonFilter *CommentatorCertificateCommonFilter `json:"commentatorCertificateCommonFilter"`
 }
 
@@ -625,7 +625,7 @@ type CommentsByUser struct {
 
 type CommentsByUsers struct {
 	TotalCount int               `json:"totalCount"`
-	Items      []*CommentsByUser `json:"items"`
+	Items      []*CommentsByUser `json:"items,omitempty"`
 }
 
 func (CommentsByUsers) IsCommentsByUsersQueryResult() {}
@@ -633,16 +633,16 @@ func (CommentsByUsers) IsCommentsByUsersQueryResult() {}
 type CommentsByUsersInput struct {
 	PageNumber  int64             `json:"pageNumber"`
 	PageSize    int64             `json:"pageSize"`
-	DatesFilter *DatesFilterInput `json:"datesFilter"`
+	DatesFilter *DatesFilterInput `json:"datesFilter,omitempty"`
 }
 
 type CommentsCommonFilter struct {
-	Approved       *bool               `json:"approved" bson:",omitempty"`
-	Recommended    *bool               `json:"recommended" bson:",omitempty"`
-	UserID         *primitive.ObjectID `json:"userId" bson:",omitempty"`
-	PetID          *primitive.ObjectID `json:"petId" bson:",omitempty"`
-	RetailerUserID *primitive.ObjectID `json:"retailerUserId" bson:",omitempty"`
-	ProductID      *primitive.ObjectID `json:"productId" bson:",omitempty"`
+	Approved       *bool               `json:"approved,omitempty" bson:",omitempty"`
+	Recommended    *bool               `json:"recommended,omitempty" bson:",omitempty"`
+	UserID         *primitive.ObjectID `json:"userId,omitempty" bson:",omitempty"`
+	PetID          *primitive.ObjectID `json:"petId,omitempty" bson:",omitempty"`
+	RetailerUserID *primitive.ObjectID `json:"retailerUserId,omitempty" bson:",omitempty"`
+	ProductID      *primitive.ObjectID `json:"productId,omitempty" bson:",omitempty"`
 }
 
 type CommentsInput struct {
@@ -650,27 +650,27 @@ type CommentsInput struct {
 	PageSize                int64                 `json:"pageSize"`
 	MatchingRetailerName    string                `json:"matchingRetailerName"`
 	MatchingCommentatorName string                `json:"matchingCommentatorName"`
-	DatesFilter             *DatesFilterInput     `json:"datesFilter"`
+	DatesFilter             *DatesFilterInput     `json:"datesFilter,omitempty"`
 	CommonFilter            *CommentsCommonFilter `json:"commonFilter"`
 }
 
 type CommonEventFilter struct {
-	UserID            *primitive.ObjectID `json:"userId" bson:",omitempty"`
-	Recommended       *bool               `json:"recommended" bson:",omitempty"`
-	Approved          *bool               `json:"approved" bson:",omitempty"`
-	Published         *bool               `json:"published" bson:",omitempty"`
-	ParticipationOpen *bool               `json:"participationOpen" bson:",omitempty"`
-	Online            *bool               `json:"online" bson:",omitempty"`
-	Status            *EventStatus        `json:"status" bson:",omitempty"`
-	Type              *EventType          `json:"type" bson:",omitempty"`
+	UserID            *primitive.ObjectID `json:"userId,omitempty" bson:",omitempty"`
+	Recommended       *bool               `json:"recommended,omitempty" bson:",omitempty"`
+	Approved          *bool               `json:"approved,omitempty" bson:",omitempty"`
+	Published         *bool               `json:"published,omitempty" bson:",omitempty"`
+	ParticipationOpen *bool               `json:"participationOpen,omitempty" bson:",omitempty"`
+	Online            *bool               `json:"online,omitempty" bson:",omitempty"`
+	Status            *EventStatus        `json:"status,omitempty" bson:",omitempty"`
+	Type              *EventType          `json:"type,omitempty" bson:",omitempty"`
 }
 
 type CommonProductFilter struct {
-	UserID      *primitive.ObjectID `json:"userId" bson:",omitempty"`
-	Recommended *bool               `json:"recommended" bson:",omitempty"`
-	Available   *bool               `json:"available" bson:",omitempty"`
-	Online      *bool               `json:"online" bson:",omitempty"`
-	Type        *ProductType        `json:"type" bson:",omitempty"`
+	UserID      *primitive.ObjectID `json:"userId,omitempty" bson:",omitempty"`
+	Recommended *bool               `json:"recommended,omitempty" bson:",omitempty"`
+	Available   *bool               `json:"available,omitempty" bson:",omitempty"`
+	Online      *bool               `json:"online,omitempty" bson:",omitempty"`
+	Type        *ProductType        `json:"type,omitempty" bson:",omitempty"`
 }
 
 type ContactInfo struct {
@@ -701,8 +701,8 @@ type ContestCandidate struct {
 	PetOwnerPhone      string             `json:"petOwnerPhone"`
 	PetPhotoUrl        string             `json:"petPhotoUrl"`
 	PetSnsUrl          string             `json:"petSnsUrl"`
-	VotingResult       *VotingResult      `json:"votingResult"`
-	Enrollment         *ContestEnrollment `json:"enrollment"`
+	VotingResult       *VotingResult      `json:"votingResult,omitempty"`
+	Enrollment         *ContestEnrollment `json:"enrollment,omitempty"`
 	Sequence           int                `json:"sequence"`
 	ExtraNumberOfVotes int                `json:"extraNumberOfVotes"`
 	Position           int                `json:"position"`
@@ -731,16 +731,16 @@ type CreateAuthorizedOperationUserInput struct {
 }
 
 type CreateCommentInput struct {
-	PetID          *primitive.ObjectID        `json:"petId" bson:",omitempty"`
-	RetailerUserID *primitive.ObjectID        `json:"retailerUserId" bson:",omitempty"`
-	ProductID      *primitive.ObjectID        `json:"productId" bson:",omitempty"`
+	PetID          *primitive.ObjectID        `json:"petId,omitempty" bson:",omitempty"`
+	RetailerUserID *primitive.ObjectID        `json:"retailerUserId,omitempty" bson:",omitempty"`
+	ProductID      *primitive.ObjectID        `json:"productId,omitempty" bson:",omitempty"`
 	Title          string                     `json:"title"`
-	CoverURL       *string                    `json:"coverUrl" bson:",omitempty"`
+	CoverURL       *string                    `json:"coverUrl,omitempty" bson:",omitempty"`
 	Details        string                     `json:"details"`
-	PictureUrls    []string                   `json:"pictureUrls" bson:",omitempty"`
-	Photos         []*UpdatePhoto             `json:"photos" bson:",omitempty"`
-	AverageScore   *float64                   `json:"averageScore" bson:",omitempty"`
-	Scores         []*UpdateReviewScoreOption `json:"scores" bson:",omitempty"`
+	PictureUrls    []string                   `json:"pictureUrls,omitempty" bson:",omitempty"`
+	Photos         []*UpdatePhoto             `json:"photos,omitempty" bson:",omitempty"`
+	AverageScore   *float64                   `json:"averageScore,omitempty" bson:",omitempty"`
+	Scores         []*UpdateReviewScoreOption `json:"scores,omitempty" bson:",omitempty"`
 }
 
 type CreateCommentatorCertificateInput struct {
@@ -753,9 +753,9 @@ type CreateCommentatorCertificateInput struct {
 }
 
 type CreateEventInvitationInput struct {
-	EventID   *primitive.ObjectID `json:"eventId" bson:",omitempty"`
-	StartedAt *primitive.DateTime `json:"startedAt" bson:",omitempty"`
-	EndedAt   *primitive.DateTime `json:"endedAt" bson:",omitempty"`
+	EventID   *primitive.ObjectID `json:"eventId,omitempty" bson:",omitempty"`
+	StartedAt *primitive.DateTime `json:"startedAt,omitempty" bson:",omitempty"`
+	EndedAt   *primitive.DateTime `json:"endedAt,omitempty" bson:",omitempty"`
 }
 
 type CreateEventInvitationsInput struct {
@@ -770,10 +770,10 @@ type CreateEventParticipationInput struct {
 	PackagesCount               int64                     `json:"packagesCount"`
 	AdditionalParticipantsCount int64                     `json:"additionalParticipantsCount"`
 	AdditionalPetsCount         int64                     `json:"additionalPetsCount"`
-	PackageParticipants         []*UpdateEventParticipant `json:"packageParticipants" bson:",omitempty"`
-	PackagePets                 []*UpdateEventPet         `json:"packagePets" bson:",omitempty"`
-	AdditionalParticipants      []*UpdateEventParticipant `json:"additionalParticipants" bson:",omitempty"`
-	AdditionalPets              []*UpdateEventPet         `json:"additionalPets" bson:",omitempty"`
+	PackageParticipants         []*UpdateEventParticipant `json:"packageParticipants,omitempty" bson:",omitempty"`
+	PackagePets                 []*UpdateEventPet         `json:"packagePets,omitempty" bson:",omitempty"`
+	AdditionalParticipants      []*UpdateEventParticipant `json:"additionalParticipants,omitempty" bson:",omitempty"`
+	AdditionalPets              []*UpdateEventPet         `json:"additionalPets,omitempty" bson:",omitempty"`
 }
 
 type CreateEventTicket struct {
@@ -793,7 +793,7 @@ type CreateEventTicketsInput struct {
 type CreateOrderInput struct {
 	ProductID    primitive.ObjectID `json:"productId"`
 	ProductCount int64              `json:"productCount"`
-	Products     []*UpdateProduct   `json:"products" bson:",omitempty"`
+	Products     []*UpdateProduct   `json:"products,omitempty" bson:",omitempty"`
 }
 
 type CreatePaymentIntentInput struct {
@@ -811,7 +811,7 @@ type CreatePetBodyMeasurementsInput struct {
 	Back   float64            `json:"back"`
 	Chest  float64            `json:"chest"`
 	Neck   float64            `json:"neck"`
-	Waist  *float64           `json:"waist" bson:",omitempty"`
+	Waist  *float64           `json:"waist,omitempty" bson:",omitempty"`
 }
 
 type CreatePetInsuranceInput struct {
@@ -828,25 +828,25 @@ type CreatePetPawMeasurementsInput struct {
 	PetID          primitive.ObjectID `json:"petId"`
 	Width          float64            `json:"width"`
 	Length         float64            `json:"length"`
-	ShoulderHeight *float64           `json:"shoulderHeight" bson:",omitempty"`
-	BackLegHeight  *float64           `json:"backLegHeight" bson:",omitempty"`
+	ShoulderHeight *float64           `json:"shoulderHeight,omitempty" bson:",omitempty"`
+	BackLegHeight  *float64           `json:"backLegHeight,omitempty" bson:",omitempty"`
 }
 
 type CreatePetProfileInput struct {
-	AvatarURL          *string               `json:"avatarUrl" bson:",omitempty"`
-	IDPhotoURL         *string               `json:"idPhotoUrl" bson:",omitempty"`
-	IDCardURL          *string               `json:"idCardUrl" bson:",omitempty"`
-	IDCardBgRmdURL     *string               `json:"idCardBgRmdUrl" bson:",omitempty"`
-	Name               *string               `json:"name" bson:",omitempty"`
-	NameZh             *string               `json:"nameZh" bson:",omitempty"`
-	NameEn             *string               `json:"nameEn" bson:",omitempty"`
-	Birthday           *primitive.DateTime   `json:"birthday" bson:",omitempty"`
-	DepartureDate      *primitive.DateTime   `json:"departureDate"`
-	BreedName          *string               `json:"breedName" bson:",omitempty"`
-	Breed              *SelectionOptionInput `json:"breed" bson:",omitempty"`
-	PetOwnerSnsAccount *string               `json:"petOwnerSnsAccount" bson:",omitempty"`
-	Sex                *Sex                  `json:"sex" bson:",omitempty"`
-	HomeArrivalDate    *string               `json:"homeArrivalDate" bson:",omitempty"`
+	AvatarURL          *string               `json:"avatarUrl,omitempty" bson:",omitempty"`
+	IDPhotoURL         *string               `json:"idPhotoUrl,omitempty" bson:",omitempty"`
+	IDCardURL          *string               `json:"idCardUrl,omitempty" bson:",omitempty"`
+	IDCardBgRmdURL     *string               `json:"idCardBgRmdUrl,omitempty" bson:",omitempty"`
+	Name               *string               `json:"name,omitempty" bson:",omitempty"`
+	NameZh             *string               `json:"nameZh,omitempty" bson:",omitempty"`
+	NameEn             *string               `json:"nameEn,omitempty" bson:",omitempty"`
+	Birthday           *primitive.DateTime   `json:"birthday,omitempty" bson:",omitempty"`
+	DepartureDate      *primitive.DateTime   `json:"departureDate,omitempty"`
+	BreedName          *string               `json:"breedName,omitempty" bson:",omitempty"`
+	Breed              *SelectionOptionInput `json:"breed,omitempty" bson:",omitempty"`
+	PetOwnerSnsAccount *string               `json:"petOwnerSnsAccount,omitempty" bson:",omitempty"`
+	Sex                *Sex                  `json:"sex,omitempty" bson:",omitempty"`
+	HomeArrivalDate    *string               `json:"homeArrivalDate,omitempty" bson:",omitempty"`
 }
 
 type CreatePetVaxInput struct {
@@ -876,9 +876,9 @@ type CreateUserInput struct {
 	PhoneOrEmail     string              `json:"phoneOrEmail"`
 	Password         string              `json:"password"`
 	VerificationCode string              `json:"verificationCode"`
-	Name             *string             `json:"name" bson:",omitempty"`
-	ReferralCode     *string             `json:"referralCode" bson:",omitempty"`
-	ReferralUserID   *primitive.ObjectID `json:"referralUserId" bson:",omitempty"`
+	Name             *string             `json:"name,omitempty" bson:",omitempty"`
+	ReferralCode     *string             `json:"referralCode,omitempty" bson:",omitempty"`
+	ReferralUserID   *primitive.ObjectID `json:"referralUserId,omitempty" bson:",omitempty"`
 }
 
 type CreateUserWithPhoneAndEmailInput struct {
@@ -887,9 +887,9 @@ type CreateUserWithPhoneAndEmailInput struct {
 	Password              string              `json:"password"`
 	EmailVerificationCode string              `json:"emailVerificationCode"`
 	PhoneVerificationCode string              `json:"phoneVerificationCode"`
-	Name                  *string             `json:"name" bson:",omitempty"`
-	ReferralCode          *string             `json:"referralCode" bson:",omitempty"`
-	ReferralUserID        *primitive.ObjectID `json:"referralUserId" bson:",omitempty"`
+	Name                  *string             `json:"name,omitempty" bson:",omitempty"`
+	ReferralCode          *string             `json:"referralCode,omitempty" bson:",omitempty"`
+	ReferralUserID        *primitive.ObjectID `json:"referralUserId,omitempty" bson:",omitempty"`
 }
 
 type CreateUsersBatchInput struct {
@@ -899,7 +899,7 @@ type CreateUsersBatchInput struct {
 
 type CreateVoucherOwnershipInput struct {
 	VoucherID   primitive.ObjectID `json:"voucherId"`
-	ContactInfo *UpdateContactInfo `json:"contactInfo"`
+	ContactInfo *UpdateContactInfo `json:"contactInfo,omitempty"`
 }
 
 type CreateVoucherOwnershipsInput struct {
@@ -930,8 +930,8 @@ type DatesFilter struct {
 }
 
 type DatesFilterInput struct {
-	Before *primitive.DateTime `json:"before"`
-	After  *primitive.DateTime `json:"after"`
+	Before *primitive.DateTime `json:"before,omitempty"`
+	After  *primitive.DateTime `json:"after,omitempty"`
 }
 
 type DatetimeFilter struct {
@@ -940,10 +940,10 @@ type DatetimeFilter struct {
 }
 
 type DatetimeRangeFilter struct {
-	StartedBefore *primitive.DateTime `json:"startedBefore"`
-	StartedAfter  *primitive.DateTime `json:"startedAfter"`
-	EndedBefore   *primitive.DateTime `json:"endedBefore"`
-	EndedAfter    *primitive.DateTime `json:"endedAfter"`
+	StartedBefore *primitive.DateTime `json:"startedBefore,omitempty"`
+	StartedAfter  *primitive.DateTime `json:"startedAfter,omitempty"`
+	EndedBefore   *primitive.DateTime `json:"endedBefore,omitempty"`
+	EndedAfter    *primitive.DateTime `json:"endedAfter,omitempty"`
 }
 
 type DeleteFcmRegistrationTokenInput struct {
@@ -998,9 +998,9 @@ type EditorialPosts struct {
 type Event struct {
 	ID                           primitive.ObjectID             `json:"id" bson:"_id"`
 	UserID                       primitive.ObjectID             `json:"userId"`
-	AuthorizedOperationUserIds   []primitive.ObjectID           `json:"authorizedOperationUserIds"`
+	AuthorizedOperationUserIds   []primitive.ObjectID           `json:"authorizedOperationUserIds,omitempty"`
 	Name                         string                         `json:"name"`
-	Type                         *EventType                     `json:"type"`
+	Type                         *EventType                     `json:"type,omitempty"`
 	RetailerAvatarURL            string                         `json:"retailerAvatarUrl"`
 	Status                       EventStatus                    `json:"status"`
 	Online                       bool                           `json:"online"`
@@ -1022,35 +1022,35 @@ type Event struct {
 	EndedAt                      primitive.DateTime             `json:"endedAt"`
 	CreatedAt                    primitive.DateTime             `json:"createdAt"`
 	UpdatedAt                    primitive.DateTime             `json:"updatedAt"`
-	PackagePricing               *EventPackagePricing           `json:"packagePricing"`
-	AdditionalParticipantPricing *AdditionalParticipantPricing  `json:"additionalParticipantPricing"`
-	AdditionalPetPricing         *AdditionalPetPricing          `json:"additionalPetPricing"`
+	PackagePricing               *EventPackagePricing           `json:"packagePricing,omitempty"`
+	AdditionalParticipantPricing *AdditionalParticipantPricing  `json:"additionalParticipantPricing,omitempty"`
+	AdditionalPetPricing         *AdditionalPetPricing          `json:"additionalPetPricing,omitempty"`
 	MaxParticipationsPerUser     int64                          `json:"maxParticipationsPerUser"`
-	Category                     *SelectionOption               `json:"category"`
+	Category                     *SelectionOption               `json:"category,omitempty"`
 	Address                      string                         `json:"address"`
-	Region                       *SelectionOption               `json:"region"`
-	District                     *SelectionOption               `json:"district"`
-	GeoLocation                  *GeoLocation                   `json:"geoLocation"`
+	Region                       *SelectionOption               `json:"region,omitempty"`
+	District                     *SelectionOption               `json:"district,omitempty"`
+	GeoLocation                  *GeoLocation                   `json:"geoLocation,omitempty"`
 	Recommended                  bool                           `json:"recommended"`
 	Approved                     bool                           `json:"approved"`
 	Published                    bool                           `json:"published"`
 	ParticipationOpen            bool                           `json:"participationOpen"`
 	PetPhotoRequired             bool                           `json:"petPhotoRequired"`
-	ShareContent                 *ShareContent                  `json:"shareContent"`
+	ShareContent                 *ShareContent                  `json:"shareContent,omitempty"`
 	Participations               EventParticipationsQueryResult `json:"participations"`
 }
 
 func (Event) IsEventQueryResult() {}
 
 type EventFilterInput struct {
-	EventID *primitive.ObjectID `json:"eventId"`
+	EventID *primitive.ObjectID `json:"eventId,omitempty"`
 }
 
 type EventInvitation struct {
 	ID            primitive.ObjectID     `json:"id" bson:"_id"`
 	EventID       primitive.ObjectID     `json:"eventId"`
-	Event         *Event                 `json:"event"`
-	InviteeUserID *primitive.ObjectID    `json:"inviteeUserId"`
+	Event         *Event                 `json:"event,omitempty"`
+	InviteeUserID *primitive.ObjectID    `json:"inviteeUserId,omitempty"`
 	Invitee       UserProfileQueryResult `json:"invitee"`
 	InviterUserID primitive.ObjectID     `json:"inviterUserId"`
 	Code          string                 `json:"code"`
@@ -1058,18 +1058,18 @@ type EventInvitation struct {
 	EndedAt       primitive.DateTime     `json:"endedAt"`
 	CreatedAt     primitive.DateTime     `json:"createdAt"`
 	UpdatedAt     primitive.DateTime     `json:"updatedAt"`
-	ConfirmedAt   *primitive.DateTime    `json:"confirmedAt"`
+	ConfirmedAt   *primitive.DateTime    `json:"confirmedAt,omitempty"`
 	Confirmed     bool                   `json:"confirmed"`
 }
 
 func (EventInvitation) IsEventInvitationQueryResult() {}
 
 type EventInvitationCommonFilter struct {
-	UserID    *primitive.ObjectID `json:"userId" bson:",omitempty"`
-	EventID   *primitive.ObjectID `json:"eventId" bson:",omitempty"`
-	StartedAt *primitive.DateTime `json:"startedAt" bson:",omitempty"`
-	EndedAt   *primitive.DateTime `json:"endedAt" bson:",omitempty"`
-	Confirmed *bool               `json:"confirmed" bson:",omitempty"`
+	UserID    *primitive.ObjectID `json:"userId,omitempty" bson:",omitempty"`
+	EventID   *primitive.ObjectID `json:"eventId,omitempty" bson:",omitempty"`
+	StartedAt *primitive.DateTime `json:"startedAt,omitempty" bson:",omitempty"`
+	EndedAt   *primitive.DateTime `json:"endedAt,omitempty" bson:",omitempty"`
+	Confirmed *bool               `json:"confirmed,omitempty" bson:",omitempty"`
 }
 
 type EventInvitations struct {
@@ -1089,22 +1089,22 @@ type EventPackagePricing struct {
 	MaxParticipants   int64     `json:"maxParticipants"`
 	MaxPets           int64     `json:"maxPets"`
 	Price             int64     `json:"price"`
-	PriceLabel        *string   `json:"priceLabel"`
-	Currency          *Currency `json:"currency"`
-	MaxCash           *int64    `json:"maxCash"`
-	MinCash           *int64    `json:"minCash"`
-	MaxPoints         *int64    `json:"maxPoints"`
-	PointsCashRatio   *float64  `json:"pointsCashRatio"`
+	PriceLabel        *string   `json:"priceLabel,omitempty"`
+	Currency          *Currency `json:"currency,omitempty"`
+	MaxCash           *int64    `json:"maxCash,omitempty"`
+	MinCash           *int64    `json:"minCash,omitempty"`
+	MaxPoints         *int64    `json:"maxPoints,omitempty"`
+	PointsCashRatio   *float64  `json:"pointsCashRatio,omitempty"`
 	ExtraPoints       int64     `json:"extraPoints"`
 	Points            int64     `json:"points"`
-	PointsRewardRatio *float64  `json:"pointsRewardRatio"`
-	Remarks           *string   `json:"remarks"`
+	PointsRewardRatio *float64  `json:"pointsRewardRatio,omitempty"`
+	Remarks           *string   `json:"remarks,omitempty"`
 }
 
 type EventParticipant struct {
-	Name        *string             `json:"name"`
-	PhoneNumber *string             `json:"phoneNumber"`
-	UserID      *primitive.ObjectID `json:"userId"`
+	Name        *string             `json:"name,omitempty"`
+	PhoneNumber *string             `json:"phoneNumber,omitempty"`
+	UserID      *primitive.ObjectID `json:"userId,omitempty"`
 }
 
 type EventParticipation struct {
@@ -1115,9 +1115,9 @@ type EventParticipation struct {
 	Event                       *Event                   `json:"event"`
 	Points                      int64                    `json:"points"`
 	RedemptionCode              string                   `json:"redemptionCode"`
-	OperationUserID             *primitive.ObjectID      `json:"operationUserId"`
+	OperationUserID             *primitive.ObjectID      `json:"operationUserId,omitempty"`
 	Status                      EventParticipationStatus `json:"status"`
-	PaymentIntent               *PaymentIntent           `json:"paymentIntent"`
+	PaymentIntent               *PaymentIntent           `json:"paymentIntent,omitempty"`
 	PackagesCount               int64                    `json:"packagesCount"`
 	AdditionalParticipantsCount int64                    `json:"additionalParticipantsCount"`
 	AdditionalPetsCount         int64                    `json:"additionalPetsCount"`
@@ -1136,9 +1136,9 @@ func (EventParticipation) IsEventParticipationQueryResult() {}
 func (EventParticipation) IsCreateEventParticipationResult() {}
 
 type EventParticipationCommonFilter struct {
-	UserID  *primitive.ObjectID       `json:"userId" bson:",omitempty"`
-	EventID *primitive.ObjectID       `json:"eventId" bson:",omitempty"`
-	Status  *EventParticipationStatus `json:"status" bson:",omitempty"`
+	UserID  *primitive.ObjectID       `json:"userId,omitempty" bson:",omitempty"`
+	EventID *primitive.ObjectID       `json:"eventId,omitempty" bson:",omitempty"`
+	Status  *EventParticipationStatus `json:"status,omitempty" bson:",omitempty"`
 }
 
 type EventParticipationCount struct {
@@ -1148,19 +1148,19 @@ type EventParticipationCount struct {
 func (EventParticipationCount) IsEventParticipationCountQueryResult() {}
 
 type EventParticipationCountCommonFilter struct {
-	UserID  *primitive.ObjectID `json:"userId" bson:",omitempty"`
-	EventID *primitive.ObjectID `json:"eventId" bson:",omitempty"`
+	UserID  *primitive.ObjectID `json:"userId,omitempty" bson:",omitempty"`
+	EventID *primitive.ObjectID `json:"eventId,omitempty" bson:",omitempty"`
 }
 
 type EventParticipationCountInput struct {
 	CommonFilter *EventParticipationCountCommonFilter `json:"commonFilter"`
-	Statuses     []EventParticipationStatus           `json:"statuses"`
+	Statuses     []EventParticipationStatus           `json:"statuses,omitempty"`
 }
 
 type EventParticipationInput struct {
-	ID                     *primitive.ObjectID `json:"id"`
-	RedemptionCode         *string             `json:"redemptionCode"`
-	ChannelPaymentIntentID *string             `json:"channelPaymentIntentId"`
+	ID                     *primitive.ObjectID `json:"id,omitempty"`
+	RedemptionCode         *string             `json:"redemptionCode,omitempty"`
+	ChannelPaymentIntentID *string             `json:"channelPaymentIntentId,omitempty"`
 }
 
 type EventParticipations struct {
@@ -1174,30 +1174,30 @@ type EventParticipationsInput struct {
 	PageNumber          int64                           `json:"pageNumber"`
 	PageSize            int64                           `json:"pageSize"`
 	CommonFilter        *EventParticipationCommonFilter `json:"commonFilter"`
-	DatetimeRangeFilter *DatetimeRangeFilter            `json:"datetimeRangeFilter"`
-	EventFilter         *CommonEventFilter              `json:"eventFilter"`
-	StatusesFilter      []EventParticipationStatus      `json:"statusesFilter"`
+	DatetimeRangeFilter *DatetimeRangeFilter            `json:"datetimeRangeFilter,omitempty"`
+	EventFilter         *CommonEventFilter              `json:"eventFilter,omitempty"`
+	StatusesFilter      []EventParticipationStatus      `json:"statusesFilter,omitempty"`
 }
 
 type EventPet struct {
-	Name     *string             `json:"name"`
-	PhotoURL *string             `json:"photoUrl"`
-	PetID    *primitive.ObjectID `json:"petId"`
-	Pet      PetQueryResult      `json:"pet"`
+	Name     *string             `json:"name,omitempty"`
+	PhotoURL *string             `json:"photoUrl,omitempty"`
+	PetID    *primitive.ObjectID `json:"petId,omitempty"`
+	Pet      PetQueryResult      `json:"pet,omitempty"`
 }
 
 type EventTicket struct {
 	ID                           primitive.ObjectID  `json:"id" bson:"_id"`
 	EventID                      primitive.ObjectID  `json:"eventId"`
-	UserID                       *primitive.ObjectID `json:"userId"`
-	ParticipationID              *primitive.ObjectID `json:"participationId"`
+	UserID                       *primitive.ObjectID `json:"userId,omitempty"`
+	ParticipationID              *primitive.ObjectID `json:"participationId,omitempty"`
 	StartedAt                    primitive.DateTime  `json:"startedAt"`
 	EndedAt                      primitive.DateTime  `json:"endedAt"`
 	Status                       EventTicketStatus   `json:"status"`
 	Type                         EventTicketType     `json:"type"`
 	RedemptionCode               string              `json:"redemptionCode"`
-	RedeemedAt                   *primitive.DateTime `json:"redeemedAt"`
-	RedemptionConfirmationUserID *primitive.ObjectID `json:"redemptionConfirmationUserId"`
+	RedeemedAt                   *primitive.DateTime `json:"redeemedAt,omitempty"`
+	RedemptionConfirmationUserID *primitive.ObjectID `json:"redemptionConfirmationUserId,omitempty"`
 	CreatedAt                    primitive.DateTime  `json:"createdAt"`
 	UpdatedAt                    primitive.DateTime  `json:"updatedAt"`
 }
@@ -1208,22 +1208,22 @@ type EventTickets struct {
 }
 
 type EventTicketsCommonFilter struct {
-	EventID   *primitive.ObjectID `json:"eventId" bson:",omitempty"`
-	Type      *EventTicketType    `json:"type" bson:",omitempty"`
-	StartedAt *primitive.DateTime `json:"startedAt" bson:",omitempty"`
-	EndedAt   *primitive.DateTime `json:"endedAt" bson:",omitempty"`
+	EventID   *primitive.ObjectID `json:"eventId,omitempty" bson:",omitempty"`
+	Type      *EventTicketType    `json:"type,omitempty" bson:",omitempty"`
+	StartedAt *primitive.DateTime `json:"startedAt,omitempty" bson:",omitempty"`
+	EndedAt   *primitive.DateTime `json:"endedAt,omitempty" bson:",omitempty"`
 }
 
 type EventTicketsCountInput struct {
 	CommonFilter *EventTicketsCommonFilter `json:"commonFilter"`
-	Available    *bool                     `json:"available" bson:",omitempty"`
+	Available    *bool                     `json:"available,omitempty" bson:",omitempty"`
 }
 
 type EventTicketsInput struct {
 	PageNumber   int64                     `json:"pageNumber"`
 	PageSize     int64                     `json:"pageSize"`
 	CommonFilter *EventTicketsCommonFilter `json:"commonFilter"`
-	Available    *bool                     `json:"available" bson:",omitempty"`
+	Available    *bool                     `json:"available,omitempty" bson:",omitempty"`
 }
 
 type EventTimeSlot struct {
@@ -1237,7 +1237,7 @@ type EventTimeSlot struct {
 	AvailablePackagesCount               int64              `json:"availablePackagesCount"`
 	AvailableAdditionalParticipantsCount int64              `json:"availableAdditionalParticipantsCount"`
 	AvailableAdditionalPetsCount         int64              `json:"availableAdditionalPetsCount"`
-	SubSlots                             []*EventTimeSlot   `json:"subSlots"`
+	SubSlots                             []*EventTimeSlot   `json:"subSlots,omitempty"`
 }
 
 type Events struct {
@@ -1251,9 +1251,9 @@ type EventsInput struct {
 	PageNumber          int64                `json:"pageNumber"`
 	PageSize            int64                `json:"pageSize"`
 	CommonFilter        *CommonEventFilter   `json:"commonFilter"`
-	CategoriesFilter    *CategoriesFilter    `json:"categoriesFilter"`
-	DatetimeRangeFilter *DatetimeRangeFilter `json:"datetimeRangeFilter"`
-	GeographicFilters   []*GeographicFilter  `json:"geographicFilters"`
+	CategoriesFilter    *CategoriesFilter    `json:"categoriesFilter,omitempty"`
+	DatetimeRangeFilter *DatetimeRangeFilter `json:"datetimeRangeFilter,omitempty"`
+	GeographicFilters   []*GeographicFilter  `json:"geographicFilters,omitempty"`
 }
 
 type FavoriteProductInput struct {
@@ -1279,7 +1279,7 @@ type FcmRegistrationTokenFilter struct {
 
 type Field struct {
 	Name string     `json:"name"`
-	Type *FieldType `json:"type"`
+	Type *FieldType `json:"type,omitempty"`
 	Path string     `json:"path"`
 }
 
@@ -1305,7 +1305,7 @@ type GeoFilter struct {
 
 type GeoJSONPoint struct {
 	Type        string    `json:"type"`
-	Coordinates []float64 `json:"coordinates"`
+	Coordinates []float64 `json:"coordinates,omitempty"`
 }
 
 type GeoLocation struct {
@@ -1314,9 +1314,9 @@ type GeoLocation struct {
 }
 
 type GeoLocationConstraint struct {
-	Location    *GeoJSONPoint `json:"location"`
+	Location    *GeoJSONPoint `json:"location,omitempty"`
 	Enabled     bool          `json:"enabled"`
-	GeoLocation *GeoLocation  `json:"geoLocation"`
+	GeoLocation *GeoLocation  `json:"geoLocation,omitempty"`
 }
 
 type GeoLocationInput struct {
@@ -1325,9 +1325,9 @@ type GeoLocationInput struct {
 }
 
 type GeographicFilter struct {
-	City     *SelectionOptionInput `json:"city"`
-	Region   *SelectionOptionInput `json:"region"`
-	District *SelectionOptionInput `json:"district"`
+	City     *SelectionOptionInput `json:"city,omitempty"`
+	Region   *SelectionOptionInput `json:"region,omitempty"`
+	District *SelectionOptionInput `json:"district,omitempty"`
 }
 
 type HomepagePosts struct {
@@ -1342,15 +1342,15 @@ type Job struct {
 	Id           primitive.ObjectID `json:"id" bson:"_id"`
 	Name         string             `json:"name"`
 	Type         JobType            `json:"type"`
-	Schedule     *Schedule          `json:"schedule"`
+	Schedule     *Schedule          `json:"schedule,omitempty"`
 	Message      *Message           `json:"message"`
 	Activated    bool               `json:"activated"`
 	EntryID      int                `json:"entryId"`
 	CreatedAt    primitive.DateTime `json:"createdAt"`
 	UpdatedAt    primitive.DateTime `json:"updatedAt"`
 	ExecutedAt   primitive.DateTime `json:"executedAt"`
-	UsersFilters *UsersFilters      `json:"usersFilters"`
-	PetsFilters  *PetsFilters       `json:"petsFilters"`
+	UsersFilters *UsersFilters      `json:"usersFilters,omitempty"`
+	PetsFilters  *PetsFilters       `json:"petsFilters,omitempty"`
 	Logs         string             `json:"logs"`
 }
 
@@ -1372,12 +1372,12 @@ func (Jobs) IsJobsResult() {}
 type JobsInput struct {
 	PageNumber          int                  `json:"pageNumber"`
 	PageSize            int                  `json:"pageSize"`
-	JobTypeFilter       *JobTypeFilter       `json:"jobTypeFilter"`
-	JobActivationFilter *JobActivationFilter `json:"jobActivationFilter"`
+	JobTypeFilter       *JobTypeFilter       `json:"jobTypeFilter,omitempty"`
+	JobActivationFilter *JobActivationFilter `json:"jobActivationFilter,omitempty"`
 }
 
 type LandmarkFilter struct {
-	Option *SelectionOptionInput `json:"option"`
+	Option *SelectionOptionInput `json:"option,omitempty"`
 }
 
 type LandmarksFilter struct {
@@ -1396,7 +1396,7 @@ type LoginUserInput struct {
 type Message struct {
 	Title      string   `json:"title"`
 	Body       string   `json:"body"`
-	AppPage    *AppPage `json:"appPage"`
+	AppPage    *AppPage `json:"appPage,omitempty"`
 	PageParams string   `json:"pageParams"`
 }
 
@@ -1404,14 +1404,14 @@ type MessageInput struct {
 	Title      string   `json:"title"`
 	Body       string   `json:"body"`
 	ImageURL   string   `json:"imageUrl"`
-	AppPage    *AppPage `json:"appPage"`
+	AppPage    *AppPage `json:"appPage,omitempty"`
 	PageParams string   `json:"pageParams"`
 }
 
 type MigrateCommentsInput struct {
 	SrcPetID   primitive.ObjectID   `json:"srcPetId"`
 	DstPetID   primitive.ObjectID   `json:"dstPetId"`
-	CommentIds []primitive.ObjectID `json:"commentIds"`
+	CommentIds []primitive.ObjectID `json:"commentIds,omitempty"`
 }
 
 type Moment struct {
@@ -1433,6 +1433,9 @@ type Moments struct {
 
 type MomentsReported struct {
 	MomentIds []string `json:"momentIds"`
+}
+
+type Mutation struct {
 }
 
 type NameTranslations struct {
@@ -1497,7 +1500,7 @@ type OtherFilter struct {
 }
 
 type PaymentIntent struct {
-	Status                 *PaymentIntentStatus `json:"status"`
+	Status                 *PaymentIntentStatus `json:"status,omitempty"`
 	Amount                 int64                `json:"amount"`
 	Currency               Currency             `json:"currency"`
 	DeductedPoints         int64                `json:"deductedPoints"`
@@ -1552,15 +1555,15 @@ type PetProfile struct {
 	NameZh                 string                  `json:"nameZh"`
 	NameEn                 string                  `json:"nameEn"`
 	Birthday               primitive.DateTime      `json:"birthday"`
-	DepartureDate          *primitive.DateTime     `json:"departureDate"`
+	DepartureDate          *primitive.DateTime     `json:"departureDate,omitempty"`
 	BreedName              string                  `json:"breedName"`
-	Breed                  *SelectionOption        `json:"breed"`
+	Breed                  *SelectionOption        `json:"breed,omitempty"`
 	PetOwnerSnsAccount     string                  `json:"petOwnerSnsAccount"`
 	UserID                 primitive.ObjectID      `json:"userId"`
 	User                   UserProfileQueryResult  `json:"user"`
-	Sex                    *Sex                    `json:"sex"`
+	Sex                    *Sex                    `json:"sex,omitempty"`
 	HomeArrivalDate        string                  `json:"homeArrivalDate"`
-	CommentatorCertificate *CommentatorCertificate `json:"commentatorCertificate"`
+	CommentatorCertificate *CommentatorCertificate `json:"commentatorCertificate,omitempty"`
 	CertificateUrls        []string                `json:"certificateUrls"`
 	BodyMeasurementsList   []*PetBodyMeasurements  `json:"bodyMeasurementsList"`
 	PawMeasurementsList    []*PetPawMeasurements   `json:"pawMeasurementsList"`
@@ -1590,28 +1593,28 @@ type PetVax struct {
 
 type PetsFilters struct {
 	IdCardNumber   int           `json:"idCardNumber"`
-	BirthdayFilter *DatesFilter  `json:"birthdayFilter"`
-	BreedsFilter   *BreedsFilter `json:"breedsFilter"`
-	SexesFilter    *SexesFilter  `json:"sexesFilter"`
+	BirthdayFilter *DatesFilter  `json:"birthdayFilter,omitempty"`
+	BreedsFilter   *BreedsFilter `json:"breedsFilter,omitempty"`
+	SexesFilter    *SexesFilter  `json:"sexesFilter,omitempty"`
 }
 
 type PetsFiltersInput struct {
 	IdCardNumber   int                   `json:"idCardNumber"`
-	BirthdayFilter *DatesFilterInput     `json:"birthdayFilter"`
-	Breeds         []*SelectOptionFilter `json:"breeds"`
-	Sexes          []*SelectOptionFilter `json:"sexes"`
+	BirthdayFilter *DatesFilterInput     `json:"birthdayFilter,omitempty"`
+	Breeds         []*SelectOptionFilter `json:"breeds,omitempty"`
+	Sexes          []*SelectOptionFilter `json:"sexes,omitempty"`
 }
 
 type PetsInput struct {
-	UserID                             *primitive.ObjectID                 `json:"userId"`
+	UserID                             *primitive.ObjectID                 `json:"userId,omitempty"`
 	PageNumber                         int                                 `json:"pageNumber"`
 	PageSize                           int                                 `json:"pageSize"`
 	MatchingText                       string                              `json:"matchingText"`
-	CommentatorCertificateStatusFilter *CommentatorCertificateStatusFilter `json:"commentatorCertificateStatusFilter"`
+	CommentatorCertificateStatusFilter *CommentatorCertificateStatusFilter `json:"commentatorCertificateStatusFilter,omitempty"`
 	IDCardNumber                       int                                 `json:"idCardNumber"`
-	BirthdayFilter                     *DatesFilterInput                   `json:"birthdayFilter"`
-	Breeds                             []*SelectOptionFilter               `json:"breeds"`
-	Sexes                              []*SelectOptionFilter               `json:"sexes"`
+	BirthdayFilter                     *DatesFilterInput                   `json:"birthdayFilter,omitempty"`
+	Breeds                             []*SelectOptionFilter               `json:"breeds,omitempty"`
+	Sexes                              []*SelectOptionFilter               `json:"sexes,omitempty"`
 }
 
 type PetsWithCommentsInput struct {
@@ -1619,9 +1622,9 @@ type PetsWithCommentsInput struct {
 	PageSize                     int               `json:"pageSize"`
 	CommentPageNumber            int               `json:"commentPageNumber"`
 	CommentPageSize              int               `json:"commentPageSize"`
-	CommentDatesFilter           *DatesFilterInput `json:"commentDatesFilter"`
-	CommentRecommended           *bool             `json:"commentRecommended"`
-	CommentatorCertificateLevels []int             `json:"commentatorCertificateLevels"`
+	CommentDatesFilter           *DatesFilterInput `json:"commentDatesFilter,omitempty"`
+	CommentRecommended           *bool             `json:"commentRecommended,omitempty"`
+	CommentatorCertificateLevels []int             `json:"commentatorCertificateLevels,omitempty"`
 }
 
 type Photo struct {
@@ -1637,7 +1640,7 @@ type PhotoInput struct {
 
 type PointTransaction struct {
 	ID           primitive.ObjectID      `json:"id" bson:"_id"`
-	UserID       *primitive.ObjectID     `json:"userId" bson:",omitempty"`
+	UserID       *primitive.ObjectID     `json:"userId,omitempty" bson:",omitempty"`
 	SourceEntity TransactionSourceEntity `json:"sourceEntity"`
 	Type         TransactionType         `json:"type"`
 	Amount       int64                   `json:"amount"`
@@ -1645,7 +1648,7 @@ type PointTransaction struct {
 	UpdatedAt    primitive.DateTime      `json:"updatedAt"`
 	CreatedAt    primitive.DateTime      `json:"createdAt"`
 	Remarks      string                  `json:"remarks"`
-	Details      TransactionDetails      `json:"details"`
+	Details      TransactionDetails      `json:"details,omitempty"`
 }
 
 func (PointTransaction) IsPointTransactionQueryResult() {}
@@ -1658,17 +1661,17 @@ type PointTransactions struct {
 func (PointTransactions) IsPointTransactionsQueryResult() {}
 
 type PointTransactionsCommonFilter struct {
-	UserID       *primitive.ObjectID      `json:"userId" bson:",omitempty"`
-	SourceEntity *TransactionSourceEntity `json:"sourceEntity" bson:",omitempty"`
-	Type         *TransactionType         `json:"type" bson:",omitempty"`
-	Accumulated  *bool                    `json:"accumulated" bson:",omitempty"`
+	UserID       *primitive.ObjectID      `json:"userId,omitempty" bson:",omitempty"`
+	SourceEntity *TransactionSourceEntity `json:"sourceEntity,omitempty" bson:",omitempty"`
+	Type         *TransactionType         `json:"type,omitempty" bson:",omitempty"`
+	Accumulated  *bool                    `json:"accumulated,omitempty" bson:",omitempty"`
 }
 
 type PointTransctionsInput struct {
 	PageSize     int                            `json:"pageSize"`
 	PageNumber   int                            `json:"pageNumber"`
 	CommonFilter *PointTransactionsCommonFilter `json:"commonFilter"`
-	DatesFilter  *DatesFilterInput              `json:"datesFilter"`
+	DatesFilter  *DatesFilterInput              `json:"datesFilter,omitempty"`
 }
 
 type Product struct {
@@ -1677,26 +1680,26 @@ type Product struct {
 	User                       UserProfileQueryResult `json:"user"`
 	AuthorizedOperationUserIds []primitive.ObjectID   `json:"authorizedOperationUserIds"`
 	Name                       string                 `json:"name"`
-	Type                       *ProductType           `json:"type"`
+	Type                       *ProductType           `json:"type,omitempty"`
 	FavoritingUserIds          []primitive.ObjectID   `json:"favoritingUserIds"`
 	Favorited                  bool                   `json:"favorited"`
 	FavoriteCount              int64                  `json:"favoriteCount"`
-	Rating                     *float64               `json:"rating"`
+	Rating                     *float64               `json:"rating,omitempty"`
 	Online                     bool                   `json:"online"`
 	Introduction               string                 `json:"introduction"`
 	Details                    string                 `json:"details"`
 	Notice                     string                 `json:"notice"`
 	Terms                      string                 `json:"terms"`
 	ServiceLocation            string                 `json:"serviceLocation"`
-	CategoryOptions            []*SelectionOption     `json:"categoryOptions"`
+	CategoryOptions            []*SelectionOption     `json:"categoryOptions,omitempty"`
 	Photos                     []*Photo               `json:"photos"`
 	CreatedAt                  primitive.DateTime     `json:"createdAt"`
 	UpdatedAt                  primitive.DateTime     `json:"updatedAt"`
-	Pricing                    *ProductPricing        `json:"pricing"`
+	Pricing                    *ProductPricing        `json:"pricing,omitempty"`
 	MaxPurchasesPerUser        int64                  `json:"maxPurchasesPerUser"`
 	Recommended                bool                   `json:"recommended"`
 	Available                  bool                   `json:"available"`
-	ShareContent               *ShareContent          `json:"shareContent"`
+	ShareContent               *ShareContent          `json:"shareContent,omitempty"`
 }
 
 func (Product) IsProductQueryResult() {}
@@ -1704,16 +1707,16 @@ func (Product) IsProductQueryResult() {}
 type ProductPricing struct {
 	MaxParchases      int64     `json:"maxParchases"`
 	Price             int64     `json:"price"`
-	PriceLabel        *string   `json:"priceLabel"`
-	Currency          *Currency `json:"currency"`
-	MaxCash           *int64    `json:"maxCash"`
-	MinCash           *int64    `json:"minCash"`
-	MaxPoints         *int64    `json:"maxPoints"`
-	PointsCashRatio   *float64  `json:"pointsCashRatio"`
+	PriceLabel        *string   `json:"priceLabel,omitempty"`
+	Currency          *Currency `json:"currency,omitempty"`
+	MaxCash           *int64    `json:"maxCash,omitempty"`
+	MinCash           *int64    `json:"minCash,omitempty"`
+	MaxPoints         *int64    `json:"maxPoints,omitempty"`
+	PointsCashRatio   *float64  `json:"pointsCashRatio,omitempty"`
 	ExtraPoints       int64     `json:"extraPoints"`
 	Points            int64     `json:"points"`
-	PointsRewardRatio *float64  `json:"pointsRewardRatio"`
-	Remarks           *string   `json:"remarks"`
+	PointsRewardRatio *float64  `json:"pointsRewardRatio,omitempty"`
+	Remarks           *string   `json:"remarks,omitempty"`
 }
 
 type Products struct {
@@ -1727,9 +1730,9 @@ type ProductsInput struct {
 	PageNumber      int64                   `json:"pageNumber"`
 	PageSize        int64                   `json:"pageSize"`
 	CommonFilter    *CommonProductFilter    `json:"commonFilter"`
-	Favorited       *bool                   `json:"favorited"`
+	Favorited       *bool                   `json:"favorited,omitempty"`
 	MatchingText    string                  `json:"matchingText"`
-	CategoryOptions []*SelectionOptionInput `json:"categoryOptions"`
+	CategoryOptions []*SelectionOptionInput `json:"categoryOptions,omitempty"`
 }
 
 type Program struct {
@@ -1760,11 +1763,11 @@ type ProgramOrder struct {
 	User                UserProfileQueryResult `json:"user"`
 	ProgramID           primitive.ObjectID     `json:"programId"`
 	Program             ProgramQueryResult     `json:"program"`
-	OperationUserID     *primitive.ObjectID    `json:"operationUserId"`
+	OperationUserID     *primitive.ObjectID    `json:"operationUserId,omitempty"`
 	Status              OrderStatus            `json:"status"`
 	Amount              int                    `json:"amount"`
-	StripePaymentIntent *PaymentIntent         `json:"stripePaymentIntent"`
-	BbmslReference      *BbmslReference        `json:"bbmslReference"`
+	StripePaymentIntent *PaymentIntent         `json:"stripePaymentIntent,omitempty"`
+	BbmslReference      *BbmslReference        `json:"bbmslReference,omitempty"`
 	CreatedAt           primitive.DateTime     `json:"createdAt"`
 	UpdatedAt           primitive.DateTime     `json:"updatedAt"`
 }
@@ -1787,13 +1790,13 @@ func (ProgramOrder) IsUpdateProgramOrderResult() {}
 func (ProgramOrder) IsProgramOrderQueryResult() {}
 
 type ProgramOrderCommonFilter struct {
-	ProgramID *primitive.ObjectID `json:"programId" bson:",omitempty"`
-	Status    *OrderStatus        `json:"status" bson:",omitempty"`
+	ProgramID *primitive.ObjectID `json:"programId,omitempty" bson:",omitempty"`
+	Status    *OrderStatus        `json:"status,omitempty" bson:",omitempty"`
 }
 
 type ProgramOrders struct {
 	TotalCount int64           `json:"totalCount"`
-	Items      []*ProgramOrder `json:"items"`
+	Items      []*ProgramOrder `json:"items,omitempty"`
 }
 
 func (ProgramOrders) IsProgramOrdersQueryResult() {}
@@ -1805,21 +1808,24 @@ type ProgramOrdersInput struct {
 }
 
 type Programs struct {
-	Items      []*Program `json:"items"`
+	Items      []*Program `json:"items,omitempty"`
 	TotalCount int64      `json:"totalCount"`
 }
 
 func (Programs) IsProgramsQueryResult() {}
 
 type ProgramsCommonFilter struct {
-	Available *bool        `json:"available" bson:",omitempty"`
-	Type      *ProgramType `json:"type" bson:",omitempty"`
+	Available *bool        `json:"available,omitempty" bson:",omitempty"`
+	Type      *ProgramType `json:"type,omitempty" bson:",omitempty"`
 }
 
 type ProgramsInput struct {
 	PageSize     int64                 `json:"pageSize"`
 	PageNumber   int64                 `json:"pageNumber"`
 	CommonFilter *ProgramsCommonFilter `json:"commonFilter"`
+}
+
+type Query struct {
 }
 
 type RankingFilter struct {
@@ -1842,8 +1848,8 @@ type RetailerNameEntriesInput struct {
 	StartUserID       string             `json:"startUserId"`
 	MatchingName      string             `json:"matchingName"`
 	MatchingAddress   string             `json:"matchingAddress"`
-	TerritoriesFilter *TerritoriesFilter `json:"territoriesFilter"`
-	LandmarksFilter   *LandmarksFilter   `json:"landmarksFilter"`
+	TerritoriesFilter *TerritoriesFilter `json:"territoriesFilter,omitempty"`
+	LandmarksFilter   *LandmarksFilter   `json:"landmarksFilter,omitempty"`
 }
 
 type RetailerNameEntry struct {
@@ -1861,24 +1867,24 @@ type RetailerProfile struct {
 	Name                 string             `json:"name"`
 	Phone                string             `json:"phone"`
 	Email                string             `json:"email"`
-	GeoLocation          *GeoLocation       `json:"geoLocation"`
+	GeoLocation          *GeoLocation       `json:"geoLocation,omitempty"`
 	ShopPhotoUrls        []string           `json:"shopPhotoUrls"`
 	ShopPhotos           []*Photo           `json:"shopPhotos"`
 	ShopIntro            string             `json:"shopIntro"`
-	City                 *SelectionOption   `json:"city"`
-	Region               *SelectionOption   `json:"region"`
-	District             *SelectionOption   `json:"district"`
-	Landmark             *SelectionOption   `json:"landmark"`
+	City                 *SelectionOption   `json:"city,omitempty"`
+	Region               *SelectionOption   `json:"region,omitempty"`
+	District             *SelectionOption   `json:"district,omitempty"`
+	Landmark             *SelectionOption   `json:"landmark,omitempty"`
 	Address              string             `json:"address"`
-	Moments              []*Moment          `json:"moments"`
+	Moments              []*Moment          `json:"moments,omitempty"`
 	PaymentMethods       []*SelectionOption `json:"paymentMethods"`
-	Category             *SelectionOption   `json:"category"`
+	Category             *SelectionOption   `json:"category,omitempty"`
 	RawData              string             `json:"rawData"`
-	CategoryOptions      []*SelectionOption `json:"categoryOptions"`
-	SortingOption        *SelectionOption   `json:"sortingOption"`
+	CategoryOptions      []*SelectionOption `json:"categoryOptions,omitempty"`
+	SortingOption        *SelectionOption   `json:"sortingOption,omitempty"`
 	CalculatedDistance   float64            `json:"calculatedDistance"`
 	Favorited            bool               `json:"favorited"`
-	FavoritingUserIds    []string           `json:"favoritingUserIds"`
+	FavoritingUserIds    []string           `json:"favoritingUserIds,omitempty"`
 	FavoritingUsersCount int                `json:"favoritingUsersCount"`
 	Promotions           string             `json:"promotions"`
 	OpeningHours         string             `json:"openingHours"`
@@ -1888,15 +1894,15 @@ type RetailerProfile struct {
 	InstagramAccount     string             `json:"instagramAccount"`
 	WhatsappAccount      string             `json:"whatsappAccount"`
 	RedbookAccount       string             `json:"redbookAccount"`
-	ShareContent         *ShareContent      `json:"shareContent"`
+	ShareContent         *ShareContent      `json:"shareContent,omitempty"`
 	Recommended          bool               `json:"recommended"`
-	Rating               *float64           `json:"rating"`
-	Sequence             *int               `json:"sequence"`
+	Rating               *float64           `json:"rating,omitempty"`
+	Sequence             *int               `json:"sequence,omitempty"`
 	BusinessLicense      string             `json:"businessLicense"`
 	CreatedAt            primitive.DateTime `json:"createdAt"`
 	UpdatedAt            primitive.DateTime `json:"updatedAt"`
-	CreatedBy            *UserProfile       `json:"createdBy"`
-	ProgramEnrollment    *ProgramEnrollment `json:"programEnrollment"`
+	CreatedBy            *UserProfile       `json:"createdBy,omitempty"`
+	ProgramEnrollment    *ProgramEnrollment `json:"programEnrollment,omitempty"`
 }
 
 type RetailerProfiles struct {
@@ -1917,19 +1923,19 @@ type RetailersInput struct {
 	MatchingName         string                  `json:"matchingName"`
 	MatchingText         string                  `json:"matchingText"`
 	MatchingPhoneOrEmail string                  `json:"matchingPhoneOrEmail"`
-	MatchingUserIds      []primitive.ObjectID    `json:"matchingUserIds"`
-	TerritoriesFilter    *TerritoriesFilter      `json:"territoriesFilter"`
-	LandmarksFilter      *LandmarksFilter        `json:"landmarksFilter"`
-	CategoriesFilter     *CategoriesFilter       `json:"categoriesFilter"`
-	CategoryOptions      []*SelectionOptionInput `json:"categoryOptions"`
-	GeoFilter            *GeoFilter              `json:"geoFilter"`
-	TimeFilter           *TimeFilter             `json:"timeFilter"`
-	RoleFilter           *RoleFilter             `json:"roleFilter"`
-	LevelFilter          *LevelFilter            `json:"levelFilter"`
-	Recommended          *bool                   `json:"recommended"`
-	Favorited            *bool                   `json:"favorited"`
-	Approved             *bool                   `json:"approved"`
-	SortBy               *SortBy                 `json:"sortBy"`
+	MatchingUserIds      []primitive.ObjectID    `json:"matchingUserIds,omitempty"`
+	TerritoriesFilter    *TerritoriesFilter      `json:"territoriesFilter,omitempty"`
+	LandmarksFilter      *LandmarksFilter        `json:"landmarksFilter,omitempty"`
+	CategoriesFilter     *CategoriesFilter       `json:"categoriesFilter,omitempty"`
+	CategoryOptions      []*SelectionOptionInput `json:"categoryOptions,omitempty"`
+	GeoFilter            *GeoFilter              `json:"geoFilter,omitempty"`
+	TimeFilter           *TimeFilter             `json:"timeFilter,omitempty"`
+	RoleFilter           *RoleFilter             `json:"roleFilter,omitempty"`
+	LevelFilter          *LevelFilter            `json:"levelFilter,omitempty"`
+	Recommended          *bool                   `json:"recommended,omitempty"`
+	Favorited            *bool                   `json:"favorited,omitempty"`
+	Approved             *bool                   `json:"approved,omitempty"`
+	SortBy               *SortBy                 `json:"sortBy,omitempty"`
 }
 
 type ReviewScoreOption struct {
@@ -1937,7 +1943,7 @@ type ReviewScoreOption struct {
 	Name    string               `json:"name"`
 	IconURL string               `json:"iconUrl"`
 	Score   float64              `json:"score"`
-	Options []*ReviewScoreOption `json:"options"`
+	Options []*ReviewScoreOption `json:"options,omitempty"`
 }
 
 type RoleFilter struct {
@@ -1962,32 +1968,32 @@ type SelectOption struct {
 	ID      string          `json:"id"`
 	Name    string          `json:"name"`
 	IconURL string          `json:"iconUrl"`
-	Options []*SelectOption `json:"options"`
+	Options []*SelectOption `json:"options,omitempty"`
 }
 
 type SelectOptionFilter struct {
 	ID      string                `json:"id"`
 	Name    string                `json:"name"`
-	Options []*SelectOptionFilter `json:"options"`
+	Options []*SelectOptionFilter `json:"options,omitempty"`
 }
 
 type SelectionOption struct {
 	ID      string             `json:"id"`
 	Name    string             `json:"name"`
-	Options []*SelectionOption `json:"options"`
+	Options []*SelectionOption `json:"options,omitempty"`
 }
 
 type SelectionOptionInput struct {
 	ID      string                  `json:"id"`
 	Name    string                  `json:"name"`
-	Options []*SelectionOptionInput `json:"options"`
+	Options []*SelectionOptionInput `json:"options,omitempty"`
 }
 
 type SendMessageInput struct {
 	Message      *MessageInput      `json:"message"`
-	PetsFilters  *PetsFiltersInput  `json:"petsFilters"`
-	UsersFilters *UsersFiltersInput `json:"usersFilters"`
-	EventFilter  *EventFilterInput  `json:"eventFilter"`
+	PetsFilters  *PetsFiltersInput  `json:"petsFilters,omitempty"`
+	UsersFilters *UsersFiltersInput `json:"usersFilters,omitempty"`
+	EventFilter  *EventFilterInput  `json:"eventFilter,omitempty"`
 	WetRun       bool               `json:"wetRun"`
 	JobID        primitive.ObjectID `json:"jobId"`
 }
@@ -2145,22 +2151,22 @@ type Task struct {
 	Introduction  string              `json:"introduction"`
 	IconURL       string              `json:"iconUrl"`
 	DetailsURL    string              `json:"detailsUrl"`
-	StartedAt     *primitive.DateTime `json:"startedAt"`
-	EndedAt       *primitive.DateTime `json:"endedAt"`
+	StartedAt     *primitive.DateTime `json:"startedAt,omitempty"`
+	EndedAt       *primitive.DateTime `json:"endedAt,omitempty"`
 	Type          TaskType            `json:"type"`
 	Status        TaskStatus          `json:"status"`
-	Points        *int64              `json:"points"`
-	VoucherID     *primitive.ObjectID `json:"voucherId"`
-	ShareContent  *ShareContent       `json:"shareContent"`
-	Participation *TaskParticipation  `json:"participation"`
+	Points        *int64              `json:"points,omitempty"`
+	VoucherID     *primitive.ObjectID `json:"voucherId,omitempty"`
+	ShareContent  *ShareContent       `json:"shareContent,omitempty"`
+	Participation *TaskParticipation  `json:"participation,omitempty"`
 	Conditional   bool                `json:"conditional"`
-	AppPage       *AppPage            `json:"appPage"`
+	AppPage       *AppPage            `json:"appPage,omitempty"`
 	PageParams    string              `json:"pageParams"`
 }
 
 type TaskFilter struct {
-	Status *TaskStatus `json:"status"`
-	Type   *TaskType   `json:"type"`
+	Status *TaskStatus `json:"status,omitempty"`
+	Type   *TaskType   `json:"type,omitempty"`
 }
 
 type TaskParticipation struct {
@@ -2175,7 +2181,7 @@ type TaskParticipation struct {
 }
 
 type TaskParticipationFilter struct {
-	Status *TaskParticipationStatus `json:"status"`
+	Status *TaskParticipationStatus `json:"status,omitempty"`
 }
 
 type TaskParticipationList struct {
@@ -2187,7 +2193,7 @@ type TaskParticipationListInput struct {
 	PageNumber               int                      `json:"pageNumber"`
 	UserID                   string                   `json:"userId"`
 	StartTaskParticipationID string                   `json:"startTaskParticipationId"`
-	Filter                   *TaskParticipationFilter `json:"filter"`
+	Filter                   *TaskParticipationFilter `json:"filter,omitempty"`
 }
 
 type Tasks struct {
@@ -2200,8 +2206,8 @@ func (Tasks) IsTasksQueryResult() {}
 type TasksInput struct {
 	PageSize            int                      `json:"pageSize"`
 	PageNumber          int                      `json:"pageNumber"`
-	TaskFilter          *TaskFilter              `json:"taskFilter"`
-	ParticipationFilter *TaskParticipationFilter `json:"participationFilter"`
+	TaskFilter          *TaskFilter              `json:"taskFilter,omitempty"`
+	ParticipationFilter *TaskParticipationFilter `json:"participationFilter,omitempty"`
 }
 
 type TerritoriesFilter struct {
@@ -2209,9 +2215,9 @@ type TerritoriesFilter struct {
 }
 
 type TerritoryFilter struct {
-	City     *SelectionOptionInput `json:"city"`
-	Region   *SelectionOptionInput `json:"region"`
-	District *SelectionOptionInput `json:"district"`
+	City     *SelectionOptionInput `json:"city,omitempty"`
+	Region   *SelectionOptionInput `json:"region,omitempty"`
+	District *SelectionOptionInput `json:"district,omitempty"`
 }
 
 type ThirdPartyTransactionDetails struct {
@@ -2222,7 +2228,7 @@ type ThirdPartyTransactionDetails struct {
 	OrderNumber   string        `json:"orderNumber"`
 	MerchantID    string        `json:"merchantId"`
 	MerchantName  string        `json:"merchantName"`
-	OrderPayment  *OrderPayment `json:"orderPayment"`
+	OrderPayment  *OrderPayment `json:"orderPayment,omitempty"`
 }
 
 func (ThirdPartyTransactionDetails) IsTransactionDetails() {}
@@ -2243,41 +2249,41 @@ type UnbindPhoneOrEmailInput struct {
 }
 
 type UpdateAddionalPetPricing struct {
-	MaxPets           *int64    `json:"maxPets" bson:",omitempty"`
-	Price             *int64    `json:"price" bson:",omitempty"`
-	PriceLabel        *string   `json:"priceLabel" bson:",omitempty"`
-	Currency          *Currency `json:"currency" bson:",omitempty"`
-	MaxCash           *int64    `json:"maxCash" bson:",omitempty"`
-	MinCash           *int64    `json:"minCash" bson:",omitempty"`
-	MaxPoints         *int64    `json:"maxPoints" bson:",omitempty"`
-	PointsCashRatio   *float64  `json:"pointsCashRatio" bson:",omitempty"`
-	ExtraPoints       *int64    `json:"extraPoints" bson:",omitempty"`
-	PointsRewardRatio *float64  `json:"pointsRewardRatio" bson:",omitempty"`
+	MaxPets           *int64    `json:"maxPets,omitempty" bson:",omitempty"`
+	Price             *int64    `json:"price,omitempty" bson:",omitempty"`
+	PriceLabel        *string   `json:"priceLabel,omitempty" bson:",omitempty"`
+	Currency          *Currency `json:"currency,omitempty" bson:",omitempty"`
+	MaxCash           *int64    `json:"maxCash,omitempty" bson:",omitempty"`
+	MinCash           *int64    `json:"minCash,omitempty" bson:",omitempty"`
+	MaxPoints         *int64    `json:"maxPoints,omitempty" bson:",omitempty"`
+	PointsCashRatio   *float64  `json:"pointsCashRatio,omitempty" bson:",omitempty"`
+	ExtraPoints       *int64    `json:"extraPoints,omitempty" bson:",omitempty"`
+	PointsRewardRatio *float64  `json:"pointsRewardRatio,omitempty" bson:",omitempty"`
 }
 
 type UpdateAdditionalParticipantPricing struct {
-	MaxParticipants   *int64    `json:"maxParticipants" bson:",omitempty"`
-	Price             *int64    `json:"price" bson:",omitempty"`
-	PriceLabel        *string   `json:"priceLabel" bson:",omitempty"`
-	Currency          *Currency `json:"currency" bson:",omitempty"`
-	MaxCash           *int64    `json:"maxCash" bson:",omitempty"`
-	MinCash           *int64    `json:"minCash" bson:",omitempty"`
-	MaxPoints         *int64    `json:"maxPoints" bson:",omitempty"`
-	PointsCashRatio   *float64  `json:"pointsCashRatio" bson:",omitempty"`
-	ExtraPoints       *int64    `json:"extraPoints" bson:",omitempty"`
-	PointsRewardRatio *float64  `json:"pointsRewardRatio" bson:",omitempty"`
+	MaxParticipants   *int64    `json:"maxParticipants,omitempty" bson:",omitempty"`
+	Price             *int64    `json:"price,omitempty" bson:",omitempty"`
+	PriceLabel        *string   `json:"priceLabel,omitempty" bson:",omitempty"`
+	Currency          *Currency `json:"currency,omitempty" bson:",omitempty"`
+	MaxCash           *int64    `json:"maxCash,omitempty" bson:",omitempty"`
+	MinCash           *int64    `json:"minCash,omitempty" bson:",omitempty"`
+	MaxPoints         *int64    `json:"maxPoints,omitempty" bson:",omitempty"`
+	PointsCashRatio   *float64  `json:"pointsCashRatio,omitempty" bson:",omitempty"`
+	ExtraPoints       *int64    `json:"extraPoints,omitempty" bson:",omitempty"`
+	PointsRewardRatio *float64  `json:"pointsRewardRatio,omitempty" bson:",omitempty"`
 }
 
 type UpdateAdoptionAd struct {
-	AgencyID  *primitive.ObjectID   `json:"agencyId" bson:",omitempty"`
-	PetName   *string               `json:"petName" bson:",omitempty"`
-	Sex       *Sex                  `json:"sex" bson:",omitempty"`
-	PetAge    *string               `json:"petAge" bson:",omitempty"`
-	Breed     *SelectionOptionInput `json:"breed" bson:",omitempty"`
-	PhotoUrls []string              `json:"photoUrls" bson:",omitempty"`
-	Remarks   *string               `json:"remarks" bson:",omitempty"`
-	Hidden    *bool                 `json:"hidden" bson:",omitempty"`
-	Adopted   *bool                 `json:"adopted" bson:",omitempty"`
+	AgencyID  *primitive.ObjectID   `json:"agencyId,omitempty" bson:",omitempty"`
+	PetName   *string               `json:"petName,omitempty" bson:",omitempty"`
+	Sex       *Sex                  `json:"sex,omitempty" bson:",omitempty"`
+	PetAge    *string               `json:"petAge,omitempty" bson:",omitempty"`
+	Breed     *SelectionOptionInput `json:"breed,omitempty" bson:",omitempty"`
+	PhotoUrls []string              `json:"photoUrls,omitempty" bson:",omitempty"`
+	Remarks   *string               `json:"remarks,omitempty" bson:",omitempty"`
+	Hidden    *bool                 `json:"hidden,omitempty" bson:",omitempty"`
+	Adopted   *bool                 `json:"adopted,omitempty" bson:",omitempty"`
 }
 
 type UpdateAdoptionAdInput struct {
@@ -2286,18 +2292,18 @@ type UpdateAdoptionAdInput struct {
 }
 
 type UpdateAdoptionAgency struct {
-	UserID         *primitive.ObjectID    `json:"userId" bson:",omitempty"`
-	Name           *string                `json:"name" bson:",omitempty"`
-	AvatarURL      *string                `json:"avatarUrl" bson:",omitempty"`
-	Phone          *string                `json:"phone" bson:",omitempty"`
-	Address        *string                `json:"address" bson:",omitempty"`
-	GeoLocation    *GeoLocationInput      `json:"geoLocation" bson:",omitempty"`
-	WebsiteURL     *string                `json:"websiteUrl" bson:",omitempty"`
-	PhotoUrls      []string               `json:"photoUrls" bson:",omitempty"`
-	Introduction   *string                `json:"introduction" bson:",omitempty"`
-	Activity       *AdoptionActivityInput `json:"activity" bson:",omitempty"`
-	DonationMethod *DonationMethodInput   `json:"donationMethod" bson:",omitempty"`
-	Approved       *bool                  `json:"approved" bson:",omitempty"`
+	UserID         *primitive.ObjectID    `json:"userId,omitempty" bson:",omitempty"`
+	Name           *string                `json:"name,omitempty" bson:",omitempty"`
+	AvatarURL      *string                `json:"avatarUrl,omitempty" bson:",omitempty"`
+	Phone          *string                `json:"phone,omitempty" bson:",omitempty"`
+	Address        *string                `json:"address,omitempty" bson:",omitempty"`
+	GeoLocation    *GeoLocationInput      `json:"geoLocation,omitempty" bson:",omitempty"`
+	WebsiteURL     *string                `json:"websiteUrl,omitempty" bson:",omitempty"`
+	PhotoUrls      []string               `json:"photoUrls,omitempty" bson:",omitempty"`
+	Introduction   *string                `json:"introduction,omitempty" bson:",omitempty"`
+	Activity       *AdoptionActivityInput `json:"activity,omitempty" bson:",omitempty"`
+	DonationMethod *DonationMethodInput   `json:"donationMethod,omitempty" bson:",omitempty"`
+	Approved       *bool                  `json:"approved,omitempty" bson:",omitempty"`
 }
 
 type UpdateAdoptionAgencyInput struct {
@@ -2306,9 +2312,9 @@ type UpdateAdoptionAgencyInput struct {
 }
 
 type UpdateAppConfig struct {
-	Categories []*UpdateSelectOption `json:"categories" bson:",omitempty"`
-	Scores     []*UpdateSelectOption `json:"scores" bson:",omitempty"`
-	Breeds     []*UpdateSelectOption `json:"breeds" bson:",omitempty"`
+	Categories []*UpdateSelectOption `json:"categories,omitempty" bson:",omitempty"`
+	Scores     []*UpdateSelectOption `json:"scores,omitempty" bson:",omitempty"`
+	Breeds     []*UpdateSelectOption `json:"breeds,omitempty" bson:",omitempty"`
 }
 
 type UpdateAppConfigInput struct {
@@ -2318,10 +2324,10 @@ type UpdateAppConfigInput struct {
 }
 
 type UpdateAppVersionInfo struct {
-	LatestReleasedVersion  *string `json:"latestReleasedVersion" bson:",omitempty"`
-	LowestSupportedVersion *string `json:"lowestSupportedVersion" bson:",omitempty"`
-	Details                *string `json:"details" bson:",omitempty"`
-	DetailsURL             *string `json:"detailsUrl" bson:",omitempty"`
+	LatestReleasedVersion  *string `json:"latestReleasedVersion,omitempty" bson:",omitempty"`
+	LowestSupportedVersion *string `json:"lowestSupportedVersion,omitempty" bson:",omitempty"`
+	Details                *string `json:"details,omitempty" bson:",omitempty"`
+	DetailsURL             *string `json:"detailsUrl,omitempty" bson:",omitempty"`
 }
 
 type UpdateAppVersionInfoInput struct {
@@ -2330,13 +2336,13 @@ type UpdateAppVersionInfoInput struct {
 }
 
 type UpdateBanner struct {
-	Name          *string            `json:"name" bson:",omitempty"`
-	ImageURL      *string            `json:"imageUrl" bson:",omitempty"`
-	PopupImageURL *string            `json:"popupImageUrl" bson:",omitempty"`
-	AppPage       *AppPage           `json:"appPage" bson:",omitempty"`
-	PageParams    *string            `json:"pageParams" bson:",omitempty"`
-	DisplayPage   *BannerDisplayPage `json:"displayPage" bson:",omitempty"`
-	Visible       *bool              `json:"visible" bson:",omitempty"`
+	Name          *string            `json:"name,omitempty" bson:",omitempty"`
+	ImageURL      *string            `json:"imageUrl,omitempty" bson:",omitempty"`
+	PopupImageURL *string            `json:"popupImageUrl,omitempty" bson:",omitempty"`
+	AppPage       *AppPage           `json:"appPage,omitempty" bson:",omitempty"`
+	PageParams    *string            `json:"pageParams,omitempty" bson:",omitempty"`
+	DisplayPage   *BannerDisplayPage `json:"displayPage,omitempty" bson:",omitempty"`
+	Visible       *bool              `json:"visible,omitempty" bson:",omitempty"`
 }
 
 type UpdateBannerInput struct {
@@ -2345,33 +2351,33 @@ type UpdateBannerInput struct {
 }
 
 type UpdateBbmslOrder struct {
-	ID                *int    `json:"id" bson:",omitempty"`
-	MerchantID        *int    `json:"merchantId" bson:",omitempty"`
-	MerchantReference *string `json:"merchantReference" bson:",omitempty"`
-	Currency          *string `json:"currency" bson:",omitempty"`
-	Amount            *int    `json:"amount" bson:",omitempty"`
-	NetAmount         *int    `json:"netAmount" bson:",omitempty"`
-	CreateTime        *string `json:"createTime" bson:",omitempty"`
-	UpdateTime        *string `json:"updateTime" bson:",omitempty"`
-	Status            *string `json:"status" bson:",omitempty"`
-	Recurring         *bool   `json:"recurring" bson:",omitempty"`
+	ID                *int    `json:"id,omitempty" bson:",omitempty"`
+	MerchantID        *int    `json:"merchantId,omitempty" bson:",omitempty"`
+	MerchantReference *string `json:"merchantReference,omitempty" bson:",omitempty"`
+	Currency          *string `json:"currency,omitempty" bson:",omitempty"`
+	Amount            *int    `json:"amount,omitempty" bson:",omitempty"`
+	NetAmount         *int    `json:"netAmount,omitempty" bson:",omitempty"`
+	CreateTime        *string `json:"createTime,omitempty" bson:",omitempty"`
+	UpdateTime        *string `json:"updateTime,omitempty" bson:",omitempty"`
+	Status            *string `json:"status,omitempty" bson:",omitempty"`
+	Recurring         *bool   `json:"recurring,omitempty" bson:",omitempty"`
 }
 
 type UpdateBbmslReference struct {
-	CheckoutURL *string           `json:"checkoutUrl" bson:",omitempty"`
-	Order       *UpdateBbmslOrder `json:"order" bson:",omitempty"`
+	CheckoutURL *string           `json:"checkoutUrl,omitempty" bson:",omitempty"`
+	Order       *UpdateBbmslOrder `json:"order,omitempty" bson:",omitempty"`
 }
 
 type UpdateCheckInCounter struct {
-	Name                  *string                      `json:"name" bson:",omitempty"`
-	Greetings             *string                      `json:"greetings" bson:",omitempty"`
-	ProductID             *primitive.ObjectID          `json:"productId" bson:",omitempty"`
-	ProductName           *string                      `json:"productName" bson:",omitempty"`
-	QRCodeURL             *string                      `json:"qrCodeUrl" bson:",omitempty"`
-	Points                *int64                       `json:"points" bson:",omitempty"`
-	ValidTo               *primitive.DateTime          `json:"validTo" bson:",omitempty"`
-	ValidFrom             *primitive.DateTime          `json:"validFrom" bson:",omitempty"`
-	GeoLocationConstraint *UpdateGeoLocationConstraint `json:"geoLocationConstraint" bson:",omitempty"`
+	Name                  *string                      `json:"name,omitempty" bson:",omitempty"`
+	Greetings             *string                      `json:"greetings,omitempty" bson:",omitempty"`
+	ProductID             *primitive.ObjectID          `json:"productId,omitempty" bson:",omitempty"`
+	ProductName           *string                      `json:"productName,omitempty" bson:",omitempty"`
+	QRCodeURL             *string                      `json:"qrCodeUrl,omitempty" bson:",omitempty"`
+	Points                *int64                       `json:"points,omitempty" bson:",omitempty"`
+	ValidTo               *primitive.DateTime          `json:"validTo,omitempty" bson:",omitempty"`
+	ValidFrom             *primitive.DateTime          `json:"validFrom,omitempty" bson:",omitempty"`
+	GeoLocationConstraint *UpdateGeoLocationConstraint `json:"geoLocationConstraint,omitempty" bson:",omitempty"`
 }
 
 type UpdateCheckInCounterInput struct {
@@ -2380,33 +2386,33 @@ type UpdateCheckInCounterInput struct {
 }
 
 type UpdateComment struct {
-	PetID          *primitive.ObjectID        `json:"petId" bson:",omitempty"`
-	RetailerUserID *primitive.ObjectID        `json:"retailerUserId" bson:",omitempty"`
-	ProductID      *primitive.ObjectID        `json:"productId" bson:",omitempty"`
-	Title          *string                    `json:"title" bson:",omitempty"`
-	CoverURL       *string                    `json:"coverUrl" bson:",omitempty"`
-	Details        *string                    `json:"details" bson:",omitempty"`
-	PictureUrls    []string                   `json:"pictureUrls" bson:",omitempty"`
-	Photos         []*UpdatePhoto             `json:"photos" bson:",omitempty"`
-	AverageScore   *float64                   `json:"averageScore" bson:",omitempty"`
-	Scores         []*UpdateReviewScoreOption `json:"scores" bson:",omitempty"`
-	Recommended    *bool                      `json:"recommended" bson:",omitempty"`
-	Approved       *bool                      `json:"approved" bson:",omitempty"`
+	PetID          *primitive.ObjectID        `json:"petId,omitempty" bson:",omitempty"`
+	RetailerUserID *primitive.ObjectID        `json:"retailerUserId,omitempty" bson:",omitempty"`
+	ProductID      *primitive.ObjectID        `json:"productId,omitempty" bson:",omitempty"`
+	Title          *string                    `json:"title,omitempty" bson:",omitempty"`
+	CoverURL       *string                    `json:"coverUrl,omitempty" bson:",omitempty"`
+	Details        *string                    `json:"details,omitempty" bson:",omitempty"`
+	PictureUrls    []string                   `json:"pictureUrls,omitempty" bson:",omitempty"`
+	Photos         []*UpdatePhoto             `json:"photos,omitempty" bson:",omitempty"`
+	AverageScore   *float64                   `json:"averageScore,omitempty" bson:",omitempty"`
+	Scores         []*UpdateReviewScoreOption `json:"scores,omitempty" bson:",omitempty"`
+	Recommended    *bool                      `json:"recommended,omitempty" bson:",omitempty"`
+	Approved       *bool                      `json:"approved,omitempty" bson:",omitempty"`
 }
 
 type UpdateCommentInput struct {
-	ID      *primitive.ObjectID `json:"id"`
+	ID      *primitive.ObjectID `json:"id,omitempty"`
 	Comment *UpdateComment      `json:"comment"`
 }
 
 type UpdateCommentatorCertificate struct {
-	Status               *int                  `json:"status" bson:",omitempty"`
-	Level                *int                  `json:"level" bson:",omitempty"`
-	AvatarURL            *string               `json:"avatarUrl" bson:",omitempty"`
-	Name                 *string               `json:"name" bson:",omitempty"`
-	Phone                *string               `json:"phone" bson:",omitempty"`
-	SnsPlatformName      *string               `json:"snsPlatformName" bson:",omitempty"`
-	SnsPlatformSelection *SelectionOptionInput `json:"snsPlatformSelection" bson:",omitempty"`
+	Status               *int                  `json:"status,omitempty" bson:",omitempty"`
+	Level                *int                  `json:"level,omitempty" bson:",omitempty"`
+	AvatarURL            *string               `json:"avatarUrl,omitempty" bson:",omitempty"`
+	Name                 *string               `json:"name,omitempty" bson:",omitempty"`
+	Phone                *string               `json:"phone,omitempty" bson:",omitempty"`
+	SnsPlatformName      *string               `json:"snsPlatformName,omitempty" bson:",omitempty"`
+	SnsPlatformSelection *SelectionOptionInput `json:"snsPlatformSelection,omitempty" bson:",omitempty"`
 }
 
 type UpdateCommentatorCertificateInput struct {
@@ -2415,12 +2421,12 @@ type UpdateCommentatorCertificateInput struct {
 }
 
 type UpdateContactInfo struct {
-	Name       *string `json:"name" bson:",omitempty"`
-	Email      *string `json:"email" bson:",omitempty"`
-	Phone      *string `json:"phone" bson:",omitempty"`
-	Address    *string `json:"address" bson:",omitempty"`
-	SnsAccount *string `json:"snsAccount" bson:",omitempty"`
-	Remarks    *string `json:"remarks" bson:",omitempty"`
+	Name       *string `json:"name,omitempty" bson:",omitempty"`
+	Email      *string `json:"email,omitempty" bson:",omitempty"`
+	Phone      *string `json:"phone,omitempty" bson:",omitempty"`
+	Address    *string `json:"address,omitempty" bson:",omitempty"`
+	SnsAccount *string `json:"snsAccount,omitempty" bson:",omitempty"`
+	Remarks    *string `json:"remarks,omitempty" bson:",omitempty"`
 }
 
 type UpdateContest struct {
@@ -2451,44 +2457,44 @@ type UpdateContestCandidateExtraNumberOfVotes struct {
 }
 
 type UpdateEvent struct {
-	UserID                       *primitive.ObjectID                 `json:"userId" bson:",omitempty"`
-	AuthorizedOperationUserIds   []primitive.ObjectID                `json:"authorizedOperationUserIds" bson:",omitempty"`
-	Name                         *string                             `json:"name" bson:",omitempty"`
-	Type                         *EventType                          `json:"type" bson:",omitempty"`
-	RetailerAvatarURL            *string                             `json:"retailerAvatarUrl" bson:",omitempty"`
-	Status                       *EventStatus                        `json:"status" bson:",omitempty"`
-	Online                       *bool                               `json:"online" bson:",omitempty"`
-	Introduction                 *string                             `json:"introduction" bson:",omitempty"`
-	Details                      *string                             `json:"details" bson:",omitempty"`
-	Notice                       *string                             `json:"notice" bson:",omitempty"`
-	Terms                        *string                             `json:"terms" bson:",omitempty"`
-	AdditionalTermsZh            *string                             `json:"additionalTermsZh" bson:",omitempty"`
-	AdditionalTermsEn            *string                             `json:"additionalTermsEn" bson:",omitempty"`
-	PhoneNumber                  *string                             `json:"phoneNumber" bson:",omitempty"`
-	WebsiteURL                   *string                             `json:"websiteUrl" bson:",omitempty"`
-	FacebookAccount              *string                             `json:"facebookAccount" bson:",omitempty"`
-	InstagramAccount             *string                             `json:"instagramAccount" bson:",omitempty"`
-	Photos                       []*UpdatePhoto                      `json:"photos" bson:",omitempty"`
-	ActivityURL                  *string                             `json:"activityUrl" bson:",omitempty"`
-	TimeSlots                    []*UpdateEventTimeSlot              `json:"timeSlots" bson:",omitempty"`
-	TimezoneOffset               *float64                            `json:"timezoneOffset" bson:",omitempty"`
-	StartedAt                    *primitive.DateTime                 `json:"startedAt" bson:",omitempty"`
-	EndedAt                      *primitive.DateTime                 `json:"endedAt" bson:",omitempty"`
-	PackagePricing               *UpdateEventPackagePricing          `json:"packagePricing" bson:",omitempty"`
-	AdditionalParticipantPricing *UpdateAdditionalParticipantPricing `json:"additionalParticipantPricing" bson:",omitempty"`
-	AdditionalPetPricing         *UpdateAddionalPetPricing           `json:"additionalPetPricing" bson:",omitempty"`
-	MaxParticipationsPerUser     *int64                              `json:"maxParticipationsPerUser" bson:",omitempty"`
-	Category                     *UpdateSelectionOption              `json:"category" bson:",omitempty"`
-	Address                      *string                             `json:"address" bson:",omitempty"`
-	Region                       *UpdateSelectionOption              `json:"region" bson:",omitempty"`
-	District                     *UpdateSelectionOption              `json:"district" bson:",omitempty"`
-	GeoLocation                  *UpdateGeoLocation                  `json:"geoLocation" bson:",omitempty"`
-	Recommended                  *bool                               `json:"recommended" bson:",omitempty"`
-	Approved                     *bool                               `json:"approved" bson:",omitempty"`
-	Published                    *bool                               `json:"published" bson:",omitempty"`
-	ParticipationOpen            *bool                               `json:"participationOpen" bson:",omitempty"`
-	PetPhotoRequired             *bool                               `json:"petPhotoRequired" bson:",omitempty"`
-	ShareContent                 *UpdateShareContent                 `json:"shareContent" bson:",omitempty"`
+	UserID                       *primitive.ObjectID                 `json:"userId,omitempty" bson:",omitempty"`
+	AuthorizedOperationUserIds   []primitive.ObjectID                `json:"authorizedOperationUserIds,omitempty" bson:",omitempty"`
+	Name                         *string                             `json:"name,omitempty" bson:",omitempty"`
+	Type                         *EventType                          `json:"type,omitempty" bson:",omitempty"`
+	RetailerAvatarURL            *string                             `json:"retailerAvatarUrl,omitempty" bson:",omitempty"`
+	Status                       *EventStatus                        `json:"status,omitempty" bson:",omitempty"`
+	Online                       *bool                               `json:"online,omitempty" bson:",omitempty"`
+	Introduction                 *string                             `json:"introduction,omitempty" bson:",omitempty"`
+	Details                      *string                             `json:"details,omitempty" bson:",omitempty"`
+	Notice                       *string                             `json:"notice,omitempty" bson:",omitempty"`
+	Terms                        *string                             `json:"terms,omitempty" bson:",omitempty"`
+	AdditionalTermsZh            *string                             `json:"additionalTermsZh,omitempty" bson:",omitempty"`
+	AdditionalTermsEn            *string                             `json:"additionalTermsEn,omitempty" bson:",omitempty"`
+	PhoneNumber                  *string                             `json:"phoneNumber,omitempty" bson:",omitempty"`
+	WebsiteURL                   *string                             `json:"websiteUrl,omitempty" bson:",omitempty"`
+	FacebookAccount              *string                             `json:"facebookAccount,omitempty" bson:",omitempty"`
+	InstagramAccount             *string                             `json:"instagramAccount,omitempty" bson:",omitempty"`
+	Photos                       []*UpdatePhoto                      `json:"photos,omitempty" bson:",omitempty"`
+	ActivityURL                  *string                             `json:"activityUrl,omitempty" bson:",omitempty"`
+	TimeSlots                    []*UpdateEventTimeSlot              `json:"timeSlots,omitempty" bson:",omitempty"`
+	TimezoneOffset               *float64                            `json:"timezoneOffset,omitempty" bson:",omitempty"`
+	StartedAt                    *primitive.DateTime                 `json:"startedAt,omitempty" bson:",omitempty"`
+	EndedAt                      *primitive.DateTime                 `json:"endedAt,omitempty" bson:",omitempty"`
+	PackagePricing               *UpdateEventPackagePricing          `json:"packagePricing,omitempty" bson:",omitempty"`
+	AdditionalParticipantPricing *UpdateAdditionalParticipantPricing `json:"additionalParticipantPricing,omitempty" bson:",omitempty"`
+	AdditionalPetPricing         *UpdateAddionalPetPricing           `json:"additionalPetPricing,omitempty" bson:",omitempty"`
+	MaxParticipationsPerUser     *int64                              `json:"maxParticipationsPerUser,omitempty" bson:",omitempty"`
+	Category                     *UpdateSelectionOption              `json:"category,omitempty" bson:",omitempty"`
+	Address                      *string                             `json:"address,omitempty" bson:",omitempty"`
+	Region                       *UpdateSelectionOption              `json:"region,omitempty" bson:",omitempty"`
+	District                     *UpdateSelectionOption              `json:"district,omitempty" bson:",omitempty"`
+	GeoLocation                  *UpdateGeoLocation                  `json:"geoLocation,omitempty" bson:",omitempty"`
+	Recommended                  *bool                               `json:"recommended,omitempty" bson:",omitempty"`
+	Approved                     *bool                               `json:"approved,omitempty" bson:",omitempty"`
+	Published                    *bool                               `json:"published,omitempty" bson:",omitempty"`
+	ParticipationOpen            *bool                               `json:"participationOpen,omitempty" bson:",omitempty"`
+	PetPhotoRequired             *bool                               `json:"petPhotoRequired,omitempty" bson:",omitempty"`
+	ShareContent                 *UpdateShareContent                 `json:"shareContent,omitempty" bson:",omitempty"`
 }
 
 type UpdateEventInput struct {
@@ -2497,9 +2503,9 @@ type UpdateEventInput struct {
 }
 
 type UpdateEventInvitation struct {
-	EventID   *primitive.ObjectID `json:"eventId" bson:",omitempty"`
-	StartedAt *primitive.DateTime `json:"startedAt" bson:",omitempty"`
-	EndedAt   *primitive.DateTime `json:"endedAt" bson:",omitempty"`
+	EventID   *primitive.ObjectID `json:"eventId,omitempty" bson:",omitempty"`
+	StartedAt *primitive.DateTime `json:"startedAt,omitempty" bson:",omitempty"`
+	EndedAt   *primitive.DateTime `json:"endedAt,omitempty" bson:",omitempty"`
 }
 
 type UpdateEventInvitationInput struct {
@@ -2508,59 +2514,59 @@ type UpdateEventInvitationInput struct {
 }
 
 type UpdateEventPackagePricing struct {
-	MaxParticipants   *int64    `json:"maxParticipants" bson:",omitempty"`
-	MaxPets           *int64    `json:"maxPets" bson:",omitempty"`
-	Price             *int64    `json:"price" bson:",omitempty"`
-	PriceLabel        *string   `json:"priceLabel" bson:",omitempty"`
-	Currency          *Currency `json:"currency" bson:",omitempty"`
-	MaxCash           *int64    `json:"maxCash" bson:",omitempty"`
-	MinCash           *int64    `json:"minCash" bson:",omitempty"`
-	MaxPoints         *int64    `json:"maxPoints" bson:",omitempty"`
-	PointsCashRatio   *float64  `json:"pointsCashRatio" bson:",omitempty"`
-	ExtraPoints       *int64    `json:"extraPoints" bson:",omitempty"`
-	PointsRewardRatio *float64  `json:"pointsRewardRatio" bson:",omitempty"`
-	Remarks           *string   `json:"remarks" bson:",omitempty"`
+	MaxParticipants   *int64    `json:"maxParticipants,omitempty" bson:",omitempty"`
+	MaxPets           *int64    `json:"maxPets,omitempty" bson:",omitempty"`
+	Price             *int64    `json:"price,omitempty" bson:",omitempty"`
+	PriceLabel        *string   `json:"priceLabel,omitempty" bson:",omitempty"`
+	Currency          *Currency `json:"currency,omitempty" bson:",omitempty"`
+	MaxCash           *int64    `json:"maxCash,omitempty" bson:",omitempty"`
+	MinCash           *int64    `json:"minCash,omitempty" bson:",omitempty"`
+	MaxPoints         *int64    `json:"maxPoints,omitempty" bson:",omitempty"`
+	PointsCashRatio   *float64  `json:"pointsCashRatio,omitempty" bson:",omitempty"`
+	ExtraPoints       *int64    `json:"extraPoints,omitempty" bson:",omitempty"`
+	PointsRewardRatio *float64  `json:"pointsRewardRatio,omitempty" bson:",omitempty"`
+	Remarks           *string   `json:"remarks,omitempty" bson:",omitempty"`
 }
 
 type UpdateEventParticipant struct {
-	Name        *string             `json:"name" bson:",omitempty"`
-	PhoneNumber *string             `json:"phoneNumber" bson:",omitempty"`
-	UserID      *primitive.ObjectID `json:"userId" bson:",omitempty"`
+	Name        *string             `json:"name,omitempty" bson:",omitempty"`
+	PhoneNumber *string             `json:"phoneNumber,omitempty" bson:",omitempty"`
+	UserID      *primitive.ObjectID `json:"userId,omitempty" bson:",omitempty"`
 }
 
 type UpdateEventParticipation struct {
-	PackageParticipants    []*UpdateEventParticipant `json:"packageParticipants" bson:",omitempty"`
-	PackagePets            []*UpdateEventPet         `json:"packagePets" bson:",omitempty"`
-	AdditionalParticipants []*UpdateEventParticipant `json:"additionalParticipants" bson:",omitempty"`
-	AdditionalPets         []*UpdateEventPet         `json:"additionalPets" bson:",omitempty"`
-	Status                 *EventParticipationStatus `json:"status" bson:",omitempty"`
-	PaymentIntent          *UpdatePaymentIntent      `json:"paymentIntent" bson:",omitempty"`
+	PackageParticipants    []*UpdateEventParticipant `json:"packageParticipants,omitempty" bson:",omitempty"`
+	PackagePets            []*UpdateEventPet         `json:"packagePets,omitempty" bson:",omitempty"`
+	AdditionalParticipants []*UpdateEventParticipant `json:"additionalParticipants,omitempty" bson:",omitempty"`
+	AdditionalPets         []*UpdateEventPet         `json:"additionalPets,omitempty" bson:",omitempty"`
+	Status                 *EventParticipationStatus `json:"status,omitempty" bson:",omitempty"`
+	PaymentIntent          *UpdatePaymentIntent      `json:"paymentIntent,omitempty" bson:",omitempty"`
 }
 
 type UpdateEventParticipationInput struct {
-	ID                     *primitive.ObjectID       `json:"id"`
-	RedemptionCode         *string                   `json:"redemptionCode"`
-	ChannelPaymentIntentID *string                   `json:"channelPaymentIntentId"`
+	ID                     *primitive.ObjectID       `json:"id,omitempty"`
+	RedemptionCode         *string                   `json:"redemptionCode,omitempty"`
+	ChannelPaymentIntentID *string                   `json:"channelPaymentIntentId,omitempty"`
 	Participation          *UpdateEventParticipation `json:"participation"`
 }
 
 type UpdateEventParticipationStatusInput struct {
-	EventParticipationID                     *primitive.ObjectID      `json:"eventParticipationId"`
-	EventParticipationRedemptionCode         *string                  `json:"eventParticipationRedemptionCode"`
-	EventParticipationChannelPaymentIntentID *string                  `json:"eventParticipationChannelPaymentIntentId"`
+	EventParticipationID                     *primitive.ObjectID      `json:"eventParticipationId,omitempty"`
+	EventParticipationRedemptionCode         *string                  `json:"eventParticipationRedemptionCode,omitempty"`
+	EventParticipationChannelPaymentIntentID *string                  `json:"eventParticipationChannelPaymentIntentId,omitempty"`
 	Status                                   EventParticipationStatus `json:"status"`
 }
 
 type UpdateEventPet struct {
-	Name     *string             `json:"name" bson:",omitempty"`
-	PhotoURL *string             `json:"photoUrl" bson:",omitempty"`
-	PetID    *primitive.ObjectID `json:"petId" bson:",omitempty"`
+	Name     *string             `json:"name,omitempty" bson:",omitempty"`
+	PhotoURL *string             `json:"photoUrl,omitempty" bson:",omitempty"`
+	PetID    *primitive.ObjectID `json:"petId,omitempty" bson:",omitempty"`
 }
 
 type UpdateEventTicket struct {
-	EventID         *primitive.ObjectID `json:"eventId" bson:",omitempty"`
-	Status          *EventTicketStatus  `json:"status" bson:",omitempty"`
-	ParticipationID *primitive.ObjectID `json:"participationId"`
+	EventID         *primitive.ObjectID `json:"eventId,omitempty" bson:",omitempty"`
+	Status          *EventTicketStatus  `json:"status,omitempty" bson:",omitempty"`
+	ParticipationID *primitive.ObjectID `json:"participationId,omitempty"`
 }
 
 type UpdateEventTicketInput struct {
@@ -2569,20 +2575,20 @@ type UpdateEventTicketInput struct {
 }
 
 type UpdateEventTicketsInput struct {
-	Ids             []primitive.ObjectID `json:"Ids"`
-	ParticipationID *primitive.ObjectID  `json:"participationId"`
+	Ids             []primitive.ObjectID `json:"Ids,omitempty"`
+	ParticipationID *primitive.ObjectID  `json:"participationId,omitempty"`
 	Ticket          *UpdateEventTicket   `json:"ticket"`
 }
 
 type UpdateEventTimeSlot struct {
-	StartedAt                 *primitive.DateTime    `json:"startedAt" bson:",omitempty"`
-	EndedAt                   *primitive.DateTime    `json:"endedAt" bson:",omitempty"`
-	DisplayStartedAt          *string                `json:"displayStartedAt" bson:",omitempty"`
-	DisplayEndedAt            *string                `json:"displayEndedAt" bson:",omitempty"`
-	MaxPackages               *int64                 `json:"maxPackages" bson:",omitempty"`
-	MaxAdditionalParticipants *int                   `json:"maxAdditionalParticipants" bson:",omitempty"`
-	MaxAdditionalPets         *int                   `json:"maxAdditionalPets" bson:",omitempty"`
-	SubSlots                  []*UpdateEventTimeSlot `json:"subSlots" bson:",omitempty"`
+	StartedAt                 *primitive.DateTime    `json:"startedAt,omitempty" bson:",omitempty"`
+	EndedAt                   *primitive.DateTime    `json:"endedAt,omitempty" bson:",omitempty"`
+	DisplayStartedAt          *string                `json:"displayStartedAt,omitempty" bson:",omitempty"`
+	DisplayEndedAt            *string                `json:"displayEndedAt,omitempty" bson:",omitempty"`
+	MaxPackages               *int64                 `json:"maxPackages,omitempty" bson:",omitempty"`
+	MaxAdditionalParticipants *int                   `json:"maxAdditionalParticipants,omitempty" bson:",omitempty"`
+	MaxAdditionalPets         *int                   `json:"maxAdditionalPets,omitempty" bson:",omitempty"`
+	SubSlots                  []*UpdateEventTimeSlot `json:"subSlots,omitempty" bson:",omitempty"`
 }
 
 type UpdateGeoJSONPoint struct {
@@ -2591,14 +2597,14 @@ type UpdateGeoJSONPoint struct {
 }
 
 type UpdateGeoLocation struct {
-	Long *float64 `json:"long" bson:",omitempty"`
-	Lat  *float64 `json:"lat" bson:",omitempty"`
+	Long *float64 `json:"long,omitempty" bson:",omitempty"`
+	Lat  *float64 `json:"lat,omitempty" bson:",omitempty"`
 }
 
 type UpdateGeoLocationConstraint struct {
-	Location    *UpdateGeoJSONPoint `json:"location"`
+	Location    *UpdateGeoJSONPoint `json:"location,omitempty"`
 	Enabled     bool                `json:"enabled"`
-	GeoLocation *GeoLocationInput   `json:"geoLocation"`
+	GeoLocation *GeoLocationInput   `json:"geoLocation,omitempty"`
 }
 
 type UpdateJobActivationInput struct {
@@ -2626,11 +2632,11 @@ type UpdateJobInput struct {
 
 type UpdateJobPayload struct {
 	Name         string             `json:"name" bson:",omitempty"`
-	Type         *JobType           `json:"type" bson:",omitempty"`
-	Schedule     *ScheduleInput     `json:"schedule" bson:",omitempty"`
-	Message      *MessageInput      `json:"message" bson:",omitempty"`
-	UsersFilters *UsersFiltersInput `json:"usersFilters"`
-	PetsFilters  *PetsFiltersInput  `json:"petsFilters"`
+	Type         *JobType           `json:"type,omitempty" bson:",omitempty"`
+	Schedule     *ScheduleInput     `json:"schedule,omitempty" bson:",omitempty"`
+	Message      *MessageInput      `json:"message,omitempty" bson:",omitempty"`
+	UsersFilters *UsersFiltersInput `json:"usersFilters,omitempty"`
+	PetsFilters  *PetsFiltersInput  `json:"petsFilters,omitempty"`
 }
 
 type UpdateMoment struct {
@@ -2647,23 +2653,23 @@ type UpdateNameTranslations struct {
 }
 
 type UpdateOrderPayment struct {
-	PaymentMethodID  *string                 `json:"paymentMethodId" bson:",omitempty"`
-	PaymentType      *string                 `json:"paymentType" bson:",omitempty"`
-	NameTranslations *UpdateNameTranslations `json:"nameTranslations" bson:",omitempty"`
-	PaymentStatus    *string                 `json:"paymentStatus" bson:",omitempty"`
-	Total            *float64                `json:"total" bson:",omitempty"`
-	TotalLabel       *string                 `json:"totalLabel" bson:",omitempty"`
+	PaymentMethodID  *string                 `json:"paymentMethodId,omitempty" bson:",omitempty"`
+	PaymentType      *string                 `json:"paymentType,omitempty" bson:",omitempty"`
+	NameTranslations *UpdateNameTranslations `json:"nameTranslations,omitempty" bson:",omitempty"`
+	PaymentStatus    *string                 `json:"paymentStatus,omitempty" bson:",omitempty"`
+	Total            *float64                `json:"total,omitempty" bson:",omitempty"`
+	TotalLabel       *string                 `json:"totalLabel,omitempty" bson:",omitempty"`
 }
 
 type UpdatePaymentIntent struct {
-	Status                 *PaymentIntentStatus `json:"status" bson:",omitempty"`
-	Amount                 *int64               `json:"amount" bson:",omitempty"`
-	Currency               *Currency            `json:"currency" bson:",omitempty"`
-	DeductedPoints         *int64               `json:"deductedPoints" bson:",omitempty"`
-	RewardedPoints         *int64               `json:"rewardedPoints" bson:",omitempty"`
-	ChannelPaymentIntentID *string              `json:"channelPaymentIntentId" bson:",omitempty"`
-	Channel                *PaymentChannel      `json:"channel" bson:",omitempty"`
-	ChannelClientSecret    *string              `json:"channelClientSecret" bson:",omitempty"`
+	Status                 *PaymentIntentStatus `json:"status,omitempty" bson:",omitempty"`
+	Amount                 *int64               `json:"amount,omitempty" bson:",omitempty"`
+	Currency               *Currency            `json:"currency,omitempty" bson:",omitempty"`
+	DeductedPoints         *int64               `json:"deductedPoints,omitempty" bson:",omitempty"`
+	RewardedPoints         *int64               `json:"rewardedPoints,omitempty" bson:",omitempty"`
+	ChannelPaymentIntentID *string              `json:"channelPaymentIntentId,omitempty" bson:",omitempty"`
+	Channel                *PaymentChannel      `json:"channel,omitempty" bson:",omitempty"`
+	ChannelClientSecret    *string              `json:"channelClientSecret,omitempty" bson:",omitempty"`
 }
 
 type UpdatePetCertificatesInput struct {
@@ -2673,45 +2679,45 @@ type UpdatePetCertificatesInput struct {
 
 type UpdatePetProfileInput struct {
 	ID                 primitive.ObjectID    `json:"id"`
-	AvatarURL          *string               `json:"avatarUrl" bson:",omitempty"`
-	IDPhotoURL         *string               `json:"idPhotoUrl" bson:",omitempty"`
-	IDCardURL          *string               `json:"idCardUrl" bson:",omitempty"`
-	IDCardBgRmdURL     *string               `json:"idCardBgRmdUrl" bson:",omitempty"`
-	Name               *string               `json:"name" bson:",omitempty"`
-	NameZh             *string               `json:"nameZh" bson:",omitempty"`
-	NameEn             *string               `json:"nameEn" bson:",omitempty"`
-	Birthday           *primitive.DateTime   `json:"birthday" bson:",omitempty"`
-	DepartureDate      *primitive.DateTime   `json:"departureDate"`
-	BreedName          *string               `json:"breedName" bson:",omitempty"`
-	Breed              *SelectionOptionInput `json:"breed" bson:",omitempty"`
-	PetOwnerSnsAccount *string               `json:"petOwnerSnsAccount" bson:",omitempty"`
-	Sex                *Sex                  `json:"sex" bson:",omitempty"`
-	HomeArrivalDate    *string               `json:"homeArrivalDate" bson:",omitempty"`
+	AvatarURL          *string               `json:"avatarUrl,omitempty" bson:",omitempty"`
+	IDPhotoURL         *string               `json:"idPhotoUrl,omitempty" bson:",omitempty"`
+	IDCardURL          *string               `json:"idCardUrl,omitempty" bson:",omitempty"`
+	IDCardBgRmdURL     *string               `json:"idCardBgRmdUrl,omitempty" bson:",omitempty"`
+	Name               *string               `json:"name,omitempty" bson:",omitempty"`
+	NameZh             *string               `json:"nameZh,omitempty" bson:",omitempty"`
+	NameEn             *string               `json:"nameEn,omitempty" bson:",omitempty"`
+	Birthday           *primitive.DateTime   `json:"birthday,omitempty" bson:",omitempty"`
+	DepartureDate      *primitive.DateTime   `json:"departureDate,omitempty"`
+	BreedName          *string               `json:"breedName,omitempty" bson:",omitempty"`
+	Breed              *SelectionOptionInput `json:"breed,omitempty" bson:",omitempty"`
+	PetOwnerSnsAccount *string               `json:"petOwnerSnsAccount,omitempty" bson:",omitempty"`
+	Sex                *Sex                  `json:"sex,omitempty" bson:",omitempty"`
+	HomeArrivalDate    *string               `json:"homeArrivalDate,omitempty" bson:",omitempty"`
 }
 
 type UpdatePhoto struct {
-	URL         *string `json:"url" bson:",omitempty"`
-	Description *string `json:"description" bson:",omitempty"`
+	URL         *string `json:"url,omitempty" bson:",omitempty"`
+	Description *string `json:"description,omitempty" bson:",omitempty"`
 }
 
 type UpdateProduct struct {
-	UserID                     *primitive.ObjectID      `json:"userId" bson:",omitempty"`
-	AuthorizedOperationUserIds []primitive.ObjectID     `json:"authorizedOperationUserIds" bson:",omitempty"`
-	Name                       *string                  `json:"name" bson:",omitempty"`
-	Type                       *ProductType             `json:"type" bson:",omitempty"`
-	Online                     *bool                    `json:"online" bson:",omitempty"`
-	Introduction               *string                  `json:"introduction" bson:",omitempty"`
-	Details                    *string                  `json:"details" bson:",omitempty"`
-	ServiceLocation            *string                  `json:"serviceLocation" bson:",omitempty"`
-	Notice                     *string                  `json:"notice" bson:",omitempty"`
-	Terms                      *string                  `json:"terms" bson:",omitempty"`
-	CategoryOptions            []*UpdateSelectionOption `json:"categoryOptions" bson:",omitempty"`
-	Photos                     []*UpdatePhoto           `json:"photos" bson:",omitempty"`
-	Pricing                    *UpdateProductPricing    `json:"pricing" bson:",omitempty"`
-	Recommended                *bool                    `json:"recommended" bson:",omitempty"`
-	Rating                     *float64                 `json:"rating" bson:",omitempty"`
-	Available                  *bool                    `json:"available" bson:",omitempty"`
-	ShareContent               *UpdateShareContent      `json:"shareContent" bson:",omitempty"`
+	UserID                     *primitive.ObjectID      `json:"userId,omitempty" bson:",omitempty"`
+	AuthorizedOperationUserIds []primitive.ObjectID     `json:"authorizedOperationUserIds,omitempty" bson:",omitempty"`
+	Name                       *string                  `json:"name,omitempty" bson:",omitempty"`
+	Type                       *ProductType             `json:"type,omitempty" bson:",omitempty"`
+	Online                     *bool                    `json:"online,omitempty" bson:",omitempty"`
+	Introduction               *string                  `json:"introduction,omitempty" bson:",omitempty"`
+	Details                    *string                  `json:"details,omitempty" bson:",omitempty"`
+	ServiceLocation            *string                  `json:"serviceLocation,omitempty" bson:",omitempty"`
+	Notice                     *string                  `json:"notice,omitempty" bson:",omitempty"`
+	Terms                      *string                  `json:"terms,omitempty" bson:",omitempty"`
+	CategoryOptions            []*UpdateSelectionOption `json:"categoryOptions,omitempty" bson:",omitempty"`
+	Photos                     []*UpdatePhoto           `json:"photos,omitempty" bson:",omitempty"`
+	Pricing                    *UpdateProductPricing    `json:"pricing,omitempty" bson:",omitempty"`
+	Recommended                *bool                    `json:"recommended,omitempty" bson:",omitempty"`
+	Rating                     *float64                 `json:"rating,omitempty" bson:",omitempty"`
+	Available                  *bool                    `json:"available,omitempty" bson:",omitempty"`
+	ShareContent               *UpdateShareContent      `json:"shareContent,omitempty" bson:",omitempty"`
 }
 
 type UpdateProductInput struct {
@@ -2720,25 +2726,25 @@ type UpdateProductInput struct {
 }
 
 type UpdateProductPricing struct {
-	MaxParticipants   *int64    `json:"maxParticipants" bson:",omitempty"`
-	MaxPets           *int64    `json:"maxPets" bson:",omitempty"`
-	Price             *int64    `json:"price" bson:",omitempty"`
-	PriceLabel        *string   `json:"priceLabel" bson:",omitempty"`
-	Currency          *Currency `json:"currency" bson:",omitempty"`
-	MaxCash           *int64    `json:"maxCash" bson:",omitempty"`
-	MinCash           *int64    `json:"minCash" bson:",omitempty"`
-	MaxPoints         *int64    `json:"maxPoints" bson:",omitempty"`
-	PointsCashRatio   *float64  `json:"pointsCashRatio" bson:",omitempty"`
-	ExtraPoints       *int64    `json:"extraPoints" bson:",omitempty"`
-	PointsRewardRatio *float64  `json:"pointsRewardRatio" bson:",omitempty"`
-	Remarks           *string   `json:"remarks" bson:",omitempty"`
+	MaxParticipants   *int64    `json:"maxParticipants,omitempty" bson:",omitempty"`
+	MaxPets           *int64    `json:"maxPets,omitempty" bson:",omitempty"`
+	Price             *int64    `json:"price,omitempty" bson:",omitempty"`
+	PriceLabel        *string   `json:"priceLabel,omitempty" bson:",omitempty"`
+	Currency          *Currency `json:"currency,omitempty" bson:",omitempty"`
+	MaxCash           *int64    `json:"maxCash,omitempty" bson:",omitempty"`
+	MinCash           *int64    `json:"minCash,omitempty" bson:",omitempty"`
+	MaxPoints         *int64    `json:"maxPoints,omitempty" bson:",omitempty"`
+	PointsCashRatio   *float64  `json:"pointsCashRatio,omitempty" bson:",omitempty"`
+	ExtraPoints       *int64    `json:"extraPoints,omitempty" bson:",omitempty"`
+	PointsRewardRatio *float64  `json:"pointsRewardRatio,omitempty" bson:",omitempty"`
+	Remarks           *string   `json:"remarks,omitempty" bson:",omitempty"`
 }
 
 type UpdateProgram struct {
-	Name           *string `json:"name" bson:",omitempty"`
-	Price          *int    `json:"price" bson:",omitempty"`
-	DaysOfValidity *int    `json:"daysOfValidity" bson:",omitempty"`
-	Available      *bool   `json:"available" bson:",omitempty"`
+	Name           *string `json:"name,omitempty" bson:",omitempty"`
+	Price          *int    `json:"price,omitempty" bson:",omitempty"`
+	DaysOfValidity *int    `json:"daysOfValidity,omitempty" bson:",omitempty"`
+	Available      *bool   `json:"available,omitempty" bson:",omitempty"`
 }
 
 type UpdateProgramEnrollmentInput struct {
@@ -2753,17 +2759,17 @@ type UpdateProgramInput struct {
 }
 
 type UpdateProgramOrder struct {
-	Name           *string               `json:"name" bson:",omitempty"`
-	ProgramID      *primitive.ObjectID   `json:"programId" bson:",omitempty"`
-	Status         *OrderStatus          `json:"status" bson:",omitempty"`
-	Amount         *int                  `json:"amount" bson:",omitempty"`
-	PaymentIntent  *UpdatePaymentIntent  `json:"paymentIntent" bson:",omitempty"`
-	BbmslReference *UpdateBbmslReference `json:"bbmslReference" bson:",omitempty"`
+	Name           *string               `json:"name,omitempty" bson:",omitempty"`
+	ProgramID      *primitive.ObjectID   `json:"programId,omitempty" bson:",omitempty"`
+	Status         *OrderStatus          `json:"status,omitempty" bson:",omitempty"`
+	Amount         *int                  `json:"amount,omitempty" bson:",omitempty"`
+	PaymentIntent  *UpdatePaymentIntent  `json:"paymentIntent,omitempty" bson:",omitempty"`
+	BbmslReference *UpdateBbmslReference `json:"bbmslReference,omitempty" bson:",omitempty"`
 }
 
 type UpdateProgramOrderInput struct {
-	ID    *primitive.ObjectID `json:"id"`
-	Order *UpdateProgramOrder `json:"order"`
+	ID    *primitive.ObjectID `json:"id,omitempty"`
+	Order *UpdateProgramOrder `json:"order,omitempty"`
 }
 
 type UpdateRetailerProfile struct {
@@ -2771,36 +2777,36 @@ type UpdateRetailerProfile struct {
 	Name             string                  `json:"name" bson:",omitempty"`
 	Phone            string                  `json:"phone" bson:",omitempty"`
 	Email            string                  `json:"email" bson:",omitempty"`
-	GeoLocation      *GeoLocationInput       `json:"geoLocation" bson:",omitempty"`
-	ShopPhotoUrls    []string                `json:"shopPhotoUrls" bson:",omitempty"`
-	ShopPhotos       []*PhotoInput           `json:"shopPhotos" bson:",omitempty"`
+	GeoLocation      *GeoLocationInput       `json:"geoLocation,omitempty" bson:",omitempty"`
+	ShopPhotoUrls    []string                `json:"shopPhotoUrls,omitempty" bson:",omitempty"`
+	ShopPhotos       []*PhotoInput           `json:"shopPhotos,omitempty" bson:",omitempty"`
 	ShopIntro        string                  `json:"shopIntro" bson:",omitempty"`
-	City             *SelectionOptionInput   `json:"city" bson:",omitempty"`
-	Region           *SelectionOptionInput   `json:"region" bson:",omitempty"`
-	District         *SelectionOptionInput   `json:"district" bson:",omitempty"`
-	Landmark         *SelectionOptionInput   `json:"landmark" bson:",omitempty"`
+	City             *SelectionOptionInput   `json:"city,omitempty" bson:",omitempty"`
+	Region           *SelectionOptionInput   `json:"region,omitempty" bson:",omitempty"`
+	District         *SelectionOptionInput   `json:"district,omitempty" bson:",omitempty"`
+	Landmark         *SelectionOptionInput   `json:"landmark,omitempty" bson:",omitempty"`
 	Address          string                  `json:"address" bson:",omitempty"`
-	PaymentMethods   []*SelectionOptionInput `json:"paymentMethods" bson:",omitempty"`
-	Category         *SelectionOptionInput   `json:"category" bson:",omitempty"`
-	CategoryOptions  []*SelectionOptionInput `json:"categoryOptions" bson:",omitempty"`
-	SortingOption    *SelectionOptionInput   `json:"sortingOption" bson:",omitempty"`
-	Promotions       *string                 `json:"promotions" bson:",omitempty"`
-	OpeningHours     *string                 `json:"openingHours" bson:",omitempty"`
+	PaymentMethods   []*SelectionOptionInput `json:"paymentMethods,omitempty" bson:",omitempty"`
+	Category         *SelectionOptionInput   `json:"category,omitempty" bson:",omitempty"`
+	CategoryOptions  []*SelectionOptionInput `json:"categoryOptions,omitempty" bson:",omitempty"`
+	SortingOption    *SelectionOptionInput   `json:"sortingOption,omitempty" bson:",omitempty"`
+	Promotions       *string                 `json:"promotions,omitempty" bson:",omitempty"`
+	OpeningHours     *string                 `json:"openingHours,omitempty" bson:",omitempty"`
 	Routes           string                  `json:"routes" bson:",omitempty"`
 	WebsiteURL       string                  `json:"websiteUrl" bson:",omitempty"`
 	FacebookAccount  string                  `json:"facebookAccount" bson:",omitempty"`
 	InstagramAccount string                  `json:"instagramAccount" bson:",omitempty"`
 	WhatsappAccount  string                  `json:"whatsappAccount" bson:",omitempty"`
 	RedbookAccount   string                  `json:"redbookAccount" bson:",omitempty"`
-	ShareContent     *UpdateShareContent     `json:"shareContent" bson:",omitempty"`
-	BusinessLicense  *string                 `json:"businessLicense" bson:",omitempty"`
-	Rating           *float64                `json:"rating" bson:",omitempty"`
-	Sequence         *int                    `json:"sequence" bson:",omitempty"`
+	ShareContent     *UpdateShareContent     `json:"shareContent,omitempty" bson:",omitempty"`
+	BusinessLicense  *string                 `json:"businessLicense,omitempty" bson:",omitempty"`
+	Rating           *float64                `json:"rating,omitempty" bson:",omitempty"`
+	Sequence         *int                    `json:"sequence,omitempty" bson:",omitempty"`
 }
 
 type UpdateRetailerProfileInput struct {
-	UserID  *primitive.ObjectID    `json:"userId"`
-	Profile *UpdateRetailerProfile `json:"profile"`
+	UserID  *primitive.ObjectID    `json:"userId,omitempty"`
+	Profile *UpdateRetailerProfile `json:"profile,omitempty"`
 }
 
 type UpdateRetailerRatingInput struct {
@@ -2815,38 +2821,38 @@ type UpdateRetailerRecommendationInput struct {
 
 type UpdateReviewScoreOption struct {
 	ID      string                     `json:"id"`
-	Name    *string                    `json:"name" bson:",omitempty"`
-	IconURL *string                    `json:"iconUrl" bson:",omitempty"`
-	Score   *float64                   `json:"score" bson:",omitempty"`
-	Options []*UpdateReviewScoreOption `json:"options" bson:",omitempty"`
+	Name    *string                    `json:"name,omitempty" bson:",omitempty"`
+	IconURL *string                    `json:"iconUrl,omitempty" bson:",omitempty"`
+	Score   *float64                   `json:"score,omitempty" bson:",omitempty"`
+	Options []*UpdateReviewScoreOption `json:"options,omitempty" bson:",omitempty"`
 }
 
 type UpdateSelectOption struct {
 	ID      string                `json:"id"`
-	Name    *string               `json:"name" bson:",omitempty"`
-	IconURL *string               `json:"iconUrl" bson:",omitempty"`
-	Options []*UpdateSelectOption `json:"options" bson:",omitempty"`
+	Name    *string               `json:"name,omitempty" bson:",omitempty"`
+	IconURL *string               `json:"iconUrl,omitempty" bson:",omitempty"`
+	Options []*UpdateSelectOption `json:"options,omitempty" bson:",omitempty"`
 }
 
 type UpdateSelectionOption struct {
-	ID      *string                  `json:"id" bson:",omitempty"`
-	Name    *string                  `json:"name" bson:",omitempty"`
-	Options []*UpdateSelectionOption `json:"options" bson:",omitempty"`
+	ID      *string                  `json:"id,omitempty" bson:",omitempty"`
+	Name    *string                  `json:"name,omitempty" bson:",omitempty"`
+	Options []*UpdateSelectionOption `json:"options,omitempty" bson:",omitempty"`
 }
 
 type UpdateShareContent struct {
-	Text       *string `json:"text" bson:",omitempty"`
-	ImageURL   *string `json:"imageUrl" bson:",omitempty"`
-	WebpageURL *string `json:"webpageUrl" bson:",omitempty"`
+	Text       *string `json:"text,omitempty" bson:",omitempty"`
+	ImageURL   *string `json:"imageUrl,omitempty" bson:",omitempty"`
+	WebpageURL *string `json:"webpageUrl,omitempty" bson:",omitempty"`
 }
 
 type UpdateShoplineMerchantInfo struct {
-	Name          *string `json:"name" bson:",omitempty"`
-	Email         *string `json:"email" bson:",omitempty"`
-	Handle        *string `json:"handle" bson:",omitempty"`
-	AccessToken   *string `json:"accessToken" bson:",omitempty"`
-	Connected     *bool   `json:"connected" bson:",omitempty"`
-	ApplicationID *string `json:"applicationId" bson:",omitempty"`
+	Name          *string `json:"name,omitempty" bson:",omitempty"`
+	Email         *string `json:"email,omitempty" bson:",omitempty"`
+	Handle        *string `json:"handle,omitempty" bson:",omitempty"`
+	AccessToken   *string `json:"accessToken,omitempty" bson:",omitempty"`
+	Connected     *bool   `json:"connected,omitempty" bson:",omitempty"`
+	ApplicationID *string `json:"applicationId,omitempty" bson:",omitempty"`
 }
 
 type UpdateShoplineMerchantInfoInput struct {
@@ -2855,25 +2861,25 @@ type UpdateShoplineMerchantInfoInput struct {
 }
 
 type UpdateSystemTransactionDetails struct {
-	ReferenceID *primitive.ObjectID          `json:"referenceId" bson:",omitempty"`
-	Type        *SystemTransactionDetailType `json:"type" bson:",omitempty"`
+	ReferenceID *primitive.ObjectID          `json:"referenceId,omitempty" bson:",omitempty"`
+	Type        *SystemTransactionDetailType `json:"type,omitempty" bson:",omitempty"`
 }
 
 type UpdateTask struct {
-	Name         *string             `json:"name" bson:",omitempty"`
-	Introduction *string             `json:"introduction" bson:",omitempty"`
-	IconURL      *string             `json:"iconUrl" bson:",omitempty"`
-	DetailsURL   *string             `json:"detailsUrl" bson:",omitempty"`
-	StartedAt    *primitive.DateTime `json:"startedAt" bson:",omitempty"`
-	EndedAt      *primitive.DateTime `json:"endedAt" bson:",omitempty"`
-	Type         *TaskType           `json:"type" bson:",omitempty"`
-	Status       *TaskStatus         `json:"status" bson:",omitempty"`
-	Points       *int64              `json:"points" bson:",omitempty"`
-	VoucherID    *primitive.ObjectID `json:"voucherId" bson:",omitempty"`
-	ShareContent *UpdateShareContent `json:"shareContent" bson:",omitempty"`
-	Conditional  *bool               `json:"conditional" bson:",omitempty"`
-	AppPage      *AppPage            `json:"appPage" bson:",omitempty"`
-	PageParams   *string             `json:"pageParams" bson:",omitempty"`
+	Name         *string             `json:"name,omitempty" bson:",omitempty"`
+	Introduction *string             `json:"introduction,omitempty" bson:",omitempty"`
+	IconURL      *string             `json:"iconUrl,omitempty" bson:",omitempty"`
+	DetailsURL   *string             `json:"detailsUrl,omitempty" bson:",omitempty"`
+	StartedAt    *primitive.DateTime `json:"startedAt,omitempty" bson:",omitempty"`
+	EndedAt      *primitive.DateTime `json:"endedAt,omitempty" bson:",omitempty"`
+	Type         *TaskType           `json:"type,omitempty" bson:",omitempty"`
+	Status       *TaskStatus         `json:"status,omitempty" bson:",omitempty"`
+	Points       *int64              `json:"points,omitempty" bson:",omitempty"`
+	VoucherID    *primitive.ObjectID `json:"voucherId,omitempty" bson:",omitempty"`
+	ShareContent *UpdateShareContent `json:"shareContent,omitempty" bson:",omitempty"`
+	Conditional  *bool               `json:"conditional,omitempty" bson:",omitempty"`
+	AppPage      *AppPage            `json:"appPage,omitempty" bson:",omitempty"`
+	PageParams   *string             `json:"pageParams,omitempty" bson:",omitempty"`
 }
 
 type UpdateTaskInput struct {
@@ -2882,8 +2888,8 @@ type UpdateTaskInput struct {
 }
 
 type UpdateTaskParticipation struct {
-	TaskID *primitive.ObjectID      `json:"taskId" bson:",omitempty"`
-	Status *TaskParticipationStatus `json:"status" bson:",omitempty"`
+	TaskID *primitive.ObjectID      `json:"taskId,omitempty" bson:",omitempty"`
+	Status *TaskParticipationStatus `json:"status,omitempty" bson:",omitempty"`
 }
 
 type UpdateTaskParticipationInput struct {
@@ -2892,25 +2898,25 @@ type UpdateTaskParticipationInput struct {
 }
 
 type UpdateThirdPartyPointTransactionDetails struct {
-	OrderID       *string             `json:"orderId" bson:",omitempty"`
-	CustomerPhone *string             `json:"customerPhone" bson:",omitempty"`
-	CustomerEmail *string             `json:"customerEmail" bson:",omitempty"`
-	CustomerName  *string             `json:"customerName" bson:",omitempty"`
-	OrderNumber   *string             `json:"orderNumber" bson:",omitempty"`
-	MerchantID    *string             `json:"merchantId" bson:",omitempty"`
-	MerchantName  *string             `json:"merchantName" bson:",omitempty"`
-	OrderPayment  *UpdateOrderPayment `json:"orderPayment" bson:",omitempty"`
+	OrderID       *string             `json:"orderId,omitempty" bson:",omitempty"`
+	CustomerPhone *string             `json:"customerPhone,omitempty" bson:",omitempty"`
+	CustomerEmail *string             `json:"customerEmail,omitempty" bson:",omitempty"`
+	CustomerName  *string             `json:"customerName,omitempty" bson:",omitempty"`
+	OrderNumber   *string             `json:"orderNumber,omitempty" bson:",omitempty"`
+	MerchantID    *string             `json:"merchantId,omitempty" bson:",omitempty"`
+	MerchantName  *string             `json:"merchantName,omitempty" bson:",omitempty"`
+	OrderPayment  *UpdateOrderPayment `json:"orderPayment,omitempty" bson:",omitempty"`
 }
 
 type UpdateTransaction struct {
-	UserID                       *primitive.ObjectID                      `json:"userId" bson:",omitempty"`
-	SourceEntity                 *TransactionSourceEntity                 `json:"sourceEntity" bson:",omitempty"`
-	Amount                       *int64                                   `json:"amount" bson:",omitempty"`
-	Accumulated                  *bool                                    `json:"accumulated" bson:",omitempty"`
-	Type                         *TransactionType                         `json:"type" bson:",omitempty"`
-	Remarks                      *string                                  `json:"remarks" bson:",omitempty"`
-	SystemTransactionDetails     *UpdateSystemTransactionDetails          `json:"systemTransactionDetails" bson:",omitempty"`
-	ThirdPartyTransactionDetails *UpdateThirdPartyPointTransactionDetails `json:"thirdPartyTransactionDetails" bson:",omitempty"`
+	UserID                       *primitive.ObjectID                      `json:"userId,omitempty" bson:",omitempty"`
+	SourceEntity                 *TransactionSourceEntity                 `json:"sourceEntity,omitempty" bson:",omitempty"`
+	Amount                       *int64                                   `json:"amount,omitempty" bson:",omitempty"`
+	Accumulated                  *bool                                    `json:"accumulated,omitempty" bson:",omitempty"`
+	Type                         *TransactionType                         `json:"type,omitempty" bson:",omitempty"`
+	Remarks                      *string                                  `json:"remarks,omitempty" bson:",omitempty"`
+	SystemTransactionDetails     *UpdateSystemTransactionDetails          `json:"systemTransactionDetails,omitempty" bson:",omitempty"`
+	ThirdPartyTransactionDetails *UpdateThirdPartyPointTransactionDetails `json:"thirdPartyTransactionDetails,omitempty" bson:",omitempty"`
 }
 
 type UpdateTransactionInput struct {
@@ -2919,27 +2925,27 @@ type UpdateTransactionInput struct {
 }
 
 type UpdateUserBasicsInput struct {
-	Sequence               *int                    `json:"sequence" bson:",omitempty"`
-	Name                   *string                 `json:"name" bson:",omitempty"`
-	FamilyName             *string                 `json:"familyName" bson:",omitempty"`
-	GivenName              *string                 `json:"givenName" bson:",omitempty"`
-	Nickname               *string                 `json:"nickname" bson:",omitempty"`
-	City                   *SelectionOptionInput   `json:"city" bson:",omitempty"`
-	Region                 *SelectionOptionInput   `json:"region" bson:",omitempty"`
-	District               *SelectionOptionInput   `json:"district" bson:",omitempty"`
-	QuestionnaireOptions   []*SelectionOptionInput `json:"questionnaireOptions" bson:",omitempty"`
-	InterestedCategories   []*SelectionOptionInput `json:"interestedCategories"`
-	SfLockerCode           *string                 `json:"sfLockerCode" bson:",omitempty"`
-	ProfileBackgroundImage *string                 `json:"profileBackgroundImage" bson:",omitempty"`
-	AvatarURL              *string                 `json:"avatarUrl" bson:",omitempty"`
-	Sex                    *SelectionOptionInput   `json:"sex" bson:",omitempty"`
-	AgeGroup               *SelectionOptionInput   `json:"ageGroup" bson:",omitempty"`
-	Phone                  *string                 `json:"phone" bson:",omitempty"`
+	Sequence               *int                    `json:"sequence,omitempty" bson:",omitempty"`
+	Name                   *string                 `json:"name,omitempty" bson:",omitempty"`
+	FamilyName             *string                 `json:"familyName,omitempty" bson:",omitempty"`
+	GivenName              *string                 `json:"givenName,omitempty" bson:",omitempty"`
+	Nickname               *string                 `json:"nickname,omitempty" bson:",omitempty"`
+	City                   *SelectionOptionInput   `json:"city,omitempty" bson:",omitempty"`
+	Region                 *SelectionOptionInput   `json:"region,omitempty" bson:",omitempty"`
+	District               *SelectionOptionInput   `json:"district,omitempty" bson:",omitempty"`
+	QuestionnaireOptions   []*SelectionOptionInput `json:"questionnaireOptions,omitempty" bson:",omitempty"`
+	InterestedCategories   []*SelectionOptionInput `json:"interestedCategories,omitempty"`
+	SfLockerCode           *string                 `json:"sfLockerCode,omitempty" bson:",omitempty"`
+	ProfileBackgroundImage *string                 `json:"profileBackgroundImage,omitempty" bson:",omitempty"`
+	AvatarURL              *string                 `json:"avatarUrl,omitempty" bson:",omitempty"`
+	Sex                    *SelectionOptionInput   `json:"sex,omitempty" bson:",omitempty"`
+	AgeGroup               *SelectionOptionInput   `json:"ageGroup,omitempty" bson:",omitempty"`
+	Phone                  *string                 `json:"phone,omitempty" bson:",omitempty"`
 }
 
 type UpdateUserPhoneOrEmail struct {
-	Phone *string `json:"phone" bson:",omitempty"`
-	Email *string `json:"email" bson:",omitempty"`
+	Phone *string `json:"phone,omitempty" bson:",omitempty"`
+	Email *string `json:"email,omitempty" bson:",omitempty"`
 }
 
 type UpdateUserPointsInput struct {
@@ -2950,9 +2956,9 @@ type UpdateUserPointsInput struct {
 }
 
 type UpdateUserPrivileges struct {
-	Role                          *int  `json:"role" bson:",omitempty"`
-	Level                         *int  `json:"level" bson:",omitempty"`
-	RedemptionOperationAuthorized *bool `json:"redemptionOperationAuthorized" bson:",omitempty"`
+	Role                          *int  `json:"role,omitempty" bson:",omitempty"`
+	Level                         *int  `json:"level,omitempty" bson:",omitempty"`
+	RedemptionOperationAuthorized *bool `json:"redemptionOperationAuthorized,omitempty" bson:",omitempty"`
 }
 
 type UpdateUserPrivilegesInput struct {
@@ -2961,19 +2967,19 @@ type UpdateUserPrivilegesInput struct {
 }
 
 type UpdateVoucher struct {
-	RedemptionPoint            *int64               `json:"redemptionPoint" bson:",omitempty"`
-	Name                       *string              `json:"name" bson:",omitempty"`
-	Description                *string              `json:"description" bson:",omitempty"`
-	Terms                      *string              `json:"terms" bson:",omitempty"`
-	ValidFrom                  *primitive.DateTime  `json:"validFrom" bson:",omitempty"`
-	ValidTo                    *primitive.DateTime  `json:"validTo" bson:",omitempty"`
-	ImageURL                   *string              `json:"imageUrl" bson:",omitempty"`
-	RetailerAvatarURL          *string              `json:"retailerAvatarUrl" bson:",omitempty"`
-	AuthorizedOperationUserIds []primitive.ObjectID `json:"authorizedOperationUserIds" bson:",omitempty"`
-	Published                  *bool                `json:"published" bson:",omitempty"`
-	Exclusive                  *bool                `json:"exclusive" bson:",omitempty"`
-	Virtual                    *bool                `json:"virtual" bson:",omitempty"`
-	MaxOwnershipsPerUser       *int64               `json:"maxOwnershipsPerUser" bson:",omitempty"`
+	RedemptionPoint            *int64               `json:"redemptionPoint,omitempty" bson:",omitempty"`
+	Name                       *string              `json:"name,omitempty" bson:",omitempty"`
+	Description                *string              `json:"description,omitempty" bson:",omitempty"`
+	Terms                      *string              `json:"terms,omitempty" bson:",omitempty"`
+	ValidFrom                  *primitive.DateTime  `json:"validFrom,omitempty" bson:",omitempty"`
+	ValidTo                    *primitive.DateTime  `json:"validTo,omitempty" bson:",omitempty"`
+	ImageURL                   *string              `json:"imageUrl,omitempty" bson:",omitempty"`
+	RetailerAvatarURL          *string              `json:"retailerAvatarUrl,omitempty" bson:",omitempty"`
+	AuthorizedOperationUserIds []primitive.ObjectID `json:"authorizedOperationUserIds,omitempty" bson:",omitempty"`
+	Published                  *bool                `json:"published,omitempty" bson:",omitempty"`
+	Exclusive                  *bool                `json:"exclusive,omitempty" bson:",omitempty"`
+	Virtual                    *bool                `json:"virtual,omitempty" bson:",omitempty"`
+	MaxOwnershipsPerUser       *int64               `json:"maxOwnershipsPerUser,omitempty" bson:",omitempty"`
 }
 
 type UpdateVoucherInput struct {
@@ -3003,8 +3009,8 @@ func (UserAuthentication) IsUserAuthenticationResult() {}
 type UserCountInput struct {
 	MatchingText         string       `json:"matchingText"`
 	MatchingPhoneOrEmail string       `json:"matchingPhoneOrEmail"`
-	RoleFilter           *RoleFilter  `json:"roleFilter"`
-	LevelFilter          *LevelFilter `json:"levelFilter"`
+	RoleFilter           *RoleFilter  `json:"roleFilter,omitempty"`
+	LevelFilter          *LevelFilter `json:"levelFilter,omitempty"`
 }
 
 type UserCredentials struct {
@@ -3019,22 +3025,22 @@ type UserProfile struct {
 	Nickname                      string                    `json:"nickname"`
 	Phone                         string                    `json:"phone"`
 	Email                         string                    `json:"email"`
-	City                          *SelectionOption          `json:"city"`
-	Region                        *SelectionOption          `json:"region"`
-	District                      *SelectionOption          `json:"district"`
+	City                          *SelectionOption          `json:"city,omitempty"`
+	Region                        *SelectionOption          `json:"region,omitempty"`
+	District                      *SelectionOption          `json:"district,omitempty"`
 	SfLockerCode                  string                    `json:"sfLockerCode"`
-	QuestionnaireOptions          []*SelectionOption        `json:"questionnaireOptions"`
-	InterestedCategories          []*SelectionOption        `json:"interestedCategories"`
+	QuestionnaireOptions          []*SelectionOption        `json:"questionnaireOptions,omitempty"`
+	InterestedCategories          []*SelectionOption        `json:"interestedCategories,omitempty"`
 	Role                          int                       `json:"role"`
 	Level                         int                       `json:"level"`
 	Points                        int64                     `json:"points"`
 	AvatarURL                     string                    `json:"avatarUrl"`
 	FamilyName                    string                    `json:"familyName"`
 	GivenName                     string                    `json:"givenName"`
-	Sex                           *SelectionOption          `json:"sex"`
-	AgeGroup                      *SelectionOption          `json:"ageGroup"`
+	Sex                           *SelectionOption          `json:"sex,omitempty"`
+	AgeGroup                      *SelectionOption          `json:"ageGroup,omitempty"`
 	RedemptionOperationAuthorized bool                      `json:"redemptionOperationAuthorized"`
-	ReferralUserID                *primitive.ObjectID       `json:"referralUserId"`
+	ReferralUserID                *primitive.ObjectID       `json:"referralUserId,omitempty"`
 	ReferralUser                  UserProfileQueryResult    `json:"referralUser"`
 	FcmRegistrationTokens         []*FcmRegistrationToken   `json:"fcmRegistrationTokens"`
 	AppleUserID                   string                    `json:"appleUserId"`
@@ -3046,8 +3052,8 @@ type UserProfile struct {
 	UpdatedAt                     primitive.DateTime        `json:"updatedAt"`
 	LastAccessAt                  primitive.DateTime        `json:"lastAccessAt"`
 	LastAccessIP                  string                    `json:"lastAccessIp"`
-	AdoptionAgency                AdoptionAgencyQueryResult `json:"adoptionAgency"`
-	RetailerProfile               *RetailerProfile          `json:"retailerProfile"`
+	AdoptionAgency                AdoptionAgencyQueryResult `json:"adoptionAgency,omitempty"`
+	RetailerProfile               *RetailerProfile          `json:"retailerProfile,omitempty"`
 }
 
 func (UserProfile) IsUserProfileQueryResult() {}
@@ -3073,10 +3079,10 @@ type UserProfilesInput struct {
 	LastID                     primitive.ObjectID          `json:"lastId"`
 	PageSize                   int                         `json:"pageSize"`
 	PageNumber                 int                         `json:"pageNumber"`
-	RoleFilter                 *RoleFilter                 `json:"roleFilter"`
-	FcmRegistrationTokenFilter *FcmRegistrationTokenFilter `json:"fcmRegistrationTokenFilter"`
-	MatchingPhonesOrEmails     []string                    `json:"matchingPhonesOrEmails"`
-	MatchingUserIds            []primitive.ObjectID        `json:"matchingUserIds"`
+	RoleFilter                 *RoleFilter                 `json:"roleFilter,omitempty"`
+	FcmRegistrationTokenFilter *FcmRegistrationTokenFilter `json:"fcmRegistrationTokenFilter,omitempty"`
+	MatchingPhonesOrEmails     []string                    `json:"matchingPhonesOrEmails,omitempty"`
+	MatchingUserIds            []primitive.ObjectID        `json:"matchingUserIds,omitempty"`
 	MatchingName               string                      `json:"matchingName"`
 	Deactivated                bool                        `json:"deactivated"`
 }
@@ -3098,7 +3104,7 @@ type UsersFilters struct {
 
 type UsersFiltersInput struct {
 	MatchingPhoneOrEmail string               `json:"matchingPhoneOrEmail"`
-	UserIds              []primitive.ObjectID `json:"userIds"`
+	UserIds              []primitive.ObjectID `json:"userIds,omitempty"`
 }
 
 type VerificationCodeGenerationResult struct {
@@ -3118,12 +3124,12 @@ type VotingResult struct {
 type Voucher struct {
 	ID                         primitive.ObjectID   `json:"id" bson:"_id"`
 	RedemptionPoint            int64                `json:"redemptionPoint"`
-	CreatedAt                  *primitive.DateTime  `json:"createdAt"`
+	CreatedAt                  *primitive.DateTime  `json:"createdAt,omitempty"`
 	Name                       string               `json:"name"`
 	Terms                      string               `json:"terms"`
 	Description                string               `json:"description"`
-	ValidFrom                  *primitive.DateTime  `json:"validFrom"`
-	ValidTo                    *primitive.DateTime  `json:"validTo"`
+	ValidFrom                  *primitive.DateTime  `json:"validFrom,omitempty"`
+	ValidTo                    *primitive.DateTime  `json:"validTo,omitempty"`
 	ImageURL                   string               `json:"imageUrl"`
 	RetailerAvatarURL          string               `json:"retailerAvatarUrl"`
 	AuthorizedOperationUserIds []primitive.ObjectID `json:"authorizedOperationUserIds"`
@@ -3143,17 +3149,17 @@ type VoucherOwnership struct {
 	Voucher                      VoucherQueryResult     `json:"voucher"`
 	Status                       VoucherStatus          `json:"status"`
 	RedemptionCode               string                 `json:"redemptionCode"`
-	CreatedAt                    *primitive.DateTime    `json:"createdAt"`
-	RedeemedAt                   *primitive.DateTime    `json:"redeemedAt"`
-	RedemptionConfirmationUserID *primitive.ObjectID    `json:"redemptionConfirmationUserId"`
-	ContactInfo                  *ContactInfo           `json:"contactInfo"`
+	CreatedAt                    *primitive.DateTime    `json:"createdAt,omitempty"`
+	RedeemedAt                   *primitive.DateTime    `json:"redeemedAt,omitempty"`
+	RedemptionConfirmationUserID *primitive.ObjectID    `json:"redemptionConfirmationUserId,omitempty"`
+	ContactInfo                  *ContactInfo           `json:"contactInfo,omitempty"`
 }
 
 func (VoucherOwnership) IsVoucherOwnershipQueryResult() {}
 
 type VoucherOwnershipCommonFilter struct {
-	UserID *primitive.ObjectID `json:"userId" bson:",omitempty"`
-	Status *VoucherStatus      `json:"status" bson:",omitempty"`
+	UserID *primitive.ObjectID `json:"userId,omitempty" bson:",omitempty"`
+	Status *VoucherStatus      `json:"status,omitempty" bson:",omitempty"`
 }
 
 type VoucherOwnerships struct {
@@ -3167,7 +3173,7 @@ type VoucherOwnershipsInput struct {
 	PageNumber   int64                         `json:"pageNumber"`
 	PageSize     int64                         `json:"pageSize"`
 	CommonFilter *VoucherOwnershipCommonFilter `json:"commonFilter"`
-	VoucherIds   []primitive.ObjectID          `json:"voucherIds"`
+	VoucherIds   []primitive.ObjectID          `json:"voucherIds,omitempty"`
 }
 
 type Vouchers struct {
@@ -3178,22 +3184,23 @@ type Vouchers struct {
 func (Vouchers) IsVouchersQueryResult() {}
 
 type VouchersCommonFilter struct {
-	Published *bool `json:"published" bson:",omitempty"`
-	Exclusive *bool `json:"exclusive" bson:",omitempty"`
-	Virtual   *bool `json:"virtual" bson:",omitempty"`
+	Published *bool `json:"published,omitempty" bson:",omitempty"`
+	Exclusive *bool `json:"exclusive,omitempty" bson:",omitempty"`
+	Virtual   *bool `json:"virtual,omitempty" bson:",omitempty"`
 }
 
 type VouchersInput struct {
-	PageNumber   int64                 `json:"pageNumber"`
-	PageSize     int64                 `json:"pageSize"`
-	CommonFilter *VouchersCommonFilter `json:"commonFilter"`
-	SortBy       *SortBy               `json:"sortBy"`
+	PageNumber                 int64                 `json:"pageNumber"`
+	PageSize                   int64                 `json:"pageSize"`
+	CommonFilter               *VouchersCommonFilter `json:"commonFilter"`
+	AuthorizedOperationUserIds []primitive.ObjectID  `json:"authorizedOperationUserIds,omitempty"`
+	SortBy                     *SortBy               `json:"sortBy"`
 }
 
 type VouchersWithOwnershipsInput struct {
 	PageNumber    int            `json:"pageNumber"`
 	PageSize      int            `json:"pageSize"`
-	VoucherStatus *VoucherStatus `json:"voucherStatus"`
+	VoucherStatus *VoucherStatus `json:"voucherStatus,omitempty"`
 	SortBy        *SortBy        `json:"sortBy"`
 }
 
