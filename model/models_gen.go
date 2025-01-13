@@ -2819,6 +2819,11 @@ type UpdateRetailerRecommendationInput struct {
 	Recommended bool               `json:"recommended"`
 }
 
+type UpdateRetailerSequenceInput struct {
+	UserID   primitive.ObjectID `json:"userId"`
+	Sequence int                `json:"sequence"`
+}
+
 type UpdateReviewScoreOption struct {
 	ID      string                     `json:"id"`
 	Name    *string                    `json:"name,omitempty" bson:",omitempty"`
